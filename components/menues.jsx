@@ -7,14 +7,14 @@ function Menues() {
   const { t } = useTranslation('menus');
   return (
     <div className="text-xl font-semibold text-slate-100  uppercase mt-12 ml-16 ">
-        <Link href="/companies"  >
+        <Link href="/companies" passHref >
             <label className="mr-8 cursor-pointer decoration-orange-200 hover:text-slate-300 duration-300
-            hover:underline underline-offset-8 hover:transition-opacity  ">&nbsp;'companies'&nbsp;</label>
+            hover:underline underline-offset-8 hover:transition-opacity  ">&nbsp;{t('companies')}&nbsp;</label>
         </Link>
 
-        <Link href="/rfps">
+        <Link href="/rfps" passHref>
         <label className="ml-8 cursor-pointer hover:underline  hover:text-slate-300 duration-300
-        decoration-orange-200 underline-offset-8">&nbsp;'rfps'&nbsp;</label>
+        decoration-orange-200 underline-offset-8">&nbsp;{t('rfps')}&nbsp;</label>
         </Link>                
     </div>
   )

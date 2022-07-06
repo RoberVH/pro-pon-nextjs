@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 function SelectLanguage() {
   const router = useRouter();
-  const [language, setLanguage]=useState('en')
+  const [language, setLanguage]=useState('es')
   const [iconLang, setIconLang]=useState('/uk.svg')
   const [hideButtons, setHideButtons] = useState(false)
 
