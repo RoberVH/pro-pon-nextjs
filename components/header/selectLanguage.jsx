@@ -24,7 +24,7 @@ function SelectLanguage() {
 
   useEffect(()=>{
     setLocale()
-  },[])
+  },[setLocale])
 
   const handleDropDown = (event) => {
     setHideButtons(!hideButtons)
@@ -50,7 +50,7 @@ function SelectLanguage() {
 
   return (
     <div className="mt-4 mr-8 relative">
-      <Image alt={language} src={iconLang} width={32} height={32}></Image>
+      <Image onClick={handleDropDown} alt={language} src={iconLang} width={32} height={32}></Image>
       <button 
         className="pl-2 focus:outline-none  "
         onClick={handleDropDown} 

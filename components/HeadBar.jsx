@@ -1,31 +1,14 @@
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import {useState} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+// import Image from 'next/image'
 import Menues from './menues'
 import SelectLanguage from './header/selectLanguage'
-import { useTranslation } from "next-i18next"
+// import { useTranslation } from "next-i18next"
 
 
 const HeadBar = (props) => {
     const [address, setAddress ] = useState(false)
-
-    // function Menues() {
-    //     const { t } = useTranslation('menus');
-    //     return (
-    //       <div className="text-xl font-semibold text-slate-100  uppercase mt-12 ml-16 ">
-    //           <Link href="/companies" passHref >
-    //               <a className="mr-8 cursor-pointer decoration-orange-500 hover:text-slate-300 duration-300
-    //               hover:underline underline-offset-8 hover:transition-opacity  ">&nbsp;{t('companies')}&nbsp;</a>
-    //           </Link>
-      
-    //           <Link href="/rfps" passHref>
-    //           <a className="ml-8 cursor-pointer hover:underline  hover:text-slate-300 duration-300
-    //           decoration-orange-500 underline-offset-8">&nbsp;{t('rfps')}&nbsp;</a>
-    //           </Link>                
-    //       </div>
-    //     )
-    //   }
 
     return (
         <nav className="bg-[#313435]
