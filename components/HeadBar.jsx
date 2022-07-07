@@ -11,7 +11,7 @@ const HeadBar = (props) => {
     const [address, setAddress ] = useState(false)
 
     return (
-        <nav className="bg-[#313435]
+        <nav className="bg-[#2b2d2e]
                         antialiased  pl-2 pt-4 pb-4 flex justify-between" >
         <div className="flex  ">
             <Link href="/" passHref>
@@ -23,7 +23,7 @@ const HeadBar = (props) => {
             <Menues />
         </div>
         <div className="mt-4">
-            <label className=" text-xl font-semibold text-[#ff8533] "> 
+            <label className=" text-xl font-semibold font-nunito text-white "> 
                 Manufacturas de Occidente
             </label>
         </div>        

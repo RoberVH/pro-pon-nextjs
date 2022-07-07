@@ -12,7 +12,6 @@ function SelectLanguage() {
   const { locale}=router
 
   const setLocale= useCallback (()=> {
-    console.log('Locale=', locale)
     setLanguage(locale)
     switch (locale) {
       case 'en': setIconLang('/uk.svg'); break
@@ -31,7 +30,6 @@ function SelectLanguage() {
   }
 
   const handleLocaleChange = (event) => {
-    console.log('X',event.currentTarget.id)
     setLanguage(event.currentTarget.id)
     setIconLang(event.currentTarget.value)
     setHideButtons(false)

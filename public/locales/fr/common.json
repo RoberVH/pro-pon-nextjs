@@ -1,5 +1,15 @@
 {
     "home": "Domicile",
     "about": "Sur",
-    "companies":"Enterprises"
-  }
+    "companies":"Enterprises",
+    "aptitle":"Publier des appels d'offres sur la Blockchain",
+    "explanation1":"Connectez votre portefeuille pour créer un profil pour votre entreprise et commencez à publier vos appels d'offres sur Blockchain",
+   "connectwallet":"Connecter le portefeuille",
+   "benefits": [
+    "Des vendeurs partout dans le monde",
+    "Les documents de proposition sont électroniques et signés cryptographiquement",
+    "Aucun document ne sera dévoilé avant la date de clôture des enchères",
+    "Le mot de passe du document est délivré uniquement aux personnes en charge du processus",
+    "Respectez les codes de transparence et de fair-play dans vos processus de devis"
+    ]  
+}

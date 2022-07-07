@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next"
 function Menues() {
   const { t } = useTranslation('menus');
   return (
-    <div className="text-xl font-semibold text-slate-100  uppercase mt-12 ml-16 ">
+    <div className="text-xl font-khula text-slate-100  uppercase mt-12 ml-16 ">
         <Link href="/companies" passHref >
             <label className="mr-8 cursor-pointer decoration-orange-200 hover:text-slate-300 duration-300
             hover:underline underline-offset-8 hover:transition-opacity  ">&nbsp;{t('companies')}&nbsp;</label>

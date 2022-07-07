@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily:{
-      sans:['Nunito', 'sans-serif']
+      nunito:['Nunito', 'sans-serif'],
+      khula:['Khula']
     }
   },
   plugins: [],
