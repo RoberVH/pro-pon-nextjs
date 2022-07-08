@@ -4,12 +4,19 @@
     "companies":"Empresas",
     "aptitle":"Publicar Solicitudes de Propuestas Comerciales a la  Blockchain",
     "explanation1":"Conecte su Billetera para crear un perfil de su Empresa y comience a publicar sus Solicitudes de Propuestas Comerciales (RPFs) a la Blockchain",
-    "connectwallet":"Conectar la Billetera",
+    "connectwallet":"Registrese",
     "benefits": [
         "Vendedores de todo el mundo",
         "Los documentos de la propuesta son electrónicos y están firmados criptográficamente",
         "No se revelará ningún documento hasta el cierre del concurso",
         "La contraseña de documentos se entregan solo a los encargados del proceso",
-        "Cumple con los códigos de transparencia y juego limpio en sus procesos de cotización"
-     ]      
+        "Agregue transparencia y juego limpio en sus procesos de cotización"
+     ],
+     "instructionstitle":"Haga clic en el botón para registrarse y usar Pro-Pon",
+     "instructions" : [
+        "Haga clic en el botón Conectar Billetera",
+        "Cree su perfil de empresa: ahora es administrador",
+        "Crear un concurso de ofertas y agregar documentos del RFP",
+        "Invite a sus proveedores a enviar sus propuestas a través de Pro-Pon"
+    ]      
   }

@@ -4,12 +4,19 @@
     "companies":"Enterprises",
     "aptitle":"Publier des appels d'offres sur la Blockchain",
     "explanation1":"Connectez votre portefeuille pour créer un profil pour votre entreprise et commencez à publier vos appels d'offres sur Blockchain",
-   "connectwallet":"Connecter le portefeuille",
+   "connectwallet":"Se connecter",
    "benefits": [
     "Des vendeurs partout dans le monde",
     "Les documents de proposition sont électroniques et signés cryptographiquement",
     "Aucun document ne sera dévoilé avant la date de clôture des enchères",
     "Le mot de passe du document est délivré uniquement aux personnes en charge du processus",
-    "Respectez les codes de transparence et de fair-play dans vos processus de devis"
+    "Ajoutez de la transparence et du fair-play dans vos processus de devis"
+    ],
+    "instructionstitle":"Cliquez sur le bouton pour vous inscrire et utiliser Pro-Pon",    
+    "instructions" : [
+        "Cliquez sur le bouton Créer un compte",
+        "Créez votre profil d'entreprise - maintenant vous êtes administrateur",
+        "Créer un appel d'offres et ajouter des documents d'appels d'offres",
+        "Invitez vos fournisseurs à soumissionner via l'application Pro-Pon"
     ]  
 }
