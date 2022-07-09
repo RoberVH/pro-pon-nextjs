@@ -2,8 +2,8 @@
 import {useState} from 'react'
 import Link from 'next/link'
 // import Image from 'next/image'
-import Menues from './menues'
-import SelectLanguage from './header/selectLanguage'
+import Menues from '../menues'
+import SelectLanguage from '../header/selectLanguage'
 // import { useTranslation } from "next-i18next"
 
 

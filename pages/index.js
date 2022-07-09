@@ -2,22 +2,23 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router";
 import Image from 'next/image'
+import Link from 'next/link'
 
 
 export default function Home() {
 
-  const { locale } = useRouter();
-  const { t } = useTranslation();
+  const { locale } = useRouter()
+  const { t } = useTranslation()
   return (
   <main className=" antialiased">
     <div className="flex flex-col items-center"> 
       <div className="mt-16 text-4xl font-bold font-khula text-slate-900 ">
         <h1> {t('aptitle')}</h1>
       </div>
-      <div className="mt-4 w-[45%] p-4 bg-white rounded-xl  shadow-lg h-[80px]">
-        <p className="font-khula font-semibold  text-md text-xl">{t('explanation1')}</p>
+      <div className="mt-4 w-[45%] p-4  rounded-xl  shadow-md h-[80px]">
+        <p className="pt-2 font-khula font-semibold  text-md text-xl">{t('explanation1')}</p>
       </div>
-      <div className="w-full mt-12 bg-orange-100 py-4">
+      <div className="w-full mt-12 py-4  bg-gradient-to-r from-orange-300 via-slate-200 to-orange-300 ">
           <div className="mx-16 p-4 pr-24  ">
             <div className="mx-16 float-left pr-8">
             <Image  alt='Logo' src='/candado.jpg' 
@@ -25,7 +26,7 @@ export default function Home() {
                 >
             </Image>
             </div>
-            <p className="mt-16  text-xl text-slate-700 leading-8 font-nunito">
+            <p className="mt-16  text-xl text-slate-900 leading-8 font-nunito">
               <ul className="list-disc ml-4">
                 {
                 t('benefits', { returnObjects: true }).map((benefit)=> <li key={benefit}>{benefit}</li>)
@@ -47,11 +48,15 @@ export default function Home() {
               </ul>
             </p>
         </div>
-        <div>
-          <button  className="mt-16 ml-16 p-4 font-khula font-black text-xl uppercase text-white bg-orange-600
-              rounded-xl  drop-shadow-lg  hover:bg-slate-700">
-              {t('connectwallet')}
-          </button>
+        <div className="mt-16">
+          <Link href="/signup" passHref>
+            <a  className=" ml-16 p-4 font-khula font-black text-xl uppercase 
+                text-white bg-orange-600 rounded-xl  drop-shadow-lg  
+                bg-gradient-to-r from-orange-500  to-blue-500 hover:bg-slate-700
+                bg-gradient-x 1s ease infinite">
+                {t('connectwallet')}
+            </a>
+          </Link>
         </div>
       </div>
     </div>

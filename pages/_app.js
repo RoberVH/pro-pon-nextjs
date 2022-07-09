@@ -1,5 +1,5 @@
 import { appWithTranslation } from "next-i18next";
-import HeadBar from '../components/HeadBar'
+import HeadBar from '../components/layouts/HeadBar'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
