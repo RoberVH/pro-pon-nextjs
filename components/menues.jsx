@@ -1,10 +1,13 @@
-import React from 'react'
 import Link from 'next/link'
 import { useTranslation } from "next-i18next"
 
 
+
 function Menues() {
+  
+
   const { t } = useTranslation('menus');
+
   return (
     <div className="text-white text-xl font-extrabold font-khula   uppercase mt-12 ml-16 ">
         <Link href="/companies" passHref >

@@ -12,11 +12,11 @@ export default function Home() {
   return (
   <main className=" antialiased">
     <div className="flex flex-col items-center"> 
-      <div className="mt-16 text-4xl font-bold font-khula text-slate-900 ">
+      <div className="mt-16 text-4xl font-bold font-khula text-slate-500 ">
         <h1> {t('aptitle')}</h1>
       </div>
       <div className="mt-4 w-[45%] p-4  rounded-xl  shadow-md h-[80px]">
-        <p className="pt-2 font-khula font-semibold  text-md text-xl">{t('explanation1')}</p>
+        <p className="pt-2 font-khula font-semibold  text-md text-xl text-center">{t('explanation1')}</p>
       </div>
       <div className="w-full mt-12 py-4  bg-gradient-to-r from-orange-300 via-slate-200 to-orange-300 ">
           <div className="mx-16 p-4 pr-24  ">
