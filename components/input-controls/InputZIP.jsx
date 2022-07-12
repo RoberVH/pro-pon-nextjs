@@ -4,7 +4,8 @@ import { LocationMarkerIcon } from '@heroicons/react/outline'
 export function InputZIP({
   handleChange,
   inputclasses,
-  values
+  values,
+  placeholder
 }) {
   return (
     <>  
@@ -15,7 +16,7 @@ export function InputZIP({
         type="number" 
         id={'zip'} 
         onChange={handleChange} 
-        placeholder="Código Postal*" 
+        placeholder={placeholder}  
         />
     </>
   );

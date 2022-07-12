@@ -12,21 +12,23 @@ export default function Home() {
   return (
   <main className=" antialiased">
     <div className="flex flex-col items-center"> 
-      <div className="mt-16 text-4xl font-bold font-khula text-slate-500 ">
+      <div className="mt-8 text-4xl font-bold font-khula text-slate-500 ">
         <h1> {t('aptitle')}</h1>
       </div>
-      <div className="mt-4 w-[45%] p-4  rounded-xl  shadow-md h-[80px]">
-        <p className="pt-2 font-khula font-semibold  text-md text-xl text-center">{t('explanation1')}</p>
+      <div className="mt-4 w-[45%] p-4  rounded-xl   h-[80px]">
+        <p className="pt-2 font-khula font-semibold  text-orange-500 text-md text-xl text-center">
+          {t('explanation1')}
+        </p>
       </div>
       <div className="w-full mt-12 py-4  bg-gradient-to-r from-orange-300 via-slate-200 to-orange-300 ">
           <div className="mx-16 p-4 pr-24  ">
             <div className="mx-16 float-left pr-8">
             <Image  alt='Logo' src='/candado.jpg' 
-                 width={450} height={350} layout='fixed'
+                 width={400} height={300} layout='fixed'
                 >
             </Image>
             </div>
-            <p className="mt-16  text-xl text-slate-900 leading-8 font-nunito">
+            <p className="mt-16  text-md text-slate-900 leading-8 font-nunito">
               <ul className="list-disc ml-4">
                 {
                 t('benefits', { returnObjects: true }).map((benefit)=> <li key={benefit}>{benefit}</li>)
@@ -37,10 +39,10 @@ export default function Home() {
       </div>
       <div className=" w-full flex flex-row justify-center bg-blue-200 p-8 mb-16">
         <div>
-        <p className="uppercase text-center font-nunito text-xl font-bold text-orange-800 leading-8">
+        <p className="uppercase text-center font-nunito text-md font-bold text-orange-800 leading-8">
           {t('instructionstitle')}
         </p>      
-        <p className="mt-8 font-nunito text-lg font-bold text-orange-800 leading-8">
+        <p className="mt-8 font-nunito text-md font-bold text-orange-800 leading-8">
               <ul className="list-decimal ml-4">
                 {
                 t('instructions', { returnObjects: true }).map((ins)=> <li key={ins}>{ins}</li>)

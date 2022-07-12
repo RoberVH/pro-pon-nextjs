@@ -1,7 +1,7 @@
 import React from "react";
 import { OfficeBuildingIcon } from '@heroicons/react/outline'
 
-export function InputCity({
+export function InputCountry({
   handleChange,
   inputclasses,
   values,
@@ -12,8 +12,8 @@ export function InputCity({
       <OfficeBuildingIcon className="absolute h-5 w-5 text-orange-400 mt-1 ml-2" />
       <input 
         className={inputclasses} 
-        value={values.city || ''} 
-        type="text" id={'city'} 
+        value={values.coutry || ''} 
+        type="text" id={'coutry'} 
         onChange={handleChange} 
         placeholder={placeholder}  
       />

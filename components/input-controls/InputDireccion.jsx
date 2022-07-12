@@ -4,7 +4,8 @@ import { HomeIcon } from '@heroicons/react/outline'
 export function InputDireccion({
   handleChange,
   inputclasses,
-  values
+  values,
+  placeholder
 }) {
   return (
   <>
@@ -15,7 +16,7 @@ export function InputDireccion({
       type="text" 
       id={'dirfis1'} 
       onChange={handleChange} 
-      placeholder="Dirección*"  />
+      placeholder={placeholder}  />
   </>
   )
 }

@@ -4,7 +4,8 @@ import { MailIcon } from '@heroicons/react/outline'
 export function InputEmail({
   handleChange,
   inputclasses,
-  values
+  values,
+  placeholder
 }) {
   return (
   <>
@@ -14,7 +15,7 @@ export function InputEmail({
       value={values.email || ''} 
       type="text" id={'email'} 
       onChange={handleChange} 
-      placeholder="nombre@dominio.com" 
+      placeholder={placeholder}  
     />
   </>
   );

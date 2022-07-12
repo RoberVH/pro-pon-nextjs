@@ -1,0 +1,23 @@
+{
+    "phase1title": "Relier",
+    "phase2title": "Enregistrement",
+    "phase3title": "Terminer",
+    "connecttitle": "Connectez votre portefeuille",
+    "connectdescription1": "Cette opération ne vous coûtera aucune crypto-monnaie.", 
+    "connectdescription2": "Nous avons juste besoin que vous nous donniez la permission de nous connecter au portefeuille.",
+    "connectdescription3":"Tant que vous ne vous déconnectez pas, nous vous reconnaîtrons toujours sur cet appareil.",
+    "companyform": {
+        "recordcompanytitle": "Enregistrez votre nom et les détails de l'entreprise",
+        "adminname": "Votre nom (les droits d'administrateur seront accordés)",
+        "companyname":"Nom de l'entreprise",
+        "emailcompany": "E-mail de contact pour les concours RFP",
+        "addresscompany":"Adresse",
+        "companyId":"ID de contribuable de l'entreprise",
+        "zip":"Code Postal",
+        "telephone":"(000)-0000",
+        "city": "Ville",
+        "state": "État / Province",
+        "country": "Pays",
+        "website":"Site Internet"
+    }
+}

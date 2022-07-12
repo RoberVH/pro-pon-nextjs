@@ -1,0 +1,23 @@
+{
+    "phase1title": "Connecting",
+    "phase2title": "Registering",
+    "phase3title": "End",
+    "connecttitle": "Connect your Wallet",
+    "connectdescription1": "This operation is not going to cost you any crypto currency.", 
+    "connectdescription2": "We just need you to give us permission to connect to the wallet.",
+    "connectdescription3":"As long as you don't disconnect, we'll always recognize you on this device.",
+    "companyform": {
+        "recordcompanytitle": "Register your name and the company details",
+        "adminname": "Your name (admin rights will be granted)",
+        "companyname":"Company Name",
+        "companyId":"Company Tax Payer ID",
+        "emailcompany": "Contact email for RFP contests",
+        "addresscompany":"Address",
+        "zip":"ZIP",
+        "telephone":"(00)0000-0000",
+        "city": "City",
+        "state": "State / Province",
+        "country": "Country",
+        "website":"website"
+    }
+}

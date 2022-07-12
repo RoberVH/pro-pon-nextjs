@@ -1,0 +1,24 @@
+{
+    "phase1title": "Conectar",
+    "phase2title": "Registrar",
+    "phase3title": "Terminar",
+    "connecttitle": "Conecte su Billetera",
+    "connectdescription1": "Esta operación no va a costarle ninguna crypto moneda", 
+    "connectdescription2": "Sólo necesitamos que nos dé permiso de conectarnos con la billetera.",
+    "connectdescription3":"Mientras no se desconecte, siempre lo reconoceremos en este equipo.",
+  
+    "companyform": {
+        "recordcompanytitle": "Registre su nombre y los datos de su compañia",
+        "adminname": "Su nombre (Se otorgarán derechos de administrador)",
+        "companyname":"Nombre de Compañía",
+        "companyId":"Identificación del contribuyente de la empresa",
+        "emailcompany": "Email de contacto para concursos de RFPs",
+        "addresscompany":"Dirección",
+        "zip":"Código Postal.",
+        "telephone":"(00)0000-0000",
+        "city": "Ciudad",
+        "state": "Estado / Provincia",
+        "country": "País",
+        "website": "Sitio Web"
+    }
+}

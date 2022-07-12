@@ -4,7 +4,8 @@ import {UserIcon} from '@heroicons/react/outline'
 export function InputNombre({
   handleChange,
   inputclasses,
-  values
+  values,
+  placeholder
 }) {
   return (
   <>
@@ -14,7 +15,7 @@ export function InputNombre({
     value={values.nombre || ''}
     type="text" id={'nombre'} 
     onChange={handleChange} 
-    placeholder="Nombre de quien recibe*"  />
+    placeholder={placeholder}  />
   </>
   )
 }

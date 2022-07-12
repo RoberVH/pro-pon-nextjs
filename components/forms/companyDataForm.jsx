@@ -1,21 +1,28 @@
-import { InputCity } from './input-controls/InputCity';
-import { InputPhone } from './input-controls/InputPhone';
-import { InputZIP } from './input-controls/InputZIP';
-import { InputDireccion } from './input-controls/InputDireccion';
-import { InputEmail } from './input-controls/InputEmail';
-import { InputNombre } from './input-controls/InputNombre';
+import { useTranslation } from "next-i18next";
+import { InputCity } from '../input-controls/InputCity';
+import { InputPhone } from '../input-controls/InputPhone';
+import { InputWebsite } from '../input-controls/InputWebsite';
+import { InputCompanyId } from '../input-controls/InputCompanyId';
+import { InputCompanyName } from '../input-controls/InputCompanyName';
+import { InputZIP } from '../input-controls/InputZIP';
+import { InputDireccion } from '../input-controls/InputDireccion';
+import { InputEmail } from '../input-controls/InputEmail';
+import { InputNombre } from '../input-controls/InputNombre';
+import { InputCountry } from '../input-controls/InputCountry';
+
 import { useState, useContext } from 'react'
-import { toastStyle } from '../styles/toastStyle'
+import { toastStyle } from '../../styles/toastStyle'
 import { toast } from 'react-toastify';
-import  useInputForm  from '../hooks/useInputForm'
+import  useInputForm  from '../../hooks/useInputForm'
 import 'react-toastify/dist/ReactToastify.css';
-import  MEX_STATES from '../utils/mexicostates.json'
+import  MEX_STATES from '../../utils/mexicostates.json'
 //import axios from 'axios'
 
 const CompanyDataForm = ({ userNftsArray }) => {
   const [saving, setSaving] = useState(false)
   const { values, handleChange } = useInputForm();
   // const { address } = useContext(lbtContext)
+  const { t } = useTranslation("signup");
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
@@ -77,8 +84,7 @@ const CompanyDataForm = ({ userNftsArray }) => {
     return (
     <div id= "dataentrypanel" className="w-[89%]   relative p-4 bg-gray-100 border-2xl">        
         <p className="text-gray-600 mb-8">
-          Datos para envío del cuadro físico  
-          <strong>&nbsp;(válido solo para México)</strong>,&nbsp; 
+          {t('companyform.recordcompanytitle')}
         </p>
         <form action="" className="mt-4 flex flex-col mx-4 leading-8 mb-8">
           <div  className="flex flex-row justify-between">
@@ -87,46 +93,79 @@ const CompanyDataForm = ({ userNftsArray }) => {
                 handleChange={handleChange} 
                 inputclasses={inputclasses}  
                 values={values}
+                placeholder={`${t("companyform.adminname")}*`}
               />
             </div>
             <div className="w-[45%] relative">
+                <InputCompanyName
+                  handleChange={handleChange} 
+                  inputclasses={inputclasses}  
+                  values={values}
+                  placeholder={`${t("companyform.companyname")}*`}
+                />
+            </div>              
+          </div>
+          <div className="mt-8 flex flex-row justify-between">
+          <div className="w-[45%] relative">
+              <InputCompanyId   
+                handleChange={handleChange} 
+                inputclasses={inputclasses}  
+                values={values} 
+                placeholder={`${t("companyform.companyId")}*`}
+              />
+          </div>            
+          <div className="w-[45%] relative">
               <InputEmail   
                 handleChange={handleChange} 
                 inputclasses={inputclasses}  
                 values={values} 
+                placeholder={`${t("companyform.emailcompany")}*`}
               />
-            </div>
           </div>
-          <div className="mt-8 flex flex-row justify-between">
-            <div className="w-full relative">
+            <div className="w-[45%] relative">
                 <InputDireccion   
                   handleChange={handleChange} 
                   inputclasses={inputclasses}  
                   values={values}
+                  placeholder={`${t("companyform.addresscompany")}*`}
                 />
-            </div>
+            </div>            
           </div>
-          <div  className="mt-8 flex flex-row ">
-            <div className="w-[30%] relative mr-10">
+          <div  className="mt-8 flex flex-row justify-between">
+            </div>          
+          <div  className="mt-8 flex flex-row justify-between">
+            <div className="w-[30%] relative ">
               <InputZIP   
                 handleChange={handleChange} 
                 inputclasses={inputclasses}  
                 values={values}
+                placeholder={`${t("companyform.zip")}*`}
               />
             </div>
-            <div className="w-[30%] relative">
+            <div className="w-[30%] relative ml-6">
               <InputPhone   
                 handleChange={handleChange} 
                 inputclasses={inputclasses}  
-                values={values}/>
+                values={values}
+                placeholder={`${t("companyform.telephone")}`}
+              />
+            </div>
+            <div className="w-[30%] relative ml-6">
+              <InputWebsite   
+                handleChange={handleChange} 
+                inputclasses={inputclasses}  
+                values={values}
+                placeholder={`${t("companyform.website")}`}
+              />
             </div>
           </div>       
-          <div  className="mt-8 flex flex-row ">
+          <div  className="mt-8 flex flex-row justify-between ">
             <div className="w-[30%] relative">
               <InputCity   
                 handleChange={handleChange} 
                 inputclasses={inputclasses}  
                 values={values}
+                placeholder={`${t("companyform.city")}*`}
               />
             </div>                  
             <div className="w-[35%] relative ml-10">
@@ -139,7 +178,7 @@ const CompanyDataForm = ({ userNftsArray }) => {
                 id={'state'}
                 defaultValue={"default"}
               >
-                  <option value={"default"} disabled >Seleccione Estado</option>
+                  <option value={"default"} disabled >{`${t("companyform.state")}*`}</option>
                   {MEX_STATES.map((state, index) => (
                     <option 
                       key={state.clave}
@@ -149,6 +188,14 @@ const CompanyDataForm = ({ userNftsArray }) => {
                     </option>
                     ))}
               </select>                    
+              </div> 
+              <div className="w-[25%] relative ml-10">
+                <InputCountry
+                  handleChange={handleChange} 
+                  inputclasses={inputclasses}  
+                  values={values}
+                  placeholder={`${t("companyform.country")}*`}
+                />
             </div>  
           </div>
         </form>
