@@ -1,7 +1,7 @@
 import React from "react";
 import { OfficeBuildingIcon } from '@heroicons/react/outline'
 
-export function InputCountry({
+export function InputState({
   handleChange,
   inputclasses,
   values,

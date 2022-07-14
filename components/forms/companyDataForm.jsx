@@ -1,4 +1,15 @@
+import { useState, useContext } from 'react'
 import { useTranslation } from "next-i18next";
+import countries from "i18n-iso-countries";
+import english from "i18n-iso-countries/langs/en.json";
+import spanish from "i18n-iso-countries/langs/es.json";
+import french from "i18n-iso-countries/langs/fr.json";
+
+import { toastStyle } from '../../styles/toastStyle'
+import { toast } from 'react-toastify';
+import  useInputForm  from '../../hooks/useInputForm'
+import 'react-toastify/dist/ReactToastify.css';
+
 import { InputCity } from '../input-controls/InputCity';
 import { InputPhone } from '../input-controls/InputPhone';
 import { InputWebsite } from '../input-controls/InputWebsite';
@@ -8,26 +19,52 @@ import { InputZIP } from '../input-controls/InputZIP';
 import { InputDireccion } from '../input-controls/InputDireccion';
 import { InputEmail } from '../input-controls/InputEmail';
 import { InputNombre } from '../input-controls/InputNombre';
-import { InputCountry } from '../input-controls/InputCountry';
+import { InputState } from '../input-controls/InputState';
 
-import { useState, useContext } from 'react'
-import { toastStyle } from '../../styles/toastStyle'
-import { toast } from 'react-toastify';
-import  useInputForm  from '../../hooks/useInputForm'
-import 'react-toastify/dist/ReactToastify.css';
 import  MEX_STATES from '../../utils/mexicostates.json'
+import { useEffect } from 'react';
 //import axios from 'axios'
 
+countries.registerLocale(english);
+countries.registerLocale(spanish);
+countries.registerLocale(french);
+
 const CompanyDataForm = ({ userNftsArray }) => {
+  const { t, i18n } = useTranslation("signup");
   const [saving, setSaving] = useState(false)
+  const [countryList, setCountryList] = useState([]);
   const { values, handleChange } = useInputForm();
+  
   // const { address } = useContext(lbtContext)
-  const { t } = useTranslation("signup");
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   }
 
+
+  useEffect(()=>{
+    function changeLanguage() {
+      const lang=i18n.language
+      const countryGen=countries.getNames(lang)
+      const countryArray=Object.values(countryGen)
+      switch (lang) {
+        case 'fr':
+          countryArray.sort((a,b)=> a.localeCompare(b,'fr'))
+          break
+        case 'es':
+          countryArray.sort((a,b)=> a.localeCompare(b,'fr'))
+          break
+          case 'en':
+          default:
+            countryArray.sort((a,b)=> a.localeCompare(b,'en'))
+            break
+      }
+      setCountryList(countryArray)
+    }
+    changeLanguage()
+  },[i18n.language])
+
+  
   const handleSave = async () => {
     const trimmedValues={};
     for (let [key, value] of Object.entries(values)) {
@@ -122,18 +159,36 @@ const CompanyDataForm = ({ userNftsArray }) => {
                 placeholder={`${t("companyform.emailcompany")}*`}
               />
           </div>
-            <div className="w-[45%] relative">
-                <InputDireccion   
+          </div>
+          <div  className="mt-8 flex flex-row justify-between">
+            <div className="w-[65%] relative">
+                  <InputDireccion   
+                    handleChange={handleChange} 
+                    inputclasses={inputclasses}  
+                    values={values}
+                    placeholder={`${t("companyform.addresscompany")}*`}
+                  />
+            </div>    
+            <div className="w-[30%] relative ml-6">
+                <InputPhone   
                   handleChange={handleChange} 
                   inputclasses={inputclasses}  
                   values={values}
-                  placeholder={`${t("companyform.addresscompany")}*`}
+                  placeholder={`${t("companyform.telephone")}`}
                 />
-            </div>            
-          </div>
+            </div>              
+          </div>   
+          <div  className="mt-4 flex flex-row justify-between">
+          </div>       
           <div  className="mt-8 flex flex-row justify-between">
-            </div>          
-          <div  className="mt-8 flex flex-row justify-between">
+            <div className="w-[30%] relative ">
+              <InputWebsite   
+                handleChange={handleChange} 
+                inputclasses={inputclasses}  
+                values={values}
+                placeholder={`${t("companyform.website")}`}
+              />
+            </div>     
             <div className="w-[30%] relative ">
               <InputZIP   
                 handleChange={handleChange} 
@@ -142,24 +197,6 @@ const CompanyDataForm = ({ userNftsArray }) => {
                 placeholder={`${t("companyform.zip")}*`}
               />
             </div>
-            <div className="w-[30%] relative ml-6">
-              <InputPhone   
-                handleChange={handleChange} 
-                inputclasses={inputclasses}  
-                values={values}
-                placeholder={`${t("companyform.telephone")}`}
-              />
-            </div>
-            <div className="w-[30%] relative ml-6">
-              <InputWebsite   
-                handleChange={handleChange} 
-                inputclasses={inputclasses}  
-                values={values}
-                placeholder={`${t("companyform.website")}`}
-              />
-            </div>
-          </div>       
-          <div  className="mt-8 flex flex-row justify-between ">
             <div className="w-[30%] relative">
               <InputCity   
                 handleChange={handleChange} 
@@ -168,35 +205,38 @@ const CompanyDataForm = ({ userNftsArray }) => {
                 placeholder={`${t("companyform.city")}*`}
               />
             </div>                  
-            <div className="w-[35%] relative ml-10">
-              <select 
-                className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
-                  border border-solid border-gray-300 outline-none rounded transition ease-in-out
-                  m-0 border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
-                  text-gray-500" 
-                onChange={handleChange}
-                id={'state'}
-                defaultValue={"default"}
-              >
-                  <option value={"default"} disabled >{`${t("companyform.state")}*`}</option>
-                  {MEX_STATES.map((state, index) => (
-                    <option 
-                      key={state.clave}
-                      value={state.nombre}
-                    >
-                      {state.nombre}
-                    </option>
-                    ))}
-              </select>                    
-              </div> 
-              <div className="w-[25%] relative ml-10">
-                <InputCountry
-                  handleChange={handleChange} 
-                  inputclasses={inputclasses}  
-                  values={values}
-                  placeholder={`${t("companyform.country")}*`}
-                />
-            </div>  
+          </div>       
+          <div  className="mt-8 flex flex-row justify-start ">
+            <div className="w-[25%] relative">
+                  <InputState
+                    handleChange={handleChange} 
+                    inputclasses={inputclasses}  
+                    values={values}
+                    placeholder={`${t("companyform.state")}*`}
+                  />
+            </div> 
+            <div className="w-[35%] relative ml-16">
+                <select 
+                  className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
+                    border border-solid border-gray-300 outline-none rounded transition ease-in-out
+                    m-0 border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
+                    text-gray-500" 
+                  onChange={handleChange}
+                  id={'state'}
+                  defaultValue={"default"}
+                >
+                  <option value={"default"} disabled >{`${t("companyform.country")}*`}</option>
+                      {countryList.map((country, index) => (
+                        <option 
+                          key={index}
+                          value={country}
+                        >
+                        {country}
+                      </option>
+                      ))}
+                </select>                    
+            </div> 
+ 
           </div>
         </form>
         <div id="footersubpanel3">
