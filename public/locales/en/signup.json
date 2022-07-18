@@ -12,12 +12,17 @@
         "companyname":"Company Name",
         "companyId":"Company Tax Payer ID",
         "emailcompany": "Contact email for RFP contests",
-        "addresscompany":"Address",
-        "zip":"ZIP",
-        "telephone":"(00)0000-0000",
-        "city": "City",
-        "state": "State / Province",
-        "country": "Country",
-        "website":"website"
-    }
+        "country": "Choose a Country",
+        "website":"website",
+        "nameerror":"Wrong name",
+        "companynamerror":"Wrong company name",
+        "companyIDerror":"Wrong Company Id",
+        "emailerror":"Wrong Email",
+        "websiteerror":"Wrong Website",
+        "countryerror":"Wrong Country"
+    },
+    "savebutton":"Save",
+    "cancelbutton": "Cancel",
+    "savingstate": " Saving...",
+    "successsaving": "Company Data saved"
 }

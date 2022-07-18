@@ -11,13 +11,18 @@
         "adminname": "Votre nom (les droits d'administrateur seront accordés)",
         "companyname":"Nom de l'entreprise",
         "emailcompany": "E-mail de contact pour les concours RFP",
-        "addresscompany":"Adresse",
         "companyId":"ID de contribuable de l'entreprise",
-        "zip":"Code Postal",
-        "telephone":"(000)-0000",
-        "city": "Ville",
-        "state": "État / Province",
-        "country": "Pays",
-        "website":"Site Internet"
-    }
+        "country": "Choisissez un pays",
+        "website":"Site Internet",
+        "nameerror":"Mauvais nom",
+        "companynamerror":"Mauvais nom de l'entreprise",
+        "companyIDerror":"Mauvais ID d'entreprise",
+        "emailerror":"Mauvais e-mail",
+        "websiteerror":"Mauvais site Web",
+        "countryerror":"Mauvais pays"        
+    },
+    "savebutton":"Sauvegarder",
+    "cancelbutton": "Annuler",
+    "savingstate": " Enregistrement...",
+    "successsaving": "Données de l'entreprise enregistrées"    
 }

@@ -8,16 +8,12 @@ const Companies = new mongoose.Schema({
   companyName: String,
   TaxPayerCompanyId: String,
   emailCompany: String,
-  addressCompany: String,
-  zip: String,
-  telephone: String,
-  city: String,
-  state: String,
-  country: String,
   website: String,
+  country: String,
 });
 
 //module.exports = mongoose.model('empresas', Empresas);
-module.exports = mongoose.models.Companies || mongoose.model('Companies', UserSchema)
+//module.exports = mongoose.models.Companies || mongoose.model('Companies', Companies)
+module.exports = mongoose.model('companies', Companies);
 
 

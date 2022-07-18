@@ -1,268 +1,262 @@
-import { useState, useContext } from 'react'
+import { useState, useContext } from "react";
 import { useTranslation } from "next-i18next";
 import countries from "i18n-iso-countries";
 import english from "i18n-iso-countries/langs/en.json";
 import spanish from "i18n-iso-countries/langs/es.json";
 import french from "i18n-iso-countries/langs/fr.json";
 
-import { toastStyle } from '../../styles/toastStyle'
-import { toast } from 'react-toastify';
-import  useInputForm  from '../../hooks/useInputForm'
-import 'react-toastify/dist/ReactToastify.css';
+import { toastStyle } from "../../styles/toastStyle";
+import { toast } from "react-toastify";
+import useInputForm from "../../hooks/useInputForm";
+import "react-toastify/dist/ReactToastify.css";
 
-import { InputCity } from '../input-controls/InputCity';
-import { InputPhone } from '../input-controls/InputPhone';
-import { InputWebsite } from '../input-controls/InputWebsite';
-import { InputCompanyId } from '../input-controls/InputCompanyId';
-import { InputCompanyName } from '../input-controls/InputCompanyName';
-import { InputZIP } from '../input-controls/InputZIP';
-import { InputDireccion } from '../input-controls/InputDireccion';
-import { InputEmail } from '../input-controls/InputEmail';
-import { InputNombre } from '../input-controls/InputNombre';
-import { InputState } from '../input-controls/InputState';
+import { InputWebsite } from "../input-controls/InputWebsite";
+import { InputCompanyId } from "../input-controls/InputCompanyId";
+import { InputCompanyName } from "../input-controls/InputCompanyName";
+import { InputEmail } from "../input-controls/InputEmail";
+import { InputAdminName } from "../input-controls/InputAdminName";
 
-import  MEX_STATES from '../../utils/mexicostates.json'
-import { useEffect } from 'react';
-//import axios from 'axios'
+import { useEffect } from "react";
+import axios from "axios";
 
 countries.registerLocale(english);
 countries.registerLocale(spanish);
 countries.registerLocale(french);
 
-const CompanyDataForm = ({ userNftsArray }) => {
+const CompanyDataForm = () => {
   const { t, i18n } = useTranslation("signup");
-  const [saving, setSaving] = useState(false)
+  const [saving, setSaving] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const { values, handleChange } = useInputForm();
-  
-  // const { address } = useContext(lbtContext)
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
-  }
+  };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     function changeLanguage() {
-      const lang=i18n.language
-      const countryGen=countries.getNames(lang)
-      const countryArray=Object.values(countryGen)
+      const lang = i18n.language;
+      const countryGen = countries.getNames(lang);
+      const countryArray = Object.values(countryGen);
       switch (lang) {
-        case 'fr':
-          countryArray.sort((a,b)=> a.localeCompare(b,'fr'))
-          break
-        case 'es':
-          countryArray.sort((a,b)=> a.localeCompare(b,'fr'))
-          break
-          case 'en':
-          default:
-            countryArray.sort((a,b)=> a.localeCompare(b,'en'))
-            break
+        case "fr":
+          countryArray.sort((a, b) => a.localeCompare(b, "fr"));
+          break;
+        case "es":
+          countryArray.sort((a, b) => a.localeCompare(b, "es"));
+          break;
+        case "en":
+        default:
+          countryArray.sort((a, b) => a.localeCompare(b, "en"));
+          break;
       }
-      setCountryList(countryArray)
+      setCountryList(countryArray);
     }
-    changeLanguage()
-  },[i18n.language])
+    changeLanguage();
+  }, [i18n.language]);
 
-  
   const handleSave = async () => {
-    const trimmedValues={};
+    const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
-      trimmedValues[key]= (typeof value !== 'undefined' ? value : '').trim()
+      trimmedValues[key] = (typeof value !== "undefined" ? value : "").trim();
     }
-    if (!validate(patronobligatorio,  trimmedValues.nombre,'Nombre obligatorio')) return
-    if (!validate(patronemail, trimmedValues.email, 'formato email incorrecto')) return
-    if (!validate(patronobligatorio, trimmedValues.dirfis1, 'Dirección obligatoria')) return
-    if (!validate(patroncp, trimmedValues.zip, 'Código postal obligatorio a 5 digitos')) return
-    if (!validate(patronobligatorio, trimmedValues.city, 'Ciudad obligatoria')) return
-    if (typeof trimmedValues.state==='undefined' || trimmedValues.state.includes('Seleccione')) {
-        errToasterBox('Estado obligatorio')
-        return
-      }
+    if (
+      !validate(
+        patronobligatorio,
+        trimmedValues.adminname,
+        t("companyform.nameerror")
+      )
+    )
+      return;
+    if (
+      !validate(
+        patronobligatorio,
+        trimmedValues.companyname,
+        t("companyform.companynamerror")
+      )
+    )
+      return;
+    if (
+      !validate(
+        patronobligatorio,
+        trimmedValues.companyid,
+        t("companyform.companyIDerror")
+      )
+    )
+      return;
+    if (
+      !validate(patronemail, trimmedValues.email, t("companyform.emailerror"))
+    )
+      return;
+    if (
+      !validate(
+        patronwebsite,
+        trimmedValues.website,
+        t("companyform.websiteerror")
+      )
+    )
+      return;
+    if (
+      typeof trimmedValues.country === "undefined" ||
+      trimmedValues.country.length === 0
+    ) {
+      errToasterBox(t("companyform.countryerror"));
+      return;
+    }
     // validation passed ok, let's save on DB (google sheet)
-    setSaving(true)
+    setSaving(true);
     try {
-      console.log('Saving data')
-      // const resp = await axios.post(
-      //   "/api/saveuserdata", 
-      //   {
-      //     userdata:trimmedValues,
-      //     serials:userNftsArray, 
-      //     address
-      //   }, 
-      //   {
-      //     headers: {"Content-Type": "application/json"}
-        // }
-      // )  
-      setSaving(false)
-    // }
-    // toast.success('Datos guardados correctamente', toastStyle);
-    //   return 
+      const response = await fetch("/api/servercompanies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(trimmedValues),
+      });
+      const data = await response.json();
+      if (data.status) toast.success(t("successsaving"), toastStyle);
+      return;
     } catch (error) {
-        errToasterBox('No se pudieron guardar los datos',toastStyle)
-      }    
+      console.log("Error del server:", error);
+      errToasterBox(error, toastStyle);
+    } finally {
+      setSaving(false);
     }
+  };
 
-    const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
-    "font-roboto  outline-none pl-10 w-full focus:bg-blue-100"
+  const inputclasses =
+    "require leading-normal flex-1 border-0  border-grey-light " &&
+    "rounded rounded-l-none  outline-none pl-10 w-full focus:bg-blue-100 font-khula font-extrabold";
 
-    const patronemail= new RegExp("^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
-    const patronobligatorio= new RegExp("^(?!\s*$).+")
-    const patroncp = new RegExp("^[0-9]{5}$")
-    
-    const validate = (pattern, value, msj) => {
-        const trimValue= (typeof value !== 'undefined' ? value : '').trim() 
-        if (!pattern.test(trimValue)) {
-          errToasterBox(msj)
-          return false
-        } else { return true}
-      }    
+  const patronemail = new RegExp(
+    "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+  );
+  const patronobligatorio = new RegExp("^(?!s*$).+");
+  //const patronwebsite= new RegExp("/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/")
+  const patronwebsite = new RegExp(
+    "^(?:(?:https?|ftp):\\/\\/)?(?:(?!(?:10|127)(?:\\.\\d{1,3}){3})(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))(?::\\d{2,5})?(?:\\/\\S*)?$"
+  );
+  const validate = (pattern, value, msj) => {
+    const trimValue = (typeof value !== "undefined" ? value : "").trim();
+    if (!pattern.test(trimValue)) {
+      errToasterBox(msj);
+      return false;
+    } else {
+      return true;
+    }
+  };
 
-    return (
-    <div id= "dataentrypanel" className="w-[89%]   relative p-4 bg-gray-100 border-2xl">        
-        <p className="text-gray-600 mb-8">
-          {t('companyform.recordcompanytitle')}
-        </p>
-        <form action="" className="mt-4 flex flex-col mx-4 leading-8 mb-8">
-          <div  className="flex flex-row justify-between">
-            <div className="w-[50%] relative">
-              <InputNombre  
-                handleChange={handleChange} 
-                inputclasses={inputclasses}  
-                values={values}
-                placeholder={`${t("companyform.adminname")}*`}
-              />
-            </div>
-            <div className="w-[45%] relative">
-                <InputCompanyName
-                  handleChange={handleChange} 
-                  inputclasses={inputclasses}  
-                  values={values}
-                  placeholder={`${t("companyform.companyname")}*`}
-                />
-            </div>              
-          </div>
-          <div className="mt-8 flex flex-row justify-between">
-          <div className="w-[45%] relative">
-              <InputCompanyId   
-                handleChange={handleChange} 
-                inputclasses={inputclasses}  
-                values={values} 
-                placeholder={`${t("companyform.companyId")}*`}
-              />
-          </div>            
-          <div className="w-[45%] relative">
-              <InputEmail   
-                handleChange={handleChange} 
-                inputclasses={inputclasses}  
-                values={values} 
-                placeholder={`${t("companyform.emailcompany")}*`}
-              />
-          </div>
-          </div>
-          <div  className="mt-8 flex flex-row justify-between">
-            <div className="w-[65%] relative">
-                  <InputDireccion   
-                    handleChange={handleChange} 
-                    inputclasses={inputclasses}  
-                    values={values}
-                    placeholder={`${t("companyform.addresscompany")}*`}
-                  />
-            </div>    
-            <div className="w-[30%] relative ml-6">
-                <InputPhone   
-                  handleChange={handleChange} 
-                  inputclasses={inputclasses}  
-                  values={values}
-                  placeholder={`${t("companyform.telephone")}`}
-                />
-            </div>              
-          </div>   
-          <div  className="mt-4 flex flex-row justify-between">
-          </div>       
-          <div  className="mt-8 flex flex-row justify-between">
-            <div className="w-[30%] relative ">
-              <InputWebsite   
-                handleChange={handleChange} 
-                inputclasses={inputclasses}  
-                values={values}
-                placeholder={`${t("companyform.website")}`}
-              />
-            </div>     
-            <div className="w-[30%] relative ">
-              <InputZIP   
-                handleChange={handleChange} 
-                inputclasses={inputclasses}  
-                values={values}
-                placeholder={`${t("companyform.zip")}*`}
-              />
-            </div>
-            <div className="w-[30%] relative">
-              <InputCity   
-                handleChange={handleChange} 
-                inputclasses={inputclasses}  
-                values={values}
-                placeholder={`${t("companyform.city")}*`}
-              />
-            </div>                  
-          </div>       
-          <div  className="mt-8 flex flex-row justify-start ">
-            <div className="w-[25%] relative">
-                  <InputState
-                    handleChange={handleChange} 
-                    inputclasses={inputclasses}  
-                    values={values}
-                    placeholder={`${t("companyform.state")}*`}
-                  />
-            </div> 
-            <div className="w-[35%] relative ml-16">
-                <select 
-                  className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
+  return (
+    <div
+      id="dataentrypanel"
+      className="w-[60%]   relative p-4 bg-gray-100 border-2xl"
+    >
+      <p className="text-gray-600 text-extrabold text-xl mb-10 font-khula">
+        {t("companyform.recordcompanytitle")}
+      </p>
+      <form
+        action=""
+        className="flex flex-col items-center justify-between leading-8 mb-8 
+          "
+      >
+        <div className="w-[80%] relative mb-4">
+          <InputAdminName
+            handleChange={handleChange}
+            inputclasses={inputclasses}
+            values={values}
+            placeholder={`${t("companyform.adminname")}*`}
+          />
+        </div>
+        <div className=" w-[80%] relative mb-4">
+          <InputCompanyName
+            handleChange={handleChange}
+            inputclasses={inputclasses}
+            values={values}
+            placeholder={`${t("companyform.companyname")}*`}
+          />
+        </div>
+        <div className="w-[80%] relative mb-4">
+          <InputCompanyId
+            handleChange={handleChange}
+            inputclasses={inputclasses}
+            values={values}
+            placeholder={`${t("companyform.companyId")}*`}
+          />
+        </div>
+        <div className="w-[80%] relative mb-4">
+          <InputEmail
+            handleChange={handleChange}
+            inputclasses={inputclasses}
+            values={values}
+            placeholder={`${t("companyform.emailcompany")}*`}
+          />
+        </div>
+
+        <div className="w-[80%] relative mb-4 ">
+          <InputWebsite
+            handleChange={handleChange}
+            inputclasses={inputclasses}
+            values={values}
+            placeholder={`${t("companyform.website")}`}
+          />
+        </div>
+        <div className="w-[80%] relative mb-4">
+          <select
+            className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
                     border border-solid border-gray-300 outline-none rounded transition ease-in-out
                     m-0 border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
-                    text-gray-500" 
-                  onChange={handleChange}
-                  id={'state'}
-                  defaultValue={"default"}
-                >
-                  <option value={"default"} disabled >{`${t("companyform.country")}*`}</option>
-                      {countryList.map((country, index) => (
-                        <option 
-                          key={index}
-                          value={country}
-                        >
-                        {country}
-                      </option>
-                      ))}
-                </select>                    
-            </div> 
- 
+                    text-gray-500 font-khula "
+            onChange={handleChange}
+            id={"country"}
+            defaultValue={"default"}
+          >
+            <option value={"default"} disabled>{`${t(
+              "companyform.country"
+            )}*`}</option>
+            {countryList.map((country, index) => (
+              <option key={index} value={country}>
+                {country}
+              </option>
+            ))}
+          </select>
+        </div>
+      </form>
+      <div id="footersubpanel3">
+        <div className="py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md">
+          <div className=" mt-4">
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={saving}
+              className="bg-orange-400 font-xl font-bold font-khula  mr-10 px-4 py-2.5  
+                    text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 active:hover:shadow-lg 
+                    active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none active:focus:ring-0 active:bg-orange-800 
+                    active:shadow-lg transition duration-150 ease-in-out disabled:bg-orange-400"
+            >
+              {!saving ? `${t("savebutton")}` : ""}
+              {saving && (
+                <div className=" flex justify-evenly items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900"></div>
+                  <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
+                </div>
+              )}
+            </button>
           </div>
-        </form>
-        <div id="footersubpanel3">
-          <div className="p-4  border-t border-gray-300 rounded-b-md mx-8">
-                <div  className="flex flex-row justify-center mt-4">
-                  <button type="button" onClick={handleSave}
-                    className="bg-orange-400 font-xl font-bold font-khula  mr-10 px-6 py-2.5  
-                    text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 hover:shadow-lg 
-                    focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={handleSave}
+              className="bg-stone-400 font-xl font-bold font-khula   px-4 py-2.5  
+                    text-white leading-tight uppercase rounded shadow-md hover:bg-stone-700 hover:shadow-lg 
+                    focus:bg-stone-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-stone-800 
                     active:shadow-lg transition duration-150 ease-in-out
                     ${saving===5 ? 'cursor-not-allowed' : ''}`"
-                  >
-                    {!saving ? 'save':''}
-                    {saving &&
-                    <div className=" flex justify-evenly items-center">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
-                      </div>
-                      <p className="pl-4"> ...&nbsp;Salvando</p>
-                    </div>
-              }
-                  </button>                      
-                </div>
+            >
+              {t("cancelbutton")}
+            </button>
           </div>
-            </div>        
-        </div>        
-        // </div>
-)
-}
-export default CompanyDataForm
+        </div>
+      </div>
+    </div>
+    // </div>
+  );
+};
+export default CompanyDataForm;

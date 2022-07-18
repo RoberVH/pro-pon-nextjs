@@ -71,7 +71,7 @@ function Signup() {
             phaseText={t("phase3title")}
           />
         </div>
-        <div className="mt-4 m-10 h-[5%]  flex justify-center">
+        <div className=" h-[5%]  flex justify-center">
         {isWaiting &&
           <p>AQUI va el progress bar isloading </p>
         }

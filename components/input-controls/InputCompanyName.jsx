@@ -13,7 +13,7 @@ export function InputCompanyName({
       <input 
         className={inputclasses} 
         value={values.companyname || ''} 
-        type="text" id={'city'} 
+        type="text" id={'companyname'} 
         onChange={handleChange} 
         placeholder={placeholder}  
       />

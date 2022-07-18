@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { appWithTranslation } from "next-i18next";
+import clientPromise from '../database/mongodb'
+
 // WAGMI imports
 import { WagmiConfig, configureChains, createClient, chain } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
@@ -50,7 +52,7 @@ const client = createClient({
 })
 
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   // Variables to hold state through all Pro-pon D'app via proponContext context
   const [companyName, setCompanyName] = useState('')
   const [ companyId, setCompanyId] = useState('')
@@ -73,12 +75,34 @@ function MyApp({ Component, pageProps }) {
           companyId
       }}>
         <WagmiConfig client={client}>
-            <HeadBar />
+            <HeadBar isConnected={isConnected} />
             <Component {...pageProps} />
         </WagmiConfig>
       </proponContext.Provider>
    </>
   )
+}
+export async function getServerSideProps(context) {
+  try {
+    await clientPromise
+    // `await clientPromise` will use the default database passed in the MONGODB_URI
+    // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
+    //
+    // `const client = await clientPromise`
+    // `const db = client.db("myDatabase")`
+    //
+    // Then you can execute queries against your database like so:
+    // db.find({}) or any of the MongoDB Node Driver commands
+
+    return {
+      props: { isConnected: true, _nextI18Next  },
+    }
+  } catch (e) {
+    console.error(e)
+    return {
+      props: { isConnected: false },
+    }
+  }
 }
 
 export default appWithTranslation(MyApp);

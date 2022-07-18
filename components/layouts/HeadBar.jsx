@@ -14,11 +14,10 @@ import { toastStyle } from '../../styles/toastStyle'
 
 
 
-const HeadBar = (props) => {
+const HeadBar = () => {
     const { setCompanyName, setCompanyId, companyName, companyId } = useContext(proponContext);
     const { address, isConnected } = useAccount()
     const errToasterBox = (msj) => {toast.error(msj, toastStyle) }
-
     const disconnect = useDisconnect({
         onSettled(data, error) {
             console.log('Settled', { data, error })

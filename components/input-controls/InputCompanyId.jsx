@@ -12,8 +12,8 @@ export function InputCompanyId({
       <ReceiptTaxIcon className="absolute h-5 w-5 text-orange-400 mt-1 ml-2" />
       <input 
         className={inputclasses} 
-        value={values.companyname || ''} 
-        type="text" id={'city'} 
+        value={values.companyid || ''} 
+        type="text" id={'companyid'} 
         onChange={handleChange} 
         placeholder={placeholder}  
       />
