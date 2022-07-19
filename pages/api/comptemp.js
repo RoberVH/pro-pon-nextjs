@@ -3,7 +3,7 @@ import { connectToDatabase } from "../../database/mongodb";
 export default async  function handler (req, res)  {
   const { db } = await connectToDatabase();
   const { method } = req
-  
+  console.log('CONTEMP called')
   switch (method) {
     case 'GET':
         console.log('companies hit')

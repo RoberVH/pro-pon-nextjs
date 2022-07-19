@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { appWithTranslation } from "next-i18next";
-import clientPromise from '../database/mongodb'
+import {clientPromise} from '../database/mongodb'
 
 // WAGMI imports
 import { WagmiConfig, configureChains, createClient, chain } from 'wagmi'

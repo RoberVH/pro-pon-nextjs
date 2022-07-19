@@ -2,17 +2,18 @@ import { connectToDatabase } from "../../database/mongodb";
 
 export default async  function handler (req, res)  {
   const { db } = await connectToDatabase();
+  console.log('COMPANIESWRITE called')
 
       try {
         const companies = await db
         .collection("companies")
         .insertOne({
-          "adminName": "Julia Livermore",
-          "companyName": "NytroPlex, Inc.",
-          "TaxPayerCompanyId":"CODIISU034298343-234234-2342",
-          "emailCompany":"sales@nytroplex.com",
-          "website":"www.nytroplex.com",
-          "country":"USA"
+          "adminName": "Frank Millhouse",
+          "companyName": "Frostbound, Inc.",
+          "TaxPayerCompanyId":"0002-45622-788 ",
+          "emailCompany":"sales_dep@frostbound.com",
+          "website":"www.frostbound.com",
+          "country":"United States of America"
         })
         res.status(201).json({ msg: 'OK'})
         } catch (error) {
