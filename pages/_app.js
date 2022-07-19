@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { appWithTranslation } from "next-i18next";
-import {clientPromise} from '../database/mongodb'
+import clientPromise from '../database/mongodb'
 
 // WAGMI imports
 import { WagmiConfig, configureChains, createClient, chain } from 'wagmi'
@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
    </>
   )
 }
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   try {
     await clientPromise
     // `await clientPromise` will use the default database passed in the MONGODB_URI

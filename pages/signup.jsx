@@ -6,7 +6,6 @@ import { useAccount } from "wagmi";
 import SequenceMarquee from "../components/layouts/sequenceMarquee";
 import ConnectWallet from "../components/connectWallet";
 import CompanyDataForm from "../components/forms/companyDataForm";
-import { useEffect } from "react";
 
 /**
  * Signup - Page that allows to connect and Sign Up a Company

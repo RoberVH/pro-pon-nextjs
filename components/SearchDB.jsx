@@ -1,28 +1,30 @@
 import React from 'react'
 import { useEffect } from 'react'
 import useInputForm from '../hooks/useInputForm'
+import { useTranslation } from "next-i18next";
 
-function SearchDB({ fields, path,  t, setResults}) {
+function SearchDB({ fields, path,  setResults, setWait, setError}) {
   const {  values, handleChange} = useInputForm();
+  const { t } = useTranslation("companies");
   
   const getResults = async (values) => {
     for (const key in values) {
       if ((values[key]).trim() === '') delete values[key];
-  }
-   console.log('values:', values)
+    }
     if (Object.keys(values).length === 0) return
     const params=new URLSearchParams(values)
     const url=path + params
     try {
+          setWait(true)
           const response = await fetch(url);
           const data = await response.json();
           setResults(data)
           return;
     } catch (error) {
-        console.log("Error del server:", error);
-      // errToasterBox(data.msg, toastStyle);
+        console.log("Error del server:", error.message);
+      setError(error)
     } finally {
-        console.log('final de getresults')
+      setWait(false)
     }
   }
   

@@ -10,7 +10,7 @@ export const companyParams=[
       searchable: true },
     { id:4,
       fieldName:'email',
-      searchable: true },
+      searchable: false },
     { id:5,
       fieldName:'website',
       searchable: false },
