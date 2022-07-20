@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Companies() {
-  const { locale } = useRouter();
+  const { locale,pathname, query, asPath   } = useRouter();
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
   const [results, setResults] = useState([]);
@@ -25,9 +25,14 @@ function Companies() {
    useEffect(() => {
     if (error.message) errToasterBox(error.message);
   }, [error]);
-  
 
-  const { t } = useTranslation("companies");
+  const router = useRouter()
+  console.log('router',router)
+//   console.log('pathname',router.pathname)
+//  console.log('query',router.query)
+//  console.log('asPath',router.asPath)
+
+ const { t } = useTranslation("companies");
   return (
     <div id="companies">
 
@@ -43,7 +48,7 @@ function Companies() {
         <div className="w-[100%] pl-4">
           <SearchDB
             fields={companyParams}
-            path={`api/servercompanies?`}
+            path={`/api/servercompanies?`}
             setResults={setResults}
             setWait={setIsWaiting}
             setError={setError}
