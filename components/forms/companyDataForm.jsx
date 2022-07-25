@@ -23,6 +23,11 @@ countries.registerLocale(english);
 countries.registerLocale(spanish);
 countries.registerLocale(french);
 
+/**
+ * CompanyDataForm
+ *    Present stepper step 3 to register rest of company data to DB form
+ *    
+*/
 const CompanyDataForm = () => {
   const { t, i18n } = useTranslation("signup");
   const [saving, setSaving] = useState(false);
@@ -55,6 +60,8 @@ const CompanyDataForm = () => {
     changeLanguage();
   }, [i18n.language]);
 
+  
+  // Validate and Save data to DB
   const handleSave = async () => {
     const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {

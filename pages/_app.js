@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { appWithTranslation } from "next-i18next";
 import clientPromise from '../database/mongodb'
 
-// WAGMI imports
+// WAGMI related imports
 import { WagmiConfig, configureChains, createClient, chain } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+
 
 // Pro-pon components
 import { proponContext } from '../utils/pro-poncontext'
@@ -52,15 +53,23 @@ const client = createClient({
 })
 
 
+
+
 function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   // Variables to hold state through all Pro-pon D'app via proponContext context
   const [companyName, setCompanyName] = useState('')
   const [ companyId, setCompanyId] = useState('')
 
+
+
+
   const setcurrentCompanyData = (companyName, companyId) => {
+    console.log('Voy a setear company name', companyName)
+    console.log('Voy a setear companyId', companyId)
     setCompanyName(companyName)
     setCompanyId(companyId)
   }
+
   
   const clearCompany = () => {
     setCompanyName('')

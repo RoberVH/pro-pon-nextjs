@@ -4,7 +4,8 @@
     "companies":"companies",
     "aptitle":"Publishing RFPs to Blockchain",
     "explanation1":"Connect your wallet to create a profile for your company and start publishing your RFPs to Blockchain",
-    "connectwallet":"sign up",
+    "connect_wallet":"sign up",
+    "noresults":"No results",
     "benefits": [
         "Vendors all over the world",
         "Proposal documents are electronic & cryptographically signed",
@@ -12,7 +13,7 @@
         "The document password is delivered only to those in charge of the process",
         "Add  transparency and fair play  in your quotation processes"
     ],
-    "instructionstitle":"Click button to register and use Pro-Pon",
+    "instruction_title":"Click button to register and use Pro-Pon",
     "instructions" : [
         "Click on Create account button",
         "Create your Company Profile - now you are administrator",

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useConnect, useAccount } from "wagmi";
+import { useConnect, useAccount, useContractRead } from "wagmi";
 import { useTranslation } from "next-i18next"
 
 
 // toastify related imports
-import { toast, ToastContainer} from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toastStyle } from '../styles/toastStyle'
 
@@ -34,7 +34,7 @@ function ConnectWallet({setPhase}) {
 
   useEffect(() => {
     if (address) {
-      setPhase(2) // let's got to registering company
+      setPhase(2) // let's got to registering basic data company
     }
   }, [address]);
 
@@ -42,7 +42,7 @@ function ConnectWallet({setPhase}) {
 
   return (
     <div className="flex justify-center ">
-       <ToastContainer style={{ width: "600px" }} autoClose={5000}  />
+       
       <div className="bg-stone-100  px-4   rounded-xl shadow-xl 
           flex flex-col m-4 w-2/4 min-h-[350px] justify-center items-center ">
         <div className="grid grid-cols-2 divide-x-4 divide-stone-300">

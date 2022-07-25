@@ -1,6 +1,7 @@
-// import { useRouter } from 'next/router';
-import { useContext } from 'react'
-import { useAccount, useDisconnect } from 'wagmi'
+ import { useEffect, useContext } from 'react'
+import { useAccount, useContractRead, useDisconnect } from 'wagmi'
+import { contractAddress } from '../../utils/proponcontractAddress'
+import proponJSONContract from '../../utils/pro_pon.json'
 import Link from 'next/link'
 import Image from 'next/image'
 import Menues from '../menues'
@@ -15,22 +16,39 @@ import { toastStyle } from '../../styles/toastStyle'
 
 
 const HeadBar = () => {
-    const { setCompanyName, setCompanyId, companyName, companyId } = useContext(proponContext);
+    const { companyName, companyId } = useContext(proponContext);
     const { address, isConnected } = useAccount()
     const errToasterBox = (msj) => {toast.error(msj, toastStyle) }
-    const disconnect = useDisconnect({
-        onSettled(data, error) {
-            console.log('Settled', { data, error })
-        },
-      })
+    const {disconnect} = useDisconnect()
+      
+
+      const { data, isError, isLoading } = useContractRead({
+        addressOrName: contractAddress,
+        contractInterface: proponJSONContract.abi,
+        functionName: 'getHunger',
+      })  
+
+      const handleDisconnection = () => {
+        disconnect()
+      }
+
+useEffect( ()=> {
+    function getComapny() {
+    if (address) {
+        console.log('Checking company data TBD')
+        // ask contract if this address already is a Company Admin and get it
+    }
+    }
+    getComapny()
+},[address, companyId])
+
 
     const ShowAccount = (address) => {
-
         return (
             <button className="text-orange-400 font-semibold rounded-xl px-2 pb-2
                     bg-white border-solid border-2 border-orange-200
                     text-md leading-4 "
-                    onClick={() => disconnect()}>
+                    onClick={() => handleDisconnection()}>
                     {address.slice(0,5)}...{address.slice(-6)}
                     &nbsp;&nbsp;
                     <span className="mt-2">
@@ -41,8 +59,8 @@ const HeadBar = () => {
     }; 
 
     return (
-    <nav className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 " >
-        <ToastContainer style={{ width: "600px" }} autoClose={5000}  />
+    <nav id='navigation' className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 " >
+        <ToastContainer style={{ width: "600px" }}   />
         <div className="flex justify-between">
             <div className="flex ml-4 ">
                 <Link href="/" passHref>
@@ -55,8 +73,7 @@ const HeadBar = () => {
             </div>
             <div className="mt-4">
                 <label className=" text-xl font-semibold font-nunito text-white ">
-                {companyId && {companyName} 
-                }
+                 {companyName} 
                 </label>
             </div>        
             <div className="flex justify-around">

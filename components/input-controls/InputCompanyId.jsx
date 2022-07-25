@@ -5,17 +5,19 @@ export function InputCompanyId({
   handleChange,
   inputclasses,
   values,
-  placeholder
+  placeholder,
+  disable
 }) {
   return (
     <>
       <ReceiptTaxIcon className="absolute h-5 w-5 text-orange-400 mt-1 ml-2" />
       <input 
         className={inputclasses} 
-        value={values.companyid || ''} 
-        type="text" id={'companyid'} 
+        value={values.companyId || ''} 
+        type="text" id={'companyId'} 
         onChange={handleChange} 
         placeholder={placeholder}  
+        disabled = {disable}
       />
     </>);
 }

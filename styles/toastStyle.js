@@ -8,3 +8,15 @@ export const toastStyle= {
     progress: undefined,
     theme: "colored"
   }
+
+  export const toastStyleSuccess= {
+    width:"150px",
+    position: "top-center",
+    hideProgressBar: true,
+    autoClose:false,
+    closeOnClick: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored"
+  }
+  

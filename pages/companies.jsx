@@ -27,10 +27,6 @@ function Companies() {
   }, [error]);
 
   const router = useRouter()
-  console.log('router',router)
-//   console.log('pathname',router.pathname)
-//  console.log('query',router.query)
-//  console.log('asPath',router.asPath)
 
  const { t } = useTranslation("companies");
   return (
@@ -65,7 +61,9 @@ function Companies() {
                 results={results}
                 actions={companyActions}
               />
-            ) : <div>No hay resultados</div>}
+            ) :   <div className="bg-orange-100 p-4 text-red-600 text-xl text-center">
+                    {t('noresults')}
+                  </div>}
           </div>)
       }
     </div>

@@ -4,8 +4,10 @@ import { useTranslation } from "next-i18next";
 function DisplayResults({fields,results, actions}) {
   const { t } = useTranslation("companies");
   const numCols=fields.length
-  if (!results.length) return <div>NO hay resultados</div>  // we won't check later if there are results
-  console.log('seguimos')
+  if (!results.length) return 
+      <div className="text-red-600 font-xl">
+        {t('noresults')}
+      </div>  // we won't check later if there are results
   return (
     <div className="flex justify-center">
          <table className="table-fixed w-full">

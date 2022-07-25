@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { proponContext } from '../utils/pro-poncontext'
 import { useAccount } from "wagmi";
 import SequenceMarquee from "../components/layouts/sequenceMarquee";
 import ConnectWallet from "../components/connectWallet";
 import CompanyDataForm from "../components/forms/companyDataForm";
+import SignUpcompanyDataForm from "../components/forms/signUpcompanyDataForm";
+
 
 /**
  * Signup - Page that allows to connect and Sign Up a Company
  *          It consist of two steps, the steps are tracked by state var phase
  *          Phase:
- *               1 - connecting wallet
- *               2 - registering Company Data
- *               3 - Succesfully finnished signing up - display adquired data
+ *               1 - Connecting wallet
+ *               2 - Registering essential Company Data on Polygon contract
+ *               3 - Registering | modify extended Company Data on Backend DB - 
  */
 function Signup() {
   const [phase, setPhase] = useState(1);
@@ -24,26 +27,47 @@ function Signup() {
   const { t } = useTranslation("signup");
   const { address } = useAccount();
   
+  const {  companyId } = useContext(proponContext);
 
-  const ConecctAndRegister = ({ phase }) => {
+/**
+ * SignUpStep
+ *    Component to present screen according to phase of signup stepper
+*/
+  const SignUpStep = ({ phase }) => {
     switch (phase) {
       case 1:
         return <ConnectWallet setPhase={setPhase} />;
       case 2:
         return (
           <div className="flex justify-center">
-            <CompanyDataForm />
+            <SignUpcompanyDataForm setPhase={setPhase} />
           </div>
         );
       case 3:
-        return <div>Todo OK finalizar</div>;
+        return (
+          <div className="flex justify-center">
+          <CompanyDataForm setPhase={setPhase}/>
+          </div>
+          );
       default:
-        return <div>no leyo nada</div>;
+        return <div>Phase invalida</div>;
     }
   };
 
+  /* check here what phase is this user on
+     1 no wallet connected present connection button
+     2 wallet connected present company sign up
+     3 company signup present capture data/ modify data screen */
+  useEffect(() => {
+    if (address) setPhase(2)    // let's got to registering essential data company
+    if (companyId) setPhase(3)  // let's got to add/modify all data company
+  }, [address, companyId]);
 
-
+  const Sequence= [
+    [1, t('phase1title')],
+    [2, t('phase2title')],
+    [3, t('phase3title')],
+  ]
   return (
     <div className="h-screen flex flex-col items-center">
       <div
@@ -52,31 +76,21 @@ function Signup() {
             bg-white border-slate-200 shadow-lg rounded-xl"
       >
         <div className="mt-8 flex flex-row justify-center">
-          <SequenceMarquee
-            phaseNumber={1}
-            phase={phase}
-            phaseText={t("phase1title")}
-          />
-          <p className="text-stone-300 font-bold mx-8"> {separator} </p>
-          <SequenceMarquee
-            phaseNumber={2}
-            phase={phase}
-            phaseText={t("phase2title")}
-          />
-          <p className="text-stone-300 font-bold mx-8"> {separator} </p>
-          <SequenceMarquee
-            phaseNumber={3}
-            phase={phase}
-            phaseText={t("phase3title")}
-          />
+          {Sequence.map((step,indx) =>
+            <div key={indx} className="flex">
+              <SequenceMarquee
+                phaseNumber={step[0]}
+                phase={phase}
+                phaseText={step[1]}
+              />
+              { (indx!=2) &&
+                <p className="text-stone-300 font-bold mx-8"> {separator} </p>
+              }
+            </div>
+            )}
         </div>
-        <div className=" h-[5%]  flex justify-center">
-        {isWaiting &&
-          <p>AQUI va el progress bar isloading </p>
-        }
-        </div>
-        <div  >
-          <ConecctAndRegister phase={phase} />
+        <div className="mt-8">
+          <SignUpStep phase={phase} />
         </div>
       </div>
     </div>

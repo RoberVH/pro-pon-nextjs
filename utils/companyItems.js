@@ -3,7 +3,7 @@ export const companyParams=[
       fieldName:'adminname',
       searchable: true },
     { id:2,
-      fieldName:'companyid',
+      fieldName:'companyId',
       searchable: true },
     { id:3,
       fieldName:'companyname',

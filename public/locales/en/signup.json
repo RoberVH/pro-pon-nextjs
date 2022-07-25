@@ -1,12 +1,19 @@
 {
-    "phase1title": "Connecting",
-    "phase2title": "Registering",
-    "phase3title": "End",
+    "phase1title": "Connect",
+    "phase2title": "Identify",
+    "phase3title": "Register",
     "connecttitle": "Connect your Wallet",
     "connectdescription1": "This operation is not going to cost you any crypto currency.", 
     "connectdescription2": "We just need you to give us permission to connect to the wallet.",
     "connectdescription3":"As long as you don't disconnect, we'll always recognize you on this device.",
+    "closebutton":"Close",
+    "companyessentialdatasaved":"Company Identification data has been posted to Blockchain",
+    "errors": {
+        "address_already_admin":"This account is already admin of another company",
+        "undetermined_blockchain_error":"Unkwon error, try later"
+    },
     "companyform": {
+        "recordessentialdata":"Register basic company data",
         "recordcompanytitle": "Register your name and the company details",
         "adminname": "Your name (admin rights will be granted)",
         "companyname":"Company Name",
@@ -24,5 +31,7 @@
     "savebutton":"Save",
     "cancelbutton": "Cancel",
     "savingstate": " Saving...",
-    "successsaving": "Company Data saved"
+    "successsaving": "Company Data saved",
+    "recordingcompanylegend":"A record of your company will be created associated with your Blockchain account, which will be assigned administrator privileges",
+    "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network"
 }

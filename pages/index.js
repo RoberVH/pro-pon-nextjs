@@ -40,7 +40,7 @@ export default function Home() {
       <div className=" w-full flex flex-row justify-center bg-blue-200 p-8 mb-16">
         <div>
         <p className="uppercase text-center font-nunito text-md font-bold text-orange-800 leading-8">
-          {t('instructionstitle')}
+          {t('instructions_title')}
         </p>      
         <p className="mt-8 font-nunito text-md font-bold text-orange-800 leading-8">
               <ul className="list-decimal ml-4">
@@ -54,9 +54,12 @@ export default function Home() {
           <Link href="/signup" passHref>
             <a  className=" ml-16 p-4 font-khula font-black text-xl uppercase 
                 text-white bg-orange-600 rounded-xl  drop-shadow-lg  
-                bg-gradient-to-r from-orange-500  to-blue-500 hover:bg-slate-700
+                bg-gradient-to-r from-orange-500  to-blue-500 
+                hover:border-2 hover:shadow-md 
+                hover:bg-stone-600
+                active:ring-4  
                 bg-gradient-x 1s ease infinite">
-                {t('connectwallet')}
+                {t('connect_wallet')}
             </a>
           </Link>
         </div>

@@ -5,7 +5,8 @@ export function InputCompanyName({
   handleChange,
   inputclasses,
   values,
-  placeholder
+  placeholder,
+  disable
 }) {
   return (
     <>
@@ -16,6 +17,7 @@ export function InputCompanyName({
         type="text" id={'companyname'} 
         onChange={handleChange} 
         placeholder={placeholder}  
+        disabled = {disable}
       />
     </>);
 }

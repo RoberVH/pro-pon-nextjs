@@ -1,12 +1,19 @@
 {
     "phase1title": "Relier",
-    "phase2title": "Enregistrement",
-    "phase3title": "Terminer",
+    "phase2title": "identifier",
+    "phase3title": "S'inscrire",
     "connecttitle": "Connectez votre portefeuille",
     "connectdescription1": "Cette opération ne vous coûtera aucune crypto-monnaie.", 
     "connectdescription2": "Nous avons juste besoin que vous nous donniez la permission de nous connecter au portefeuille.",
     "connectdescription3":"Tant que vous ne vous déconnectez pas, nous vous reconnaîtrons toujours sur cet appareil.",
+    "closebutton":"Fermer",
+    "companyessentialdatasaved":"Les données d'identification de l'entreprise ont été publiées sur la Blockchain",    
+     "errors": {
+        "address_already_admin":"Ce compte est déjà administrateur d'une autre entreprise",
+        "unknownerror":"Erreur inconnue, essayez plus tard"
+    },    
     "companyform": {
+        "recordessentialdata":"Enregistrer les données de base de l'entreprise",
         "recordcompanytitle": "Enregistrez votre nom et les détails de l'entreprise",
         "adminname": "Votre nom (les droits d'administrateur seront accordés)",
         "companyname":"Nom de l'entreprise",
@@ -24,5 +31,7 @@
     "savebutton":"Sauvegarder",
     "cancelbutton": "Annuler",
     "savingstate": " Enregistrement...",
-    "successsaving": "Données de l'entreprise enregistrées"    
+    "successsaving": "Données de l'entreprise enregistrées",
+    "recordingcompanylegend":"Un enregistrement de votre entreprise sera créé associé à votre compte Blockchain, qui se verra attribuer des privilèges d'administrateur",
+    "savingtoblockchainmsg":"Confirmez la transaction. Vos données seront envoyées à la Blockchain, en attente de confirmation. Cela peut prendre du temps selon les conditions d'utilisation du réseau"
 }

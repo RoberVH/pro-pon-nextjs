@@ -1,13 +1,19 @@
 {
     "phase1title": "Conectar",
-    "phase2title": "Registrar",
-    "phase3title": "Terminar",
+    "phase2title": "Identificar",
+    "phase3title": "Registrar",
     "connecttitle": "Conecte su Billetera",
     "connectdescription1": "Esta operación no va a costarle ninguna crypto moneda", 
     "connectdescription2": "Sólo necesitamos que nos dé permiso de conectarnos con la billetera.",
     "connectdescription3":"Mientras no se desconecte, siempre lo reconoceremos en este equipo.",
-  
+    "closebutton":"Cerrar",
+    "companyessentialdatasaved":"Los datos de identification de la compañía han sido publicados en la Blockchain",    
+    "errors": {
+        "address_already_admin":"Esta cuenta ya es administradora de otra empresa",
+        "unknownerror":"Error desconocido, reintente mas tarde"
+    },
     "companyform": {
+        "recordessentialdata":"Registra datos básicos de la empresa",
         "recordcompanytitle": "Registre su nombre y los datos de su compañia",
         "adminname": "Su nombre (Se otorgarán derechos de administrador)",
         "companyname":"Nombre de Compañía",
@@ -25,5 +31,7 @@
     "savebutton":"Guardar",
     "cancelbutton": "Cancelar",
     "savingstate": " Guardando...",
-    "successsaving": "Datos de Compañía salvados"
+    "successsaving": "Datos de Compañía salvados",
+    "recordingcompanylegend":"Se creará un registro de su compañia asociada a su cuenta de Blockchain, a la que se asignarán privilegios de adminstrador",
+    "savingtoblockchainmsg":"Confirme transacción. Sus datosserán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red"
 }
