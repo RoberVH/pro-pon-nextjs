@@ -4,5 +4,6 @@
     "companyname": "Nombre de la empresa",
     "email": "Correo electrónico",
     "website": "Sitio web",
-    "country": "País"
+    "country": "País",
+    "noresults":"No hay  compañias que mostrar"
 }

@@ -34,25 +34,24 @@ function ConnectWallet({setPhase}) {
 
   useEffect(() => {
     if (address) {
-      setPhase(2) // let's got to registering basic data company
+      setPhase(2) // let's got to registering essential data company to blockchain
     }
   }, [address]);
 
 
 
   return (
-    <div className="flex justify-center ">
+    <div className="container flex justify-center ">
        
-      <div className="bg-stone-100  px-4   rounded-xl shadow-xl 
-          flex flex-col m-4 w-2/4 min-h-[350px] justify-center items-center ">
+      <div id="connect-panel" className="container bg-stone-100  px-4   rounded-xl shadow-xl 
+          flex flex-col m-4 w-2/4 min-h-[350px] justify-center items-center 
+           overflow-y-auto">
         <div className="grid grid-cols-2 divide-x-4 divide-stone-300">
-          <div className=" mr-4  p-4 rounded-xl">
-            <div className=""> 
+          <div className=" mr-4  p-4 rounded-xl overflow-hidden shrink-0 ">
               <p className="pb-4 border-b-2 border-orange-400">{t('connecttitle')}</p>
               <p className=" text-stone-700 pt-4">{t('connectdescription1')}</p>
               <p className=" text-stone-700">{t('connectdescription2')}</p>
               <p className=" text-stone-700">{t('connectdescription3')}</p>
-            </div>
           </div>
           <div className="pl-12 flex flex-col">
             {connectors.map((connector) => (

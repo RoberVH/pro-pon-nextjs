@@ -1,13 +1,18 @@
 {
     "phase1title": "Conectar",
     "phase2title": "Identificar",
-    "phase3title": "Registrar",
+    "phase3title": "Perfil",
     "connecttitle": "Conecte su Billetera",
     "connectdescription1": "Esta operación no va a costarle ninguna crypto moneda", 
     "connectdescription2": "Sólo necesitamos que nos dé permiso de conectarnos con la billetera.",
     "connectdescription3":"Mientras no se desconecte, siempre lo reconoceremos en este equipo.",
     "closebutton":"Cerrar",
-    "companyessentialdatasaved":"Los datos de identification de la compañía han sido publicados en la Blockchain",    
+    "companyessentialdataposted":"⏳ La transacción ha sido recibida en la Blockhain, esperando confirmación. Espere por favor... ",
+    "companyessentialdatasaved":"✅ Los datos de identification de la compañía han sido publicados en la Blockchain",    
+    "signupsuccess":"Los datos esenciales de la empresa han sido guardados en blockchain",
+    "chekhash":"Ver transaccion en el explorador de la Blockchain",
+    "nocompanyIdyet":"Su cuenta de blockchain aun no tiene registrada una empresa",
+    "block":"La Transacción fue incluida en el bloque: ",
     "errors": {
         "address_already_admin":"Esta cuenta ya es administradora de otra empresa",
         "unknownerror":"Error desconocido, reintente mas tarde"
@@ -33,5 +38,5 @@
     "savingstate": " Guardando...",
     "successsaving": "Datos de Compañía salvados",
     "recordingcompanylegend":"Se creará un registro de su compañia asociada a su cuenta de Blockchain, a la que se asignarán privilegios de adminstrador",
-    "savingtoblockchainmsg":"Confirme transacción. Sus datosserán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red"
+    "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red"
 }

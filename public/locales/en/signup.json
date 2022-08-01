@@ -1,13 +1,18 @@
 {
     "phase1title": "Connect",
     "phase2title": "Identify",
-    "phase3title": "Register",
+    "phase3title": "Profile",
     "connecttitle": "Connect your Wallet",
     "connectdescription1": "This operation is not going to cost you any crypto currency.", 
     "connectdescription2": "We just need you to give us permission to connect to the wallet.",
     "connectdescription3":"As long as you don't disconnect, we'll always recognize you on this device.",
     "closebutton":"Close",
-    "companyessentialdatasaved":"Company Identification data has been posted to Blockchain",
+    "companyessentialdataposted":"⏳ The transaction has been received on the Blockchain, awaiting confirmation. Wait please...",
+    "companyessentialdatasaved":"✅ Company Identification data has been posted to Blockchain",
+    "signupsuccess":"Essential Company Data has been saved to blockchain",
+    "chekhash":"View transaction in the Blockchain Explorer",
+    "nocompanyIdyet":"Your blockchain account does not have a company registered yet",
+    "block":"This transaction has been included into Block: ",
     "errors": {
         "address_already_admin":"This account is already admin of another company",
         "undetermined_blockchain_error":"Unkwon error, try later"

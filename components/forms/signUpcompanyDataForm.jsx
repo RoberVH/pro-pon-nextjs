@@ -1,6 +1,6 @@
-import { useState, useContext} from "react";
+import { useState, useContext, useEffect} from "react";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { Link } from 'next/link'
 import { useContractWrite, useContractEvent } from 'wagmi'
 import { contractAddress } from '../../utils/proponcontractAddress'
 import { ethers } from 'ethers'
@@ -22,25 +22,35 @@ const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded r
  * SignUpCompanyDataForm
  *    Present stepper step 2 to register essential data to smart contract form
  *    3 manage posting company data to contrat and advance stepper phase to 3
+ *    if this address has already a CompanyID registered in the blockchain go to step 3
+ *    to record/modify company data
 */
 const SignUpCompanyDataForm = ({setPhase}) => {
   // State Variables & constants of module
   const { t } = useTranslation("signup");
-  const [companyCreated, setcompanyCreated] = useState(false);
+  const [companyPosted, setcompanyPosted] = useState(false)
+  const [companyCreated, setcompanyCreated] = useState(false)
+  const [block, setBlock] = useState('')
   const [hash, setHash] = useState('')
-  const [link, setLink] = useState('')
+  const [link, setLink] = useState(' ')
 
-  const { values, handleChange } = useInputForm();
-  // const inputclasses =
-  //   "require leading-normal flex-1 border-0  border-grey-light " &&
-  //   "rounded rounded-l-none  outline-none pl-10 w-full focus:bg-blue-100 font-khula font-extrabold";
+  const { values, handleChange } = useInputForm()
+  const router = useRouter()
+ 
   const patronobligatorio = new RegExp("^(?!s*$).+");
-  const { setcurrentCompanyData } = useContext(proponContext);
+  const { setcurrentCompanyData, companyId, CompanyName } = useContext(proponContext);
 
 // Function to display error msg
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
+
+  useEffect(()=> {
+    // if there is already a company registerd for this account let's go to perfil
+    if (companyId) {
+      setPhase(3)
+    }
+  },[companyId,setPhase])
 
   // Wagmi useContractWrite hook setting & definition
   const { data, isError, isLoading, write } = useContractWrite({
@@ -50,7 +60,6 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     functionName: 'createCompany',
     onError(error) {
       let customError='unknownerror'
-      console.log('error!!',error)
       if (typeof error.reason!== 'undefined') 
         if (error.reason='address_already_admin')  
            if (errorSmartContract.includes(customError)) customError=errorCatalog[error.reason]  
@@ -61,12 +70,11 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     onSuccess(data) {
       toast.success(t('signupsuccess',toastStyleSuccess))
       setHash(data.hash)
-      // console.log('Hash seteado:',data.hash)
+       console.log('Hash seteado:',data.hash)
       // console.log('recordatodo:',`${data.hash.slice(0,10)}...${data.hash.slice(-11)}`)
-      // console.log('link:',`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${data.hash}`)
-      // setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${data.hash}`)
-       setcompanyCreated(true)
-      //setPhase(3)
+       console.log('link:',`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${data.hash}`)
+       setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${data.hash}`)
+       setcompanyPosted(true)
     },
     })
 
@@ -74,7 +82,11 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     addressOrName: contractAddress,
     contractInterface: proponJSONContract.abi,
     eventName: 'NewCompanyCreated',
-    listener: (event) => console.log('evento escuchado:', event),
+    listener: (event) => {
+      console.log(event[3])
+      setBlock(event[3].blockNumber)
+      setcompanyCreated(true)
+    },
     once: true
   })
 
@@ -92,11 +104,17 @@ const SignUpCompanyDataForm = ({setPhase}) => {
   // End showing this screen, save to context the new created company and advance to
   // next phase (3)
     const nextPhase = () => {
+      setcompanyCreated(true)
       saveContext()
       setPhase(3)
     }
 
         
+  // handleCacel Drop form and go back to root address
+  const handleCancel = () => {
+    router.push({pathname: '/'})
+  }
+
   // handleSave -  call Validate fields & if ok send transaction to blockchain
   const handleSave = async () => {
     const trimmedValues = {};
@@ -128,29 +146,45 @@ const SignUpCompanyDataForm = ({setPhase}) => {
       errToasterBox(error);
     } 
   };
+
   
   // Save companyId & companyname to App context
   const saveContext = (companyId, companyname) => {
-    
     setcurrentCompanyData(values.companyname.trim(), values.companyId.trim())
   }
 
 // render of Component
   return (
-   <div className="w-[60%] mt-2">
+   <div id="generalsavearea" className="container w-[74%] " >
     {/* Superior panel to explain & display call to actions */}
-    <div className="p-4 bg-gray-100 border-2xl">
-      <div className="text-xl font-khula text-stone-600 py-4">
+    <div className="container p-4 bg-gray-100 border-2xl h-[50%]">
+      <div className="text-xl font-khula text-stone-600 text-base py-4 ">
         {isLoading ? 
-            <p>{t('savingtoblockchainmsg')}</p>
+            <p>{t('savingtoblockchainmsg')} 
+            </p> 
             :
-            (  companyCreated ? 
-                    <div>
-                      <p>{t('companyessentialdatasaved')} </p>
-                      {/* <label>HASH:</label>
-                      <Link href={link}>
-                        <a> `${data.hash.slice(0,10)}...${data.hash.slice(-11)}`  </a>
-                      </Link> */}
+            (  companyPosted ? 
+                    <div className=" w-[100%]">
+                      {companyPosted && 
+                      <p >{t('companyessentialdataposted')} </p>
+                      }
+
+                      {companyCreated && 
+                      <p className="mb-4">{t('companyessentialdatasaved')} </p>
+                      }
+                      <label className="mt-4">{t('chekhash')}</label>
+                      <a
+                        className=" text-blue-600 ml-3"
+                        href={link}
+                        target="_blank"
+                        rel="noreferrer">
+                        {hash && (`${hash.slice(0,10)}...${hash.slice(-11)}`)}
+                      </a>
+                      {block && <div className="flex">
+                        <p className="text-base"> BlockNode: &nbsp; </p>
+                        <p className="text-blue-700"> {t('block')} {block}</p>
+                      </div>
+                      }
                       <div className="flex justify-center">
                         <button 
                         className="main-btn mt-8"
@@ -160,21 +194,22 @@ const SignUpCompanyDataForm = ({setPhase}) => {
                       </div>
                     </div>
                     :
-                    <p>{t('recordingcompanylegend')}</p>
+                    <p>{t('recordingcompanylegend')} </p>
             )
         }
       </div>
     </div>
     {/* Entry Form with buttons save & cancel */}
-    <div id="dataentrypanel" className="mt-8  p-4 bg-gray-100 border-2xl">
-      <p className="text-gray-600 text-extrabold text-xl mb-10 font-khula">
+    <div id="dataentrypanel" className="mt-4  p-4 bg-gray-100 border-2xl">
+      <p className="text-gray-600 text-extrabold text-base text-xl mb-4 font-khula">
         {t("companyform.recordessentialdata")}
       </p>
       <form
         action=""
+        disabled={isLoading || companyPosted || companyCreated}
         className="flex flex-col items-center justify-between leading-8 mb-8"
       >
-        <div className="w-[80%] relative mb-4">
+        <div className="w-[50%] relative mb-4">
           <InputCompanyId
             handleChange={handleChange}
             inputclasses={inputclasses}
@@ -183,7 +218,7 @@ const SignUpCompanyDataForm = ({setPhase}) => {
             disable={companyCreated}
           />
         </div>
-        <div className=" w-[80%] relative mb-4">
+        <div className=" w-[50%] relative mb-4">
           <InputCompanyName
             handleChange={handleChange}
             inputclasses={inputclasses}
@@ -194,12 +229,12 @@ const SignUpCompanyDataForm = ({setPhase}) => {
         </div>
       </form>
       <div id="footersubpanel3">
-        <div className=" py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md">
-          <div className="mt-4 mr-10">
+        <div className={`py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md ${companyCreated?'hidden':null}`}>
+          <div className="mt-4 mr-10 " >
             <button
               type="button"
               onClick={handleSave}
-              disabled={isLoading || companyCreated}
+              disabled={isLoading || companyPosted || companyCreated}
               className="main-btn"
             >
               {!isLoading ? `${t("savebutton")}` : ""}
@@ -214,8 +249,8 @@ const SignUpCompanyDataForm = ({setPhase}) => {
           <div className="mt-4">
             <button
               type="button"
-              onClick={()=>{alert('hey')}}
-              disabled={isLoading|| companyCreated}
+              onClick={handleCancel}
+              disabled={ companyPosted || companyCreated}
               className="secondary-btn">
               {t("cancelbutton")}
             </button>

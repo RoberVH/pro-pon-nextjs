@@ -29,6 +29,7 @@ function Signup() {
   
   const {  companyId } = useContext(proponContext);
 
+  
 /**
  * SignUpStep
  *    Component to present screen according to phase of signup stepper
@@ -39,7 +40,7 @@ function Signup() {
         return <ConnectWallet setPhase={setPhase} />;
       case 2:
         return (
-          <div className="flex justify-center">
+          <div id ="signupcompanydatadadhost" className="flex justify-center">
             <SignUpcompanyDataForm setPhase={setPhase} />
           </div>
         );
@@ -61,6 +62,7 @@ function Signup() {
   useEffect(() => {
     if (address) setPhase(2)    // let's got to registering essential data company
     if (companyId) setPhase(3)  // let's got to add/modify all data company
+    
   }, [address, companyId]);
 
   const Sequence= [
@@ -69,15 +71,15 @@ function Signup() {
     [3, t('phase3title')],
   ]
   return (
-    <div className="h-screen flex flex-col items-center">
-      <div
-        id="sequencecontainer"
-        className="w-3/4 h-[75%] m-8 border-2 border-solid 
+    <div id="signup-screen" className="h-screen flex flex-col items-center ">
+      <div id="activities-of-signup"        
+        className="container h-[75%] my-8 mx-4 border-2 border-solid 
             bg-white border-slate-200 shadow-lg rounded-xl"
       >
-        <div className="mt-8 flex flex-row justify-center">
+        <div id="sequencecontainer" 
+            className="container mt-8 flex flex-row justify-center ">
           {Sequence.map((step,indx) =>
-            <div key={indx} className="flex">
+            <div key={indx} className="flex ">
               <SequenceMarquee
                 phaseNumber={step[0]}
                 phase={phase}
@@ -89,7 +91,7 @@ function Signup() {
             </div>
             )}
         </div>
-        <div className="mt-8">
+        <div id='stepScreen' className="container mx-auto mt-8   ">
           <SignUpStep phase={phase} />
         </div>
       </div>

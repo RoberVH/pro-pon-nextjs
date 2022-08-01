@@ -4,5 +4,6 @@
     "companyname":"Company Name",
     "email":"Email",
     "website":"Web Site",
-    "country":"Country"
+    "country":"Country",
+    "noresults":"There are no companies to show"
 }

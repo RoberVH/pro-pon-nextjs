@@ -37,32 +37,36 @@ function SelectLanguage() {
   };
 
   const LanguageButton = ({language, iconLang}) => 
+  <div>
     <button 
         className="p-2"
         onClick = {handleLocaleChange}
         id= {language}
         value={iconLang}>
       <Image alt='language' src={iconLang} width={32} height={32}></Image>
-    </button>;
+    </button>
+  </div>
    
 
   return (
-    <div className="mt-4 mr-8 relative">
+    <div className="mt-4 mr-8 relative ">
       <Image onClick={handleDropDown} alt={language} src={iconLang} width={32} height={32}></Image>
       <button 
         className="pl-2 focus:outline-none  "
         onClick={handleDropDown} 
         id={language}
         value={iconLang}>
-          <Image  alt="V" src={'/chevrondown.svg'} width={22} height={22}></Image>
       </button>
+         <Image  
+         onClick = {handleDropDown}
+         alt="V" src={'/chevrondown.svg'} width={22} height={22}></Image>
       { hideButtons &&
       <div id='botonesocultos' className=" absolute pl-8">
-        <div className="w-14 flex flex-col bg-slate-200  rounded-2xl justify-start pt-2">
+        <div className="w-14 flex flex-col bg-slate-200  rounded-2xl justify-start pt-2 px-2">
           <LanguageButton language={'en'} iconLang={'/uk.svg'} />
           <LanguageButton language={'es'} iconLang={'/spain.svg'} />
           <LanguageButton language={'fr'} iconLang={'/france.svg'}  />
-          </div>
+        </div>
       </div>}
     </div>
   )

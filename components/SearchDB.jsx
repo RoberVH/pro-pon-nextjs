@@ -35,14 +35,14 @@ function SearchDB({ fields, path,  setResults, setWait, setError}) {
   
 
   return (
-    <div className="p-2 flex justify-evenly ">
+    <div className="p-2 flex justify-start ">
     { 
         fields.map((field) => 
         <div key={field.id} className="resize">
           { field.searchable &&
             <input 
               className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none 
-              p-2  rounded-md focus:bg-stone-100 focus:rounded-md"
+              p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8"
               type='text' 
               id= {field.fieldName}
               placeholder={t(field.fieldName)}

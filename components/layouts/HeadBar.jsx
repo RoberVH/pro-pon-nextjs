@@ -1,12 +1,15 @@
- import { useEffect, useContext } from 'react'
+ import { useState, useContext } from 'react'
 import { useAccount, useContractRead, useDisconnect } from 'wagmi'
-import { contractAddress } from '../../utils/proponcontractAddress'
-import proponJSONContract from '../../utils/pro_pon.json'
+import  useGetCompanyData from '../../hooks/useGetCompanyData'
+import { useTranslation } from "next-i18next"
 import Link from 'next/link'
 import Image from 'next/image'
 import Menues from '../menues'
 import SelectLanguage from '../header/selectLanguage'
 import { proponContext } from '../../utils/pro-poncontext'
+import { BadgeCheckIcon } from '@heroicons/react/outline'
+import { StatusOfflineIcon } from '@heroicons/react/outline'
+
 
 // toastify related imports
 import { toast, ToastContainer} from 'react-toastify';
@@ -16,45 +19,63 @@ import { toastStyle } from '../../styles/toastStyle'
 
 
 const HeadBar = () => {
-    const { companyName, companyId } = useContext(proponContext);
+    const [hideMenuAccount, sethideMenuAccount]= useState(false)
+    const { companyName } = useContext(proponContext)
     const { address, isConnected } = useAccount()
+        const { t } = useTranslation('menus');
     const errToasterBox = (msj) => {toast.error(msj, toastStyle) }
     const {disconnect} = useDisconnect()
       
+    useGetCompanyData()  // disable meanwhile testing
 
-      const { data, isError, isLoading } = useContractRead({
-        addressOrName: contractAddress,
-        contractInterface: proponJSONContract.abi,
-        functionName: 'getHunger',
-      })  
-
-      const handleDisconnection = () => {
+    const handleDisconnection = () => {
         disconnect()
       }
 
-useEffect( ()=> {
-    function getComapny() {
-    if (address) {
-        console.log('Checking company data TBD')
-        // ask contract if this address already is a Company Admin and get it
-    }
-    }
-    getComapny()
-},[address, companyId])
+      const handleProfile = () => {
+
+      }
+      const handleDropDownAccount = () => {
+        sethideMenuAccount(!hideMenuAccount)
+      }
+ 
 
 
-    const ShowAccount = (address) => {
+    const ShowAccount = () => {
+        if ( !isConnected  )  return null
         return (
-            <button className="text-orange-400 font-semibold rounded-xl px-2 pb-2
-                    bg-white border-solid border-2 border-orange-200
-                    text-md leading-4 "
-                    onClick={() => handleDisconnection()}>
-                    {address.slice(0,5)}...{address.slice(-6)}
-                    &nbsp;&nbsp;
-                    <span className="mt-2">
-                    <Image  alt="V" src={'/chevrondown.svg'} width={22} height={22}></Image>                
-                    </span>
-            </button>        
+            <div id="show-account" className="flex  mr-8 mb-2">
+                <button className="text-orange-400  rounded-xl px-2 my-4 
+                                    bg-white border-solid border-2 border-orange-200
+                                    text-sm"
+                        onClick={handleDropDownAccount}>
+                        {address.slice(0,5)}...{address.slice(-6)}
+                </button>        
+                <div id="show-account-chevron" className="mt-7 ml-3 hover:cursor-pointer">
+                    <Image 
+                        onClick={handleDropDownAccount}
+                        alt="V" src='/chevrondown.svg' width={22} height={22}>
+                    </Image>                
+                </div>
+                { hideMenuAccount &&
+                    <div id='menuAccount' className="absolute mt-16 ml-8  
+                            flex flex-col bg-slate-200  rounded-2xl text-stone-600
+                            justify-start py-4 px-2 hover:cursor-pointer"
+                    >
+                          <div id="show-account-disconnect-button" 
+                                    className="flex justify-start">
+                            <StatusOfflineIcon className=" h-5 w-5 text-orange-600  mr-1" />
+                            <p className="pr-2" onClick={handleDisconnection}>
+                                {t('disconnectmenu')}
+                            </p>
+                          </div>
+                          <div id="show-account-profile-button" className="flex justify-start">
+                            <BadgeCheckIcon className=" h-5 w-5 text-orange-600 mt-2 mr-1" />
+                            <p className="pt-2" onClick={handleProfile}>{t('profilemenu')}</p>
+                          </div>
+                    </div>
+                }
+            </div>
         )
     }; 
 
@@ -78,23 +99,10 @@ useEffect( ()=> {
             </div>        
             <div className="flex justify-around">
                 <SelectLanguage />
-                <div className="mt-4 mr-8">
-                    { isConnected &&
-                    <button className="text-orange-400 font-semibold rounded-xl px-2 pb-2
-                        bg-white border-solid border-2 border-orange-200
-                        text-md leading-4 "
-                        onClick={() => disconnect()}>
-                        {address.slice(0,5)}...{address.slice(-6)}
-                        &nbsp;&nbsp;
-                        <span className="mt-2">
-                        <Image  alt="V" src={'/chevrondown.svg'} width={22} height={22}></Image>                
-                        </span>
-                    </button>     
-                    }
-            </div>      
+                <ShowAccount  /> 
             </div>
         </div>
-      </nav>
+    </nav>
 )
 }
 

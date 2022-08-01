@@ -1,5 +1,7 @@
 {
     "companies": "entreprises",
-    "rfps":"rfps"
+    "rfps":"rfps",
+    "disconnectmenu":"Déconnecter",
+    "profilemenu":"Profil"
     }
   

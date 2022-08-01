@@ -1,14 +1,19 @@
 {
     "phase1title": "Relier",
     "phase2title": "identifier",
-    "phase3title": "S'inscrire",
+    "phase3title": "Profil",
     "connecttitle": "Connectez votre portefeuille",
     "connectdescription1": "Cette opération ne vous coûtera aucune crypto-monnaie.", 
     "connectdescription2": "Nous avons juste besoin que vous nous donniez la permission de nous connecter au portefeuille.",
     "connectdescription3":"Tant que vous ne vous déconnectez pas, nous vous reconnaîtrons toujours sur cet appareil.",
     "closebutton":"Fermer",
-    "companyessentialdatasaved":"Les données d'identification de l'entreprise ont été publiées sur la Blockchain",    
-     "errors": {
+    "companyessentialdataposted":"⏳ La transaction a été reçue sur la Blockchain, en attente de confirmation. Attendez s'il vous plaît...",
+    "companyessentialdatasaved":" ✅ Les données d'identification de l'entreprise ont été publiées sur la Blockchain",    
+    "signupsuccess":"Les données essentielles de l'entreprise ont été enregistrées dans la blockchai", 
+    "chekhash":"Afficher la transaction dans l'explorateur de Blockchain",
+    "nocompanyIdyet":"Votre compte blockchain n'a pas encore d'entreprise enregistrée",
+    "block":"La transaction a été incluse dans le bloc: ",
+    "errors": {
         "address_already_admin":"Ce compte est déjà administrateur d'une autre entreprise",
         "unknownerror":"Erreur inconnue, essayez plus tard"
     },    

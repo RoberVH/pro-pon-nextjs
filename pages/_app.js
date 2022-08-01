@@ -53,21 +53,23 @@ const client = createClient({
 })
 
 
-
-
 function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   // Variables to hold state through all Pro-pon D'app via proponContext context
   const [companyName, setCompanyName] = useState('')
   const [ companyId, setCompanyId] = useState('')
+  const [ companyData, setCompanyData] = useState('')
+  
 
 
 
 
-  const setcurrentCompanyData = (companyName, companyId) => {
+  const setcurrentCompanyData = (companyName, companyId, companyData={}) => {
     console.log('Voy a setear company name', companyName)
     console.log('Voy a setear companyId', companyId)
+    console.log('Voy a setear companyData', companyData)
     setCompanyName(companyName)
     setCompanyId(companyId)
+    setCompanyData(companyData)
   }
 
   
@@ -81,7 +83,8 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
           setcurrentCompanyData, 
           clearCompany, 
           companyName, 
-          companyId
+          companyId,
+          companyData
       }}>
         <WagmiConfig client={client}>
             <HeadBar isConnected={isConnected} />

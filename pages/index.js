@@ -28,13 +28,11 @@ export default function Home() {
                 >
             </Image>
             </div>
-            <p className="mt-16  text-md text-slate-900 leading-8 font-nunito">
-              <ul className="list-disc ml-4">
-                {
-                t('benefits', { returnObjects: true }).map((benefit)=> <li key={benefit}>{benefit}</li>)
-                }
-              </ul>
-            </p>
+            <ul className="list-disc ml-4 mt-14  text-md text-slate-900 leading-8 font-nunito">
+              {
+              t('benefits', { returnObjects: true }).map((benefit)=> <li key={benefit}>{benefit}</li>)
+              }
+            </ul>
           </div>
       </div>
       <div className=" w-full flex flex-row justify-center bg-blue-200 p-8 mb-16">
@@ -42,13 +40,11 @@ export default function Home() {
         <p className="uppercase text-center font-nunito text-md font-bold text-orange-800 leading-8">
           {t('instructions_title')}
         </p>      
-        <p className="mt-8 font-nunito text-md font-bold text-orange-800 leading-8">
-              <ul className="list-decimal ml-4">
-                {
-                t('instructions', { returnObjects: true }).map((ins)=> <li key={ins}>{ins}</li>)
-                }
-              </ul>
-            </p>
+        <ul className="list-decimal ml-4 mt-8 font-nunito text-md font-bold text-orange-800 leading-8">
+          {
+          t('instructions', { returnObjects: true }).map((ins)=> <li key={ins}>{ins}</li>)
+          }
+        </ul>
         </div>
         <div className="mt-16">
           <Link href="/signup" passHref>
