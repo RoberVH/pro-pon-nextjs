@@ -25,34 +25,41 @@ export default async function handler (req, res) {
       .toArray();
       res.json(companies);
       break
-    case 'POST':
-      try {
-        console.log('companies hit post with req.body: ', req.body)
-        res.status(201).json({ status: true })
-        const {signature,...msg} =req.body
-        console.log('signature',signature)
-        console.log('msg',msg)
-        const account=await verifyMessage(JSON.stringify(msg), signature)
-        console.log('account:', account)
+    // case 'POST':  
+    //   try {
+    //     const {signature,...msg} = req.body
+    //     console.log('req.body',req.body)
+    //     // check the owner of contract has signed this post
+    //     const account=await verifyMessage(JSON.stringify(msg), signature)
+    //     console.log('account:', account)
+    //     // TODO read from contract and verify the address has rights to the record
+    //     if (req.body.profileCompleted) 
+        
 
-        break
-        const companies = await db
-        .collection("companies")
-        .insertOne(req.body)
-        res.status(201).json({ status: true })
-      } catch (error) {
-        console.log('error servercompanies', error)
-        res.status(400).json({ status: false, msg:'Mi errorsotote' })
-      }
-      break
-    case 'PATCH':
+    //     break
+    //     const companies = await db
+    //     .collection("companies")
+    //     .insertOne(req.body)
+    //     res.status(201).json({ status: true })
+    //   } catch (error) {
+    //     console.log('error servercompanies', error)
+    //     res.status(400).json({ status: false, msg:'Mi errorsotote' })
+    //   }
+    //   break
+    case 'PATCH':  //  modify company data
+    console.log('companies hit PATCH with req.body: ', req.body)
+      const {signature,...msg} = req.body
+      const account=await verifyMessage(JSON.stringify(msg), signature)
+      console.log('account:', account)
+      msg.profileCompleted=true
+      console.log('msg', msg)
+      console.log('JSON.stringify(msg)', JSON.stringify(msg))
         try {
-          console.log('companies hit PATCH with req.body: ', req.body)
           const uniqueIdRecord = req.body._id
-          delete req.body._id
+          delete msg._id
           await db
           .collection("companies")
-          .updateOne({_id:ObjectId(uniqueIdRecord)},{$set: req.body}) 
+          .updateOne({_id:ObjectId(uniqueIdRecord)},{$set: msg}) 
           res.status(201).json({ status: true })
         } catch (error) {
           console.log('Error servercompanies', error)

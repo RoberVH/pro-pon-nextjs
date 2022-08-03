@@ -9,27 +9,21 @@ export default async function handler (req, res) {
   switch (method) {
     case 'GET':
       const query={}
-      console.log('query',req.query)
       query['$and']=[]
       const term={}
       const params = req.query
-      console.log('params', params)
       for (const key in params) {
         term[key]=new RegExp('^'+params[key], "i")
-        console.log('term',term)
         query['$and'].push(term)
       }
-      console.log(query)
       const companies = await db
       .collection("companies")
       .findOne(query)
-      console.log('companies', companies)
       if (!companies) {res.status(200).json({}); break}
       res.status(200).json(companies);
       break
     case 'POST':
       try {
-        console.log('companies hit with post and values: ', req.body)
         const companies = await db
         .collection("companies")
         .insertOne(req.body)

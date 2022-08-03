@@ -27,14 +27,14 @@ function Signup() {
   const { t } = useTranslation("signup");
   const { address } = useAccount();
   
-  const {  companyId } = useContext(proponContext);
+  const {  companyData } = useContext(proponContext);
 
   
 /**
  * SignUpStep
  *    Component to present screen according to phase of signup stepper
 */
-  const SignUpStep = ({ phase }) => {
+  const SignUpStep = () => {
     switch (phase) {
       case 1:
         return <ConnectWallet setPhase={setPhase} />;
@@ -60,10 +60,13 @@ function Signup() {
      2 wallet connected present company sign up
      3 company signup present capture data/ modify data screen */
   useEffect(() => {
+    if (companyData && companyData.companyId)
+      { setPhase(3) // let's got to add/modify all data company
+        return
+      }  
     if (address) setPhase(2)    // let's got to registering essential data company
-    if (companyId) setPhase(3)  // let's got to add/modify all data company
     
-  }, [address, companyId]);
+  }, [address, companyData]);
 
   const Sequence= [
     [1, t('phase1title')],
@@ -92,7 +95,7 @@ function Signup() {
             )}
         </div>
         <div id='stepScreen' className="container mx-auto mt-8   ">
-          <SignUpStep phase={phase} />
+        <SignUpStep phase={phase} />
         </div>
       </div>
     </div>

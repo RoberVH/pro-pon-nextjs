@@ -9,7 +9,7 @@ function Menues() {
   const { t } = useTranslation('menus');
 
   return (
-    <div className="text-white text-xl font-extrabold font-khula   uppercase mt-12 ml-16 ">
+    <div className="text-white text-xl font-extrabold font-khula   uppercase mt-12 ml-20 ">
         <Link href="/companies" passHref >
             <label className="mr-8 cursor-pointer  decoration-orange-200 hover:text-slate-300
              duration-300 hover:underline underline-offset-8 hover:transition-opacity  ">

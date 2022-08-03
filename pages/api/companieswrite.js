@@ -2,8 +2,6 @@ import { connectToDatabase } from "../../database/mongodb";
 
 export default async  function handler (req, res)  {
   const { db } = await connectToDatabase();
-  console.log('COMPANIESWRITE called')
-
       try {
         const companies = await db
         .collection("companies")

@@ -13,6 +13,7 @@ import useInputForm from "../../hooks/useInputForm";
 import "react-toastify/dist/ReactToastify.css";
 import { InputCompanyId } from "../input-controls/InputCompanyId";
 import { InputCompanyName } from "../input-controls/InputCompanyName";
+import { saveCompanyID2DB } from '../../database/dbOperations'
 
 
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
@@ -38,19 +39,19 @@ const SignUpCompanyDataForm = ({setPhase}) => {
   const router = useRouter()
  
   const patronobligatorio = new RegExp("^(?!s*$).+");
-  const { setcurrentCompanyData, companyId, CompanyName } = useContext(proponContext);
+  const { setcurrentCompanyData, companyData } = useContext(proponContext);
 
 // Function to display error msg
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
-
+  
   useEffect(()=> {
     // if there is already a company registerd for this account let's go to perfil
-    if (companyId) {
+    if (companyData.companyId) {
       setPhase(3)
     }
-  },[companyId,setPhase])
+  },[companyData.companyId,setPhase])
 
   // Wagmi useContractWrite hook setting & definition
   const { data, isError, isLoading, write } = useContractWrite({
@@ -70,9 +71,6 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     onSuccess(data) {
       toast.success(t('signupsuccess',toastStyleSuccess))
       setHash(data.hash)
-       console.log('Hash seteado:',data.hash)
-      // console.log('recordatodo:',`${data.hash.slice(0,10)}...${data.hash.slice(-11)}`)
-       console.log('link:',`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${data.hash}`)
        setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${data.hash}`)
        setcompanyPosted(true)
     },
@@ -83,7 +81,6 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     contractInterface: proponJSONContract.abi,
     eventName: 'NewCompanyCreated',
     listener: (event) => {
-      console.log(event[3])
       setBlock(event[3].blockNumber)
       setcompanyCreated(true)
     },
@@ -103,9 +100,9 @@ const SignUpCompanyDataForm = ({setPhase}) => {
 
   // End showing this screen, save to context the new created company and advance to
   // next phase (3)
-    const nextPhase = () => {
+    const nextPhase = async () => {
       setcompanyCreated(true)
-      saveContext()
+      await saveCompanyData()
       setPhase(3)
     }
 
@@ -132,8 +129,8 @@ const SignUpCompanyDataForm = ({setPhase}) => {
         t("companyform.companynamerror")
       ))return;
 
-    // validation passed ok, let's save on DB (google sheet)
-    // setSaving(true);
+    // validation passed ok, 
+    // create entry on smart contract
     try {
       await write({
         args: [trimmedValues.companyId,trimmedValues.companyname],
@@ -149,8 +146,14 @@ const SignUpCompanyDataForm = ({setPhase}) => {
 
   
   // Save companyId & companyname to App context
-  const saveContext = (companyId, companyname) => {
-    setcurrentCompanyData(values.companyname.trim(), values.companyId.trim())
+  const saveCompanyData = async () => {
+    const companyID = values.companyId.trim()
+    const companyNAME = values.companyname.trim()
+    setcurrentCompanyData({companyId:companyID, companyname: companyNAME, profileCompleted:false})
+    // company has been created at smart contract, now reflect on Mongo DB
+    // and save the data we already have. Set profileCompleted DB field to false
+    // so user will have to fill that later    
+    await  saveCompanyID2DB(companyID, companyNAME)
   }
 
 // render of Component

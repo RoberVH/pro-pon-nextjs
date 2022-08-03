@@ -24,7 +24,6 @@ import { useEffect } from "react";
 countries.registerLocale(english);
 countries.registerLocale(spanish);
 countries.registerLocale(french);
-import ethers from 'ethers'
 
 
 
@@ -41,38 +40,37 @@ const CompanyDataForm = ({client}) => {
   const { t, i18n } = useTranslation("signup");
   const [saving, setSaving] = useState(false);
   const [countryList, setCountryList] = useState([]);
-  const { companyName, CompanyId, companyData } = useContext(proponContext);
+  const { setcurrentCompanyData, companyData } = useContext(proponContext);
   const { values, handleChange } = useInputForm(companyData);
   const [profileCompleted, setProfileCompleted] = useState(
-    companyData && companyData.profileCompleted
-      ? companyData.profileCompleted
-      : false
+    (companyData && typeof companyData.profileCompleted!=='undefined')
+        ? companyData.profileCompleted
+        : false
   );
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
-
   const recoveredAddress = useRef()
   const { data, error, isLoading, signMessage } = useSignMessage({
     //message:'Firme este mensaje para probar que desea hacer esta operacion. No se preocupe, no constará nada ' + nonce,
-    onSuccess(data, variables) {
+    async onSuccess (data, variables) {
       // Verify signature when sign message succeeds
       //const address = verifyMessage(variables.message, data)
-      console.log("data", data);
-      console.log("variables", variables.message);
-      verifyData_Save(variables.message,data)
+      console.log('variables.message, data',variables.message, data)
+      if (await verifyData_Save(variables.message,data)) setcurrentCompanyData(data)
       
     },
   });
 
   useEffect(() => {
-    if (!companyId) {
+    if (!companyData.companyId) {
       errToasterBox(t("nocompanyIdyet"), {
         ...{ autoClose: false },
         toastStyle,
       });
     }
   }, []);
+
 
   useEffect(() => {
     function changeLanguage() {
@@ -149,38 +147,27 @@ const CompanyDataForm = ({client}) => {
     //   errToasterBox(t("companyform.countryerror"));
     //   return;
     // }
-    // validation passed ok, let's save on DB (google sheet)
-    //const nonce= await client
-    //console.log('client, ', )
-   // console.log('nonce, ', nonce)
-    //setSaving(true);
-    //Make sure user has rights to modify company
-    // get nonce to sign:
-
+    
     // Display modal to show & ask to sign message
     const message = JSON.stringify(trimmedValues )
-    // console.log('message', message)
-    // console.log('{message}', {message})
     await signMessage({message})
-    
-    return
-    let method = "POST";
-    if (profileCompleted) method = "PATCH";
-    try {
-      const response = await fetch("/api/servercompanies", {
-        method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(trimmedValues),
-      });
-      const resp = await response.json();
-      if (resp.status) toast.success(t("successsaving"), toastStyle);
-      return;
-    } catch (error) {
-      console.log("Error del server:", error);
-      errToasterBox(error, toastStyle);
-    } finally {
-      setSaving(false);
-    }
+    // let method = "POST";
+    // if (profileCompleted) method = "PATCH";
+    // try {
+    //   const response = await fetch("/api/servercompanies", {
+    //     method: method,
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(trimmedValues),
+    //   });
+    //   const resp = await response.json();
+    //   if (resp.status) toast.success(t("successsaving"), toastStyle);
+    //   return;
+    // } catch (error) {
+    //   console.log("Error del server:", error);
+    //   errToasterBox(error, toastStyle);
+    // } finally {
+    //   setSaving(false);
+    // }
   };
 
   const inputclasses =
@@ -224,7 +211,7 @@ const CompanyDataForm = ({client}) => {
             inputclasses={inputclasses}
             values={values}
             placeholder={`${t("companyform.companyId")}*`}
-            disable={profileCompleted}
+            disable={true}
           />
         </div>
         <div className=" w-[80%] relative mb-4">
@@ -233,7 +220,7 @@ const CompanyDataForm = ({client}) => {
             inputclasses={inputclasses}
             values={values}
             placeholder={`${t("companyform.companyname")}*`}
-            disable={profileCompleted}
+            disable={true}
           />
         </div>
         <div className="w-[80%] relative mb-4">
@@ -270,12 +257,12 @@ const CompanyDataForm = ({client}) => {
                     text-gray-500 font-khula "
             onChange={handleChange}
             id={"country"}
-            defaultValue={"default"}
+            defaultValue={profileCompleted ? companyData.country: "default"}
           >
-            <option value={"default"} disabled>
+            <option value={"default"} >
               {!profileCompleted
                 ? `${t("companyform.country")}*`
-                : values.country}
+                : companyData.country}
             </option>
             {countryList.map((country, index) => (
               <option key={index} value={country}>
