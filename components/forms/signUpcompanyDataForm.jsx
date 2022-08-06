@@ -13,7 +13,7 @@ import useInputForm from "../../hooks/useInputForm";
 import "react-toastify/dist/ReactToastify.css";
 import { InputCompanyId } from "../input-controls/InputCompanyId";
 import { InputCompanyName } from "../input-controls/InputCompanyName";
-import { saveCompanyID2DB } from '../../database/dbOperations'
+import { saveCompanyID2DB, getCompanydataDB } from '../../database/dbOperations'
 
 
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
@@ -80,8 +80,12 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     addressOrName: contractAddress,
     contractInterface: proponJSONContract.abi,
     eventName: 'NewCompanyCreated',
-    listener: (event) => {
+    listener: async (event) => {
       setBlock(event[3].blockNumber)
+      await saveCompanyData()
+      const company= await getCompanydataDB(values.companyId.trim())
+      console.log('company',company)
+      setcurrentCompanyData(company)
       setcompanyCreated(true)
     },
     once: true
@@ -102,7 +106,7 @@ const SignUpCompanyDataForm = ({setPhase}) => {
   // next phase (3)
     const nextPhase = async () => {
       setcompanyCreated(true)
-      await saveCompanyData()
+      //await saveCompanyData()
       setPhase(3)
     }
 

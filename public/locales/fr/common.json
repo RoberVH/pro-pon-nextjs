@@ -6,6 +6,7 @@
     "explanation1":"Connectez votre portefeuille pour créer un profil pour votre entreprise et commencez à publier vos appels d'offres sur Blockchain",
    "connect_wallet":"Se connecter",
    "noresults":"Aucun résultat",
+   "notconnected":"portefeuille non connecté",
    "benefits": [
     "Des vendeurs partout dans le monde",
     "Les documents de proposition sont électroniques et signés cryptographiquement",

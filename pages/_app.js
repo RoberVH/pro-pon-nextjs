@@ -62,7 +62,6 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
 
 
   const setcurrentCompanyData = (companyData={}) => {
-    console.log('Voy a setear companyData', companyData)
     setCompanyData(companyData)
   }
 

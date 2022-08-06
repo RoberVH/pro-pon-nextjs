@@ -2,6 +2,8 @@
     "companies": "entreprises",
     "rfps":"rfps",
     "disconnectmenu":"Déconnecter",
-    "profilemenu":"Profil"
+    "profilemenu":"Profil",
+    "rfpcreate": "Créer",
+    "rfpsearch": "Chercher"
     }
   

@@ -7,7 +7,9 @@ import english from "i18n-iso-countries/langs/en.json";
 import spanish from "i18n-iso-countries/langs/es.json";
 import french from "i18n-iso-countries/langs/fr.json";
 
-import { toastStyle } from "../../styles/toastStyle";
+import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
+import  { getCompanydataDB } from '../../database/dbOperations'
+
 import { toast } from "react-toastify";
 import useInputForm from "../../hooks/useInputForm";
 import "react-toastify/dist/ReactToastify.css";
@@ -56,21 +58,14 @@ const CompanyDataForm = ({client}) => {
     async onSuccess (data, variables) {
       // Verify signature when sign message succeeds
       //const address = verifyMessage(variables.message, data)
-      console.log('variables.message, data',variables.message, data)
-      if (await verifyData_Save(variables.message,data)) setcurrentCompanyData(data)
-      
+      const result = await verifyData_Save(variables.message,data)
+      if (result.status ) {
+        toast.success(t('companydataadded',toastStyleSuccess))
+        setcurrentCompanyData(data)
+      } else
+      errToasterBox(result.message);
     },
   });
-
-  useEffect(() => {
-    if (!companyData.companyId) {
-      errToasterBox(t("nocompanyIdyet"), {
-        ...{ autoClose: false },
-        toastStyle,
-      });
-    }
-  }, []);
-
 
   useEffect(() => {
     function changeLanguage() {
@@ -104,70 +99,53 @@ const CompanyDataForm = ({client}) => {
         trimmedValues[key] = (typeof value !== "undefined" ? value : "").trim();
       else trimmedValues[key] = value;
     }
-    // if (
-    //   !validate(
-    //     patronobligatorio,
-    //     trimmedValues.adminname,
-    //     t("companyform.nameerror")
-    //   )
-    // )
-    //   return;
-    // if (
-    //   !validate(
-    //     patronobligatorio,
-    //     trimmedValues.companyname,
-    //     t("companyform.companynamerror")
-    //   )
-    // )
-    //   return;
-    // if (
-    //   !validate(
-    //     patronobligatorio,
-    //     trimmedValues.companyId,
-    //     t("companyform.companyIDerror")
-    //   )
-    // )
-    //   return;
-    // if (
-    //   !validate(patronemail, trimmedValues.email, t("companyform.emailerror"))
-    // )
-    //   return;
-    // if (
-    //   !validate(
-    //     patronwebsite,
-    //     trimmedValues.website,
-    //     t("companyform.websiteerror")
-    //   )
-    // )
-    //   return;
-    // if (
-    //   typeof trimmedValues.country === "undefined" ||
-    //   trimmedValues.country.length === 0
-    // ) {
-    //   errToasterBox(t("companyform.countryerror"));
-    //   return;
-    // }
+    if (
+      !validate(
+        patronobligatorio,
+        trimmedValues.adminname,
+        t("companyform.nameerror")
+      )
+    )
+      return;
+    if (
+      !validate(
+        patronobligatorio,
+        trimmedValues.companyname,
+        t("companyform.companynamerror")
+      )
+    )
+      return;
+    if (
+      !validate(
+        patronobligatorio,
+        trimmedValues.companyId,
+        t("companyform.companyIDerror")
+      )
+    )
+      return;
+    if (
+      !validate(patronemail, trimmedValues.email, t("companyform.emailerror"))
+    )
+      return;
+    if (
+      !validate(
+        patronwebsite,
+        trimmedValues.website,
+        t("companyform.websiteerror")
+      )
+    )
+      return;
+    if (
+      typeof trimmedValues.country === "undefined" ||
+      trimmedValues.country.length === 0
+    ) {
+      errToasterBox(t("companyform.countryerror"));
+      return;
+    }
     
     // Display modal to show & ask to sign message
     const message = JSON.stringify(trimmedValues )
     await signMessage({message})
-    // let method = "POST";
-    // if (profileCompleted) method = "PATCH";
-    // try {
-    //   const response = await fetch("/api/servercompanies", {
-    //     method: method,
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(trimmedValues),
-    //   });
-    //   const resp = await response.json();
-    //   if (resp.status) toast.success(t("successsaving"), toastStyle);
-    //   return;
-    // } catch (error) {
-    //   console.log("Error del server:", error);
-    //   errToasterBox(error, toastStyle);
-    // } finally {
-    //   setSaving(false);
-    // }
   };
 
   const inputclasses =
@@ -254,7 +232,7 @@ const CompanyDataForm = ({client}) => {
             className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
                     border border-solid border-gray-300 outline-none rounded transition ease-in-out
                     m-0 border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
-                    text-gray-500 font-khula "
+                    text-black  font-khula "
             onChange={handleChange}
             id={"country"}
             defaultValue={profileCompleted ? companyData.country: "default"}

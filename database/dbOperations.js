@@ -23,13 +23,12 @@ export const verifyData_Save = async (message, signature) => {
         body: JSON.stringify(webload),
       });
       const resp = await response.json();
-
-     // if (resp.status) toast.success(t("successsaving"), toastStyle);
-      return true;
+      console.log('Resp del server:', resp)
+      if (resp.status) return {status:true}
+        else return {status:false, message: resp.message}
     } catch (error) {
-      console.log("Error del server:", error);
-      errToasterBox(error, toastStyle);
-      return false
+      console.log("Error del server:", error.message);
+      return {status:false, message: error.message}
     } 
   };
 
@@ -50,3 +49,22 @@ export const verifyData_Save = async (message, signature) => {
       errToasterBox(error, toastStyle);
     } 
   }
+
+    // Create company RFP at  database
+    export const saveRFP2DB = async (rfpParams) => {
+      let method = "POST";
+      console.log('saveRFP2DB params:',rfpParams)
+      //const webload= rfpParams
+      try {
+        const response = await fetch("/api/serverrfp", {
+          method: method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(rfpParams),
+        });
+        const resp = await response.json();
+        return;
+      } catch (error) {
+        console.log("Error del server:", error);
+        errToasterBox(error, toastStyle);
+      } 
+    }

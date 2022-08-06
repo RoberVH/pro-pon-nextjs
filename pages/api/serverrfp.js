@@ -7,7 +7,6 @@ export default async function handler (req, res) {
   const { db } = await connectToDatabase();
   const { method } = req
   
-  const companiesDB = await db
   switch (method) {
     case 'GET':
       const query={}
@@ -18,17 +17,28 @@ export default async function handler (req, res) {
         term[key]=new RegExp('^'+params[key], "i")
         query['$and'].push(term)
       }
-      const companies = await db
-      .collection("companies")
-      .find(query)
-      .sort({ metacritic: -1 })
-      .limit(20)
-      .toArray();
-      res.json(companies);
+      console.log('serverrfps',query )
+      const rfps = await db
+        .collection("rfps")
+        .find(query)
+        .sort({ metacritic: -1 })
+        .limit(20)
+        .toArray();
+      res.status(200).json(rfps);
       break
-    case 'PATCH':  //  modify company data
+    case 'POST':  //  post one rfp data
+            try {
+          await db
+          .collection("rfps")
+          .insertOne(req.body)
+          res.status(201).json({ status: true })
+        } catch (error) {
+          console.log('Error serverrfp', error)
+          res.status(400).json({ status: false, msg:'Mi errorsotote' })
+        }
+        break      
+    case 'PATCH':  //  modify rfp data
       const {signature,...msg} = req.body
-      console.log('params',req.body)
       const account=await verifyMessage(JSON.stringify(msg), signature)
       if ( !accountHasRigths(account, msg.companyId)) {
           res.status(400).json({ status: false, 

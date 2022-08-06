@@ -1,5 +1,6 @@
  import { useState, useContext } from 'react'
-import { useAccount, useContractRead, useDisconnect } from 'wagmi'
+import { useAccount,useDisconnect } from 'wagmi'
+import { useGetCompanyDataId } from '../../hooks/useGetCompanyData'
 import  { getCompanydataDB } from '../../database/dbOperations'
 import { useTranslation } from "next-i18next"
 import Link from 'next/link'
@@ -11,15 +12,15 @@ import { proponContext } from '../../utils/pro-poncontext'
 import { BadgeCheckIcon } from '@heroicons/react/outline'
 import { StatusOfflineIcon } from '@heroicons/react/outline'
 
-import { contractAddress } from '../../utils/proponcontractAddress'
-import proponJSONContract from '../../utils/pro_pon.json'
-import { proponChainId  } from '../../utils/constants'
+// import { contractAddress } from '../../utils/proponcontractAddress'
+// import proponJSONContract from '../../utils/pro_pon.json'
+// import { proponChainId  } from '../../utils/constants'
 
 
 // toastify related imports
 import { toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { toastStyle } from '../../styles/toastStyle'
+//import { toastStyle } from '../../styles/toastStyle'
 import { useEffect } from 'react'
 
 
@@ -30,23 +31,12 @@ const HeadBar = () => {
     const { companyData, setcurrentCompanyData, clearCompany  } = useContext(proponContext)
     const { address, isConnected } = useAccount()
     const { t } = useTranslation('menus');
-    const errToasterBox = (msj) => {toast.error(msj, toastStyle) }
+    //const errToasterBox = (msj) => {toast.error(msj, toastStyle) }
     const {disconnect} = useDisconnect()
     const router = useRouter()
 
-    const { data } = useContractRead({
-        addressOrName: contractAddress,
-        contractInterface:  proponJSONContract.abi,
-        chainId: proponChainId,
-        functionName: 'getCompany',
-        args:(address ? address.toLowerCase(): address),
-        enabled: Boolean(typeof address !== 'undefined' ),
-        onError(error) {
-            if (error.message.includes('missing argument')) return
-            console.log('Error!', error.message)
-          },
-    })
-  
+    const  data  = useGetCompanyDataId(address)
+
     const getCompany = async (id) => {
         const result = await  getCompanydataDB(data.id)
         setcurrentCompanyData(result)

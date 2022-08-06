@@ -1,9 +1,9 @@
 {   "titlescreen": "Entreprises",
     "adminname": "Nom de l'administrateur",
-    "companyid": "Identifiant de l'entreprise",
+    "companyId": "Identifiant de l'entreprise",
     "companyname": "Nom de l'entreprise",
     "email": "E-mail",
     "website": "Site Web",
     "country": "Pays",
-    "noresults":"Il n'y a aucune entreprise à afficher"
+    "noresults":"Aucun résultat"    
 }

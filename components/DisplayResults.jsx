@@ -1,8 +1,12 @@
 import React from 'react'
 import { useTranslation } from "next-i18next";
+import { convDate } from '../utils/misc.js'
 
-function DisplayResults({fields,results, actions}) {
-  const { t } = useTranslation("companies");
+
+function DisplayResults({fields,results, actions, t}) {
+//  const { t } = useTranslation("companies");
+console.log('results', results)
+console.log('fields', fields)
   const numCols=fields.length
   if (!results.length) return 
       <div className="text-red-600 font-xl">
@@ -21,14 +25,14 @@ function DisplayResults({fields,results, actions}) {
          </thead>
          <tbody className="bg-slate-200">
             {
-              results.map(cia =>
-              <tr key={cia._id} className="text-stone-600 font-khula font-bold">
-                  <td className="p-2 ">{cia[fields[0].fieldName]}</td>
-                  <td>{cia[fields[1].fieldName]}</td>
-                  <td>{cia[fields[2].fieldName]}</td>
-                  <td>{cia[fields[3].fieldName]}</td>
-                  <td>{cia[fields[4].fieldName]}</td>
-                  <td>{cia[fields[5].fieldName]}</td>
+              results.map(elem =>
+              <tr key={elem._id} className="text-stone-600 font-khula font-bold">
+                  <td className="p-2 ">{elem[fields[0].fieldName]}</td>
+                  <td>{elem[fields[1].fieldName]}</td>
+                  <td>{elem[fields[2].fieldName]}</td>
+                  <td>{elem[fields[3].date] ? convDate(elem[fields[3].fieldName]) : elem[fields[3].fieldName]}</td>
+                  <td>{elem[fields[4].date] ? convDate(elem[fields[4].fieldName]) : elem[fields[4].fieldName]}</td>
+                  <td>{elem[fields[5].date] ? convDate(elem[fields[5].fieldName]) : elem[fields[5].fieldName]}</td>
               </tr>
                   )}
           </tbody>

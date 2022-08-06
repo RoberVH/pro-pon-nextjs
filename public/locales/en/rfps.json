@@ -1,0 +1,32 @@
+{
+    "onlyregisteredtoRFP":"Sorry, Only registered companies can create an RFP",
+    "recresrfpdata":"Record RFP data (allow at least a day between datelines)",
+    "savebutton":"Save",
+    "cancelbutton": "Cancel",
+    "savingstate": " Saving...",
+    "closebutton":"Close",
+    "rfpform": {
+        "name":"Request for Proposal name",
+        "openDate":"Start Date to receive proposals",
+        "endReceivingDate":"End Date to receive proposals",
+        "endDate":"Date to issue decision",
+        "namerror":"Wrong RFP name",
+        "opendateerror":"Wrong Open Date",
+        "endrecerror":"Wrong End Receiving Date",
+        "enddateerror":"Wrong End Date",
+        "datesnosequencial":"Dates are not in sequential order"
+    },
+    "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network",
+    "rfpessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Wait please...",
+    "chekhash":"View transaction in the Blockchain Explorer",
+    "block":"This transaction has been included into Block: ",
+    "rfpessentialdatasaved":"Company Identification data has been posted to Blockchain",
+    "titlescreen":"Request for Proposals (RFP)",
+    "name": "RFP  Name",
+    "companyId":"Company Id",
+    "companyname":"Company Name",
+    "openDate":"Start Date",
+    "endReceivingDate":"End Date",
+    "endDate":"Decision Date",
+    "noresults":"No results"
+}

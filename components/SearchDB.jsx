@@ -3,9 +3,9 @@ import { useEffect } from 'react'
 import useInputForm from '../hooks/useInputForm'
 import { useTranslation } from "next-i18next";
 
-function SearchDB({ fields, path,  setResults, setWait, setError}) {
+function SearchDB({ fields, path,  setResults, setWait, setError, t}) {
   const {  values, handleChange} = useInputForm();
-  const { t } = useTranslation("companies");
+  
   
   const getResults = async (values) => {
     for (const key in values) {

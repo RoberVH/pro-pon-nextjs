@@ -1,9 +1,9 @@
 {   "titlescreen":"Companies",
     "adminname": "Admin Name",
-    "companyid":"Company Id",
+    "companyId":"Company Id",
     "companyname":"Company Name",
     "email":"Email",
     "website":"Web Site",
     "country":"Country",
-    "noresults":"There are no companies to show"
+    "noresults":"No results"
 }
