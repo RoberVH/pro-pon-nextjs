@@ -62,7 +62,6 @@ const RFPDataForm = () => {
   },[errorwriting])
 
   
-//const     writer =  useWriteRFP(setPostedHash, setError)
 
 const { write, error } = useContractWrite({
   addressOrName: ContractConfig.addressOrName,
