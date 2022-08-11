@@ -5,7 +5,7 @@ import { proponContext } from '../utils/pro-poncontext'
 import  RFPDataForm  from '../components/forms/rfpDataForm'
 
 import { useRouter } from "next/router";
-import  Spinner  from '../components/layouts/Spinner'
+import  { useAccount }  from 'wagmi'
 import { SearchIcon } from "@heroicons/react/outline";
 import DisplayResults from "../components/DisplayResults";
 import SearchDB from "../components/SearchDB";
@@ -20,6 +20,7 @@ function Createrfps() {
   const { locale,pathname, query, asPath   } = useRouter();
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
+  const { isConnected } = useAccount()
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
@@ -27,6 +28,7 @@ function Createrfps() {
 
 
   const router = useRouter()
+  
   const { t } = useTranslation(["rfps", "common"]);
 
   useEffect(()=>{
@@ -39,12 +41,20 @@ function Createrfps() {
       return (
         <div className="text-center  mt-12 text-2xl text-red-600 ">
           <h1 className="mx-auto w-[45%] bg-yellow-200 py-4 rounded-2xl">
-          👆 {t('onlyregisteredtoRFP',{ns:"createrfps"})}
+          👆 {t('onlyregisteredtoRFP',{ns:"rfps"})}
           </h1>
         </div>
     )
   // Logged In, display create RFP screen
-  } else return (
+  }  else if (!isConnected) {
+    return (
+      <div className="text-center  mt-12 text-2xl text-red-600 ">
+        <h1 className="mx-auto w-[45%] bg-yellow-200 py-4 rounded-2xl">
+        👆 {t('notconnected',{ns:"common"})}
+        </h1>
+      </div>
+    )
+  }  else return (
     <div id="createrfps" className="md:mt-8 sm:mt-4">
       <RFPDataForm  />
     </div>

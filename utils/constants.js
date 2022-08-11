@@ -1,5 +1,3 @@
-export const proponChainId= 80001         // Polygon Mumbai
-//export const proponChainId=process.env.NODE_ENV==='development' ? 80001:137         // Polygon Mumbai
 
 // all errors labels coming from prop-pon smart contract
 export const errorSmartContract = [

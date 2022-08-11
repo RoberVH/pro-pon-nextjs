@@ -30,7 +30,7 @@ const HeadBar = () => {
     const [hideMenuAccount, sethideMenuAccount]= useState(false)
     const { companyData, setcurrentCompanyData, clearCompany  } = useContext(proponContext)
     const { address, isConnected } = useAccount()
-    const { t } = useTranslation('menus');
+    const { t } = useTranslation('menus', 'common');
     //const errToasterBox = (msj) => {toast.error(msj, toastStyle) }
     const {disconnect} = useDisconnect()
     const router = useRouter()
@@ -50,6 +50,9 @@ useEffect(()=>{
 }, [data])
 
 
+    const handleConnect =() => {
+        router.push('/connectwallet')
+    }
     const handleDisconnection = () => {
         disconnect()
       }
@@ -64,7 +67,20 @@ useEffect(()=>{
 
 
     const ShowAccount = () => {
-        if ( !isConnected  )  return null
+        if ( !isConnected  ) 
+             return (
+                <div>
+                    <button className="mt-4 p-2 mr-4 font-khula font-black text-sm uppercase 
+                text-white bg-orange-600 rounded-xl  drop-shadow-lg  
+                bg-gradient-to-r from-orange-500  to-red-500 
+                hover:border-2 hover:shadow-md 
+                hover:bg-stone-600
+                active:ring-4"
+                onClick={handleConnect}>
+                
+                        {t('connect_wallet',{ns:'common'})}
+                    </button>
+                </div>)
         return (
             <div id="show-account" className="flex  mr-8 mb-2">
                 <button className="text-orange-400  rounded-xl px-2 my-4 
@@ -82,19 +98,17 @@ useEffect(()=>{
                 { hideMenuAccount &&
                     <div id='menuAccount' className="absolute mt-16 ml-8  
                             flex flex-col bg-slate-200  rounded-2xl text-stone-600
-                            justify-start py-4 px-2 hover:cursor-pointer"
-                    >
-                          <div id="show-account-profile-button" className="flex justify-start">
+                            justify-start py-4 px-2 hover:cursor-pointer">
+                        <div id="show-account-profile-button" className="flex justify-start">
                             <BadgeCheckIcon className=" h-5 w-5 text-orange-600 mt-2 mr-1" />
                             <p className="pt-2" onClick={handleProfile}>{t('profilemenu')}</p>
-                          </div>
-                          <div id="show-account-disconnect-button" 
-                                    className="flex justify-start">
+                        </div>
+                        <div id="show-account-disconnect-button"  className="flex justify-start">
                             <StatusOfflineIcon className=" h-5 w-5 text-orange-600  mr-1" />
                             <p className="pr-2" onClick={handleDisconnection}>
                                 {t('disconnectmenu')}
                             </p>
-                          </div>
+                        </div>
                     </div>
                 }
             </div>

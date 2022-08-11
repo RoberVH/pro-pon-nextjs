@@ -8,7 +8,6 @@ import spanish from "i18n-iso-countries/langs/es.json";
 import french from "i18n-iso-countries/langs/fr.json";
 
 import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
-import  { getCompanydataDB } from '../../database/dbOperations'
 
 import { toast } from "react-toastify";
 import useInputForm from "../../hooks/useInputForm";

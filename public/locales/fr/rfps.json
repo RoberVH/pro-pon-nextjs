@@ -4,6 +4,7 @@
     "savebutton":"Sauvegarder",
     "cancelbutton": "Annuler",
     "savingstate": " Enregistrement...",
+    "editrfp":"modifier RFP",
     "closebutton":"Fermer",
     "rfpform": {
         "name":"Nom de la demande de propositions (RFP)",
@@ -24,6 +25,8 @@
     "openDate":"D. Initiale",
     "endReceivingDate":"D. finale",
     "endDate":"D. décision",
+    "initialdate":"Après ou le",
+    "finaldate":"Avant ou le", 
     "noresults":"Aucun résultat"
     
 }

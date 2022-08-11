@@ -2,6 +2,7 @@
 export const  getCompanydataDB = async (companyId) =>  {
   const params=new URLSearchParams({companyId:companyId})
   const url=`/api/readonecompany?${params}`
+  console.log('DB URL getCompanydataDB:', url)
   try {
         const response = await fetch(url);
         const data = await response.json();
@@ -62,9 +63,12 @@ export const verifyData_Save = async (message, signature) => {
           body: JSON.stringify(rfpParams),
         });
         const resp = await response.json();
-        return;
+        console.log('resp dbOp',resp)
+        return resp;
       } catch (error) {
         console.log("Error del server:", error);
         errToasterBox(error, toastStyle);
       } 
     }
+
+ 

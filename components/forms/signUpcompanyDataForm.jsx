@@ -2,10 +2,9 @@ import { useState, useContext, useEffect} from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useContractWrite, useContractEvent } from 'wagmi'
-import { contractAddress } from '../../utils/proponcontractAddress'
+import { ContractConfig } from '../../web3/contractsettings'
 import { ethers } from 'ethers'
-import proponJSONContract from '../../utils/pro_pon.json'
-import { proponChainId, errorCatalog  } from '../../utils/constants'
+import {  errorCatalog  } from '../../utils/constants'
 import { proponContext } from '../../utils/pro-poncontext'
 import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
 import { toast } from "react-toastify";
@@ -55,9 +54,9 @@ const SignUpCompanyDataForm = ({setPhase}) => {
 
   // Wagmi useContractWrite hook setting & definition
   const { data, isError, isLoading, write } = useContractWrite({
-    addressOrName: contractAddress,
-    chainId: proponChainId,
-    contractInterface: proponJSONContract.abi,    
+    addressOrName: ContractConfig.addressOrName,
+    contractInterface:  ContractConfig.contractInterface,
+    chainId: ContractConfig.chainId,   
     functionName: 'createCompany',
     onError(error) {
       let customError='unknownerror'
@@ -77,8 +76,8 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     })
 
     useContractEvent({
-    addressOrName: contractAddress,
-    contractInterface: proponJSONContract.abi,
+      addressOrName: ContractConfig.addressOrName,
+      contractInterface:  ContractConfig.contractInterface,
     eventName: 'NewCompanyCreated',
     listener: async (event) => {
       setBlock(event[3].blockNumber)

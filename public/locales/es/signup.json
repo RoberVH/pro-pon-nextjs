@@ -38,5 +38,6 @@
     "savingstate": " Guardando...",
     "successsaving": "Datos de Compañía salvados",
     "recordingcompanylegend":"Se creará un registro de su compañia asociada a su cuenta de Blockchain, a la que se asignarán privilegios de adminstrador",
-    "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red"
+    "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red",
+    "companydataadded":"Datos registrados con éxito"
 }

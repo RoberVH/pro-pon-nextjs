@@ -2,7 +2,7 @@ import { useState, useContext, useEffect} from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useContractEvent, useContractWrite } from 'wagmi'
-import { ContractConfig } from '../../utils/contractsettings'
+import { ContractConfig } from '../../web3/contractsettings'
 import { saveRFP2DB } from '../../database/dbOperations'
 import { proponContext } from '../../utils/pro-poncontext'
 import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
@@ -42,7 +42,7 @@ const RFPDataForm = () => {
   const [rfpCreated, setrfpCreated] = useState(false)
   const [errorwriting, setError] = useState()
   const [rfpParams, setRpParams] = useState()
-  
+  const [rfpId, setRFPId] = useState()
 
   const { values, handleChange } = useInputForm()
   const router = useRouter()
@@ -76,10 +76,16 @@ const { write, error } = useContractWrite({
     addressOrName: ContractConfig.addressOrName,
     contractInterface:  ContractConfig.contractInterface,
     eventName: 'NewRFPCreated',
-    listener: (event) => {
+    listener: async (event) => {
       setBlock(event[3].blockNumber)
-      saveRFP2DB (rfpParams)  
-      setrfpCreated(true)
+      const resp= await saveRFP2DB (rfpParams)  
+      if (resp.status) {
+        console.log('resp en useContracEvent', resp)
+        setRFPId(resp._id)  // MongoDB _id field of RFP just created
+        setrfpCreated(true)
+      } else {
+        setError(resp.msg)
+      }
     },
     once: true
   })
@@ -112,13 +118,21 @@ const { write, error } = useContractWrite({
         const dateUnix = convertDate2UnixEpoch(value)
         return [dateUnix, true]
       }
-
     }
         
   // handleCacel Drop form and go back to root address
   const handleCancel = () => {
     router.push({pathname: '/'})
   }
+
+  // handleCacel Drop form and go back to root address
+  const handleEditRFP = () => {
+    console.log('handleEdit',rfpId)
+    console.log('ir a: ', `/homerfp/${rfpId}`)
+
+    router.push(`/homerfp/${rfpId}`)
+  }
+
 
   // handleSave -  call Validate fields & if ok send transaction to blockchain
   const handleSave = async () => {
@@ -288,12 +302,17 @@ const { write, error } = useContractWrite({
                     <p>{t('rfpessentialdatasaved')} </p> 
                       <div className="flex justify-center">
                           <button 
-                          className="main-btn mt-8"
+                          className="main-btn mr-8 mt-8"
+                          onClick={handleEditRFP}>
+                            {t('editrfp')}
+                          </button>
+                          <button 
+                          className="main-btn ml-8 mt-8"
                           onClick={handleCancel}>
                             {t('closebutton')}
-                          </button>
+                          </button>                          
                         </div>
-                </div>
+              </div>
           }
         </div>
       </div>}

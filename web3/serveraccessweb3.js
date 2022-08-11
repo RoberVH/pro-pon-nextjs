@@ -1,5 +1,5 @@
 import  { ethers }  from "ethers"
-import { ContractConfig } from '../utils/contractsettings'
+import { ContractConfig } from './contractsettings'
 
 
 

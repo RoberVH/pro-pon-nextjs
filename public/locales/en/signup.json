@@ -38,5 +38,6 @@
     "savingstate": " Saving...",
     "successsaving": "Company Data saved",
     "recordingcompanylegend":"A record of your company will be created associated with your Blockchain account, which will be assigned administrator privileges",
-    "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network"
+    "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network",
+    "companydataadded":"Data succesfully recorded"
 }

@@ -37,7 +37,7 @@ function Signup() {
   const SignUpStep = () => {
     switch (phase) {
       case 1:
-        return <ConnectWallet setPhase={setPhase} />;
+        return <ConnectWallet  />;
       case 2:
         return (
           <div id ="signupcompanydatadadhost" className="flex justify-center">

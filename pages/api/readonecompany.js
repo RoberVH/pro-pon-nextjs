@@ -4,7 +4,7 @@ export default async function handler (req, res) {
   const { db } = await connectToDatabase();
   const { method } = req
   
-  // Find just the one company described in the params, mainly companyid
+  // Find just the one company described in the params 
   const companiesDB = await db
   switch (method) {
     case 'GET':

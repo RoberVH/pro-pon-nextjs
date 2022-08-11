@@ -1,5 +1,5 @@
 import { useContractRead } from 'wagmi'
-import { ContractConfig } from '../utils/contractsettings'
+import { ContractConfig } from '../web3/contractsettings'
 
 export const useGetCompanyDataId = (address) => {
     const { data } = useContractRead({

@@ -30,9 +30,9 @@ console.log('fields', fields)
                   <td className="p-2 ">{elem[fields[0].fieldName]}</td>
                   <td>{elem[fields[1].fieldName]}</td>
                   <td>{elem[fields[2].fieldName]}</td>
-                  <td>{elem[fields[3].date] ? convDate(elem[fields[3].fieldName]) : elem[fields[3].fieldName]}</td>
-                  <td>{elem[fields[4].date] ? convDate(elem[fields[4].fieldName]) : elem[fields[4].fieldName]}</td>
-                  <td>{elem[fields[5].date] ? convDate(elem[fields[5].fieldName]) : elem[fields[5].fieldName]}</td>
+                  <td>{fields[3].date ? convDate(elem[fields[3].fieldName]) : elem[fields[3].fieldName]}</td>
+                  <td>{fields[4].date ? convDate(elem[fields[4].fieldName]) : elem[fields[4].fieldName]}</td>
+                  <td>{fields[5].date ? convDate(elem[fields[5].fieldName]) : elem[fields[5].fieldName]}</td>
               </tr>
                   )}
           </tbody>

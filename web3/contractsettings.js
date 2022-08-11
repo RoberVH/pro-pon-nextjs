@@ -1,6 +1,10 @@
 import { contractAddress } from './proponcontractAddress'
 import proponJSONContract from './pro_pon.json'
-import { proponChainId  } from './constants'
+
+
+const proponChainId= 80001         // Polygon Mumbai
+// const proponChainId=137         // Polygon Mumbai
+
 
 export const ContractConfig = {
     addressOrName: contractAddress,

@@ -2,6 +2,7 @@ import { connectToDatabase } from "../../database/mongodb";
 import  { ObjectId } from 'mongodb'
 import { verifyMessage } from 'ethers/lib/utils'
 import { accountHasRigths } from '../../web3/serveraccessweb3'
+import { buildQuery } from '../../database/serverDBUtils'
 
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();
@@ -9,15 +10,7 @@ export default async function handler (req, res) {
   
   switch (method) {
     case 'GET':
-      const query={}
-      query['$and']=[]
-      const term={}
-      const params = req.query
-      for (const key in params) {
-        term[key]=new RegExp('^'+params[key], "i")
-        query['$and'].push(term)
-      }
-      console.log('serverrfps',query )
+      const query = buildQuery(req.query)
       const rfps = await db
         .collection("rfps")
         .find(query)
@@ -28,13 +21,17 @@ export default async function handler (req, res) {
       break
     case 'POST':  //  post one rfp data
             try {
-          await db
-          .collection("rfps")
-          .insertOne(req.body)
-          res.status(201).json({ status: true })
+          const data= await db
+            .collection("rfps")
+            .insertOne(req.body)
+          console.log('data',data)
+          console.log('id',data.insertedId.toString())
+          res.status(200).json({status:true, _id:data.insertedId.toString()})
+          break
+          res.status(201).json({ status: true },...data)
         } catch (error) {
           console.log('Error serverrfp', error)
-          res.status(400).json({ status: false, msg:'Mi errorsotote' })
+          res.status(400).json({ status: false, msg:error })
         }
         break      
     case 'PATCH':  //  modify rfp data

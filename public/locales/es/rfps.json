@@ -4,6 +4,7 @@
     "savebutton":"Guardar",
     "cancelbutton": "Cancelar",
     "savingstate": " Guardando...", 
+    "editrfp":"Editar RFP",
     "closebutton":"Cerrar",
     "rfpform": {
         "name":"Nombre de la Solicitud de propuestas (RFP)",
@@ -22,7 +23,11 @@
     "companyname": "Nombre de la empresa",
     "name": "RFP",
     "openDate":"F. Inicial",
+    "openDate_initial":"Comienzo F. Inicial",
+    "openDate_ending":"Fin F. Inicial",
     "endReceivingDate":"F. Final",
     "endDate":"Dia Decisión",
+    "initialdate":"Después o el",
+    "finaldate":"Antes o el", 
     "noresults":"No hay resultados"
 }

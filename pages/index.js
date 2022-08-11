@@ -1,14 +1,18 @@
+import { useContext } from 'react'
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router";
+import { proponContext } from '../utils/pro-poncontext'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
 
 export default function Home() {
-
+  const {  companyData } = useContext(proponContext);
   const { locale } = useRouter()
   const { t } = useTranslation()
+
   return (
   <main className=" antialiased">
     <div className="flex flex-col items-center"> 
@@ -35,6 +39,7 @@ export default function Home() {
             </ul>
           </div>
       </div>
+      { !companyData.companyname &&
       <div className=" w-full flex flex-row justify-center bg-blue-200 p-8 mb-16">
         <div>
         <p className="uppercase text-center font-nunito text-md font-bold text-orange-800 leading-8">
@@ -47,6 +52,7 @@ export default function Home() {
         </ul>
         </div>
         <div className="mt-16">
+
           <Link href="/signup" passHref>
             <a  className=" ml-16 p-4 font-khula font-black text-xl uppercase 
                 text-white bg-orange-600 rounded-xl  drop-shadow-lg  
@@ -59,9 +65,9 @@ export default function Home() {
             </a>
           </Link>
         </div>
-      </div>
+      </div>}
     </div>
-      <div className="text-center text-blue-800">
+      <div className="text-center text-blue-800 mt-4">
       <p > @RoberVH | rovicher.eth</p>
       <p className="mb-4">August 2022</p>
     </div>

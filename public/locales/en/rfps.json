@@ -4,6 +4,7 @@
     "savebutton":"Save",
     "cancelbutton": "Cancel",
     "savingstate": " Saving...",
+    "editrfp":"Edit RFP",
     "closebutton":"Close",
     "rfpform": {
         "name":"Request for Proposal name",
@@ -28,5 +29,7 @@
     "openDate":"Start Date",
     "endReceivingDate":"End Date",
     "endDate":"Decision Date",
+    "initialdate":"After or on",
+    "finaldate":"Before or on",
     "noresults":"No results"
 }

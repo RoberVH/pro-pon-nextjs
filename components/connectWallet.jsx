@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useConnect, useAccount } from "wagmi";
+import { useConnect } from "wagmi";
 import { useTranslation } from "next-i18next"
 
 // toastify related imports
@@ -14,7 +14,7 @@ export const useIsMounted = () => {
   return mounted;
 };
 
-function ConnectWallet({setPhase}) {
+function ConnectWallet() {
   const isMounted = useIsMounted()
 
   const {  connect, connectors, error,  isLoading, pendingConnector } =  useConnect()
