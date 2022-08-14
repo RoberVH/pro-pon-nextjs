@@ -15,7 +15,6 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t}) {
   
     useEffect(()=>{
       setFaultyDates ((values[`${field.fieldName}_end`] <= values[`${field.fieldName}_ini`] ))
-      console.log('values:', values)
     },[values]) 
 
   return (

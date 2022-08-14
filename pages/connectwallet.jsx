@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { proponContext } from '../utils/pro-poncontext'
+import { useAccount } from 'wagmi'
 import  ConnectWallet  from '../components/connectWallet'
 
 
@@ -13,12 +14,13 @@ export default function ConnectW() {
   const [phase, setPhase] = useState(0)
   const router = useRouter()
   const {  companyData } = useContext(proponContext);
+  const { isConnected } = useAccount()
   const { t } = useTranslation('signup')
 
 
   useEffect(()=>{
-    if (companyData.companyname) router.push({pathname: '/'})
-  }, [companyData])
+    if (isConnected) router.push({pathname: '/'})
+  }, [isConnected, router])
 
   return (
   <main className=" antialiased">

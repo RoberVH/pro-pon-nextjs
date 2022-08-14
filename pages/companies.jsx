@@ -6,10 +6,20 @@ import  Spinner  from '../components/layouts/Spinner'
 import { SearchIcon } from "@heroicons/react/outline";
 import DisplayResults from "../components/DisplayResults";
 import SearchDB from "../components/SearchDB";
-import { companyParams, companyActions } from "../utils/companyItems";
+import { companyParams } from "../utils/companyItems";
 import { toastStyle } from "../styles/toastStyle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const companyActions = [
+  { id:1,
+    iconAction:'',
+    titleAction:'showCompany',
+    callBack:''},
+    { id:2,
+      iconAction:'',
+      callBack:''}
+]
 
 function Companies() {
   const { locale,pathname, query, asPath   } = useRouter();

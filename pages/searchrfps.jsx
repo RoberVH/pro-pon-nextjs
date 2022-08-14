@@ -6,27 +6,50 @@ import  Spinner  from '../components/layouts/Spinner'
 import { SearchIcon } from "@heroicons/react/outline";
 import DisplayResults from "../components/DisplayResults";
 import SearchDB from "../components/SearchDB";
-import { rfpParams, rfpActions } from "../utils/rfpItems";
+import { rfpParams } from "../utils/rfpItems";
 import { toastStyle } from "../styles/toastStyle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+
 
 function Searchrfps() {
   const { locale,pathname, query, asPath   } = useRouter();
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
   const [results, setResults] = useState([]);
+  const router = useRouter()
+
+  const handleShowRFP =(rfp) => {
+    console.log('Por enviar a homerfpRFP',rfp)
+    //const rfpStr=JSON.stringify(rfp)
+    //const rfpParams= rfpStr.join('/')
+    //console.log('rfpParams',rfpParams)
+    const params= new URLSearchParams(rfp)
+    console.log('link a pushear:', '/homerfp?' + params)
+    router.push('/homerfp?' + params)
+
+  }
+
+  const rfpActions = [
+    { id:1,
+      iconAction:'👁️',
+      titleAction:'Review', //📝
+      callBack:handleShowRFP,
+      width:'[15%]'  
+    }
+  ]
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
 
 
+
    useEffect(() => {
     if (error.message) errToasterBox(error.message);
   }, [error]);
 
-  const router = useRouter()
 
  const { t } = useTranslation("rfps");
   return (

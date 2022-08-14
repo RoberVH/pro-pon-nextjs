@@ -82,6 +82,8 @@ const { write, error } = useContractWrite({
       if (resp.status) {
         console.log('resp en useContracEvent', resp)
         setRFPId(resp._id)  // MongoDB _id field of RFP just created
+        console.log('rfpParams',rfpParams)
+        rfpParams['_id']=resp._id
         setrfpCreated(true)
       } else {
         setError(resp.msg)
@@ -106,7 +108,6 @@ const { write, error } = useContractWrite({
     // date with format 'YYYY-MM-DD';
     const date = new Date(dateStr);
     console.log(date); 
-    const timestampInMs = date.getTime();
     const unixTimestamp = Math.floor(date.getTime() / 1000);
     return unixTimestamp
     }
@@ -128,9 +129,9 @@ const { write, error } = useContractWrite({
   // handleCacel Drop form and go back to root address
   const handleEditRFP = () => {
     console.log('handleEdit',rfpId)
-    console.log('ir a: ', `/homerfp/${rfpId}`)
-
-    router.push(`/homerfp/${rfpId}`)
+    const params= new URLSearchParams(rfpParams)
+    console.log('link a pushear:', '/homerfp?' + params)
+    router.push('/homerfp?' + params)    
   }
 
 

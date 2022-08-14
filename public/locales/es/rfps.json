@@ -1,4 +1,6 @@
 {
+    "rfp":"RFP - Datos Generales",
+    "rfpdocuments":"RFP - Documentos de solicitud",
     "onlyregisteredtoRFP":"Disculpe, sólo las empresas registradas pueden crear un RFP",
     "recresrfpdata":"Registre datos del RFP (deje al menos un día entre plazos)",
     "savebutton":"Guardar",
@@ -7,10 +9,16 @@
     "editrfp":"Editar RFP",
     "closebutton":"Cerrar",
     "rfpform": {
+        "companyId":"Company Id",
+        "companyname":"Company Name",
         "name":"Nombre de la Solicitud de propuestas (RFP)",
         "openDate":"Fecha inicial para recibir propuestas",
         "endReceivingDate":"Fecha final para recibir propuestas",
         "endDate":"Fecha para emitir decisión",
+        "namerror":"Wrong RFP name",
+        "opendateerror":"Wrong Open Date",
+        "endrecerror":"Wrong End Receiving Date",
+        "enddateerror":"Wrong End Date",        
         "datesnosequencial":"Las fechas no están en orden secuencial"
     },
     "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red",
@@ -29,5 +37,9 @@
     "endDate":"Dia Decisión",
     "initialdate":"Después o el",
     "finaldate":"Antes o el", 
-    "noresults":"No hay resultados"
+    "noresults":"No hay resultados",
+    "declarewinner":"Declarar ganador",
+    "uploaddocuments":"Cargue documentos de Solicitud",
+    "dragfileshere":"Arrastre archivos aqui",
+    "orselectfiles":"Seleccione Archivo(s)"
 }

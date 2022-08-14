@@ -1,4 +1,6 @@
 {
+    "rfp":"RFP - General Data",
+    "rfpdocuments":"RFP - Requisition Documents",
     "onlyregisteredtoRFP":"Sorry, Only registered companies can create an RFP",
     "recresrfpdata":"Record RFP data (allow at least a day between datelines)",
     "savebutton":"Save",
@@ -7,15 +9,17 @@
     "editrfp":"Edit RFP",
     "closebutton":"Close",
     "rfpform": {
+        "companyId":"Company Id",
+        "companyname":"Company Name",
         "name":"Request for Proposal name",
         "openDate":"Start Date to receive proposals",
         "endReceivingDate":"End Date to receive proposals",
         "endDate":"Date to issue decision",
-        "namerror":"Wrong RFP name",
-        "opendateerror":"Wrong Open Date",
-        "endrecerror":"Wrong End Receiving Date",
-        "enddateerror":"Wrong End Date",
-        "datesnosequencial":"Dates are not in sequential order"
+        "namerror":"Nombre de RFP erróneo",
+        "opendateerror":"Fecha de inicio errónea",
+        "endrecerror":"Fecha de término de recepción de propuestas errónea",
+        "enddateerror":"Fecha de término de decisión errónea",
+        "datesnosequencial":"Las fechas no están en orden secuencial"
     },
     "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network",
     "rfpessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Wait please...",
@@ -31,5 +35,9 @@
     "endDate":"Decision Date",
     "initialdate":"After or on",
     "finaldate":"Before or on",
-    "noresults":"No results"
+    "noresults":"No results",
+    "declarewinner":"Declare winner",
+    "uploaddocuments":"Load Rquest Documents",
+    "dragfileshere":"Drag files here",
+    "orselectfiles":"Select File(s)"
 }

@@ -18,7 +18,7 @@ function Menues() {
     setMenuRFP(!menuRFP)
   }
   return (
-    <div className="text-white text-xl font-extrabold font-khula flex uppercase mt-12 ml-20 ">
+    <div className="text-white text-md font-extrabold font-khula flex uppercase mt-12 ml-20 ">
         <Link href="/companies" passHref >
             <label className="mr-8 cursor-pointer  decoration-orange-200 hover:text-slate-300
              duration-300 hover:underline underline-offset-8 hover:transition-opacity  ">
