@@ -1,3 +1,7 @@
+/*
+  Page /connectWallet - Presents connection buttons from WAGMI library showing options to connect a wallet
+                    handle showing connecting error or set 
+ */
 import { useState, useEffect } from 'react'
 import { useConnect } from "wagmi";
 import { useTranslation } from "next-i18next"
@@ -42,8 +46,8 @@ function ConnectWallet() {
           <div className=" mr-4  p-4 rounded-xl overflow-hidden shrink-0 ">
               <p className="pb-4 border-b-2 border-orange-400">{t('connecttitle')}</p>
               <p className=" text-stone-700 pt-4">{t('connectdescription1')}</p>
-              <p className=" text-stone-700">{t('connectdescription2')}</p>
-              <p className=" text-stone-700">{t('connectdescription3')}</p>
+              <p className=" text-stone-700">{t('connectdescription2',{ns:'signup'})}</p>
+              <p className=" text-stone-700">{t('connectdescription3',{ns:'signup'})}</p>
           </div>
           <div className="pl-12 flex flex-col">
             {connectors.map((connector) => (
@@ -51,13 +55,13 @@ function ConnectWallet() {
               
               disabled={isMounted ? !connector.ready : false}
               key={connector.id}
-              onClick={() => connect({ connector })}
+              onClick={() => connect({connector})}
               >
                 {isMounted ? connector.name : connector.id === 'Injected' ? connector.id : connector.name}
                 {isMounted ? !connector.ready && ' (unsupported)' : ''}
                 {isLoading &&
                   connector.id === pendingConnector?.id &&
-                  ' (connecting)'}
+                  '(connecting)'}
               </button>
             ))}
             </div>
@@ -69,7 +73,7 @@ function ConnectWallet() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['menus'])),
+      ...(await serverSideTranslations(locale, ['menus','signup'])),
     },
   }}
 

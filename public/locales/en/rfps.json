@@ -31,7 +31,7 @@
     "companyId":"Company Id",
     "companyname":"Company Name",
     "openDate":"Start Date",
-    "endReceivingDate":"End Date",
+    "endReceivingDate":"End Date to receive proposals",
     "endDate":"Decision Date",
     "initialdate":"After or on",
     "finaldate":"Before or on",

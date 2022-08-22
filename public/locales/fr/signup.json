@@ -24,6 +24,7 @@
         "companyname":"Nom de l'entreprise",
         "emailcompany": "E-mail de contact pour les concours RFP",
         "companyId":"ID de contribuable de l'entreprise",
+        "mexicoCompanyId":"Registre fédéral des contribuables de l'entreprise (RFC)",
         "country": "Choisissez un pays",
         "website":"Site Internet",
         "nameerror":"Mauvais nom",

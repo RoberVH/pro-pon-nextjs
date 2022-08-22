@@ -51,7 +51,7 @@ function Signup() {
           </div>
           );
       default:
-        return <div>Phase invalida</div>;
+        return <div>Invalid Phase</div>;
     }
   };
 
@@ -79,7 +79,7 @@ function Signup() {
         className="container h-[75%] my-8 mx-4 border-2 border-solid 
             bg-white border-slate-200 shadow-lg rounded-xl"
       >
-        <div id="sequencecontainer" 
+        {/* <div id="sequencecontainer" 
             className="container mt-8 flex flex-row justify-center ">
           {Sequence.map((step,indx) =>
             <div key={indx} className="flex ">
@@ -93,7 +93,7 @@ function Signup() {
               }
             </div>
             )}
-        </div>
+        </div> */}
         <div id='stepScreen' className="container mx-auto mt-8   ">
         <SignUpStep phase={phase} />
         </div>

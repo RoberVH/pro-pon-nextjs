@@ -12,7 +12,7 @@ function DisplayResults({fields,results, actions, t}) {
       </div>  // we won't check later if there are results
   return (
     <div className="">
-         <table className="table-fixed w-full">
+         <table className="table-fixed w-full ">
          <thead className="bg-orange-100 font-khula font-bold text-sm text-orange-600 border-2 rounded-lg   ">
             <tr className="text-left">
                 { fields.map (titleField =>
@@ -27,13 +27,13 @@ function DisplayResults({fields,results, actions, t}) {
               )}                
             </tr>
          </thead>
-         <tbody className="bg-slate-200">
+         <tbody className="">
             {
               results.map(elem =>
-              <tr key={elem._id} className="text-stone-600 font-khula font-bold">
+              <tr key={elem._id} className="text-stone-600 font-khula font-bold even:bg-slate-200 odd:bg-slate-100">
                   <td className="p-2  ">{elem[fields[0].fieldName]}</td>
-                  <td className="">{elem[fields[1].fieldName]}</td>
-                  <td>{elem[fields[2].fieldName]}</td>
+                  <td>{elem[fields[1].fieldName]}</td>
+                  <td className="truncate">{elem[fields[2].fieldName]}</td>
                   <td>{fields[3].date ? convDate(elem[fields[3].fieldName]) : elem[fields[3].fieldName]}</td>
                   <td>{fields[4].date ? convDate(elem[fields[4].fieldName]) : elem[fields[4].fieldName]}</td>
                   <td>{fields[5].date ? convDate(elem[fields[5].fieldName]) : elem[fields[5].fieldName]}</td>

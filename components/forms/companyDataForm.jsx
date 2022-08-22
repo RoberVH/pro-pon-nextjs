@@ -1,3 +1,12 @@
+/**
+ * CompanyDataForm
+ *    Present stepper step 3 to register rest of company data to DB form
+ *    This form can only acept data if and only if the context has already the company ID &
+ *    company name. This value could have been set in the immidiate step 2 prior to this or if
+ *    Tx took too much time, later, when user navigate to this screen and have read the data
+ *    from the blockchain for this address
+ *
+ */
 import { useState, useContext, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { proponContext } from "../../utils/pro-poncontext";
@@ -28,15 +37,6 @@ countries.registerLocale(french);
 
 
 
-/**
- * CompanyDataForm
- *    Present stepper step 3 to register rest of company data to DB form
- *    This form can only acept data if and only if the context has already the company ID &
- *    company name. This value could have been set in the immidiate step 2 prior to this or if
- *    Tx took too much time, later, when user navigate to this screen and have read the data
- *    from the blockchain for this address
- *
- */
 const CompanyDataForm = ({client}) => {
   const { t, i18n } = useTranslation("signup");
   const [saving, setSaving] = useState(false);

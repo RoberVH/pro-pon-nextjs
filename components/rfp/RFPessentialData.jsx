@@ -23,14 +23,14 @@ function RFPessentialData(t, rfpRecord, handleDeclareWinner) {
           <TableEntry title={t('rfpform.companyname')} value={rfpRecord.companyname} />
           {/* <TableEntry title={t('rfpform.name')} value={rfpRecord.name} /> */}
           <TableEntry title={t('rfpform.openDate')} value={convDate(rfpRecord.openDate)} />
-          <TableEntry title={t('rfpform.endDate')} value={convDate(rfpRecord.endDate)} />
           <TableEntry title={t('rfpform.endReceivingDate')} value={convDate(rfpRecord.endReceivingDate)} />
+          <TableEntry title={t('rfpform.endDate')} value={convDate(rfpRecord.endDate)} />
         </tbody>
       </table>
       <div className="font-khula mt-6 mb-4 text-center">
             <button 
               onClick={handleDeclareWinner}
-              className="py-1 px-2 leading-6 text-sm bg-orange-500 text-white font-bold uppercase rounded-md
+              className="py-1 px-2 leading-2 text-sm bg-orange-500 text-white font-bold uppercase rounded-md
               hover:bg-orange-300 ">
                 {t('declarewinner')}
             </button>

@@ -23,6 +23,7 @@
         "adminname": "Su nombre (Se otorgarán derechos de administrador)",
         "companyname":"Nombre de Compañía",
         "companyId":"Identificación del contribuyente de la empresa",
+        "mexicoCompanyId":"Registro Federal de Causantes (RFC) de la compañía",
         "emailcompany": "Email de contacto para concursos de RFPs",
         "country": "Seleccione País",
         "website": "Sitio Web",

@@ -14,17 +14,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 function Searchrfps() {
-  const { locale,pathname, query, asPath   } = useRouter();
+  // const { locale,pathname, query, asPath   } = useRouter();
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
   const [results, setResults] = useState([]);
   const router = useRouter()
 
   const handleShowRFP =(rfp) => {
-    console.log('Por enviar a homerfpRFP',rfp)
-    //const rfpStr=JSON.stringify(rfp)
-    //const rfpParams= rfpStr.join('/')
-    //console.log('rfpParams',rfpParams)
     const params= new URLSearchParams(rfp)
     console.log('link a pushear:', '/homerfp?' + params)
     router.push('/homerfp?' + params)
@@ -34,7 +30,7 @@ function Searchrfps() {
   const rfpActions = [
     { id:1,
       iconAction:'👁️',
-      titleAction:'Review', //📝
+      titleAction:'review', //📝
       callBack:handleShowRFP,
       width:'[15%]'  
     }

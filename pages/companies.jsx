@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 const companyActions = [
   { id:1,
     iconAction:'',
-    titleAction:'showCompany',
+    titleAction:'review',
     callBack:''},
     { id:2,
       iconAction:'',

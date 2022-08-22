@@ -1,6 +1,17 @@
+/**
+ * SignUpCompanyDataForm
+ *    Present stepper step 2 to register essential data to smart contract form
+ *    3 manage posting company data to contrat and advance stepper phase to 3
+ *    if this address has already a CompanyID registered in the blockchain go to step 3
+ *    to record/modify company data
+*/
 import { useState, useContext, useEffect} from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import countries from "i18n-iso-countries";
+import english from "i18n-iso-countries/langs/en.json";
+import spanish from "i18n-iso-countries/langs/es.json";
+import french from "i18n-iso-countries/langs/fr.json";
 import { useContractWrite, useContractEvent } from 'wagmi'
 import { ContractConfig } from '../../web3/contractsettings'
 import { ethers } from 'ethers'
@@ -18,21 +29,26 @@ import { saveCompanyID2DB, getCompanydataDB } from '../../database/dbOperations'
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
     "font-roboto  outline-none pl-10 w-full focus:bg-blue-100"
 
-/**
- * SignUpCompanyDataForm
- *    Present stepper step 2 to register essential data to smart contract form
- *    3 manage posting company data to contrat and advance stepper phase to 3
- *    if this address has already a CompanyID registered in the blockchain go to step 3
- *    to record/modify company data
-*/
+    countries.registerLocale(english);
+    countries.registerLocale(spanish);
+    countries.registerLocale(french);    
+    
+
 const SignUpCompanyDataForm = ({setPhase}) => {
   // State Variables & constants of module
-  const { t } = useTranslation("signup");
+  const { t, i18n  } = useTranslation("signup");
   const [companyPosted, setcompanyPosted] = useState(false)
   const [companyCreated, setcompanyCreated] = useState(false)
+  const [countryList, setCountryList] = useState([]);
   const [block, setBlock] = useState('')
   const [hash, setHash] = useState('')
   const [link, setLink] = useState(' ')
+  const[taxPayerPlaceHolder,settaxPayerPlaceHolder]=useState('companyId')
+  const [profileCompleted, setProfileCompleted] = useState(
+    (companyData && typeof companyData.profileCompleted!=='undefined')
+        ? companyData.profileCompleted
+        : false
+  );
 
   const { values, handleChange } = useInputForm()
   const router = useRouter()
@@ -45,6 +61,28 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     toast.error(msj, toastStyle);
   };
   
+  useEffect(() => {
+    function changeLanguage() {
+      const lang = i18n.language;
+      const countryGen = countries.getNames(lang);
+      const countryArray = Object.values(countryGen);
+      switch (lang) {
+        case "fr":
+          countryArray.sort((a, b) => a.localeCompare(b, "fr"));
+          break;
+        case "es":
+          countryArray.sort((a, b) => a.localeCompare(b, "es"));
+          break;
+        case "en":
+        default:
+          countryArray.sort((a, b) => a.localeCompare(b, "en"));
+          break;
+      }
+      setCountryList(countryArray);
+    }
+    changeLanguage();
+  }, [i18n.language]);
+
   useEffect(()=> {
     // if there is already a company registerd for this account let's go to perfil
     if (companyData.companyId) {
@@ -109,6 +147,14 @@ const SignUpCompanyDataForm = ({setPhase}) => {
       setPhase(3)
     }
 
+    useEffect(()=>{
+      console.log('Values', values)
+      if (values) {
+        const AlphaCode=countries.getAlpha3Code(values.country,i18n.language)
+        if (AlphaCode==='MEX') settaxPayerPlaceHolder('mexicoCompanyId')
+          else settaxPayerPlaceHolder('companyId')
+        console.log('AlphaCode',AlphaCode)}
+  },[values.country])
         
   // handleCacel Drop form and go back to root address
   const handleCancel = () => {
@@ -216,11 +262,33 @@ const SignUpCompanyDataForm = ({setPhase}) => {
         className="flex flex-col items-center justify-between leading-8 mb-8"
       >
         <div className="w-[50%] relative mb-4">
+          <select
+            className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
+                    border border-solid border-gray-300 outline-none rounded transition ease-in-out
+                    m-0 border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
+                    text-black  font-khula"
+            onChange={handleChange}
+            id={"country"}
+            defaultValue={profileCompleted ? companyData.country: "default"}
+          >
+            <option value={"default"} >
+              {!profileCompleted
+                ? `${t("companyform.country")}*`
+                : companyData.country}
+            </option>
+            {countryList.map((country, index) => (
+              <option key={index} value={country}>
+                {country}
+              </option>
+            ))}
+          </select>
+        </div>        
+        <div className="w-[50%] relative mb-4">
           <InputCompanyId
             handleChange={handleChange}
             inputclasses={inputclasses}
             values={values}
-            placeholder={`${t("companyform.companyId")}*`}
+            placeholder={`${t('companyform.' + taxPayerPlaceHolder )}*`}
             disable={companyCreated}
           />
         </div>

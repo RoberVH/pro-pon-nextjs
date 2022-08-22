@@ -12,10 +12,6 @@ import { proponContext } from '../../utils/pro-poncontext'
 import { BadgeCheckIcon } from '@heroicons/react/outline'
 import { StatusOfflineIcon } from '@heroicons/react/outline'
 
-// import { contractAddress } from '../../utils/proponcontractAddress'
-// import proponJSONContract from '../../utils/pro_pon.json'
-// import { proponChainId  } from '../../utils/constants'
-
 
 // toastify related imports
 import { toast, ToastContainer} from 'react-toastify';
@@ -40,12 +36,19 @@ const HeadBar = () => {
     const getCompany = async (id) => {
         const result = await  getCompanydataDB(data.id)
         setcurrentCompanyData(result)
+        
     }
 
 useEffect(()=>{
-    if (data && data.id)
+  if (address) {
+    console.log('address es',address)
+}
+},[address])
+
+useEffect(()=>{
+    if (data && data.id) 
         getCompany(data.id)
-      else
+      else 
         clearCompany()
 }, [data])
 
@@ -55,10 +58,13 @@ useEffect(()=>{
     }
     const handleDisconnection = () => {
         disconnect()
+        router.push('/')
+        sethideMenuAccount(false)
       }
 
       const handleProfile = () => {
         router.push('/signup')
+        sethideMenuAccount(false)
       }
 
       const handleDropDownAccount = () => {
@@ -77,7 +83,6 @@ useEffect(()=>{
                 hover:bg-stone-600
                 active:ring-4"
                 onClick={handleConnect}>
-                
                         {t('connect_wallet',{ns:'common'})}
                     </button>
                 </div>);
