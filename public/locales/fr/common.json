@@ -8,6 +8,8 @@
    "signup":"S'inscrire",
    "noresults":"Aucun résultat",
    "notconnected":"portefeuille non connecté",
+   "signmessage":"signer le message", 
+   "selectcountry":"Choisissez le pays", 
    "benefits": [
     "Des vendeurs partout dans le monde",
     "Les documents de proposition sont électroniques et signés cryptographiquement",
@@ -21,5 +23,5 @@
         "Créez votre profil d'entreprise - maintenant vous êtes administrateur",
         "Créer un appel d'offres et ajouter des documents d'appels d'offres",
         "Invitez vos fournisseurs à soumissionner via l'application Pro-Pon"
-    ]  
+    ]
 }

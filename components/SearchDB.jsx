@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import useInputForm from '../hooks/useInputForm'
+import CountryParamSearch  from '../components/CountryParamSearch'
 import { useTranslation } from "next-i18next";
 
-
+//t, handleChange, values, i18n, setPlaceHolder, companyData, profileCompleted
 const errorColor = {
   true:'border-red-400 border-4',
   false:''
 }
-function SearchDB({ fields, path,  setResults, setWait, setError, t}) {
+function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
   const {  values, handleChange} = useInputForm();
   
   const SearchBox = ({field}) => {
@@ -15,21 +16,33 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t}) {
   
     useEffect(()=>{
       setFaultyDates ((values[`${field.fieldName}_end`] <= values[`${field.fieldName}_ini`] ))
-    },[values]) 
+    },[field.fieldName]) 
+
+  const InputSearchTerm = () => {
+    return (
+        <input className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none 
+                  p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8"
+          type='text' 
+          id= {field.fieldName}
+          placeholder={t(field.fieldName)}
+          value={values[field.fieldName]}
+          onChange={handleChange}/>)
+      }
 
   return (
     <div className="">
       {
         !field.date 
-        ?
-          (<input 
-            className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none 
-            p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8 b"
-            type='text' 
-            id= {field.fieldName}
-            placeholder={t(field.fieldName)}
-            value={values[field.fieldName]}
-            onChange={handleChange}/>
+        ? // no date type
+          ( // check if country tpye
+            field.fieldName!=='country'?
+               <InputSearchTerm /> :
+                <CountryParamSearch 
+                t={t}
+                i18n={i18n}
+                handleChange={handleChange}
+                values={values}
+                />
           )
         :
           (
@@ -106,4 +119,9 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t}) {
   )
 }
 
-export default SearchDB
+
+    function undefined({t, handleChange}) {
+      return (<input className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none 
+              p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8 b" type='text' id={field.fieldName} placeholder={t(field.fieldName)} value={values[field.fieldName]} onChange={handleChange} />);
+    }
+  export default SearchDB

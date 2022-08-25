@@ -8,6 +8,8 @@
     "noresults":"No hay resultados",
     "signup":"Registrarse",
     "notconnected":"Billetera no conectada",
+    "signmessage":"Firmar el mensaje",
+    "selectcountry":"Seleccione País",
     "benefits": [
         "Vendedores de todo el mundo",
         "Los documentos de la propuesta son electrónicos y están firmados criptográficamente",
@@ -21,5 +23,5 @@
         "Cree su perfil de empresa: ahora es administrador",
         "Crear un concurso de ofertas y agregar documentos del RFP",
         "Invite a sus proveedores a enviar sus propuestas a través de Pro-Pon"
-    ]     
+    ]
   }

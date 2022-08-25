@@ -16,3 +16,11 @@ export const MAX_FILES = 15
 
 // Only  100 MB each loading
 export const MAX_CAPACITY_FILES = 104_857_600
+
+// Company Id (tax payer title) for countries
+// value of property must have a corresponding entry on public/locales/signup.json file
+export const companyIdPlaceHolder = {
+    'MEX':'mexicoCompanyId',
+    'COL':'colombiaCompanyId',
+    'CHL':'chileCompanyId'
+}

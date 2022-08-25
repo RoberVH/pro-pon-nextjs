@@ -16,7 +16,7 @@ export default function Home() {
 
   const { address, isConnected } = useAccount()
 
-
+console.log('companyData', companyData)
   return (
   <main className=" antialiased">
     <div className="flex flex-col items-center"> 
@@ -28,7 +28,37 @@ export default function Home() {
           {t('explanation1')}
         </p>
       </div>
-      <div className="w-full mt-12 py-4  bg-gradient-to-r from-orange-300 via-slate-200 to-orange-300 ">
+      { (!companyData.companyname && address) ?
+        <div id="signupframe" className=" w-full  flex justify-center bg-slate-200  py-8 ">
+          <div id="calltosignupsubframe" className="p-8 w-[55%] bg-orange-200 flex flex-row justify-center rounded-xl
+          border border-2 border-red-600">
+            <div>
+            <p className="uppercase text-center font-nunito text-md font-bold text-orange-800 leading-8">
+              {t('instructions_title')}
+            </p>      
+            <ul className="list-decimal ml-4 mt-8 font-nunito text-md font-bold text-orange-800 leading-8">
+              {
+              t('instructions', { returnObjects: true }).map((ins)=> <li key={ins}>{ins}</li>)
+              }
+            </ul>
+          </div>
+            <div  className="mt-16">
+              <Link href="/signup" passHref>
+                <a  className=" ml-16 p-4 font-khula font-black text-xl uppercase 
+                    text-white bg-orange-600 rounded-xl  drop-shadow-lg  
+                    bg-gradient-to-r from-orange-500  to-blue-500 
+                    hover:border-2 hover:shadow-md 
+                    hover:bg-stone-600 active:ring-4
+                    bg-gradient-x 1s ease infinite">
+                    {t('signup',{ns:'common'})}
+                </a>
+              </Link>
+            </div>
+          </div>
+        </div>
+      :   null
+      }      
+      <div  className="w-full mt-12 py-4  bg-gradient-to-r from-orange-300 via-slate-200 to-orange-300 ">
           <div className="mx-16 p-4 pr-24  ">
             <div className="mx-16 float-left pr-8">
             <Image  alt='Logo' src='/candado.jpg' 
@@ -43,32 +73,7 @@ export default function Home() {
             </ul>
           </div>
       </div>
-      { (!companyData.companyname && address) &&
-      <div className=" w-full flex flex-row justify-center bg-blue-200 px-8 pb-4 pt-8 ">
-        <div>
-        <p className="uppercase text-center font-nunito text-md font-bold text-orange-800 leading-8">
-          {t('instructions_title')}
-        </p>      
-        <ul className="list-decimal ml-4 mt-8 font-nunito text-md font-bold text-orange-800 leading-8">
-          {
-          t('instructions', { returnObjects: true }).map((ins)=> <li key={ins}>{ins}</li>)
-          }
-        </ul>
-        </div>
-        <div className="mt-16">
-          <Link href="/signup" passHref>
-            <a  className=" ml-16 p-4 font-khula font-black text-xl uppercase 
-                text-white bg-orange-600 rounded-xl  drop-shadow-lg  
-                bg-gradient-to-r from-orange-500  to-blue-500 
-                hover:border-2 hover:shadow-md 
-                hover:bg-stone-600
-                active:ring-4  
-                bg-gradient-x 1s ease infinite">
-                {t('signup',{ns:'common'})}
-            </a>
-          </Link>
-        </div>
-      </div>}
+    
     </div>
     <div className="w-full py-16  bg-gradient-to-r from-blue-300 via-orange-200 to-blue-300">
       <div className="font-khula text-stone-800  grid grid-cols-2 grid-gap-16">

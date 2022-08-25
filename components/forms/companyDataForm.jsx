@@ -7,10 +7,12 @@
  *    from the blockchain for this address
  *
  */
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useTransition } from "react";
 import { useTranslation } from "next-i18next";
 import { proponContext } from "../../utils/pro-poncontext";
 import { useSignMessage } from "wagmi";
+import { GlobeIcon } from '@heroicons/react/outline'
+import  Image   from 'next/image'
 import countries from "i18n-iso-countries";
 import english from "i18n-iso-countries/langs/en.json";
 import spanish from "i18n-iso-countries/langs/es.json";
@@ -38,11 +40,16 @@ countries.registerLocale(french);
 
 
 const CompanyDataForm = ({client}) => {
-  const { t, i18n } = useTranslation("signup");
-  const [saving, setSaving] = useState(false);
-  const [countryList, setCountryList] = useState([]);
-  const { setcurrentCompanyData, companyData } = useContext(proponContext);
-  const { values, handleChange } = useInputForm(companyData);
+  const { t, i18n } = useTranslation(['signup', 'common'])
+  const [saving, setSaving] = useState(false)
+  const [showSignMsg, setShowSignMsg] = useState(false)
+  const [countryList, setCountryList] = useState([])
+  const { setcurrentCompanyData, companyData } = useContext(proponContext)
+  const { values, handleChange } = useInputForm(companyData)
+  const [message, setMsgtoSign] = useState()
+  const [lang, setLang] = useState('')
+
+
   const [profileCompleted, setProfileCompleted] = useState(
     (companyData && typeof companyData.profileCompleted!=='undefined')
         ? companyData.profileCompleted
@@ -53,7 +60,7 @@ const CompanyDataForm = ({client}) => {
   };
   const recoveredAddress = useRef()
   const { data, error, isLoading, signMessage } = useSignMessage({
-    //message:'Firme este mensaje para probar que desea hacer esta operacion. No se preocupe, no constará nada ' + nonce,
+    //message:'Firme este mensaje para probar que desea hacer esta operacion. No se preocupe, no constará nada ' ,
     async onSuccess (data, variables) {
       // Verify signature when sign message succeeds
       //const address = verifyMessage(variables.message, data)
@@ -65,6 +72,7 @@ const CompanyDataForm = ({client}) => {
       errToasterBox(result.message);
     },
   });
+
 
   useEffect(() => {
     function changeLanguage() {
@@ -84,11 +92,23 @@ const CompanyDataForm = ({client}) => {
           break;
       }
       setCountryList(countryArray);
+      setLang(lang)
     }
     changeLanguage();
   }, [i18n.language]);
 
+  // Get Country Name on current displayed language
+  // receive Alplha-3 three letter Country Code  and get name
+  const getCountryName=(threeLetterCodeCountry) => {
+      return countries.getName(threeLetterCodeCountry, lang)
+  }
 
+
+  const proceedToSign = async () => {
+    setShowSignMsg(false)
+    await signMessage({message})
+    
+  }
 
   // Validate and Save data to DB
   const handleSave = async () => {
@@ -107,44 +127,17 @@ const CompanyDataForm = ({client}) => {
     )
       return;
     if (
-      !validate(
-        patronobligatorio,
-        trimmedValues.companyname,
-        t("companyform.companynamerror")
-      )
-    )
-      return;
-    if (
-      !validate(
-        patronobligatorio,
-        trimmedValues.companyId,
-        t("companyform.companyIDerror")
-      )
-    )
-      return;
-    if (
       !validate(patronemail, trimmedValues.email, t("companyform.emailerror"))
     )
       return;
-    if (
-      !validate(
-        patronwebsite,
-        trimmedValues.website,
-        t("companyform.websiteerror")
-      )
-    )
-      return;
-    if (
-      typeof trimmedValues.country === "undefined" ||
-      trimmedValues.country.length === 0
-    ) {
-      errToasterBox(t("companyform.countryerror"));
-      return;
-    }
-    
+      console.log('trimmedValues.website',trimmedValues.website)
+    if (trimmedValues.website && !validate(patronwebsite,trimmedValues.website,t("companyform.websiteerror"))) return;
+   
     // Display modal to show & ask to sign message
     const message = JSON.stringify(trimmedValues )
-    await signMessage({message})
+    setMsgtoSign(message)
+    setSaving(true);
+    setShowSignMsg(true)
   };
 
   const inputclasses =
@@ -169,18 +162,29 @@ const CompanyDataForm = ({client}) => {
     }
   };
 
+
   return (
-    <div
-      id="dataentrypanel"
-      className="w-[74%]   relative p-4 bg-gray-100 border-2xl"
-    >
+    <div className="w-[74%] p-4 bg-gray-100 border-2xl mt-8">
+     <div className={`${showSignMsg ? 'fixed bg-zinc-100 inset-0 opacity-80 z-50':null}`} >
+        <div className={`fixed bottom-0 right-0 -mt-32 text-center bg-white h-[25%] w-[40%] border border-2 border-orange-600  
+                        ${showSignMsg ? 'translate-y-0': 'translate-y-full'} ease-in-out duration-1000`} >
+          <div className="pt-4 pl-4 text-left">
+            <p className="py-8 px-10 font-khula text-md text-coal-100 text-bold">{t('showsigningmsg')}</p>
+            <div className="flex justify-center" >
+              <button onClick={proceedToSign} className="flex main-btn">{t('signmessage',{ns:"common"})}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="dataentrypanel" className="">
       <p className="text-gray-600 text-extrabold text-xl mb-10 font-khula">
         {t("companyform.recordcompanytitle")}
       </p>
       <form
         action=""
-        className="flex flex-col items-center justify-between leading-8 mb-8 
-          "
+        className={`flex flex-col items-center justify-between leading-8 mb-8 `}
+          
       >
         <div className="w-[80%] relative mb-4">
           <InputCompanyId
@@ -200,6 +204,10 @@ const CompanyDataForm = ({client}) => {
             disable={true}
           />
         </div>
+        <div className="w-[80%] relative mb-4 flex">
+        <GlobeIcon className="h-5 w-5 text-orange-400 mt-1 ml-2"/>
+          <p className="pl-4">{getCountryName(companyData.country)}</p>
+        </div>        
         <div className="w-[80%] relative mb-4">
           <InputAdminName
             handleChange={handleChange}
@@ -225,28 +233,6 @@ const CompanyDataForm = ({client}) => {
             values={values}
             placeholder={`${t("companyform.website")}`}
           />
-        </div>
-        <div className="w-[80%] relative mb-4">
-          <select
-            className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
-                    border border-solid border-gray-300 outline-none rounded transition ease-in-out
-                    m-0 border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
-                    text-black  font-khula "
-            onChange={handleChange}
-            id={"country"}
-            defaultValue={profileCompleted ? companyData.country: "default"}
-          >
-            <option value={"default"} >
-              {!profileCompleted
-                ? `${t("companyform.country")}*`
-                : companyData.country}
-            </option>
-            {countryList.map((country, index) => (
-              <option key={index} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
         </div>
       </form>
       <div id="footersubpanel3">
@@ -278,15 +264,14 @@ const CompanyDataForm = ({client}) => {
                     text-white leading-tight uppercase rounded shadow-md hover:bg-stone-700 hover:shadow-lg 
                     focus:bg-stone-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-stone-800 
                     active:shadow-lg transition duration-150 ease-in-out
-                    ${saving===5 ? 'cursor-not-allowed' : ''}`"
-            >
+                    ${saving===5 ? 'cursor-not-allowed' : ''}`">
               {t("cancelbutton")}
             </button>
           </div>
         </div>
       </div>
     </div>
-    // </div>
+    </div>
   );
 };
 export default CompanyDataForm;

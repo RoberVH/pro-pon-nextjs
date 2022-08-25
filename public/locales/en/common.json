@@ -8,6 +8,8 @@
     "signup":"Signup",
     "noresults":"No results",
     "notconnected":"Wallet not connected",
+    "signmessage":"Sign Message",
+    "selectcountry":"Select Country",
     "benefits": [
         "Vendors all over the world",
         "Proposal documents are electronic & cryptographically signed",

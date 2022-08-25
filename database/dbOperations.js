@@ -34,9 +34,9 @@ export const verifyData_Save = async (message, signature) => {
   };
 
   // Create initial record for company at database, set profileCompleted to false
-  export const saveCompanyID2DB = async (companyId, companyname) => {
+  export const saveCompanyID2DB = async (companyId, companyname, country) => {
     let method = "POST";
-    const webload= {profileCompleted:false, companyId, companyname}
+    const webload= {profileCompleted:false, companyId, companyname, country}
     try {
       const response = await fetch("/api/companycreation", {
         method: method,

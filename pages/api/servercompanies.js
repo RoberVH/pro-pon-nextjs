@@ -38,7 +38,12 @@ export default async function handler (req, res) {
       msg.profileCompleted=true
         try {
           const uniqueIdRecord = req.body._id
+          console.log('Previa', msg)
           delete msg._id
+          delete msg.companyId
+          delete msg.companyname
+          delete msg.country
+          console.log('Post', msg)
           await db
           .collection("companies")
           .updateOne({_id:ObjectId(uniqueIdRecord)},{$set: msg}) 

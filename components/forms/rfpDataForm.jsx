@@ -11,7 +11,7 @@ import useInputForm from "../../hooks/useInputForm";
 import "react-toastify/dist/ReactToastify.css";
 import { InputRFPName }  from "../input-controls/InputRFPName";
 import { InputDate } from "../input-controls/InputDate";
-//import { saveCompanyID2DB } from '../../database/dbOperations'
+import RFPItemAdder from '../rfp/RFPItemAdder'
 
 
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
@@ -43,6 +43,7 @@ const RFPDataForm = () => {
   const [errorwriting, setError] = useState()
   const [rfpParams, setRpParams] = useState()
   const [rfpId, setRFPId] = useState()
+  const [items, setItems] = useState([])
 
   const { values, handleChange } = useInputForm()
   const router = useRouter()
@@ -56,12 +57,18 @@ const RFPDataForm = () => {
     toast.error(msj, toastStyle);
   };
   
+  //console.log('items.length', items.length)
 
   useEffect(()=>{
     errToasterBox(errorwriting)
   },[errorwriting])
 
   
+  const handleRemoveItem = (itemToRemove) => {
+    const currentItems=items
+    currentItems = items.find(item=> item!== e.currentTarget.value)
+    setItems(currentItems)
+  }
 
 const { write, error } = useContractWrite({
   addressOrName: ContractConfig.addressOrName,
@@ -185,91 +192,99 @@ const { write, error } = useContractWrite({
     } finally {setWaiting(false)}
   };
 
-  
+  console.log('items.length',items.length)
  // render of Component rfpDataForm *****************************************************
   return (
   <div id="generalsavearea">
       {/* Entry Form with buttons save & cancel */}
       <div 
         id="dataentrypanel" 
-        className="container w-[45%] p-4 bg-white border-xl border-2 border-orange-200 rounded-md">
+        className="container w-[85%] p-4 bg-white border-xl border-2 border-orange-200 rounded-md">
           <p className="text-gray-600 text-extrabold text-base text-xl mb-4 font-khula">
-          ⌨ &nbsp;{t("recresrfpdata")}
+            ⌨ &nbsp;{t("recresrfpdata")}
           </p>
-          <form
-            action=""
-            disabled={waiting || postedHash || rfpCreated}
-            className="flex flex-col items-center justify-between leading-8 mb-8"
-          >
-            <div className="w-[50%] relative mb-4">
-              <InputRFPName
-                handleChange={handleChange}
-                inputclasses={inputclasses}
-                values={values}
-                placeholder={`${t("rfpform.name")}*`}
-                disable={waiting ||postedHash}
-              />
+          <div className="grid grid-cols-2 grid-gap-1">
+            <div className="flex flex-col items-left justify-between leading-8 mt-16 mb-8 pl-8 ">
+              <form
+                action=""
+                className="mb-8"
+                disabled={waiting || postedHash || rfpCreated}>
+                <div className="w-[80%] relative mb-4">
+                  <InputRFPName
+                    handleChange={handleChange}
+                    inputclasses={inputclasses}
+                    values={values}
+                    placeholder={`${t("rfpform.name")}*`}
+                    disable={waiting ||postedHash}
+                  />
+                </div>
+                <div className=" w-[50%] relative mb-4">
+                  <InputDate
+                    handleChange={handleChange}
+                    inputclasses={inputclasses}
+                    values={values}
+                    dateId={'openDate'}
+                    placeholder={`${t("rfpform.openDate")}*`}
+                    disable={waiting ||postedHash}
+                  />
+                </div>
+                <div className=" w-[50%] relative mb-4">
+                  <InputDate
+                    handleChange={handleChange}
+                    inputclasses={inputclasses}
+                    values={values}
+                    dateId={'endReceivingDate'}
+                    placeholder={`${t("rfpform.endReceivingDate")}*`}
+                    disable={waiting ||postedHash}
+                  />
+                </div>
+                <div className=" w-[50%] relative mb-4">
+                  <InputDate
+                    handleChange={handleChange}
+                    inputclasses={inputclasses}
+                    values={values}
+                    dateId={'endDate'}
+                    placeholder={`${t("rfpform.endDate")}*`}
+                    disable={waiting ||postedHash}
+                  />
+                </div>
+              </form>
+
             </div>
-            <div className=" w-[50%] relative mb-4">
-              <InputDate
-                handleChange={handleChange}
-                inputclasses={inputclasses}
-                values={values}
-                dateId={'openDate'}
-                placeholder={`${t("rfpform.openDate")}*`}
-                disable={waiting ||postedHash}
-              />
+            <div>
+              <RFPItemAdder items={items} setItems={setItems}/>
             </div>
-            <div className=" w-[50%] relative mb-4">
-              <InputDate
-                handleChange={handleChange}
-                inputclasses={inputclasses}
-                values={values}
-                dateId={'endReceivingDate'}
-                placeholder={`${t("rfpform.endReceivingDate")}*`}
-                disable={waiting ||postedHash}
-              />
-            </div>
-            <div className=" w-[50%] relative mb-4">
-              <InputDate
-                handleChange={handleChange}
-                inputclasses={inputclasses}
-                values={values}
-                dateId={'endDate'}
-                placeholder={`${t("rfpform.endDate")}*`}
-                disable={waiting ||postedHash}
-              />
-            </div>
-          </form>
-          <div id="footersubpanel3">
-            <div className={`py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md ${rfpCreated?'hidden':null}`}>
-              <div className="mt-4 mr-10 " >
-                <button
-                  type="button"
-                  onClick={handleSave}
-                  disabled={waiting ||postedHash}
-                  className="main-btn"
-                >
-                  {!waiting ? `${t("savebutton")}` : ""}
-                  {waiting && (
-                    <div className=" flex justify-evenly items-center">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
-                      </div>
-                      <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
-                    </div>
-                  )}
-                </button>
+            <div id="footersubpanel3">
+                <div className={`py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md w-[50%]
+                ${rfpCreated?'hidden':null}`}>
+                  <div className="mt-4 mr-10  " >
+                    <button
+                      type="button"
+                      onClick={handleSave}
+                      disabled={waiting ||postedHash}
+                      className="main-btn"
+                    >
+                      {!waiting ? `${t("savebutton")}` : ""}
+                      {waiting && (
+                        <div className=" flex justify-evenly items-center">
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
+                          </div>
+                          <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
+                        </div>
+                      )}
+                    </button>
+                  </div>
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      onClick={handleCancel}
+                      disabled={ false}
+                      className="secondary-btn">
+                      {t("cancelbutton")}
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div className="mt-4">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  disabled={ false}
-                  className="secondary-btn">
-                  {t("cancelbutton")}
-                </button>
-              </div>
-            </div>
           </div>
       </div>
       {/* Inferior panel to explain & display call to actions */}

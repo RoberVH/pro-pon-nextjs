@@ -8,10 +8,6 @@
 import { useState, useContext, useEffect} from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import countries from "i18n-iso-countries";
-import english from "i18n-iso-countries/langs/en.json";
-import spanish from "i18n-iso-countries/langs/es.json";
-import french from "i18n-iso-countries/langs/fr.json";
 import { useContractWrite, useContractEvent } from 'wagmi'
 import { ContractConfig } from '../../web3/contractsettings'
 import { ethers } from 'ethers'
@@ -25,25 +21,21 @@ import { InputCompanyId } from "../input-controls/InputCompanyId";
 import { InputCompanyName } from "../input-controls/InputCompanyName";
 import { saveCompanyID2DB, getCompanydataDB } from '../../database/dbOperations'
 
+import { InputCountrySel } from '../input-controls/InputCountrySel'
 
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
-    "font-roboto  outline-none pl-10 w-full focus:bg-blue-100"
-
-    countries.registerLocale(english);
-    countries.registerLocale(spanish);
-    countries.registerLocale(french);    
-    
+                    "font-roboto  outline-none pl-10 w-full focus:bg-blue-100"
 
 const SignUpCompanyDataForm = ({setPhase}) => {
   // State Variables & constants of module
   const { t, i18n  } = useTranslation("signup");
-  const [companyPosted, setcompanyPosted] = useState(false)
+  const [companyPosted, setcompanyPosted] = useState(false)   
   const [companyCreated, setcompanyCreated] = useState(false)
   const [countryList, setCountryList] = useState([]);
   const [block, setBlock] = useState('')
-  const [hash, setHash] = useState('')
-  const [link, setLink] = useState(' ')
-  const[taxPayerPlaceHolder,settaxPayerPlaceHolder]=useState('companyId')
+  const [hash, setHash] = useState('') 
+  const [link, setLink] = useState('')
+  const[taxPayerPlaceHolder,setTaxPayerPlaceHolder]=useState('companyId')
   const [profileCompleted, setProfileCompleted] = useState(
     (companyData && typeof companyData.profileCompleted!=='undefined')
         ? companyData.profileCompleted
@@ -61,28 +53,6 @@ const SignUpCompanyDataForm = ({setPhase}) => {
     toast.error(msj, toastStyle);
   };
   
-  useEffect(() => {
-    function changeLanguage() {
-      const lang = i18n.language;
-      const countryGen = countries.getNames(lang);
-      const countryArray = Object.values(countryGen);
-      switch (lang) {
-        case "fr":
-          countryArray.sort((a, b) => a.localeCompare(b, "fr"));
-          break;
-        case "es":
-          countryArray.sort((a, b) => a.localeCompare(b, "es"));
-          break;
-        case "en":
-        default:
-          countryArray.sort((a, b) => a.localeCompare(b, "en"));
-          break;
-      }
-      setCountryList(countryArray);
-    }
-    changeLanguage();
-  }, [i18n.language]);
-
   useEffect(()=> {
     // if there is already a company registerd for this account let's go to perfil
     if (companyData.companyId) {
@@ -106,7 +76,6 @@ const SignUpCompanyDataForm = ({setPhase}) => {
       errToasterBox(t(`errors.${customError}`))
     },
     onSuccess(data) {
-      toast.success(t('signupsuccess',toastStyleSuccess))
       setHash(data.hash)
        setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${data.hash}`)
        setcompanyPosted(true)
@@ -121,7 +90,6 @@ const SignUpCompanyDataForm = ({setPhase}) => {
       setBlock(event[3].blockNumber)
       await saveCompanyData()
       const company= await getCompanydataDB(values.companyId.trim())
-      console.log('company',company)
       setcurrentCompanyData(company)
       setcompanyCreated(true)
     },
@@ -147,14 +115,6 @@ const SignUpCompanyDataForm = ({setPhase}) => {
       setPhase(3)
     }
 
-    useEffect(()=>{
-      console.log('Values', values)
-      if (values) {
-        const AlphaCode=countries.getAlpha3Code(values.country,i18n.language)
-        if (AlphaCode==='MEX') settaxPayerPlaceHolder('mexicoCompanyId')
-          else settaxPayerPlaceHolder('companyId')
-        console.log('AlphaCode',AlphaCode)}
-  },[values.country])
         
   // handleCacel Drop form and go back to root address
   const handleCancel = () => {
@@ -177,12 +137,18 @@ const SignUpCompanyDataForm = ({setPhase}) => {
         trimmedValues.companyname,
         t("companyform.companynamerror")
       ))return;
+      if (!validate(
+        patronobligatorio,
+        trimmedValues.country,
+        t("companyform.countryerror")
+      ))return;
 
     // validation passed ok, 
     // create entry on smart contract
+    console.log('Por enviar a blockchain', trimmedValues.companyId,trimmedValues.companyname,trimmedValues.country)
     try {
       await write({
-        args: [trimmedValues.companyId,trimmedValues.companyname],
+        args: [trimmedValues.companyId,trimmedValues.companyname,trimmedValues.country],
         overrides: {
           value: ethers.utils.parseEther("0.0001")
         }
@@ -198,55 +164,67 @@ const SignUpCompanyDataForm = ({setPhase}) => {
   const saveCompanyData = async () => {
     const companyID = values.companyId.trim()
     const companyNAME = values.companyname.trim()
-    setcurrentCompanyData({companyId:companyID, companyname: companyNAME, profileCompleted:false})
+    const country = values.country.trim()
+    setcurrentCompanyData({companyId:companyID, companyname: companyNAME, country:country, profileCompleted:false})
     // company has been created at smart contract, now reflect on Mongo DB
     // and save the data we already have. Set profileCompleted DB field to false
     // so user will have to fill that later    
-    await  saveCompanyID2DB(companyID, companyNAME)
+    await  saveCompanyID2DB(companyID, companyNAME, country)
   }
 
 // render of Component
   return (
-   <div id="generalsavearea" className="container w-[74%] " >
+   <div id="generalsavearea" className="container w-[75%] " >
     {/* Superior panel to explain & display call to actions */}
-    <div className="container p-4 bg-gray-100 border-2xl h-[50%]">
-      <div className="text-xl font-khula text-stone-600 text-base py-4 ">
+    <div className="container px-2 py-1 bg-gray-100 border-2xl h-[50%]">
+      <div className="text-xl font-khula text-stone-600 text-base py-4 pl-2 ">
         {isLoading ? 
             <p>{t('savingtoblockchainmsg')} 
             </p> 
             :
             (  companyPosted ? 
-                    <div className=" w-[100%]">
-                      {companyPosted && 
-                      <p >{t('companyessentialdataposted')} </p>
-                      }
-
-                      {companyCreated && 
-                      <p className="mb-4">{t('companyessentialdatasaved')} </p>
-                      }
-                      <label className="mt-4">{t('chekhash')}</label>
-                      <a
-                        className=" text-blue-600 ml-3"
-                        href={link}
-                        target="_blank"
-                        rel="noreferrer">
-                        {hash && (`${hash.slice(0,10)}...${hash.slice(-11)}`)}
-                      </a>
-                      {block && <div className="flex">
-                        <p className="text-base"> BlockNode: &nbsp; </p>
-                        <p className="text-blue-700"> {t('block')} {block}</p>
-                      </div>
-                      }
-                      <div className="flex justify-center">
-                        <button 
-                        className="main-btn mt-8"
-                        onClick={nextPhase}>
-                          {t('closebutton')}
-                        </button>
-                      </div>
+                <div className=" w-[100%] px-8">
+                  <div className="bg-white h-36 p-4 scroll-auto">
+                    {companyPosted && 
+                    <div className="flex">
+                      <p className={`${block? null:'animate-spin'}`}>⏳ &nbsp;</p>
+                    <p >&nbsp;{t('companyessentialdataposted')} </p>
                     </div>
-                    :
-                    <p>{t('recordingcompanylegend')} </p>
+                    }
+                    {hash && 
+                      <div>
+                        <label className="mt-4"> 🔭 &nbsp;{t('chekhash')}</label>
+                        <a
+                          className=" text-blue-600 ml-3"
+                          href={link}
+                          target="_blank"
+                          rel="noreferrer">
+                          &nbsp;{hash && (`${hash.slice(0,10)}...${hash.slice(-11)}`)}
+                        </a>
+                      </div>
+                    }
+                    {companyCreated && 
+                    <p className="mb-4"><label className="bg-green-600 text-white px-2">✔</label>
+                        &nbsp;{t('companyessentialdatasaved')} </p>
+                    }
+ 
+                    {block && <div className="flex">
+                      <p className="text-base">🟩&nbsp; BlockNode: &nbsp; </p>
+                      <p className="text-blue-700 "> {t('block')} {block}</p>
+                    </div>
+                    }
+                  </div>
+                    <div className="flex justify-center">
+                      <button 
+                      className="main-btn mt-8"
+                      onClick={nextPhase}>
+                        {t('completeprofile')}
+                      </button>
+                    </div>
+
+                </div>
+                :
+                <p>{t('recordingcompanylegend')} </p>
             )
         }
       </div>
@@ -262,26 +240,15 @@ const SignUpCompanyDataForm = ({setPhase}) => {
         className="flex flex-col items-center justify-between leading-8 mb-8"
       >
         <div className="w-[50%] relative mb-4">
-          <select
-            className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
-                    border border-solid border-gray-300 outline-none rounded transition ease-in-out
-                    m-0 border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
-                    text-black  font-khula"
-            onChange={handleChange}
-            id={"country"}
-            defaultValue={profileCompleted ? companyData.country: "default"}
-          >
-            <option value={"default"} >
-              {!profileCompleted
-                ? `${t("companyform.country")}*`
-                : companyData.country}
-            </option>
-            {countryList.map((country, index) => (
-              <option key={index} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
+          <InputCountrySel
+          t={t}
+          i18n={i18n}
+          handleChange={handleChange}
+          values={values}
+          setPlaceHolder={setTaxPayerPlaceHolder}
+          companyData={companyData}
+          profileCompleted={profileCompleted}
+           />
         </div>        
         <div className="w-[50%] relative mb-4">
           <InputCompanyId

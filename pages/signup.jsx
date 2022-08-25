@@ -76,7 +76,7 @@ function Signup() {
   return (
     <div id="signup-screen" className="h-screen flex flex-col items-center ">
       <div id="activities-of-signup"        
-        className="container h-[75%] my-8 mx-4 border-2 border-solid 
+        className="container h-[80%] my-8 mx-4 border-2 border-solid 
             bg-white border-slate-200 shadow-lg rounded-xl"
       >
         {/* <div id="sequencecontainer" 
@@ -94,7 +94,7 @@ function Signup() {
             </div>
             )}
         </div> */}
-        <div id='stepScreen' className="container mx-auto mt-8   ">
+        <div id='stepScreen' className="container mx-auto mt-4   ">
         <SignUpStep phase={phase} />
         </div>
       </div>
@@ -104,7 +104,7 @@ function Signup() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["signup", "menus"])),
+      ...(await serverSideTranslations(locale, ["signup", "menus", "common"])),
     },
   };
 }

@@ -1,0 +1,68 @@
+import { useState, useEffect }from 'react'
+import countries from "i18n-iso-countries";
+import english from "i18n-iso-countries/langs/en.json";
+import spanish from "i18n-iso-countries/langs/es.json";
+import french from "i18n-iso-countries/langs/fr.json";
+//import { companyIdPlaceHolder } from '../utils/constants'
+
+countries.registerLocale(english);
+countries.registerLocale(spanish);
+countries.registerLocale(french);    
+
+
+
+export const InputCountrySel = ({t, handleChange, values, i18n}) => {
+    const [countryList, setCountryList] = useState([]);
+
+useEffect(() => {
+    function changeLanguage() {
+      const lang = i18n.language;
+      const countryGen = countries.getNames(lang);
+      const countryArray = Object.values(countryGen);
+      switch (lang) {
+        case "fr":
+          countryArray.sort((a, b) => a.localeCompare(b, "fr"));
+          break;
+        case "es":
+          countryArray.sort((a, b) => a.localeCompare(b, "es"));
+          break;
+        case "en":
+        default:
+          countryArray.sort((a, b) => a.localeCompare(b, "en"));
+          break;
+      }
+      setCountryList(countryArray);
+    }
+    changeLanguage();
+  }, [i18n.language]);
+
+//   useEffect(()=>{
+//     const solveCountry = async(valueCountry) => {
+//         if (typeof companyIdPlaceHolder[valueCountry]!== 'undefined') setPlaceHolder(companyIdPlaceHolder[valueCountry])
+//         else setPlaceHolder('companyId')
+//     }
+//     solveCountry(values.country)
+// },[values.country])
+
+return (
+    <select className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none w-[11vw]
+                       p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8 bg-white"
+    onChange={handleChange}
+    id={"country"}
+    defaultValue={"default"}
+    value={values.country}
+  >
+    <option value={"default"} >
+       {t("selectcountry",{ns:'common'})}
+    </option>
+    {countryList.map((country, index) => (
+      <option key={index} value={countries.getAlpha3Code(country,i18n.language)}>
+        {country}
+      </option>
+    ))}
+  </select>
+)
+
+}
+
+export default InputCountrySel

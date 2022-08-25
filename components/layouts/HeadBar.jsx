@@ -26,7 +26,7 @@ const HeadBar = () => {
     const [hideMenuAccount, sethideMenuAccount]= useState(false)
     const { companyData, setcurrentCompanyData, clearCompany  } = useContext(proponContext)
     const { address, isConnected } = useAccount()
-    const { t } = useTranslation('menus', 'common');
+    const { t } = useTranslation(['menus', 'common']);
     //const errToasterBox = (msj) => {toast.error(msj, toastStyle) }
     const {disconnect} = useDisconnect()
     const router = useRouter()

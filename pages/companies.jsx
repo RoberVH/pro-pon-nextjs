@@ -38,7 +38,7 @@ function Companies() {
 
   const router = useRouter()
 
- const { t } = useTranslation("companies")
+  const { t, i18n  } = useTranslation("companies")
   return (
     <div id="companies">
 
@@ -59,6 +59,7 @@ function Companies() {
             setWait={setIsWaiting}
             setError={setError}
             t={t}
+            i18n ={i18n}
           />
         </div>
       </div>
