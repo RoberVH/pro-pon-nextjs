@@ -27,7 +27,6 @@ const HeadBar = () => {
     const { companyData, setcurrentCompanyData, clearCompany  } = useContext(proponContext)
     const { address, isConnected } = useAccount()
     const { t } = useTranslation(['menus', 'common']);
-    //const errToasterBox = (msj) => {toast.error(msj, toastStyle) }
     const {disconnect} = useDisconnect()
     const router = useRouter()
 
@@ -36,12 +35,10 @@ const HeadBar = () => {
     const getCompany = async (id) => {
         const result = await  getCompanydataDB(data.id)
         setcurrentCompanyData(result)
-        
     }
 
 useEffect(()=>{
   if (address) {
-    console.log('address es',address)
 }
 },[address])
 

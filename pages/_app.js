@@ -52,9 +52,6 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   const [ companyData, setCompanyData] = useState({})
   
 
-
-
-
   const setcurrentCompanyData = (companyData={}) => {
     setCompanyData(companyData)
   }
@@ -63,6 +60,7 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   const clearCompany = () => {
     setCompanyData({})
   }  
+  console.log('MetaMaskConnector',MetaMaskConnector)
   return (
    <>
     <proponContext.Provider value={{

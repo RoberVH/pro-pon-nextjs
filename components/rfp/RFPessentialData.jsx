@@ -17,11 +17,11 @@ function RFPessentialData(t, rfpRecord, handleDeclareWinner) {
           <TableIcon className=" h-6 w-6 text-orange-300 mt-1 ml-2"/>
           <p className="ml-4 mt-1 text-md text-stone-900">{t('rfp')}</p>
       </div>
-      <table className="table-fixed ml-2 text-sm">
+      <table className="table-fixed ml-2 pr-4 text-sm">
         <tbody className="">
           <TableEntry title={t('rfpform.companyId')} value={rfpRecord.companyId} />
           <TableEntry title={t('rfpform.companyname')} value={rfpRecord.companyname} />
-          {/* <TableEntry title={t('rfpform.name')} value={rfpRecord.name} /> */}
+          <TableEntry title={t('rfpform.rfpwebsite')} value={rfpRecord.rfpwebsite} />
           <TableEntry title={t('rfpform.openDate')} value={convDate(rfpRecord.openDate)} />
           <TableEntry title={t('rfpform.endReceivingDate')} value={convDate(rfpRecord.endReceivingDate)} />
           <TableEntry title={t('rfpform.endDate')} value={convDate(rfpRecord.endDate)} />

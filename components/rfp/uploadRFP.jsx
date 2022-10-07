@@ -67,6 +67,7 @@ function UploadRFP({t, setFiles}) {
     }
     // all ok, setFiles to candidateFiles
     setFiles(candidateFiles)
+    console.log('Aqui poner modulo que se encargue de subir los archivos y actualizar setFiles!')
   }}, [candidateFiles])
 
 useEffect(()=>{
@@ -83,6 +84,7 @@ useEffect(()=>{
     e.preventDefault()
     setDroppintFiles(false)
     const files = [...e.dataTransfer.files];
+    console.log('draged files!', files)
     setCandidateFiles(files)
   }
 
@@ -121,9 +123,9 @@ useEffect(()=>{
                 </div>
           </div>
           <div>
-              <label htmlFor="rfprequestdocs">{t('orselectfiles')}o Selecciona archivo(s):</label>
+              <label className="text-center" htmlFor="rfprequestdocs">{t('orselectfiles')}</label>
               <form onSubmit={handleChooseFile}>
-                <input id="rfprequestdocs" className="mt-2 mx-auto w-5/6  text-sm  text-orange-500  file:mr-4 file:py-2 file:px-4
+                <input id="selectrfprequestdocs" className="my-2 mx-auto w-5/6  text-sm  text-orange-500  file:mr-4 file:py-2 file:px-4
                         file:rounded-full file:border-0 file:text-sm file:font-semibold
                         file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
                         onChange={(e)=>setCandidateFiles(e.target.files)}

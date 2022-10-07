@@ -21,9 +21,16 @@ function Searchrfps() {
   const router = useRouter()
 
   const handleShowRFP =(rfp) => {
-    const params= new URLSearchParams(rfp)
-    console.log('link a pushear:', '/homerfp?' + params)
-    router.push('/homerfp?' + params)
+    //console.log('Pre rfp', rfp)
+    const {items, ... postrfp} = rfp
+    const itemsparam=items.map(item => `items=${encodeURI(item)}`).join('&')
+    const rfpparams=Object.keys(postrfp).map(key => `${encodeURI(key)}=${encodeURI(postrfp[key])}`).join('&')
+    const rfphomeparams=rfpparams + '&' + itemsparam
+    router.push('/homerfp?' + rfphomeparams)
+  //  let params= new URLSearchParams(rfp )
+   // let params2 = new URLSearchParams(postrfp)
+   
+    //router.push('/homerfp?' + params)
 
   }
 

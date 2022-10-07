@@ -13,21 +13,41 @@ html {
       text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 
       active:hover:shadow-lg active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none
       active:focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 
-      ease-in-out disabled:bg-orange-400;
+      ease-in-out disabled:bg-orange-400; focus:outline-none 
     }
     .secondary-btn {
       @apply bg-stone-400 text-sm font-bold font-khula text-white leading-tight uppercase 
       px-4 py-2.5 rounded shadow-md hover:bg-stone-700 active:hover:shadow-lg 
       active:focus:bg-stone-700 focus:shadow-lg focus:outline-none focus:ring-0 
       active:bg-stone-800 active:focus:shadow-lg transition duration-150 
-      ease-in-out disabled:bg-stone-400
+      ease-in-out disabled:bg-stone-400 
     }
     .btn-add-circular {
-      @apply bg-green-400 text-2xl text-white  w-10 h-10  rounded-full
-      hover:bg-green-300 focus:bg-green-300
+      @apply bg-green-400 text-2xl text-white  w-8 h-8  rounded-lg
+      hover:bg-green-300 
     }
+    .btn-removeall-circular {
+      @apply bg-red-400 text-2xl text-white  w-8 h-8  rounded-lg
+      hover:bg-red-300 focus:outline-none
+    }    
     .btn-remove-circular {
       @apply bg-red-400 text-sm text-white  w-5 h-5  rounded-full
-      hover:bg-red-300 
+      hover:bg-red-300 focus:outline-none
+    }
+    .btn-edit-circular {
+      @apply bg-yellow-300 text-sm text-white  w-5 h-5  rounded-full
+      hover:bg-yellow-200 focus:outline-none
+    }    
+    .tooltip-span-rigth {
+      @apply absolute invisible group-hover:visible group-hover:flex -top-2 -right-3 overflow-visible 
+      translate-x-full w-48 px-2 py-1 bg-gray-700 rounded-lg text-center text-white text-sm 
+      before:content-[''] before:absolute before:top-1/2  before:right-[100%] before:-translate-y-1/2 
+      before:border-8 before:border-y-transparent before:border-l-transparent before:border-r-gray-700 
+    }    
+    .tooltip-span-top {
+      @apply absolute invisible group-hover:visible group-hover:flex -left-5 -top-2 -translate-y-full w-48 px-2 py-1 
+      bg-gray-700 rounded-lg text-center text-white text-sm after:content-[''] after:absolute after:left-1/2 overflow-visible
+      after:top-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-b-transparent 
+      after:border-t-gray-700 
     }
   }

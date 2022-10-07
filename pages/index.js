@@ -16,7 +16,7 @@ export default function Home() {
 
   const { address, isConnected } = useAccount()
 
-console.log('companyData', companyData)
+
   return (
   <main className=" antialiased">
     <div className="flex flex-col items-center"> 

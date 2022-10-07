@@ -10,17 +10,19 @@ export const DonwloadFileForm = ({ files, t }) => (
       <p className="mt-2 pl-2">{t('dowloadrequestfiles')}Documentos de Base</p>
     </div>
     {files.length ? (
-      files.map((file, indx) => (
-        <a
-          key={indx}
-          className=" text-blue-600 ml-3 flex"
-          href={"http:www.banamex.com"}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <p className="pl-2 truncate">📄 &nbsp;{file}</p>
-        </a>
-      ))
+      <div className="border border-2 border-orange-500  m-2 py-1">
+        {files.map((file, indx) => (
+          <a
+            key={indx}
+            className=" text-blue-600 ml-3 flex"
+            href={"http:www.banamex.com"}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <p className="pl-2 truncate">📄 &nbsp;{file}</p>
+          </a>
+        ))}
+      </div>
     ) : (
       <div className="p-2 center-text">
         <p className="text-center"> {t("nofiles")} NO FILES </p>

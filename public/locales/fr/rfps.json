@@ -12,6 +12,8 @@
         "companyId": "Identifiant de l'entreprise",
         "companyname": "Nom de l'entreprise",
         "name":"Nom de la demande de propositions (RFP)",
+        "description":"Description",
+        "rfpwebsite":"Lien vers le site Web de RFP/l'appel d'offres",
         "openDate":"Date de début pour recevoir les propositions",
         "endReceivingDate":"Date de fin de réception des propositions",
         "endDate":"Date d'émission de la décision",
@@ -37,8 +39,25 @@
     "finaldate":"Avant ou le", 
     "noresults":"Aucun résultat",
     "declarewinner":"Déclarer le gagnant",
-    "uploaddocuments":"Cargue documents de sollicitation",
-    "dragfileshere":"Arrastre les archives ici",
-    "orselectfiles":"Sélectionner le(s) fichier(s)"
+    "uploaddocuments":"télécharger les documents de demande",
+    "dragfileshere":"Déplacez des fichiers ici",
+    "orselectfiles":"ou Sélectionner le(s) fichier(s)",
+    "itemplaceholder":"Nom de la catégorie/du lot",
+    "optional":"Facultatif:",
+    "additemscheckbox":"Cochez la case si vous souhaitez ajouter des éléments à attribuer individuellement dans le cadre de votre RFP/appel d'offres",
+    "removeallitems":"Supprimer tous les catégories/lots",
+    "removethisitem":"supprimer cette catégorie/lot",
+    "maxfileserror":"Limite de téléchargement de fichiers dépassée. Vous ne pouvez télécharger que jusqu'à 5 fichiers à la fois",
+    "maxsizeerror":"Taille maximale de téléchargement de fichier dépassée. Vous ne pouvez télécharger que jusqu'à 100 Mo combinés à chaque fois",
+    "nofiles":"Aucun fichier",
+    "uploadrequestdocuments":"Téléchargez vos documents de demande",
+    "dowloadrequestfiles":"Télécharger les documents de l'appel d'offres",
+    "additemstitle":"Ajouter des articles à la demande de propositions/appel d'offres",
+    "addintemsinstructions":"Cliquez sur l'icône verte pour ajouter un jeu à la liste. Cliquez sur un jeu dans la liste pour le modifier",
+    "typecontest": "Type de RFP/Offre",
+    "open": "Ouvert",
+    "invitation":"Par invitation",
+    "showItems":"Lots/Categories"
+    
     
 }

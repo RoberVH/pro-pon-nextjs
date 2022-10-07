@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import RFPessentialData from "../components/rfp/RFPessentialData";
 import UploadRFP from "../components/rfp/uploadRFP";
+import DisplayItems from "../components/rfp/displayItems";
 
-import { convDate } from "../utils/misc";
-import Spinner from "../components/layouts/Spinner";
+
+// import { convDate } from "../utils/misc";
+// import Spinner from "../components/layouts/Spinner";
 import { DonwloadFileForm } from "../components/rfp/DonwloadFileForm";
 
 function HomeRFP({ query }) {
@@ -20,9 +22,6 @@ function HomeRFP({ query }) {
   //const router = useRouter()
   const { t } = useTranslation("rfps");
 
-  //const query = router.query
-  //console.log('query',query)
-
   const processFiles = useCallback(() => {
     const arrayFiles = [];
     Array.from(files).forEach((file) => {
@@ -35,7 +34,6 @@ function HomeRFP({ query }) {
   useEffect(() => {
     const getRFP = () => {
       setRfpRecord(query);
-      console.log('Setting query',query)
     };
     getRFP();
   }, [query]);
@@ -49,14 +47,36 @@ function HomeRFP({ query }) {
     console.log("handleDeclareWinner");
   };
 
-  if (!rfpRecord) return <div>Sin RFP</div>;
+  if (!rfpRecord) return <div>No RFP</div>;
   return (
     <div>
-      <div className="mt-2 my-2 mx-8 outline outline-1 outline-orange-200 flex justify-center bg-white shadow-md">
-        <label className="p-2 ">{t("rfpform.name")}: &nbsp; </label>
-        <label className="pt-2 text-orange-500">{rfpRecord.name}</label>
+      <div className=" my-2 mx-8 outline outline-1 outline-orange-200 bg-white shadow-md">
+        <table className="table-fixed">
+          <tbody>
+            <tr>  
+            <td>
+              <label className="leading-8 p-2 col-start-1 col-end-1 ">{t("rfpform.name")}: &nbsp; </label>
+            </td>
+            <td>
+            <label className="pt-2 text-orange-500 col-start-2 col-end-12">{rfpRecord.name}</label>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        <table className="table-fixed">
+          <tbody>
+            <tr>
+              <td>
+              <label className="p-2 ">{t("rfpform.description")}: &nbsp; </label>
+              </td>
+              <td>
+              <label className="pt-2 text-orange-500">{rfpRecord.description}</label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div className="mt-2">
+      <div className="">
         {RFPessentialData(t, rfpRecord, handleDeclareWinner)}
       </div>
       <div className="mt-2">
@@ -65,6 +85,10 @@ function HomeRFP({ query }) {
       <div className="mt-2">
         <DonwloadFileForm files={rfpfiles} t={t} />
       </div>
+      { rfpRecord.items && rfpRecord.items.length &&
+       <div className="mt-2">
+          <DisplayItems  items={rfpRecord.items} t={t} />
+        </div>}
     </div>
   );
 }

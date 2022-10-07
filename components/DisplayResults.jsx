@@ -1,11 +1,9 @@
 import React from 'react'
-import { useTranslation } from "next-i18next";
 import { convDate } from '../utils/misc.js'
 
 
 function DisplayResults({fields,results, actions, t}) {
 //  const { t } = useTranslation("companies");
-  const numCols=fields.length
   if (!results.length) return 
       <div className="text-red-600 font-xl">
         {t('noresults')}

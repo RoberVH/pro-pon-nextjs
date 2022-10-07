@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect} from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { ethers } from 'ethers'
 import { useContractEvent, useContractWrite } from 'wagmi'
 import { ContractConfig } from '../../web3/contractsettings'
 import { saveRFP2DB } from '../../database/dbOperations'
@@ -8,8 +9,12 @@ import { proponContext } from '../../utils/pro-poncontext'
 import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
 import { toast } from "react-toastify";
 import useInputForm from "../../hooks/useInputForm";
-import "react-toastify/dist/ReactToastify.css";
 import { InputRFPName }  from "../input-controls/InputRFPName";
+import { InputRFPDescription }  from "../input-controls/InputRFPDescription";
+import { InputRFPwebsite }  from "../input-controls/InputRFPwebsite";
+
+import "react-toastify/dist/ReactToastify.css";
+
 import { InputDate } from "../input-controls/InputDate";
 import RFPItemAdder from '../rfp/RFPItemAdder'
 
@@ -24,6 +29,9 @@ const validatingFields = new Map([
 ])    
 
 const LINK=`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/`
+const ContestType = {OPEN:0, INVITATION_ONLY:1}
+const  openContest = ContestType.OPEN 
+const  invitationContest = ContestType.INVITATION_ONLY
 
 /**
  * RFPDataForm
@@ -43,32 +51,37 @@ const RFPDataForm = () => {
   const [errorwriting, setError] = useState()
   const [rfpParams, setRpParams] = useState()
   const [rfpId, setRFPId] = useState()
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState({})
+  const [showItemsField, setShowItemsField] = useState(false)
+  const [contestType, setContestType] = useState(openContest)
 
   const { values, handleChange } = useInputForm()
   const router = useRouter()
  
   const patronobligatorio = new RegExp("^(?!s*$).+");
-  const patronDate= new RegExp("^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")
+  //const patronDate= new RegExp("^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")
   const { companyData } = useContext(proponContext);
-
+  
 // Function to display error msg
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
   
-  //console.log('items.length', items.length)
-
   useEffect(()=>{
     errToasterBox(errorwriting)
   },[errorwriting])
 
-  
-  const handleRemoveItem = (itemToRemove) => {
-    const currentItems=items
-    currentItems = items.find(item=> item!== e.currentTarget.value)
-    setItems(currentItems)
+
+  const handleCheckItemsAdder = (e) => {
+    // e.preventDefault()
+    if (Object.keys(items).length) {
+      errToasterBox('Remove existing Items first')
+      console.log('e', e)
+      e.preventDefault()
+      return
+    } else setShowItemsField(!showItemsField)
   }
+  
 
 const { write, error } = useContractWrite({
   addressOrName: ContractConfig.addressOrName,
@@ -111,6 +124,7 @@ const { write, error } = useContractWrite({
       }
     };
 
+
   const convertDate2UnixEpoch=(dateStr)=> {
     // date with format 'YYYY-MM-DD';
     const date = new Date(dateStr);
@@ -141,9 +155,15 @@ const { write, error } = useContractWrite({
     router.push('/homerfp?' + params)    
   }
 
+  const handleClickContestType= (e) => {
+    setContestType(e.target.id ==='open' ? openContest : invitationContest)
+    console.log('Radio: ', contestType)
+  }
 
   // handleSave -  call Validate fields & if ok send transaction to blockchain
   const handleSave = async () => {
+    const arrayItems=Object.entries(items).map(item => item[1])
+    console.log('arrayItems: ',arrayItems)
     const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
       trimmedValues[key] = (typeof value !== "undefined" ? value : "").trim();
@@ -179,37 +199,50 @@ const { write, error } = useContractWrite({
       companyId: companyData.companyId,
       companyname:companyData.companyname,
       name:trimmedValues['name'],
+      description:trimmedValues['description'],
+      rfpwebsite:trimmedValues['rfpwebsite'],
       openDate: dates[0] ,
       endReceivingDate:dates[1],
-      endDate: dates[2]
+      endDate: dates[2],
+      contestType:contestType,
+      items:arrayItems
     })
+    console.log('Params para BD:', rfpParams)
+    console.log('Blockchain params:', trimmedValues['name'], dates[0], dates[1], dates[2],contestType,arrayItems)
     try {
       await write({
-        args: [trimmedValues['name'], dates[0], dates[1], dates[2]]})      
+        args: [trimmedValues['name'], dates[0], dates[1], dates[2],contestType,arrayItems],
+        overrides: {
+          value: ethers.utils.parseEther("0.0001")
+        }
+      })
     } catch (error) {
       console.log("Error del server:", error);
       errToasterBox(error);
     } finally {setWaiting(false)}
   };
 
-  console.log('items.length',items.length)
+  const itemStyleContainer= {true: 'w-[85%]', false: 'w-[45%]'}
+  const itemStyleInputName ={true: 'w-[85%]', false: 'w-[130%]'}
+  const itemStyleDate ={true: 'w-[50%]', false: 'w-[110%]'}
+  const itemStyleCheckboxText = {true: 'w-[85%]', false: 'w-[100%]'}
+
  // render of Component rfpDataForm *****************************************************
   return (
   <div id="generalsavearea">
       {/* Entry Form with buttons save & cancel */}
-      <div 
-        id="dataentrypanel" 
-        className="container w-[85%] p-4 bg-white border-xl border-2 border-orange-200 rounded-md">
-          <p className="text-gray-600 text-extrabold text-base text-xl mb-4 font-khula">
+      <div id="dataentrypanel" 
+        className={`container ${itemStyleContainer[showItemsField]} p-4 bg-white border-xl border-2 border-orange-200 rounded-md`}>
+          <p className="text-gray-600 text-extrabold text-base text-xl  font-khula">
             ⌨ &nbsp;{t("recresrfpdata")}
           </p>
           <div className="grid grid-cols-2 grid-gap-1">
-            <div className="flex flex-col items-left justify-between leading-8 mt-16 mb-8 pl-8 ">
+            <div id="essentialdatacontainer" className="flex flex-col items-left justify-between leading-8 mt-8  pl-8 ">
               <form
                 action=""
                 className="mb-8"
                 disabled={waiting || postedHash || rfpCreated}>
-                <div className="w-[80%] relative mb-4">
+                <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
                   <InputRFPName
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -218,7 +251,25 @@ const { write, error } = useContractWrite({
                     disable={waiting ||postedHash}
                   />
                 </div>
-                <div className=" w-[50%] relative mb-4">
+                <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
+                  <InputRFPDescription
+                    handleChange={handleChange}
+                    inputclasses={inputclasses}
+                    values={values}
+                    placeholder={`${t("rfpform.description")}`}
+                    disable={waiting ||postedHash}
+                  />
+                </div>
+                <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
+                  <InputRFPwebsite
+                    handleChange={handleChange}
+                    inputclasses={inputclasses}
+                    values={values}
+                    placeholder={`${t("rfpform.rfpwebsite")}`}
+                    disable={waiting ||postedHash}
+                  />                  
+                </div>                
+                <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
                   <InputDate
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -228,7 +279,7 @@ const { write, error } = useContractWrite({
                     disable={waiting ||postedHash}
                   />
                 </div>
-                <div className=" w-[50%] relative mb-4">
+                <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
                   <InputDate
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -238,7 +289,7 @@ const { write, error } = useContractWrite({
                     disable={waiting ||postedHash}
                   />
                 </div>
-                <div className=" w-[50%] relative mb-4">
+                <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
                   <InputDate
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -248,16 +299,35 @@ const { write, error } = useContractWrite({
                     disable={waiting ||postedHash}
                   />
                 </div>
+                <div className={`bg-stone-100 p-2 ${itemStyleDate[showItemsField]}`}>
+                  <label className="text-stone-500">{t('typecontest')}</label> <br></br>
+                  <div className="my-4 ml-4 flex justify-start" >
+                    <label className={`mr-4 mt-1 cursor-pointer ${contestType===openContest  ? 
+                    ' bg-blue-200 px-2 rounded rounded-3xl' : ''}`} id="open"
+                      onClick={handleClickContestType}>{t('open').toUpperCase()}</label>
+                    <p className={`mx-4 mt-1 cursor-pointer ${contestType=== invitationContest ? 
+                    ' bg-blue-200 px-2 rounded rounded-3xl' : ''}`} type="radio" id="invitation"
+                      onClick={handleClickContestType}>{t('invitation').toUpperCase()}</p>
+                  </div>
+                </div>
+              <div id="optionalCheckmark" className="flex mt-12">
+                <input onClick={handleCheckItemsAdder} className="mr-4" type="checkbox" value={showItemsField}/>
+                <div className={`${itemStyleCheckboxText[showItemsField]}`}>
+                <p className={`text-stone-600 font-khula`}> 
+                <strong>{t('optional')}&nbsp;</strong>{t('additemscheckbox')} </p>
+                </div>
+              </div>
               </form>
+            </div>
+            <div id="ItemsForm">
+                  <RFPItemAdder items={items} setItems={setItems} showItemsField={showItemsField} />
+            </div>
 
-            </div>
-            <div>
-              <RFPItemAdder items={items} setItems={setItems}/>
-            </div>
-            <div id="footersubpanel3">
-                <div className={`py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md w-[50%]
+          </div>
+          <div id="footersubpanel3 ">
+                <div className={` mt-8 pt-8 pb-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md w-[100%]
                 ${rfpCreated?'hidden':null}`}>
-                  <div className="mt-4 mr-10  " >
+                  <div className="mt-4 mr-10" >
                     <button
                       type="button"
                       onClick={handleSave}
@@ -284,8 +354,7 @@ const { write, error } = useContractWrite({
                     </button>
                   </div>
                 </div>
-              </div>
-          </div>
+            </div>
       </div>
       {/* Inferior panel to explain & display call to actions */}
       { ( waiting || postedHash) &&
