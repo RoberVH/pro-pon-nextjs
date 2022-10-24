@@ -2,7 +2,7 @@
 
  // Polygon Pro-pon smart contract address
  
- export const contractAddress ='0xBB9bac7E25B1739c090B823078F9e5a390AE2a91'
+ export const CONTRACT_ADDRESS ='0xBB9bac7E25B1739c090B823078F9e5a390AE2a91'
  
   
  // Mumbai contracts deployed

@@ -1,24 +1,25 @@
-import { useContext, useEffect } from 'react'
-import { useAccount,useDisconnect } from 'wagmi'
+import { useContext } from 'react'
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router";
 import { proponContext } from '../utils/pro-poncontext'
+import  Spinner  from '../components/layouts/Spinner'
 
 import Image from 'next/image'
 import Link from 'next/link'
 
 
 export default function Home() {
-  const {  companyData } = useContext(proponContext);
+  const {  companyData, address, showSpinner } = useContext(proponContext)
   const { locale } = useRouter()
   const { t } = useTranslation()
 
-  const { address, isConnected } = useAccount()
-
-
   return (
-  <main className=" antialiased">
+  <main className="antialiased ">
+    { showSpinner &&
+      <div className="absolute bottom-[45%] left-[45%]">
+        <Spinner/>
+      </div>}
     <div className="flex flex-col items-center"> 
       <div className="mt-8 text-4xl font-bold font-khula text-slate-500 ">
         <h1> {t('aptitle')}</h1>
@@ -30,8 +31,8 @@ export default function Home() {
       </div>
       { (!companyData.companyname && address) ?
         <div id="signupframe" className=" w-full  flex justify-center bg-slate-200  py-8 ">
-          <div id="calltosignupsubframe" className="p-8 w-[55%] bg-orange-200 flex flex-row justify-center rounded-xl
-          border border-2 border-red-600">
+          <div id="calltosignupsubframe" className="p-8 w-[55%] bg-orange-200 flex flex-row justify-center 
+          rounded-xl border border-2 border-red-600">
             <div>
             <p className="uppercase text-center font-nunito text-md font-bold text-orange-800 leading-8">
               {t('instructions_title')}
@@ -47,9 +48,9 @@ export default function Home() {
                 <a  className=" ml-16 p-4 font-khula font-black text-xl uppercase 
                     text-white bg-orange-600 rounded-xl  drop-shadow-lg  
                     bg-gradient-to-r from-orange-500  to-blue-500 
-                    hover:border-2 hover:shadow-md 
-                    hover:bg-stone-600 active:ring-4
-                    bg-gradient-x 1s ease infinite">
+                    bg-gradient-x 1s ease infinite
+                    hover:outline hover:outline-4 hover:outline-orange-300
+                    hover:outline-offset-2">
                     {t('signup',{ns:'common'})}
                 </a>
               </Link>

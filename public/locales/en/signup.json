@@ -16,7 +16,13 @@
     "block":"This transaction has been included into Block: ",
     "errors": {
         "address_already_admin":"This account is already admin of another company",
-        "undetermined_blockchain_error":"Unkwon error, try later"
+        "unknownerror":"Unkwon error, try later",
+        "undetermined_blockchain_error":"Unkwon error, try later",
+        "insufficient_funds":"insufficient funds for intrinsic transaction cost",
+        "Insufficient_payment":"Insufficient payment for this transaction",
+        "address_not_admin":"This account is not owner",
+        "Only_admin_can_perform":"Only admin owner can make this operation",
+        "user_rejection":"User rejected transaction"
     },
     "companyform": {
         "recordessentialdata":"Register basic company data",
@@ -37,7 +43,7 @@
         "websiteerror":"Wrong Website",
         "countryerror":"Wrong Country"
     },
-    "showsigningmsg":"You will be asked to sign with your wallet account a message with your company data, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you are requesting this change. Please sign the message",
+    "showsigningmsg":"You will be asked to sign with your wallet account a message with your company data, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you have the right to request this operation. Please sign the message",
     "savebutton":"Save",
     "cancelbutton": "Cancel",
     "savingstate": " Saving...",

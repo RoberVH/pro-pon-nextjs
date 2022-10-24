@@ -31,7 +31,7 @@ export default async function handler (req, res) {
       console.log('signature',signature)
       console.log('msg',msg)
       const account=await verifyMessage(JSON.stringify(msg), signature)
-      if ( !accountHasRigths(account, msg.companyId)) {
+      if ( !await accountHasRigths(account, msg.companyId)) {
           res.status(400).json({ status: false, 
             message:`Account ${account.slice(0,5)}...${account.slice(-6)}  not admin of company with ID: ${msg.companyId}`  })
           break
@@ -55,7 +55,7 @@ export default async function handler (req, res) {
         }
         break
       default:
-        res.status(400).json({ status: false, msg:'Error desconocido' })
+        res.status(400).json({ status: false, msg:'Unkown Error' })
         break
     }
 

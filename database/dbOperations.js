@@ -1,4 +1,5 @@
 
+// retrieve from DB companyData record with passed companyId identifier
 export const  getCompanydataDB = async (companyId) =>  {
   const params=new URLSearchParams({companyId:companyId})
   const url=`/api/readonecompany?${params}`
@@ -16,7 +17,7 @@ export const  getCompanydataDB = async (companyId) =>  {
 export const verifyData_Save = async (message, signature) => {
     let method = "PATCH";
     const webload= {signature:signature,...JSON.parse(message) }
-
+    console.log('webload',webload)
     try {
       const response = await fetch("/api/servercompanies", {
         method: method,
@@ -24,7 +25,6 @@ export const verifyData_Save = async (message, signature) => {
         body: JSON.stringify(webload),
       });
       const resp = await response.json();
-      console.log('Resp del server:', resp)
       if (resp.status) return {status:true}
         else return {status:false, message: resp.message}
     } catch (error) {

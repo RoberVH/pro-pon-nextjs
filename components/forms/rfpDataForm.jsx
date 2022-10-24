@@ -44,7 +44,6 @@ const RFPDataForm = () => {
   const { t } = useTranslation("rfps");
 
   const [waiting, setWaiting] = useState(false); 
-  
   const [postedHash, setPostedHash] = useState('')
   const [block, setBlock] = useState('')
   const [rfpCreated, setrfpCreated] = useState(false)
@@ -76,7 +75,6 @@ const RFPDataForm = () => {
     // e.preventDefault()
     if (Object.keys(items).length) {
       errToasterBox('Remove existing Items first')
-      console.log('e', e)
       e.preventDefault()
       return
     } else setShowItemsField(!showItemsField)
@@ -132,7 +130,8 @@ const { write, error } = useContractWrite({
     const unixTimestamp = Math.floor(date.getTime() / 1000);
     return unixTimestamp
     }
-    const validateDate= (pattern,value,msj) =>   {
+
+  const validateDate= (pattern,value,msj) =>   {
       if (typeof value==='undefined' || !pattern.test(value)) {
         errToasterBox(msj);
         return [null, false];

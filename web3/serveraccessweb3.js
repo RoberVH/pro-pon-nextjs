@@ -1,18 +1,12 @@
-import  { ethers }  from "ethers"
-import { ContractConfig } from './contractsettings'
+import {  getProponContractServer } from './servercontractsettings'
+//import {  getProponContract } from './contractsettings'
 
 
 
-export const accountHasRigths =async (accountAddress, companyId) => 
-{
-    const alchemyProvider = new ethers.providers.AlchemyProvider(process.env.NEXT_PUBLIC_NETWORK, process.env.NEXT_PUBLIC_ALCHEMY_ID_DEV);
-    const signer = new ethers.Wallet(process.env.PVTE_KEY, alchemyProvider)
-    const proponContract = new ethers.Contract(
-            ContractConfig.addressOrName, 
-            ContractConfig.contractInterface, 
-            signer)
+export const accountHasRigths =async (accountAddress, companyId) => {
+    const proponContract = await getProponContractServer()
+    //const proponContract = await getProponContract()
     const _companyId = await proponContract.getCompanyId(accountAddress)
+    console.log('accounthasrights', _companyId, companyId)
     return (_companyId === companyId)
-
-    
 }

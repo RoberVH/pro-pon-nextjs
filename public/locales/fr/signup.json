@@ -16,7 +16,13 @@
     "block":"La transaction a été incluse dans le bloc: ",
     "errors": {
         "address_already_admin":"Ce compte est déjà administrateur d'une autre entreprise",
-        "unknownerror":"Erreur inconnue, essayez plus tard"
+        "unknownerror":"Erreur inconnue, essayez plus tard",
+        "undetermined_blockchain_error":"Erreur inconnue, essayez plus tard",
+        "insufficient_funds":"Fonds insuffisants pour couvrir le coût de la transaction",
+        "Insufficient_payment":"Paiement insuffisant pour cette transaction",
+        "address_not_admin":"Ce compte n'est pas propriétaire",
+        "Only_admin_can_perform":"Seul le propriétaire administrateur peut effectuer cette opération",
+        "user_rejection":"l'utilisateur a rejeté la transaction"
     },    
     "companyform": {
         "recordessentialdata":"Enregistrer les données de base de l'entreprise",
@@ -37,7 +43,7 @@
         "websiteerror":"Mauvais site Web",
         "countryerror":"Mauvais pays"        
     },
-    "showsigningmsg":"Il vous sera demandé de signer avec votre compte portefeuille un message avec les données de votre entreprise, ne vous inquiétez pas car cette opération ne vous coûtera aucune crypto-monnaie, c'est seulement un moyen de vous assurer que vous demandez ce changement. Veuillez signer le message",
+    "showsigningmsg":"Il vous sera demandé de signer avec votre compte portefeuille un message avec les données de votre entreprise, ne vous inquiétez pas car cette opération ne vous coûtera aucune crypto-monnaie, c'est juste un moyen de vous assurer que vous avez le droit de demander cette opération. Veuillez signer le message",
     "savebutton":"Sauvegarder",
     "cancelbutton": "Annuler",
     "savingstate": " Enregistrement...",

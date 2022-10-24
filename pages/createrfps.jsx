@@ -45,7 +45,6 @@ function Createrfps() {
           </h1>
         </div>
     )
-  // Logged In, display create RFP screen
   }  else if (!isConnected) {
     return (
       <div className="text-center  mt-12 text-2xl text-red-600 ">
@@ -55,6 +54,7 @@ function Createrfps() {
       </div>
     )
   }  else return (
+    // Logged In, display create RFP screen
     <div id="createrfps" className="md:mt-8 sm:mt-4">
       <RFPDataForm  />
     </div>

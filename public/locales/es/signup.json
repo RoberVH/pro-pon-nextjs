@@ -16,7 +16,13 @@
     "block":"La Transacción fue incluida en el bloque: ",
     "errors": {
         "address_already_admin":"Esta cuenta ya es administradora de otra empresa",
-        "unknownerror":"Error desconocido, reintente mas tarde"
+        "unknownerror":"Error desconocido, reintente mas tarde",
+        "undetermined_blockchain_error":"Error desconocido, reintente mas tarde",
+        "insufficient_funds":"Fondos insuficientes para cubrir costo de transaction",
+        "Insufficient_payment":"Pago insuficiente para pagar esta transacción",
+        "address_not_admin":"Esta cuenta no es la propietaria",
+        "Only_admin_can_perform":"Solo cuenta adminstrador puede hacer esta operación",
+        "user_rejection":"Usuario rechazó la transacción"
     },
     "companyform": {
         "recordessentialdata":"Registra datos básicos de la empresa",
@@ -37,7 +43,7 @@
         "websiteerror":"Website erróneo",
         "countryerror":"País erróneo"
     },
-    "showsigningmsg":"Se le pedirá que firme con su cuenta de billetera un mensaje con los datos de su empresa, no se preocupe ya que esta operación no le costará ninguna criptomoneda, es solo una forma de asegurarse de que está solicitando este cambio. Por favor firme el mensaje",
+    "showsigningmsg":"Se le pedirá que firme con su cuenta de billetera un mensaje con los datos de su empresa, no se preocupe ya que esta operación no le costará ninguna criptomoneda, es solo una forma de asegurarse de que tiene derecho a solicitar esta operación. Por favor firme el mensaje",
     "savebutton":"Guardar",
     "cancelbutton": "Cancelar",
     "savingstate": " Guardando...",

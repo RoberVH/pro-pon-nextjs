@@ -11,7 +11,8 @@ countries.registerLocale(french);
 
 
 
-export const InputCountrySel = ({t, handleChange, values, i18n, setPlaceHolder, companyData, profileCompleted}) => {
+export const InputCountrySel = ({t, handleChange, values, i18n, setPlaceHolder,
+   companyData, profileCompleted}) => {
     const [countryList, setCountryList] = useState([]);
 
 useEffect(() => {
@@ -42,13 +43,13 @@ useEffect(() => {
         else setPlaceHolder('companyId')
     }
     solveCountry(values.country)
-},[values.country])
+},[values.country, setPlaceHolder])
 
 return (
     <select
-    className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-white bg-clip-padding bg-no-repeat
-            border border-solid border-gray-300 outline-none rounded transition ease-in-out
-            m-0 border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
+    className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-stone-100 bg-clip-padding
+           bg-no-repeat border border-solid border-gray-300 outline-none rounded transition ease-in-out
+           border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
             text-black  font-khula"
     onChange={handleChange}
     id={"country"}
