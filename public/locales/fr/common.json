@@ -14,6 +14,8 @@
    "nocompany":"Société non enregistrée",
    "nometamask":"Metamask introuvable",
    "metamaskwarning":"Cette application nécessite Metamask Wallet, veuillez l'installe",
+   "changenetwork":"Vous n'êtes pas connecté au réseau Blockchain Polygon",
+   "changenetworkbutton":"Se connecter au Polygon",
    "benefits": [
     "Des vendeurs partout dans le monde",
     "Les documents de proposition sont électroniques et signés cryptographiquement",
@@ -27,5 +29,6 @@
         "Créez votre profil d'entreprise - maintenant vous êtes administrateur",
         "Créer un appel d'offres et ajouter des documents d'appels d'offres",
         "Invitez vos fournisseurs à soumissionner via l'application Pro-Pon"
-    ]
+    ],
+    "addingnetwork":"Votre portefeuille n'a pas le réseau de travail configuré, ajoutez-le maintenant, veuillez autoriser"
 }

@@ -6,16 +6,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-function RFPItemAdder({items, setItems, showItemsField}) {
+function RFPItemAdder({items, setItems, showItemsField, disable}) {
   const [itemTender, setItemTender] = useState('')      // local state var to control the current Item being added to prop items
   const [editionLine, setEditionLine] = useState('')
   const [editingIndexLine, seteditingIndexLine] = useState(-1)
   const [editingLine, setEditingLine] = useState(false)
   const { t } = useTranslation("rfps");
   const nanoid = customAlphabet('abcdefghijklmnnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 8)
-  // const errToasterBox = (msj) => {
-  //   toast.error(msj, toastStyle);
-  // };
 
 
 const handleKeyPress= (e) => {
@@ -27,7 +24,6 @@ const handleKeyPress= (e) => {
 
   // look items[index] and substitute it for e.currentTarget.value
   const handleChangeItemLine = (e, index) => {
-    console.log('e,index', e, index)
    // setItems((items) => items.filter(elem => index))
    setItems(item => ({ ...items, [e.target.id]: e.target.value }));
   }
@@ -41,6 +37,7 @@ const handleKeyPress= (e) => {
   }
   
   const handleRemoveAllItems = () => {
+    //add here a warning confirmation to remove all items!
     setItems({})
   }
 
@@ -49,7 +46,6 @@ const handleKeyPress= (e) => {
     const idx=nanoid()
     setItems(items => ({...items, [idx]:itemTender}))
     setItemTender('')
-    console.log(items)
   }
 
  if (!showItemsField) return null
@@ -58,7 +54,7 @@ const handleKeyPress= (e) => {
           <div>
             <p className="text-stone-500">{t('additemstitle')}  </p>
             <p className="text-stone-500">{t('addintemsinstructions')}</p>
-            <div className=" flex mt-12">
+            <div className=" flex mt-10">
               <input 
                   className="w-[80%] p-2  mr-4 outline outline-1 outline-orange-600  rounded-md"
                   type = 'text'
@@ -67,15 +63,16 @@ const handleKeyPress= (e) => {
                   onKeyPress = {handleKeyPress}
                   value={itemTender}
                   placeholder= {t('itemplaceholder')}
+                  disabled={disable}
               />
               <button 
-                    disabled={(itemTender.length===0)}
+                    disabled={((itemTender.length===0) || disable)}
                     className="btn-add-circular disabled:cursor-not-allowed"
                     onClick={handleAddItem}>
                         +
               </button>
               <button 
-                  disabled={!Object.keys(items).length}
+                  disabled={(!Object.keys(items).length || disable)}
                   className="btn-removeall-circular disabled:cursor-not-allowed ml-1
                   group relative inline-block  "
                   onClick={handleRemoveAllItems}>
@@ -94,11 +91,13 @@ const handleKeyPress= (e) => {
                               type='text'
                               className={`truncate w-[80%] mr-6 border-b-2 border-orange-200 focus:bg-stone-200 focus:outline-none`}
                               onChange={(e) => handleChangeItemLine(e,itemKey)}
-                              value={items[itemKey]}>
+                              value={items[itemKey]}
+                              disabled={disable}>
                             </input>
                             <button 
                               className="btn-remove-circular mt-1 ml-1 group relative inline-block "
-                              onClick={() => handleRemoveItem(itemKey)}>
+                              onClick={() => handleRemoveItem(itemKey)}
+                              disabled={disable}>
                                   - 
                                 <span className="tooltip-span-top -left-20">
                                 {t('removethisitem')}

@@ -50,7 +50,6 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   //{setPhase
   const[taxPayerPlaceHolder,setTaxPayerPlaceHolder]=useState('companyId')
   const { values, handleChange } = useInputForm()
   //const { setCompanyData, companyData } = useContext(proponContext);
-  console.log('Signup companyData', companyData)
   const [profileCompleted, setProfileCompleted] = useState(
     (companyData && typeof companyData.profileCompleted!=='undefined')
         ? companyData.profileCompleted
@@ -87,7 +86,6 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   //{setPhase
 }
 
   const onEvent = async (address, companyId, CompanyName) => {
-    console.log('SignUp onEvent', address, companyId, CompanyName)
     // save company data to DB record and also to context in case DB write/read fails
     await saveCompanyData() 
     const company= await getCompanydataDB(values.companyId.trim()) // read from DB company data
@@ -97,10 +95,10 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   //{setPhase
 
   const onSuccess = (data) => {
     setBlock(data.blockNumber)
-    console.log('SignUp data', data)
   }
 
   const onError = (error) => {
+    console.log(error)
     let customError=t('errors.undetermined_blockchain_error')  // default answer, now check if we can specified it
     if (typeof error.reason!== 'undefined') {
       if (error.reason==='insufficient funds for intrinsic transaction cost')
@@ -193,7 +191,6 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   //{setPhase
 // render of Component
   return (
    <div id="generalsavearea" className="container mx-auto " >
-    {console.log('values!', values)}
     {/* Entry Form with buttons save & cancel */}
     <div id="dataentrypanel" className="mt-4  p-4 bg-white  border-orange-200 rounded-md
                   container  my-8 mx-4 border-2 border-solid">
@@ -251,7 +248,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   //{setPhase
               disable={true}
             />
           </div>
-          <div className="relative mb-4">
+          <div className="relative ">
             <InputCompanyName
               handleChange={handleChange}
               inputclasses={inputclasses}

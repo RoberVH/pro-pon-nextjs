@@ -28,8 +28,6 @@ export default async function handler (req, res) {
       break
     case 'PATCH':  //  modify company data
       const {signature,...msg} = req.body
-      console.log('signature',signature)
-      console.log('msg',msg)
       const account=await verifyMessage(JSON.stringify(msg), signature)
       if ( !await accountHasRigths(account, msg.companyId)) {
           res.status(400).json({ status: false, 
@@ -39,7 +37,6 @@ export default async function handler (req, res) {
       msg.profileCompleted=true
         try {
           const uniqueIdRecord = req.body._id
-          console.log('Previa', msg)
           delete msg._id
           delete msg.companyId
           delete msg.companyname

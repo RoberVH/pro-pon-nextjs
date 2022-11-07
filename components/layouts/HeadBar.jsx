@@ -10,8 +10,13 @@ import Image from "next/image"
 import Menues from "../menues"
 import SelectLanguage from "../header/selectLanguage"
 import { proponContext } from "../../utils/pro-poncontext"
+import { switchNetwork } from "../../web3/switchnetwork"
 import { BadgeCheckIcon } from "@heroicons/react/outline"
 import { StatusOfflineIcon } from "@heroicons/react/outline"
+import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork"
+import NoMetamaskWarning from "./noMetamaskWarning"
+import NoRightNetworkWarning from "./noRightNetworkWarning"
+
 
 // toastify related imports
 import { ToastContainer, toast } from "react-toastify"; 
@@ -19,34 +24,20 @@ import "react-toastify/dist/ReactToastify.css";
 import { toastStyle } from '../../styles/toastStyle'
 
 
-const NoMetamaskWarning= ({t}) => (
-    <div className="font-bold text-orange-300 font-khula flex justify-center pt-2 pb-6">
-        <h1 className="text-xl mt-2">{t('metamaskwarning',{ns:"common"})}</h1>
-        <Link href={"https://metamask.io/download/"} passHref>
-            <a className="ml-8 p-2 font-khula font-black text-sm uppercase 
-                    text-white bg-orange-600 rounded-xl  drop-shadow-lg  
-                    bg-gradient-to-r from-orange-500  to-red-500 
-                    hover:outline hover:outline-2 hover:outline-orange-300
-                    hover:outline-offset-2" 
-                    target="_blank"
-                    rel="noreferrer"
-                    >
-                Metamask
-            </a>
-        </Link>
-    </div>
-)
-
-
 const HeadBar = () => {
   const [hideMenuAccount, sethideMenuAccount] = useState(false);
   const [noMetaMask, setNoMetaMask] = useState(true);
+  const [addingNetwork, setAddingNetwork]=useState(false);
+
   
   const {   companyData, 
             setCompanyData, 
             address, 
             setAddress,
-            setShowSpinner } = useContext(proponContext);
+            setShowSpinner,
+            noRightNetwork,
+            setNoRightNetwork } = useContext(proponContext);
+
   const { t } = useTranslation(["menus", "common"]);
   const router = useRouter();
   
@@ -54,20 +45,29 @@ const HeadBar = () => {
     toast.error(msj, toastStyle);
   };  
   const getCompany = useCallback(
-    async (id) => {
+    async (contractCiaData) => {
+      const {id, company_RFPs,RPFsWon,RFPSent} = contractCiaData
+      const rfpWon = parseInt(RPFsWon)
+      const rfpSent = parseInt(RFPSent)
+      const companyRFPs= company_RFPs.map(rfp => parseInt(rfp))
       const result = await getCompanydataDB(id); // get complementary company data from DB
-      setCompanyData(result);
+      setCompanyData({rfpWon, rfpSent, companyRFPs, ...result});
     },[setCompanyData]);
 
-useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.ethereum) {
-        setNoMetaMask(false)
-        return
-    } else checkMMAccounts(setAddress)
-}, [setAddress]);
+  useEffect(() => {
+      if (typeof window === "undefined") return;
+      if (window.ethereum) 
+          setNoMetaMask(false)
+        else checkMMAccounts(setAddress)
+  }, [setAddress]);
 
-useEffect(()=>{
+  useEffect(()=>{
+    if (address) {
+      setNoRightNetwork(window.ethereum.networkVersion!==process.env.NEXT_PUBLIC_NETWORK_VERSION) }
+  },[address,setNoRightNetwork])
+
+
+  useEffect(()=>{
   // get company data from contract. If there is one, set companyData to DB record
   // don't do nothing otherwise
   // is only call when address has changed
@@ -78,23 +78,56 @@ useEffect(()=>{
             // Remember that in contract some prop ids are different than db
             // id => companyId, name => companyName 
             const result = await getContractCompanyData(address) 
-            console.log('result', result.data.id)
             if (!result.status) {
               setShowSpinner(false)
               errToasterBox(result.message)
               return
             }
             if (result.data.id) 
-                await getCompany(result.data.id)
+                await getCompany(result.data)
             setShowSpinner(false)
         } 
     }
     getDatafromContract()
-},[address, getCompany, setShowSpinner])
+  },[address, getCompany, setShowSpinner])
+
+const changeNetworks= async () => {
+  const result= await switchNetwork()
+  if (result.status) setNoRightNetwork(false)
+  else
+  if (result.error.code === 4902) {
+        // This error code means that the chain we want has not been added to MetaMask
+        // In this case we ask the user to add it to their MetaMask
+        setAddingNetwork(true)
+        const network='0x'+ parseInt(process.env.NEXT_PUBLIC_NETWORK_VERSION).toString(16)
+        try {
+          await ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {	
+                chainId: network,
+                chainName: process.env.NEXT_PUBLIC_NETWORK_WALLET_NAME,
+                rpcUrls: [process.env.NEXT_PUBLIC_NETWORK_WALLET_RPC],
+                nativeCurrency: {
+                    name: "Matic",
+                    symbol: "MATIC",
+                    decimals: 18
+                },
+                blockExplorerUrls: [process.env.NEXT_PUBLIC_LINK_EXPLORER]
+              },
+            ],
+          });
+          setNoRightNetwork(false)
+        } catch (error) {
+          console.log(error);
+          errToasterBox(error)
+        } finally 
+          { setAddingNetwork(false) }
+      }    
+}
 
 // connect to metamask
   const handleConnect = async () => {
-    //router.push('/connectwallet') remove connectWallet page & component
     const result= await connectMetamask()
     if (!result.status) {
         errToasterBox(t(result.message),{ns:'common'})
@@ -122,7 +155,6 @@ useEffect(()=>{
 
   const ShowAccount = () => {
     if (!address)
-      // !isConnected coming from useAccount wagmi
       return (
         // no address yet, allow to connect
         <div>
@@ -191,15 +223,22 @@ useEffect(()=>{
       </div>
     )
   };
+ 
+ if (noMetaMask) return (
+    <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
+      <NoMetamaskWarning t={t}/>
+    </nav> 
+  );
 
-  return (
+ return (
      <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
+      { addingNetwork && 
+        <div className="flex justify-center">
+          <DisplayMsgAddinNetwork t={t}/> 
+        </div>
+      }
       <ToastContainer style={{ width: "600px" }} />
-      {noMetaMask ? 
-         (<NoMetamaskWarning t={t}/>) 
-        : 
-         (
-         <div className="flex justify-between">
+          <div className="flex justify-between">
           <div className="flex ml-4 ">
             <Link href="/" passHref>
                 <a>
@@ -234,7 +273,7 @@ useEffect(()=>{
             <ShowAccount />
           </div>
          </div>
-        )}
+          {(address && noRightNetwork) &&<NoRightNetworkWarning t={t} changeNetworks ={changeNetworks }/> }
     </nav>
   );
 };

@@ -1,13 +1,13 @@
 import { DownloadIcon } from '@heroicons/react/outline'
 
-export const DonwloadFileForm = ({ files, t }) => (
+const DonwloadFileForm = ({ files, t }) => (
   <div
-    className="my-4 w-2/6 mx-8 max-h-60 font-khula  overflow-y-auto overflow-x-auto
-   h-1/6  bg-white leading-8 shadow-md"
+    className="w-4/4 h-[15em] border-2 border-coal-200 mx-8 font-khula overflow-y-auto overflow-x-auto
+               leading-8 shadow-md"
   >
     <div className="flex">
       <DownloadIcon className="mt-1 h-8 w-8 text-orange-300 mb-2" />
-      <p className="mt-2 pl-2">{t('dowloadrequestfiles')}Documentos de Base</p>
+      <p className="mt-2 pl-2">{t('dowloadrequestfiles')}</p>
     </div>
     {files.length ? (
       <div className="border border-2 border-orange-500  m-2 py-1">
@@ -25,8 +25,9 @@ export const DonwloadFileForm = ({ files, t }) => (
       </div>
     ) : (
       <div className="p-2 center-text">
-        <p className="text-center"> {t("nofiles")} NO FILES </p>
+        <p className="text-center"> - {t("nofiles")} -</p>
       </div>
     )}
   </div>
 );
+export default DonwloadFileForm

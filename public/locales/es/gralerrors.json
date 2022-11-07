@@ -1,0 +1,10 @@
+{
+    "address_already_admin":"Esta cuenta ya es administradora de otra empresa",
+    "unknownerror":"Error desconocido, reintente mas tarde",
+    "undetermined_blockchain_error":"Error desconocido, reintente mas tarde",
+    "insufficient_funds":"Fondos insuficientes para cubrir costo de transaction",
+    "Insufficient_payment":"Pago insuficiente para pagar esta transacción",
+    "address_not_admin":"Esta cuenta no es la propietaria",
+    "Only_admin_can_perform":"Solo cuenta adminstrador puede hacer esta operación",
+    "user_rejection":"Usuario rechazó la transacción"
+}

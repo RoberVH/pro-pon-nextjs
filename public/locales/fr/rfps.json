@@ -17,10 +17,11 @@
         "openDate":"Date de début pour recevoir les propositions",
         "endReceivingDate":"Date de fin de réception des propositions",
         "endDate":"Date d'émission de la décision",
-        "namerror":"Nombre de RFP erróneo",
-        "opendateerror":"Fecha de inicio errónea",
-        "endrecerror":"Fecha de término de recepción de propuestas errónea",
-        "enddateerror":"Fecha de término de decisión errónea",        
+        "namerror":"Mauvais nom d'appel d'offres",
+        "descriptionerror":"Mauvaise description",
+        "opendateerror":"Mauvaise date de début pour recevoir les propositions",
+        "endrecerror":"Mauvaise date de fin de réception des propositions",
+        "enddateerror":"Mauvaise date d'émission de la décision",        
         "datesnosequencial":"Les dates ne sont pas dans l'ordre séquentiel"
     },
     "savingtoblockchainmsg":"Confirmez la transaction. Vos données seront envoyées à la Blockchain, en attente de confirmation. Cela peut prendre du temps selon les conditions d'utilisation du réseau",
@@ -28,6 +29,7 @@
     "chekhash":"Afficher la transaction dans l'explorateur de Blockchain",
     "block":"La transaction a été incluse dans le bloc: ",
     "rfpessentialdatasaved":"Les données d'identification de l'entreprise ont été publiées sur la Blockchain",
+    "rfpdatasaved":"Les données RFP ont été enregistrées",
     "titlescreen": "Demande de propositions (RFP",
     "name": "Nom RFP",
     "companyId": "Identifiant de l'entreprise",
@@ -54,10 +56,16 @@
     "dowloadrequestfiles":"Télécharger les documents de l'appel d'offres",
     "additemstitle":"Ajouter des articles à la demande de propositions/appel d'offres",
     "addintemsinstructions":"Cliquez sur l'icône verte pour ajouter un jeu à la liste. Cliquez sur un jeu dans la liste pour le modifier",
-    "typecontest": "Type de RFP/Offre",
+    "typecontest": "Type",
     "open": "Ouvert",
-    "invitation":"Par invitation",
-    "showItems":"Lots/Categories"
+    "invitation":"Invitation",
+    "showItems":"Lots/Categories",
+    "remove_items_first":"Supprimer d'abord les catégories/lots existants",
+    "rfp_bases":"Documents d'appel d'offres",
+    "bidder_register":"Inscrire un enchérisseur",
+    "bidders_showcase":"Afficher les enchérisseurs",
+    "declare_contest":"Déclarer les résultats",
+    "rfp_results":"Afficher les résultats"
     
     
 }

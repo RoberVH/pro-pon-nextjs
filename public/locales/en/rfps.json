@@ -17,7 +17,8 @@
         "openDate":"Start Date to receive proposals",
         "endReceivingDate":"End Date to receive proposals",
         "endDate":"Date to issue decision",
-        "namerror":"Wrong RFP name ",
+        "namerror":"Wrong RFP name",
+        "descriptionerror":"Wrong Description",
         "opendateerror":"Wrong Start Date",
         "endrecerror":"Wrong Dateline to receive proposals",
         "enddateerror":"Wrong Decision Dateline",
@@ -27,7 +28,8 @@
     "rfpessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Wait please...",
     "chekhash":"View transaction in the Blockchain Explorer",
     "block":"This transaction has been included into Block: ",
-    "rfpessentialdatasaved":"Company Identification data has been posted to Blockchain",
+    "rfpessentialdatasaved":"RFP Identification data has been posted to Blockchain",
+    "rfpdatasaved":"RFP data has been saved",
     "titlescreen":"Request for Proposals (RFP)",
     "name": "RFP  Name",
     "companyId":"Company Id",
@@ -39,7 +41,7 @@
     "finaldate":"Before or on",
     "noresults":"No results",
     "declarewinner":"Declare winner",
-    "uploaddocuments":"Load Rquest Documents",
+    "uploaddocuments":"Load Request Documents",
     "dragfileshere":"Drag files here",
     "orselectfiles":"or Select File(s)",
     "itemplaceholder":"Item Name",
@@ -54,8 +56,16 @@
     "dowloadrequestfiles":"Download RFP files",
     "additemstitle":"Add Items to RFP/Tender",
     "addintemsinstructions":"Click green icon to add Item to list. Clic on added Item to edit it",
-    "typecontest": "Type of RFP/Tender",
+    "typecontest": "Type",
     "open": "Open",
-    "invitation":"invitation",
-    "showItems":"Items"
+    "invitation":"Invitation",
+    "showItems":"Items",
+    "remove_items_first":"Remove existing Items first",
+    "rfp_bases":"Requesting documents",
+    "bidder_register":"Register bidder",
+    "bidders_showcase":"Show bidders",
+    "declare_contest":"Declare results",
+    "rfp_results":"Show results"
+    
+
 }

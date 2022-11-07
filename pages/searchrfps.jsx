@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
+import { useState, useEffect } from "react"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
 import  Spinner  from '../components/layouts/Spinner'
-import { SearchIcon } from "@heroicons/react/outline";
-import DisplayResults from "../components/DisplayResults";
-import SearchDB from "../components/SearchDB";
-import { rfpParams } from "../utils/rfpItems";
-import { toastStyle } from "../styles/toastStyle";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { SearchIcon } from "@heroicons/react/outline"
+import DisplayResults from "../components/DisplayResults"
+import SearchDB from "../components/SearchDB"
+import { rfpParams } from "../utils/rfpItems"
+import { buildRFPURL } from "../utils/buildRFPURL"
+import { toastStyle } from "../styles/toastStyle"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 
 
@@ -21,17 +22,8 @@ function Searchrfps() {
   const router = useRouter()
 
   const handleShowRFP =(rfp) => {
-    //console.log('Pre rfp', rfp)
-    const {items, ... postrfp} = rfp
-    const itemsparam=items.map(item => `items=${encodeURI(item)}`).join('&')
-    const rfpparams=Object.keys(postrfp).map(key => `${encodeURI(key)}=${encodeURI(postrfp[key])}`).join('&')
-    const rfphomeparams=rfpparams + '&' + itemsparam
+    const rfphomeparams=buildRFPURL(rfp)
     router.push('/homerfp?' + rfphomeparams)
-  //  let params= new URLSearchParams(rfp )
-   // let params2 = new URLSearchParams(postrfp)
-   
-    //router.push('/homerfp?' + params)
-
   }
 
   const rfpActions = [

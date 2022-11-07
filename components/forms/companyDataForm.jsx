@@ -177,6 +177,7 @@ const CompanyDataForm = ({companyData, setCompanyData, address}) => {
     }
   };
 
+  console.log('xvalues', values)
 
   return (
     <div className="container mx-auto ">

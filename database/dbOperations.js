@@ -3,7 +3,6 @@
 export const  getCompanydataDB = async (companyId) =>  {
   const params=new URLSearchParams({companyId:companyId})
   const url=`/api/readonecompany?${params}`
-  console.log('DB URL getCompanydataDB:', url)
   try {
         const response = await fetch(url);
         const data = await response.json();
@@ -17,7 +16,6 @@ export const  getCompanydataDB = async (companyId) =>  {
 export const verifyData_Save = async (message, signature) => {
     let method = "PATCH";
     const webload= {signature:signature,...JSON.parse(message) }
-    console.log('webload',webload)
     try {
       const response = await fetch("/api/servercompanies", {
         method: method,
@@ -54,8 +52,6 @@ export const verifyData_Save = async (message, signature) => {
     // Create company RFP at  database
     export const saveRFP2DB = async (rfpParams) => {
       let method = "POST";
-      console.log('saveRFP2DB params:',rfpParams)
-      //const webload= rfpParams
       try {
         const response = await fetch("/api/serverrfp", {
           method: method,
@@ -63,7 +59,6 @@ export const verifyData_Save = async (message, signature) => {
           body: JSON.stringify(rfpParams),
         });
         const resp = await response.json();
-        console.log('resp dbOp',resp)
         return resp;
       } catch (error) {
         console.log("Error del server:", error);

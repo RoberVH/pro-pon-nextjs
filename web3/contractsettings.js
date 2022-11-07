@@ -28,7 +28,7 @@ export const getWritingProponContract = async () => {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, signer)
     //const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, signer)
-    console.log('contract en proponContract',contract)
+    
     return contract
 
   } catch (error) { 

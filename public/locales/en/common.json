@@ -14,6 +14,8 @@
     "nocompany":"Company not registered",
     "metamaskwarning":"This aplication needs Metamask Wallet, please install it",
     "nometamask":"Metamask not found",
+    "changenetwork":"You are not connected to Polygon Network Blockchain",
+    "changenetworkbutton":"Connect to Polygon",
     "benefits": [
         "Vendors all over the world",
         "Proposal documents are electronic & cryptographically signed",
@@ -27,5 +29,6 @@
         "Create your Company Profile - now you are administrator",
         "Create a Bidding Contest and add RFPs documents",
         "Invite your suppliers to bid through Pro-Pon App"
-    ]
+    ],
+    "addingnetwork":"Your wallet does not have working network configured, adding it now, please allow"
   }

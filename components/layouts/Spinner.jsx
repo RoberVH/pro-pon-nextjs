@@ -8,9 +8,10 @@ const Spinner = () => (
                     border-r-stone-100
                     border-l-stone-100
                     rounded-full 
-                    animate-spin"></div>    
-            </div>
+                    animate-spin">
+            </div>    
         </div>
+    </div>
     )
     
     export default Spinner

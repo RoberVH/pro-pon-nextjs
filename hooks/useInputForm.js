@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 const useInputForm = (initialValues={}) => {
   const [values, setValues] = useState(initialValues);
-  console.log('useInputForm - initialValues',initialValues)
   const handleChange = (event) => {
     event.persist();
     setValues(values => ({ ...values, [event.target.id]: event.target.value }));

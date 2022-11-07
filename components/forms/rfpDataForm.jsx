@@ -1,17 +1,25 @@
-import { useState, useContext, useEffect} from "react";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
-import { ethers } from 'ethers'
-import { useContractEvent, useContractWrite } from 'wagmi'
-import { ContractConfig } from '../../web3/contractsettings'
+/**
+ * RFPDataForm
+ *    Present input form to register RFP and post it to blockchain, 
+ *    Display spinners when waiting and indicartors of progress: Tx hash, block tx included
+ *    Save data to DB collections RFPs when is confirmed to the blockchain (?)
+*/
+
+import { useState, useContext, useEffect} from "react"
+import { useRouter } from "next/router"
+import { useTranslation } from "next-i18next"
+import { useWriteRFP } from "../../hooks/useWriteRFP"
 import { saveRFP2DB } from '../../database/dbOperations'
 import { proponContext } from '../../utils/pro-poncontext'
-import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
-import { toast } from "react-toastify";
-import useInputForm from "../../hooks/useInputForm";
-import { InputRFPName }  from "../input-controls/InputRFPName";
-import { InputRFPDescription }  from "../input-controls/InputRFPDescription";
-import { InputRFPwebsite }  from "../input-controls/InputRFPwebsite";
+import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle"
+import { toast } from "react-toastify"
+import {  parseWeb3Error  } from '../../utils/parseWeb3Error'
+import useInputForm from "../../hooks/useInputForm"
+import { InputRFPName }  from "../input-controls/InputRFPName"
+import { InputRFPDescription }  from "../input-controls/InputRFPDescription"
+import { InputRFPwebsite }  from "../input-controls/InputRFPwebsite"
+import { buildRFPURL } from "../../utils/buildRFPURL"
+
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,28 +36,23 @@ const validatingFields = new Map([
   ['endDate','rfpform.enddateerror'],
 ])    
 
-const LINK=`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/`
+//const LINK=`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/`
 const ContestType = {OPEN:0, INVITATION_ONLY:1}
 const  openContest = ContestType.OPEN 
 const  invitationContest = ContestType.INVITATION_ONLY
 
-/**
- * RFPDataForm
- *    Present input form to register RFP and post it to blockchain, 
- *    Display spinners when waiting and indicartors of progress: Tx hash, block tx included
- *    Save data to DB collections RFPs when is confirmed to the blockchain (?)
-*/
+
 const RFPDataForm = () => {
   // State Variables & constants of module
   const { t } = useTranslation("rfps");
 
   const [waiting, setWaiting] = useState(false); 
   const [postedHash, setPostedHash] = useState('')
+  const [posted, setPosted] = useState('')
+  const [link, setLink] = useState('')
   const [block, setBlock] = useState('')
+  const [rfpParams, setRFPParams] = useState({})
   const [rfpCreated, setrfpCreated] = useState(false)
-  const [errorwriting, setError] = useState()
-  const [rfpParams, setRpParams] = useState()
-  const [rfpId, setRFPId] = useState()
   const [items, setItems] = useState({})
   const [showItemsField, setShowItemsField] = useState(false)
   const [contestType, setContestType] = useState(openContest)
@@ -58,58 +61,56 @@ const RFPDataForm = () => {
   const router = useRouter()
  
   const patronobligatorio = new RegExp("^(?!s*$).+");
-  //const patronDate= new RegExp("^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")
   const { companyData } = useContext(proponContext);
   
-// Function to display error msg
+
+  // Function to display error msg
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
-  
-  useEffect(()=>{
-    errToasterBox(errorwriting)
-  },[errorwriting])
-
 
   const handleCheckItemsAdder = (e) => {
     // e.preventDefault()
     if (Object.keys(items).length) {
-      errToasterBox('Remove existing Items first')
+      errToasterBox(t('remove_items_first'))
       e.preventDefault()
       return
     } else setShowItemsField(!showItemsField)
   }
+
+  const saveRFPDATA2DB = async (params) => {
+    const resp= await saveRFP2DB (params) 
+    if (resp.status) {
+      //setRFPId(resp._id)  // 
+      // mutating rfpParams, adding returned new _id field from  MongoDB field just created
+      //params['_id']=resp._id
+      setRFPParams(rfpparams => ({...rfpparams, _id: resp._id, rfpidx:params.rfpidx}))
+      toast.success(t('rfpdatasaved',toastStyleSuccess))
+      setrfpCreated(true)
+    } else {
+      errToasterBox(resp.msg)
+      setWaiting(false)
+    }
+  }
   
+   const onError = (error) => {
+    const customError = parseWeb3Error(t,error)
+    errToasterBox(customError)    
+    setWaiting(false)
+  };
 
-const { write, error } = useContractWrite({
-  addressOrName: ContractConfig.addressOrName,
-  contractInterface:  ContractConfig.contractInterface,
-  chainId: ContractConfig.chainId,
-  functionName: 'createRFP',
-  onSuccess(data){ setPostedHash(data.hash) },
-  onerror(error) { setError(error) }
-})
+  const onEvent = async (address, rfpIdx, rfpName, params) => {
+    // save RFP data to DB record 
+    const rfpidx=parseInt(rfpIdx)
+    const rfpparams={rfpidx,...params}
+    saveRFPDATA2DB(rfpparams)
+  };
 
-  useContractEvent({
-    addressOrName: ContractConfig.addressOrName,
-    contractInterface:  ContractConfig.contractInterface,
-    eventName: 'NewRFPCreated',
-    listener: async (event) => {
-      setBlock(event[3].blockNumber)
-      const resp= await saveRFP2DB (rfpParams)  
-      if (resp.status) {
-        console.log('resp en useContracEvent', resp)
-        setRFPId(resp._id)  // MongoDB _id field of RFP just created
-        console.log('rfpParams',rfpParams)
-        rfpParams['_id']=resp._id
-        setrfpCreated(true)
-      } else {
-        setError(resp.msg)
-      }
-    },
-    once: true
-  })
-
+  const onSuccess = (data) => {
+    setBlock(data.blockNumber)
+  }
+  
+  const write = useWriteRFP({ onSuccess, onError, onEvent, setPostedHash, setLink, setPosted})
 
   // Validate using regexp input fields of rfp essential data form
   const validate = (pattern, value, msj) => {
@@ -126,7 +127,6 @@ const { write, error } = useContractWrite({
   const convertDate2UnixEpoch=(dateStr)=> {
     // date with format 'YYYY-MM-DD';
     const date = new Date(dateStr);
-    console.log(date); 
     const unixTimestamp = Math.floor(date.getTime() / 1000);
     return unixTimestamp
     }
@@ -148,21 +148,17 @@ const { write, error } = useContractWrite({
 
   // handleCacel Drop form and go back to root address
   const handleEditRFP = () => {
-    console.log('handleEdit',rfpId)
-    const params= new URLSearchParams(rfpParams)
-    console.log('link a pushear:', '/homerfp?' + params)
+    const params = buildRFPURL(rfpParams)
     router.push('/homerfp?' + params)    
   }
 
   const handleClickContestType= (e) => {
     setContestType(e.target.id ==='open' ? openContest : invitationContest)
-    console.log('Radio: ', contestType)
   }
 
   // handleSave -  call Validate fields & if ok send transaction to blockchain
   const handleSave = async () => {
     const arrayItems=Object.entries(items).map(item => item[1])
-    console.log('arrayItems: ',arrayItems)
     const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
       trimmedValues[key] = (typeof value !== "undefined" ? value : "").trim();
@@ -174,6 +170,7 @@ const { write, error } = useContractWrite({
       trimmedValues['name'],
       t('rfpform.namerror')
     )) return
+  
     // Dates
     const dates=[]
     for (const [field, errormessage] of validatingFields) 
@@ -194,31 +191,28 @@ const { write, error } = useContractWrite({
     setWaiting(true)
     // create entry on smart contract
     // setting rfpparams for when saveing to DB time comes!
-    setRpParams({
+    const params =  {
       companyId: companyData.companyId,
       companyname:companyData.companyname,
       name:trimmedValues['name'],
-      description:trimmedValues['description'],
-      rfpwebsite:trimmedValues['rfpwebsite'],
+      description:trimmedValues['description'] + '',  // in case they let it empty,
+      rfpwebsite:trimmedValues['rfpwebsite'] + '',  // in case they let it empty
       openDate: dates[0] ,
       endReceivingDate:dates[1],
       endDate: dates[2],
       contestType:contestType,
       items:arrayItems
-    })
-    console.log('Params para BD:', rfpParams)
-    console.log('Blockchain params:', trimmedValues['name'], dates[0], dates[1], dates[2],contestType,arrayItems)
-    try {
-      await write({
-        args: [trimmedValues['name'], dates[0], dates[1], dates[2],contestType,arrayItems],
-        overrides: {
-          value: ethers.utils.parseEther("0.0001")
-        }
-      })
-    } catch (error) {
-      console.log("Error del server:", error);
-      errToasterBox(error);
-    } finally {setWaiting(false)}
+    }
+    if (params.description ==='undefined') params.description=''
+    if (params.rfpwebsite ==='undefined') params.rfpwebsite=''
+
+    setRFPParams(params)
+    
+    // writing essential RFP data to contract
+    await write(
+      params,
+      "0.0001")
+        
   };
 
   const itemStyleContainer= {true: 'w-[85%]', false: 'w-[45%]'}
@@ -298,19 +292,33 @@ const { write, error } = useContractWrite({
                     disable={waiting ||postedHash}
                   />
                 </div>
-                <div className={`bg-stone-100 p-2 ${itemStyleDate[showItemsField]}`}>
-                  <label className="text-stone-500">{t('typecontest')}</label> <br></br>
-                  <div className="my-4 ml-4 flex justify-start" >
-                    <label className={`mr-4 mt-1 cursor-pointer ${contestType===openContest  ? 
-                    ' bg-blue-200 px-2 rounded rounded-3xl' : ''}`} id="open"
-                      onClick={handleClickContestType}>{t('open').toUpperCase()}</label>
-                    <p className={`mx-4 mt-1 cursor-pointer ${contestType=== invitationContest ? 
-                    ' bg-blue-200 px-2 rounded rounded-3xl' : ''}`} type="radio" id="invitation"
-                      onClick={handleClickContestType}>{t('invitation').toUpperCase()}</p>
+                <div className={`bg-stone-100 p-2 flex ${itemStyleDate[showItemsField]}`}>
+                  <label className="text-stone-500">{t('typecontest')}</label> 
+                  <br></br>
+                  <div className=" ml-12 flex justify-start text-sm" >
+                    <label 
+                      id="open"
+                      className={`mr-4 mt-1 cursor-pointer 
+                        ${contestType===openContest  ? 'bg-blue-200 px-2 py-1 rounded rounded-3xl' : 'py-1'}
+                        ${waiting || postedHash ? 'pointer-events-none':''}`} 
+                      onClick={handleClickContestType}
+                      disable={(waiting ||postedHash).toString()} >
+                        {t('open').toUpperCase()} 
+                    </label>
+                    <label 
+                      className={`mx-4 mt-1 cursor-pointer 
+                        ${contestType=== invitationContest ?'bg-blue-200 px-2 py-1 rounded rounded-3xl' : 'py-1'}
+                        ${waiting || postedHash ? 'pointer-events-none':''}`} type="radio" id="invitation"
+                      onClick={handleClickContestType}>
+                        {t('invitation').toUpperCase()}
+                    </label>
                   </div>
                 </div>
-              <div id="optionalCheckmark" className="flex mt-12">
-                <input onClick={handleCheckItemsAdder} className="mr-4" type="checkbox" value={showItemsField}/>
+              <div id="optionalCheckmark" className="flex mt-8">
+                <input 
+                    onClick={handleCheckItemsAdder} 
+                    disabled={waiting ||postedHash}
+                    className="mr-4" type="checkbox" value={showItemsField}/>
                 <div className={`${itemStyleCheckboxText[showItemsField]}`}>
                 <p className={`text-stone-600 font-khula`}> 
                 <strong>{t('optional')}&nbsp;</strong>{t('additemscheckbox')} </p>
@@ -318,13 +326,13 @@ const { write, error } = useContractWrite({
               </div>
               </form>
             </div>
-            <div id="ItemsForm">
-                  <RFPItemAdder items={items} setItems={setItems} showItemsField={showItemsField} />
+            <div id="ItemsForm" >
+                  <RFPItemAdder items={items} setItems={setItems} showItemsField={showItemsField} disable={(waiting ||postedHash)} />
             </div>
 
           </div>
           <div id="footersubpanel3 ">
-                <div className={` mt-8 pt-8 pb-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md w-[100%]
+                <div className={` mt-4 pt-4 pb-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md w-[100%]
                 ${rfpCreated?'hidden':null}`}>
                   <div className="mt-4 mr-10" >
                     <button
@@ -357,7 +365,7 @@ const { write, error } = useContractWrite({
       </div>
       {/* Inferior panel to explain & display call to actions */}
       { ( waiting || postedHash) &&
-      <div className="container mt-6 p-4 bg-white border-2 border-stone-200 w-[70%] ">
+      <div className="container mt-4 mb-8 p-4 bg-white border-2 border-orange-200 w-[70%] ">
         <div className="font-khula text-stone-700 text-base py-4 ">
           { (waiting || postedHash ) && (<p>{t('savingtoblockchainmsg')} </p> )}
           { postedHash && 
@@ -367,7 +375,7 @@ const { write, error } = useContractWrite({
                 <p>{t('chekhash')}</p>
                   <a
                     className=" text-blue-600 ml-3"
-                    href={LINK + postedHash}
+                    href={link}
                     target="_blank"
                     rel="noreferrer">
                     { (`${postedHash.slice(0,10)}...${postedHash.slice(-11)}`)}

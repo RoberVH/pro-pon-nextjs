@@ -14,6 +14,8 @@
     "nocompany":"Compañia no Registrada",
     "metamaskwarning":"Esta aplicación necesita la billetera Metamask, por favor instálela",
     "nometamask":"Metamask no encontrada",
+    "changenetwork":"No está conectado a la red de Blockchain Polygon",
+    "changenetworkbutton":"Conectar a Polygon",
     "benefits": [
         "Vendedores de todo el mundo",
         "Los documentos de la propuesta son electrónicos y están firmados criptográficamente",
@@ -27,5 +29,6 @@
         "Cree su perfil de empresa: ahora es administrador",
         "Crear un concurso de ofertas y agregar documentos del RFP",
         "Invite a sus proveedores a enviar sus propuestas a través de Pro-Pon"
-    ]
+    ],
+    "addingnetwork":"Su billetera no tiene la red de trabajo configurada, agregándola ahora, por favor autorize"
   }

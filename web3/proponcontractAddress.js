@@ -2,10 +2,13 @@
 
  // Polygon Pro-pon smart contract address
  
+ // Mumbai
  export const CONTRACT_ADDRESS ='0xBB9bac7E25B1739c090B823078F9e5a390AE2a91'
- 
+
+ // Localhost hardhat node
+ //export const CONTRACT_ADDRESS ='0x8464135c8F25Da09e49BC8782676a84730C318bC'
   
- // Mumbai contracts deployed
+ // Historic Mumbai contracts deployed
  //0xd3d851bA386FdAD02BF1DcE2BcF0108eF74C20ce
  //0x46c9a7ae8676B4afEcB8270755d1075362Fc7632
  //0x20a15aEC18C66789480669292081b2F726CBd36d

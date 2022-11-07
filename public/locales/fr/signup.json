@@ -50,5 +50,10 @@
     "successsaving": "Données de l'entreprise enregistrées",
     "recordingcompanylegend":"Un enregistrement de votre entreprise sera créé associé à votre compte Blockchain, qui se verra attribuer des privilèges d'administrateur",
     "savingtoblockchainmsg":"Confirmez la transaction. Vos données seront envoyées à la Blockchain, en attente de confirmation. Cela peut prendre du temps selon les conditions d'utilisation du réseau",
-    "companydataadded":"Données enregistrées avec succès"
+    "companydataadded":"Données enregistrées avec succès",
+    "rfp_bases":"Documents de base",
+    "bidder_register":"enregistrer l'enchérisseur",
+    "bidders_showcase":"Afficher les enchérisseurs",
+    "declare_contest":"Déclarer les résultats",
+    "rfp_results":"Afficher les résultats"
 }

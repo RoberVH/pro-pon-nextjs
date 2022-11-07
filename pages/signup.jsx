@@ -29,8 +29,6 @@ function Signup() {
          <NoConnectedWarning  msj={t('explanation1', {ns: 'common'})}/>
       </div>
   )
-    // if (isEmpty(companyData))  // a new address a new company, a new customer!
-    //   if (typeof companyData.companyId=== 'undefined' || companyData.companyId!==''  ) 
          return (
           <div id="signup-screen" className="h-screen flex flex-col items-center ">
             <div id="activities-of-signup"   className="h-[80%] w-[75%]">

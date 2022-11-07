@@ -1,33 +1,61 @@
-import { useState, useEffect, useCallback } from "react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-// import { useRouter } from "next/router";
-import RFPessentialData from "../components/rfp/RFPessentialData";
-import UploadRFP from "../components/rfp/uploadRFP";
+import { useState, useEffect, useCallback, useContext, Fragment } from "react"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+import RFPIdentificator from "../components/rfp/rfpIdentificator"
+import RFPessentialData from "../components/rfp/RFPessentialData"
+import RequestRFPDocuments from "../components/rfp/requestRFPDocuments"
+import RegisterBidder from "../components/rfp/registerBidder";
+import ShowBidders from "../components/rfp/showBidders";
+import ShowResults from "../components/rfp/showResults";
+import DeclareResults from "../components/rfp/declareResults";
 import DisplayItems from "../components/rfp/displayItems";
-
-
-// import { convDate } from "../utils/misc";
-// import Spinner from "../components/layouts/Spinner";
-import { DonwloadFileForm } from "../components/rfp/DonwloadFileForm";
+import { proponContext } from "../utils/pro-poncontext";
+import HomeButtons from "../components/rfp/homeButtons";
 
 function HomeRFP({ query }) {
   //{rfpRecord}
   //const {  locale } = useRouter();
 
+  const displayedPanels = [
+    "rfp_bases", // show /allow owner to post requesting documents
+    "bidder_register", // allow participant to register and upload bids
+    "bidders_showcase", // show companies registered and their posted (encrypted) documents
+    "declare_contest", // allow owner to close RFP declaring desert / winner by items or at all
+    "rfp_results", // if contest closed, only this is valid showing results
+  ];
+
   const [rfpRecord, setRfpRecord] = useState();
-  const [files, setFiles] = useState([]);
-  const [rfpfiles, setRFPFiles] = useState([]);
-  
-  //const router = useRouter()
+  const [files, setFiles] = useState([]); // files to upload
+  const [rfpfiles, setRFPFiles] = useState([]); // uploaded files
+  const [selectedPanel, setSelectedPanel] = useState(); // uploaded files
+  const { companyData, address } = useContext(proponContext);
   const { t } = useTranslation("rfps");
+
+  const RFPTabDisplayer = () => {
+    switch (selectedPanel) {
+      case displayedPanels[0]: //rfp_bases
+          return (<RequestRFPDocuments t={t} rfpfiles={rfpfiles} setFiles={setFiles} showUpload={companyData.companyId === rfpRecord.companyId} />);
+      case displayedPanels[1]: //bidder_register
+        return <RegisterBidder />;
+      case displayedPanels[2]: //bidders_showcase
+        return <ShowBidders />;
+      case displayedPanels[3]: //declare_contest
+        return <DeclareResults />;
+      case displayedPanels[4]: //rfp_results
+        return <ShowResults />;
+      default:
+        return <div>default</div>;
+    }
+  };
 
   const processFiles = useCallback(() => {
     const arrayFiles = [];
+    // here we upload files to arweave
+
     Array.from(files).forEach((file) => {
       arrayFiles.push(file.name);
     });
-    console.log("setting RFPFILES con", arrayFiles);
+
     setRFPFiles(arrayFiles);
   }, [files]);
 
@@ -39,64 +67,73 @@ function HomeRFP({ query }) {
   }, [query]);
 
   useEffect(() => {
-    console.log("(homerfp) Procesar files:", files);
     if (files.length) processFiles(files);
   }, [files, processFiles]);
 
-  const handleDeclareWinner = () => {
-    console.log("handleDeclareWinner");
-  };
+  const handleDeclareWinner = () => {};
 
   if (!rfpRecord) return <div>No RFP</div>;
   return (
-    <div>
-      <div className=" my-2 mx-8 outline outline-1 outline-orange-200 bg-white shadow-md">
-        <table className="table-fixed">
-          <tbody>
-            <tr>  
-            <td>
-              <label className="leading-8 p-2 col-start-1 col-end-1 ">{t("rfpform.name")}: &nbsp; </label>
-            </td>
-            <td>
-            <label className="pt-2 text-orange-500 col-start-2 col-end-12">{rfpRecord.name}</label>
-            </td>
-            </tr>
-          </tbody>
-        </table>
-        <table className="table-fixed">
-          <tbody>
-            <tr>
-              <td>
-              <label className="p-2 ">{t("rfpform.description")}: &nbsp; </label>
-              </td>
-              <td>
-              <label className="pt-2 text-orange-500">{rfpRecord.description}</label>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <Fragment>
+      <div className="outline outline-1 outline-orange-200 bg-white border-b-8 border-orange-200 border-double">
+        <RFPIdentificator t={t} rfpRecord={rfpRecord} />
       </div>
-      <div className="">
-        {RFPessentialData(t, rfpRecord, handleDeclareWinner)}
+      <div id="homerfp-subpanel" className="grid grid-cols-[25%_74%] gap-1 ">
+        <div
+          id="homeref-lateral-panel"
+          className=" border-r-8 border-double border-orange-200 " 
+        >
+          <div id="left-subpanel" className="mt-2">
+            <div className="shadow-md">
+            <RFPessentialData
+              t={t}
+              rfpRecord={rfpRecord}
+              handleDeclareWinner={handleDeclareWinner}
+              />
+            </div>
+            {rfpRecord.items && rfpRecord.items.length && (
+              <div className="shadow-md ">
+                <DisplayItems items={rfpRecord.items} t={t} />
+              </div>
+            )}
+          </div>
+        </div>
+        <div id="right-subpanel" className="mt-2 ml-1 ">
+          <div id="homeref-buttons-panels" className="font-khula text-center ">
+            <HomeButtons
+              t={t}
+              displayedPanels={displayedPanels}
+              selectedPanel={selectedPanel}
+              setSelectedPanel={setSelectedPanel}
+            />
+          </div>
+          <div
+            id="selected-tab-area"
+            className="bg-white border-2 border-orange-300 h-screen"
+          >
+            <div id="selected-usable-area" className="m-2">
+              <RFPTabDisplayer />
+            </div>
+          </div>
+        </div>
+        <div></div>
+
+        <div></div>
       </div>
-      <div className="mt-2">
-        <UploadRFP t={t} rfpfiles={rfpfiles} setFiles={setFiles} />
-      </div>
-      <div className="mt-2">
-        <DonwloadFileForm files={rfpfiles} t={t} />
-      </div>
-      { rfpRecord.items && rfpRecord.items.length &&
-       <div className="mt-2">
-          <DisplayItems  items={rfpRecord.items} t={t} />
-        </div>}
-    </div>
+      {/* {Boolean(files.length) && (
+        <div className="mt-4">
+          <UploadBuildr t={t} files={files} />
+        </div>
+      )} */}
+    </Fragment>
   );
 }
 
 // Get language translation json files  and the rfpId params at url to present it on this page
 export async function getServerSideProps({ locale, query }) {
   //getStaticProps
-  // const query = router.query
+  // get documents registered to this RFP here
+
   return {
     props: {
       query: query,

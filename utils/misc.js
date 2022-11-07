@@ -14,3 +14,7 @@ export const convUnixEpoch = (date) => {
     const unixEpoch = Math.floor(new Date(date).getTime()/1000) 
     return unixEpoch
 }
+
+
+// Check if object is empty
+export const isEmpty = obj => Reflect.ownKeys(obj).length === 0 && obj.constructor === Object  

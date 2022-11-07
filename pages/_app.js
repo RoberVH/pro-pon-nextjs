@@ -13,8 +13,8 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   const [ companyData, setCompanyData] = useState({})
   const [ address, setAddress] = useState('')
   const [showSpinner, setShowSpinner] = useState(false)
+  const [noRightNetwork, setNoRightNetwork] = useState(false);
   
-  console.log('_app companyData', companyData)
   return (
    <>
     <proponContext.Provider value={{
@@ -23,7 +23,9 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
         address, 
         setAddress,
         showSpinner, 
-        setShowSpinner
+        setShowSpinner,
+        noRightNetwork, 
+        setNoRightNetwork
       }}>
         <div className={`${showSpinner ? 'opacity-50 cursor-not-allowed':null}`}>
           <HeadBar isConnected={isConnected} />

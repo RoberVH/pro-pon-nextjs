@@ -3,6 +3,7 @@ import  { ObjectId } from 'mongodb'
 import { verifyMessage } from 'ethers/lib/utils'
 import { accountHasRigths } from '../../web3/serveraccessweb3'
 import { buildQuery } from '../../database/serverDBUtils'
+import { isEmpty } from "../../utils/misc"
 
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();
@@ -20,18 +21,25 @@ export default async function handler (req, res) {
       res.status(200).json(rfps);
       break
     case 'POST':  //  post one rfp data
-            try {
-          const data= await db
-            .collection("rfps")
-            .insertOne(req.body)
-          res.status(200).json({status:true, _id:data.insertedId.toString()})
-          break
-          res.status(201).json({ status: true },...data)
-        } catch (error) {
+      console.log('Received at server req.body', req.body)
+      console.log('Received at server req.body', req.body)
+      console.log('An isEmpty(req.body) is', isEmpty(req.body))
+      if (isEmpty(req.body)) {
+        res.status(400).json({ status: false, msg:'no_data_to_save' })
+        return
+      }
+      try {
+        const data= await db
+          .collection("rfps")
+          .insertOne(req.body)
+        res.status(200).json({status:true, _id:data.insertedId.toString()})
+        console.log('Success, inserted:',data.insertedId.toString())
+        break
+      } catch (error) {
           console.log('Error serverrfp', error)
           res.status(400).json({ status: false, msg:error })
-        }
-        break      
+          break
+      }
     case 'PATCH':  //  modify rfp data
       const {signature,...msg} = req.body
       const account=await verifyMessage(JSON.stringify(msg), signature)
@@ -48,11 +56,12 @@ export default async function handler (req, res) {
           .collection("companies")
           .updateOne({_id:ObjectId(uniqueIdRecord)},{$set: msg}) 
           res.status(201).json({ status: true })
+          break
         } catch (error) {
           console.log('Error servercompanies', error)
           res.status(400).json({ status: false, msg:'Mi errorsotote' })
+          break
         }
-        break
       default:
         res.status(400).json({ status: false, msg:'Error desconocido' })
         break
