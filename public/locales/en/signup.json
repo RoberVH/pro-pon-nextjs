@@ -43,7 +43,7 @@
         "websiteerror":"Wrong Website",
         "countryerror":"Wrong Country"
     },
-    "showsigningmsg":"You will be asked to sign with your wallet account a message with your company data, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you have the right to request this operation. Please sign the message",
+    "uploadsigningmsg":"You will be asked to sign with your wallet account a message with your company data, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you have the right to request this operation. Please sign the message",
     "savebutton":"Save",
     "cancelbutton": "Cancel",
     "savingstate": " Saving...",

@@ -87,12 +87,10 @@ const CompanyDataForm = ({companyData, setCompanyData, address}) => {
         if (error.data && error.data.message) customError=error.data.message
         else if (typeof error.message!== 'undefined') customError=error.message
    }
-   console.log('customError',customError)
     errToasterBox(customError)    
     setSaving(false)
   };
 
-  //const recoveredAddress = useRef()
   const  signMessage = useSignMessage({onSuccess, onError})
 
   useEffect(() => {
@@ -177,8 +175,6 @@ const CompanyDataForm = ({companyData, setCompanyData, address}) => {
     }
   };
 
-  console.log('xvalues', values)
-
   return (
     <div className="container mx-auto ">
       <div className={`${showSignMsg ? 'fixed bg-zinc-100 inset-0 opacity-80 z-50':null}`} >
@@ -192,7 +188,6 @@ const CompanyDataForm = ({companyData, setCompanyData, address}) => {
           </div>
         </div>
       </div>
-
       <div id="dataentrypanel" className="mt-4  p-4 bg-white  border-orange-200 rounded-md
                   container  my-8 mx-4 border-2 border-solid">
       <p className="text-gray-600 text-extrabold text-xl mb-10 font-khula">

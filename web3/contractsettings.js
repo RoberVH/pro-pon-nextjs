@@ -3,6 +3,7 @@ import CONTRACT_ABI from './pro_pon.json'
 import { ethers } from 'ethers'
 
 
+// For blockchain read operations at client we use an Alchemy provider
 export const getProponContract = async () => {
   try {
     const alchemyProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL) 
@@ -22,8 +23,6 @@ export const getProponContract = async () => {
 // for this make encode contract and use ethereum.request( method: "eth_sendTransaction",..)..
 export const getWritingProponContract = async () => {
   try {
-    //const alchemyProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL) 
-    //const signer= alchemyProvider.getSigner()
     const provider= await new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, signer)

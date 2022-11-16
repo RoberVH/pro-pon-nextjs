@@ -1,9 +1,6 @@
 /**
  * SignUpCompanyDataForm
- *    Present stepper step 2 to register essential data to smart contract form
- *    3 manage posting company data to contrat and advance stepper phase to 3
- *    if this address has already a CompanyID registered in the blockchain go to step 3
- *    to record/modify company data
+ *    Manage posting essential (name, id and country) company data to contract 
 */
 import React, { useState, useContext, useEffect} from "react";
 import { useRouter } from "next/router";
@@ -12,11 +9,9 @@ import english from "i18n-iso-countries/langs/en.json";
 import spanish from "i18n-iso-countries/langs/es.json";
 import french from "i18n-iso-countries/langs/fr.json";
 import  TxInfoPanel  from '../../components/TxInfoPanel'
-//import { ethers } from 'ethers'
 import {  errorSmartContract  } from '../../utils/constants'
 import countries from "i18n-iso-countries";
 import { GlobeIcon } from '@heroicons/react/outline'
-//import { proponContext } from '../../utils/pro-poncontext'
 import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
 import { toast } from "react-toastify";
 import useInputForm from "../../hooks/useInputForm";
@@ -36,7 +31,7 @@ countries.registerLocale(french);
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
                     "font-roboto  outline-none pl-10 w-full focus:bg-blue-100 bg-stone-100"                    
 
-const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   //{setPhase}
+const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   
   // State Variables & constants of module
   const { t, i18n  } = useTranslation("signup");
   const [posted, setPosted] = useState(false) //false  

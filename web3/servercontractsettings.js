@@ -3,6 +3,7 @@ import CONTRACT_ABI from './pro_pon.json'
 import { ethers } from 'ethers'
 
 
+// For blockchain read operations at server we use same Alchemy provider that client, it could change in future verions
 export const getProponContractServer = async () => {
   try {
     const alchemyProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_SERVER) 
@@ -14,6 +15,8 @@ export const getProponContractServer = async () => {
     return undefined
   }
 }
+
+
 
 // To still use ethers and write contract we use window.ethereum provider
 // if Metamask, then link to blockchain is provided by Metamask, if Coinbase then by them etc

@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback, useContext, Fragment } from "react"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useTranslation } from "next-i18next"
-import RFPIdentificator from "../components/rfp/rfpIdentificator"
-import RFPessentialData from "../components/rfp/RFPessentialData"
-import RequestRFPDocuments from "../components/rfp/requestRFPDocuments"
+import { useState, useEffect, useCallback, useContext, Fragment } from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+import RFPIdentificator from "../components/rfp/rfpIdentificator";
+import RFPessentialData from "../components/rfp/RFPessentialData";
+import RFPDocuments from "../components/rfp/rfpDocuments";
 import RegisterBidder from "../components/rfp/registerBidder";
 import ShowBidders from "../components/rfp/showBidders";
 import ShowResults from "../components/rfp/showResults";
@@ -34,7 +34,15 @@ function HomeRFP({ query }) {
   const RFPTabDisplayer = () => {
     switch (selectedPanel) {
       case displayedPanels[0]: //rfp_bases
-          return (<RequestRFPDocuments t={t} rfpfiles={rfpfiles} setFiles={setFiles} showUpload={companyData.companyId === rfpRecord.companyId} />);
+        return (
+          <RFPDocuments
+            t={t}
+            rfpfiles={rfpfiles}
+            setFiles={setFiles}
+            showUpload={companyData.companyId === rfpRecord.companyId}
+            rfpId ={rfpRecord._id}
+          />
+        );
       case displayedPanels[1]: //bidder_register
         return <RegisterBidder />;
       case displayedPanels[2]: //bidders_showcase
@@ -81,14 +89,14 @@ function HomeRFP({ query }) {
       <div id="homerfp-subpanel" className="grid grid-cols-[25%_74%] gap-1 ">
         <div
           id="homeref-lateral-panel"
-          className=" border-r-8 border-double border-orange-200 " 
+          className=" border-r-8 border-double border-orange-200 "
         >
           <div id="left-subpanel" className="mt-2">
             <div className="shadow-md">
-            <RFPessentialData
-              t={t}
-              rfpRecord={rfpRecord}
-              handleDeclareWinner={handleDeclareWinner}
+              <RFPessentialData
+                t={t}
+                rfpRecord={rfpRecord}
+                handleDeclareWinner={handleDeclareWinner}
               />
             </div>
             {rfpRecord.items && rfpRecord.items.length && (
@@ -122,7 +130,7 @@ function HomeRFP({ query }) {
       </div>
       {/* {Boolean(files.length) && (
         <div className="mt-4">
-          <UploadBuildr t={t} files={files} />
+          <UploadBuildrServerPaid t={t} files={files} />
         </div>
       )} */}
     </Fragment>
@@ -137,7 +145,12 @@ export async function getServerSideProps({ locale, query }) {
   return {
     props: {
       query: query,
-      ...(await serverSideTranslations(locale, ["rfps", "common", "menus"])),
+      ...(await serverSideTranslations(locale, [
+        "rfps",
+        "common",
+        "gralerrors",
+        "menus",
+      ])),
       // Will be passed to the page component as props
     },
   };

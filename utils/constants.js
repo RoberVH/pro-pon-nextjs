@@ -10,13 +10,18 @@ export const errorSmartContract = [
 ]
 
 
-// Limits for uploading files
+// Arweave File Types 
+export const ArweavefileTypes = {
+    requestFile : 'Request',        // RFP (Bases) Document 
+    responseFile : 'Response',      // RFP response Document
+    companyLegalFile : 'companyLegal'   // A document certifying company legal status (constitutive act, financial statement etc)
+}
 
 // Only  5 files each loading
-export const MAX_FILES = 15
+export const MAX_FILES = process.env.NEXT_PUBLIC_MAX_FILES//15
 
 // Only  100 MB each loading
-export const MAX_CAPACITY_FILES = 104_857_600
+export const MAX_CAPACITY_FILES = process.env.NEXT_PUBLIC_MAX_CAPACITY_FILES // 104_857_600
 
 // Company Id (tax payer title) for countries
 // value of property must have a corresponding entry on public/locales/signup.json file
