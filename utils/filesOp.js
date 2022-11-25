@@ -5,20 +5,34 @@
   *             parameters: filetoRead - File descriptor
   *             readType: Reading Type
  */
-export const readFile = (filetoRead,  readType, setProgressPrctge, idx) => {
+ 
+import { setResultObject } from '../utils/setResultObject'
+
+
+export const readFile = (setuploadingSet, filetoRead,  readType, idx) => {
    return new Promise((resolve, reject) => {
 
     let reader = new FileReader();
     reader.onload = function(event) { // finished reading file successfully
-         resolve({status:true, file: reader.result})            
-        //return ({status:true, file: reader.result})            
+         return resolve({status:true, file: reader.result})
     };
     reader.onerror = function(event) {
+        setResultObject(setuploadingSet, idx, 'error', reader.error)
+        // setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 
+        //                (indx=== idx) ? {...uploadObject,error:reader.error} : uploadObject))        
          reject({status: false,file: '',message: reader.error})
     };
     reader.onprogress= (evt) => {
         let pctje=Math.round((evt.loaded / evt.total) * 50);
-        setProgressPrctge( prevValue => prevValue.map( (value, indx) => (indx=== idx) ? pctje: value))
+        setResultObject(setuploadingSet, idx, 'progress', pctje)
+        // codigo para probar rechazos
+        if (pctje > 25 && (idx===2 )) {
+                setResultObject(setuploadingSet, idx, 'error', 'Error simulado en lectura de segundo archivo' )
+                setResultObject(setuploadingSet, idx, 'status', 'error')
+                return reject({error: 'falso error en READ FILE', idx:idx})
+            }
+        setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 
+                             (indx=== idx) ? {...uploadObject,progress:pctje} : uploadObject))
     }
     switch (readType) {
         case 'readAsDataUrl':

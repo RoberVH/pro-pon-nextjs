@@ -6,7 +6,8 @@ export const errorSmartContract = [
     'address_not_admin',
     'Only_owner_allow_withdraw',
     'Only_admin_can_perform',
-    'insufficient_funds'
+    'insufficient_funds',
+    'execution reverted: Insufficient_payment'
 ]
 
 

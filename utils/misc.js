@@ -18,3 +18,21 @@ export const convUnixEpoch = (date) => {
 
 // Check if object is empty
 export const isEmpty = obj => Reflect.ownKeys(obj).length === 0 && obj.constructor === Object  
+
+// Send a warning to Serve to signal a malfunction
+export const sendWarningServer = async (msgType, msg) => {
+    console.log('msgType msg', msgType, msg)
+    try {
+        const response = await fetch("/api/serverwarningsignaling", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({msgType: msgType, msg: msg})
+        });
+        const resp = await response.json();
+        console.log('Resp:', resp)
+        return
+    } catch (error) {
+        console.log('Error sending warning message', error)
+        return
+    }
+}

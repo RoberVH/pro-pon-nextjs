@@ -1,5 +1,6 @@
 import { WebBundlr } from "@bundlr-network/client"
 import { utils } from "ethers";
+import { setResultObject } from '../utils/setResultObject'
 
 /**  uploadDataBundlr
 *    Upload File to Arweave through Bundlr
@@ -8,8 +9,7 @@ import { utils } from "ethers";
 *    passed. With the signed signature upload content and tags from client to Bundlr
 */
 
- export const uploadDataBundlr = (remoteBundlr, address, file, fileData, filetype, rfpId, setProgressPrctge, idx) => {
-  // export const uploadDataBundlr = (remoteBundlr, address,  filetype, rfpId, setProgressPrctge, idx) => {
+ export const uploadDataBundlr = (setuploadingSet, remoteBundlr, address, file, fileData, filetype, rfpId, idx) => {
   return new Promise(async (resolve, reject) => {
       
 // tags array defines label with tag to our uploading content
@@ -33,17 +33,15 @@ import { utils } from "ethers";
    if(chunksize < 500_000 ) chunksize = 500_000
    if(chunksize > 190_000_000) chunksize = 190_000_000
    uploader.setChunkSize(chunksize); 
-   console.log('chunksize', chunksize)
    uploader.on("chunkUpload", (chunkInfo) => {
-     console.log(`file: ${file.name} finished uploaded Chunk number ${chunkInfo.id}, 
-       offset of ${chunkInfo.offset}, 
-       size ${chunkInfo.size} Bytes, with a total of ${chunkInfo.totalUploaded} bytes uploaded.`);
+    //  console.log(`file: ${file.name} finished uploaded Chunk number ${chunkInfo.id}, 
+    //    offset of ${chunkInfo.offset}, 
+    //    size ${chunkInfo.size} Bytes, with a total of ${chunkInfo.totalUploaded} bytes uploaded.`);
        const prctje = (chunkInfo.totalUploaded/file.size)
-       console.log('uploadDataBundlr de',file.name,'->', prctje)
        const progress=Math.round(50 * prctje)
-       for (let i=0; i<1000; i++)
-       setProgressPrctge( prevValue => prevValue.map( (value, indx) => (indx=== idx) ? (progress + value): value))
-  });   
+       setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 
+                      (indx=== idx) ? {...uploadObject,progress:progress} : uploadObject))
+   });   
   // get signature data
   const signatureData = Buffer.from(await transaction.getSignatureData());
   // get signature signed by server
@@ -53,18 +51,29 @@ import { utils } from "ethers";
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ datatosign: Buffer.from(signatureData).toString("hex") }),
     });
+       // codigo para probar rechazos
+        if (idx===1) {
+                setResultObject(setuploadingSet, idx, 'error', 'Error simulado en uploading Bundlr' )
+                setResultObject(setuploadingSet, idx, 'status', 'error')
+                return reject( 'Rejecting.. falso error uploading Bundlr')
+            }
     const resp= await result.json()
     const signed = Buffer.from(resp.signeddata,"hex")
   //  add signed signature to transaction
     transaction.setSignature(signed)
     const res = await transaction.upload();
-    console.log('res', res)
-    // in case upload event never was call up, we set to 100%
-    setProgressPrctge(prevValue => prevValue.map( (value, indx) => (indx=== idx) ? (100): value))
-    resolve({status:true, txid:res.id})
+    // in case upload event never was call up because file was too small, we set progress to 100%
+    setResultObject(setuploadingSet, idx, 'progress', 100)
+    // signal we have finish here
+    setResultObject(setuploadingSet, idx, 'status', 'success')
+    // and saved unto object the Bundlr/Arweave Id of file
+    setResultObject(setuploadingSet, idx, 'fileId', res.id)
+    resolve({txid:res.id})
     } catch (error) {
-        console.log("Error", error);
-        reject({status:false, msg:error})
+      setResultObject(setuploadingSet, idx, 'status', 'error')
+      // setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 
+      // (indx=== idx) ? {...uploadObject,error:error.message, status:'error'} : uploadObject)) 
+        reject({status:false, msg:error.message})
     }
 })
 }

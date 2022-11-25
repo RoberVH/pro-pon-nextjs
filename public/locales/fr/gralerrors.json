@@ -6,5 +6,7 @@
     "Insufficient_payment":"Paiement insuffisant pour cette transaction",
     "address_not_admin":"Ce compte n'est pas propriétaire",
     "Only_admin_can_perform":"Seul le propriétaire administrateur peut effectuer cette opération",
-    "user_rejection":"l'utilisateur a rejeté la transaction"
+    "user_rejection":"l'utilisateur a rejeté la transaction",
+    "execution reverted: Insufficient_payment":"Paiement insuffisant",
+    "no_serverBundlr_funding":"Impossible d'effectuer l'opération cette fois, veuillez réessayer plus tard"
 }

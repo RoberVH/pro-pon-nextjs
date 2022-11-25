@@ -15,8 +15,8 @@ export const useWriteRFP =  (
     onSuccess,
     onEvent,
     setPostedHash,
-    setLink,
-    setPosted}) => {
+    setLink //,setPosted
+   }) => {
 
         // const  write = async (rfpname, date0, date1, date2, contestType, arrayItems, value) => {
         const  write = async (params, value) => {
@@ -34,7 +34,7 @@ export const useWriteRFP =  (
                     params.contestType,
                     params.items,    
                     {value: ethers.utils.parseEther(value)})
-            setPosted(true)
+            //setPosted(true)
             setPostedHash(Tx.hash)
             setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
             const data=await Tx.wait()

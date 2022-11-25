@@ -15,22 +15,23 @@ import { uploadDataBundlr } from '../web3/uploadDataBundlr'
 import { sha512 } from 'crypto-hash'
 
 
-export const uploadBlockchainFile =  (file, idx,setProgressPrctge, ownerAddress, rfpId, setHashSet, remoteBundlr, fileType ) => {
+export const uploadBlockchainFile =  (setuploadingSet, file, idx, ownerAddress, rfpId, remoteBundlr, fileType ) => {
 return new Promise(async (resolve, reject) => {
-    try {
-        const result= await readFile(file, 'readAsArrayBuffer', setProgressPrctge, idx)
+    try {                           
+        const result= await readFile(setuploadingSet,file, 'readAsArrayBuffer', idx)
         if (result.status) {
              // here we will hash the data to register the file footprint to blockchain
              const hash = await sha512(result.file);
-             setHashSet( prevValue => prevValue.map( (value, indx) => (indx=== idx) ? hash : value))
-             //resolve(result.file)
+             setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 
+                             (indx=== idx) ? {...uploadObject,hash:hash} : uploadObject))
              } else reject(result) // pass up returning object from readFile (status, error.message)
         // all right,  continue uploading file to Bundlr server-paid
-         const loadingresult = await uploadDataBundlr(remoteBundlr, ownerAddress, file, result.file, fileType, rfpId, setProgressPrctge, idx)
-        if (loadingresult.status) resolve({status:true})
-        else reject (loadingresult) // pass up returning object from readFile (status, error.message)
+         const loadingresult = await uploadDataBundlr(setuploadingSet, remoteBundlr, ownerAddress, file, result.file, fileType, rfpId, idx)
+        if (loadingresult.status) {console.log('Upload return', loadingresult);return resolve(loadingresult)}
+            else return reject (loadingresult) // pass up returning object from uploadDataBundlr (status, error.message)
     } catch (error) {
-        reject( error.message )
+        console.log('Error en catch UploadBlockchian promesa ',idx,'el error es:', error)
+        return reject( error )
     }
 })
 }

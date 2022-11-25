@@ -5,7 +5,7 @@
  *    Save data to DB collections RFPs when is confirmed to the blockchain (?)
 */
 
-import { useState, useContext, useEffect} from "react"
+import { useState, useContext, useRef, useEffect} from "react"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 import { useWriteRFP } from "../../hooks/useWriteRFP"
@@ -14,6 +14,7 @@ import { proponContext } from '../../utils/pro-poncontext'
 import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle"
 import { toast } from "react-toastify"
 import {  parseWeb3Error  } from '../../utils/parseWeb3Error'
+import { getCurrentRFPPrices } from '../../web3/getCurrentContractConst'
 import useInputForm from "../../hooks/useInputForm"
 import { InputRFPName }  from "../input-controls/InputRFPName"
 import { InputRFPDescription }  from "../input-controls/InputRFPDescription"
@@ -36,7 +37,6 @@ const validatingFields = new Map([
   ['endDate','rfpform.enddateerror'],
 ])    
 
-//const LINK=`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/`
 const ContestType = {OPEN:0, INVITATION_ONLY:1}
 const  openContest = ContestType.OPEN 
 const  invitationContest = ContestType.INVITATION_ONLY
@@ -45,10 +45,11 @@ const  invitationContest = ContestType.INVITATION_ONLY
 const RFPDataForm = () => {
   // State Variables & constants of module
   const { t } = useTranslation("rfps");
+  const infoBoardDiv = useRef()
 
   const [waiting, setWaiting] = useState(false); 
   const [postedHash, setPostedHash] = useState('')
-  const [posted, setPosted] = useState('')
+  //const [posted, setPosted] = useState('')
   const [link, setLink] = useState('')
   const [block, setBlock] = useState('')
   const [rfpParams, setRFPParams] = useState({})
@@ -63,14 +64,15 @@ const RFPDataForm = () => {
   const patronobligatorio = new RegExp("^(?!s*$).+");
   const { companyData } = useContext(proponContext);
   
-
+  
   // Function to display error msg
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
 
+
+
   const handleCheckItemsAdder = (e) => {
-    // e.preventDefault()
     if (Object.keys(items).length) {
       errToasterBox(t('remove_items_first'))
       e.preventDefault()
@@ -81,9 +83,6 @@ const RFPDataForm = () => {
   const saveRFPDATA2DB = async (params) => {
     const resp= await saveRFP2DB (params) 
     if (resp.status) {
-      //setRFPId(resp._id)  // 
-      // mutating rfpParams, adding returned new _id field from  MongoDB field just created
-      //params['_id']=resp._id
       setRFPParams(rfpparams => ({...rfpparams, _id: resp._id, rfpidx:params.rfpidx}))
       toast.success(t('rfpdatasaved',toastStyleSuccess))
       setrfpCreated(true)
@@ -93,24 +92,28 @@ const RFPDataForm = () => {
     }
   }
   
-   const onError = (error) => {
+  // Handle Error method passed unto useWriteRFP hook 
+  const onError = (error) => {
     const customError = parseWeb3Error(t,error)
     errToasterBox(customError)    
     setWaiting(false)
   };
 
+  // Handle method passed unto useWriteRFP hook  to save RFP data to DB record 
   const onEvent = async (address, rfpIdx, rfpName, params) => {
-    // save RFP data to DB record 
     const rfpidx=parseInt(rfpIdx)
-    const rfpparams={rfpidx,...params}
-    saveRFPDATA2DB(rfpparams)
+    if (!rfpCreated) {  
+      const rfpparams={rfpidx,...params}
+      saveRFPDATA2DB(rfpparams)
+    }
   };
 
   const onSuccess = (data) => {
     setBlock(data.blockNumber)
   }
   
-  const write = useWriteRFP({ onSuccess, onError, onEvent, setPostedHash, setLink, setPosted})
+  // Set our writing hook
+  const write = useWriteRFP({ onSuccess, onError, onEvent, setPostedHash, setLink})//, setPosted})
 
   // Validate using regexp input fields of rfp essential data form
   const validate = (pattern, value, msj) => {
@@ -124,8 +127,8 @@ const RFPDataForm = () => {
     };
 
 
+    // Receive a date with format 'YYYY-MM-DD';
   const convertDate2UnixEpoch=(dateStr)=> {
-    // date with format 'YYYY-MM-DD';
     const date = new Date(dateStr);
     const unixTimestamp = Math.floor(date.getTime() / 1000);
     return unixTimestamp
@@ -141,12 +144,12 @@ const RFPDataForm = () => {
       }
     }
         
-  // handleCacel Drop form and go back to root address
+  // handleCancel Drop form and go back to root address
   const handleCancel = () => {
     router.push({pathname: '/'})
   }
 
-  // handleCacel Drop form and go back to root address
+  // handle Edit RFP button method, Build urk with RFP params and set URL browser to that URL
   const handleEditRFP = () => {
     const params = buildRFPURL(rfpParams)
     router.push('/homerfp?' + params)    
@@ -156,7 +159,11 @@ const RFPDataForm = () => {
     setContestType(e.target.id ==='open' ? openContest : invitationContest)
   }
 
-  // handleSave -  call Validate fields & if ok send transaction to blockchain
+  useEffect(()=>{
+    if (infoBoardDiv?.current) infoBoardDiv.current.scrollIntoView()
+  },[waiting, postedHash, block])
+
+  // handleSave -  call Validate fields & if ok send Write transaction to blockchain
   const handleSave = async () => {
     const arrayItems=Object.entries(items).map(item => item[1])
     const trimmedValues = {};
@@ -189,6 +196,11 @@ const RFPDataForm = () => {
     }
     // validation passed ok 
     setWaiting(true)
+    // setPostedHash('9v83b39a8980fb2371ad083k920al340v02154d9e1c98022344514')
+    // setLink('https://arweave.net/9d2313dx37421v09ae4')
+    
+    // setBlock('09495822293489192230223')
+    // console.log('por scroll')
     // create entry on smart contract
     // setting rfpparams for when saveing to DB time comes!
     const params =  {
@@ -207,18 +219,23 @@ const RFPDataForm = () => {
     if (params.rfpwebsite ==='undefined') params.rfpwebsite=''
 
     setRFPParams(params)
-    
+    const { openPriceRPF, invitationRFPPrice }= await getCurrentRFPPrices()
+    // Different prices for RFP Type. If Open, Issuer will be paying for document uploads
+    // so that price will be expensier. If Open, each bidder will paid for that. So, it should cost less
+    const value= contestType === ContestType.OPEN ? openPriceRPF : invitationRFPPrice
     // writing essential RFP data to contract
     await write(
       params,
-      "0.0001")
-        
+      value)
   };
-
+  
+  // Some objects to style UX
   const itemStyleContainer= {true: 'w-[85%]', false: 'w-[45%]'}
   const itemStyleInputName ={true: 'w-[85%]', false: 'w-[130%]'}
   const itemStyleDate ={true: 'w-[50%]', false: 'w-[110%]'}
   const itemStyleCheckboxText = {true: 'w-[85%]', false: 'w-[100%]'}
+
+   
 
  // render of Component rfpDataForm *****************************************************
   return (
@@ -365,7 +382,7 @@ const RFPDataForm = () => {
       </div>
       {/* Inferior panel to explain & display call to actions */}
       { ( waiting || postedHash) &&
-      <div className="container mt-4 mb-8 p-4 bg-white border-2 border-orange-200 w-[70%] ">
+      <div ref={infoBoardDiv} className="container mt-4 mb-8 p-4 bg-white border-2 border-orange-200 w-[70%] ">
         <div className="font-khula text-stone-700 text-base py-4 ">
           { (waiting || postedHash ) && (<p>{t('savingtoblockchainmsg')} </p> )}
           { postedHash && 
