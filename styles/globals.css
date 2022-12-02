@@ -50,4 +50,10 @@ html {
       after:top-[100%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-b-transparent 
       after:border-t-gray-700 
     }
+    .tooltip-span-error-upload {
+      @apply absolute invisible group-hover:visible group-hover:flex -left-[40em] top-[2em] -translate-y-full w-[40em] px-2 py-1 
+      bg-white border-2 border-red-500 rounded-lg text-left text-stone-600 font-bold text-[0.9em] after:content-[''] after:absolute 
+      after:left-1/2 overflow-visible after:top-[20%] after:left-[100%]  after:border-[10px] after:border-x-transparent 
+      after:border-l-transparent  after:border-l-red-500
+    }
   }

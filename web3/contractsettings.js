@@ -16,18 +16,17 @@ export const getProponContract = async () => {
   }
 }
 
-// To still use ethers and write contract we use window.ethereum provider
-// if Metamask, then link to blockchain is provided by Metamask, if Coinbase then by them etc
-// This is a shortcut but in next version it should use better alchemy library and RPC api
-// to send this trough alchemy node. 
-// for this make encode contract and use ethereum.request( method: "eth_sendTransaction",..)..
+/* To still use ethers and write contract we use window.ethereum provider
+* if Metamask, then link to blockchain is provided by Metamask, if Coinbase then by them etc
+* This is a shortcut but in next version it should use better alchemy library and RPC api
+* to send this trough alchemy node. 
+* for this make encode contract and use ethereum.request( method: "eth_sendTransaction",..)..
+*/
 export const getWritingProponContract = async () => {
   try {
     const provider= await new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, signer)
-    //const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, signer)
-    
     return contract
 
   } catch (error) { 
@@ -35,11 +34,3 @@ export const getWritingProponContract = async () => {
     return undefined
   }
 }
-
-
-// export const ContractConfig = {
-//     addressOrName: contractAddress,
-//     contractInterface: proponJSONContract.abi,
-//     chainId: proponChainId
-//   };
-  

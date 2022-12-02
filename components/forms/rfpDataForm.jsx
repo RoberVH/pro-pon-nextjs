@@ -113,7 +113,7 @@ const RFPDataForm = () => {
   }
   
   // Set our writing hook
-  const write = useWriteRFP({ onSuccess, onError, onEvent, setPostedHash, setLink})//, setPosted})
+  const write = useWriteRFP({ onSuccess, onError, onEvent, setPostedHash, setLink})
 
   // Validate using regexp input fields of rfp essential data form
   const validate = (pattern, value, msj) => {

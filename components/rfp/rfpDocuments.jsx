@@ -9,16 +9,24 @@
 import UploadRFPForm from "../forms/uploadRFPForm";
 import DonwloadFileForm from "../forms/donwloadFileForm";
 
-const RFPDocuments = ({ t, rfpfiles, setFiles, showUpload, rfpId }) => {
+const RFPDocuments = ({ t, rfpfiles, setNewFiles, showUpload, rfpId, rfpIndex, docType, owner }) => {
   let uploadComponent = null;
-  if (showUpload) uploadComponent = <UploadRFPForm t={t} setFiles={setFiles} rfpId={rfpId} />;
+  if (showUpload) uploadComponent = <UploadRFPForm 
+                                        t={t} 
+                                        setNewFiles={setNewFiles} 
+                                        rfpId={rfpId} 
+                                        rfpIndex={rfpIndex}
+                                        docType={docType}
+                                        owner={owner}
+                                      />;
   return (
     <div className="mt-2">
       {uploadComponent}
       <DonwloadFileForm
-        files={rfpfiles}
-        nofiles={t("nofiles")}
-        title={t("dowloadrequestfiles")}
+        rfpfiles={rfpfiles}
+        t={t}
+        docType={docType}
+        owner={owner}
       />
     </div>
   );

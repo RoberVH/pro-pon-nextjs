@@ -97,7 +97,7 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize}) => {
               <div
                 className={`${
                   droppingFiles ? "outline outline-4" : "outline-2"
-                } h-[12em] w-3/4 my-4 h-24  outline outline-dashed  
+                } h-[12em] w-3/4 my-4 h-40  outline outline-dashed  
                                 outline-orange-300 text-sm  text-orange-500 rounded-sm  flex flex-col items-center 
                                 justify-evenly`}
                 onDrop={(e) => handleDrop(e)}

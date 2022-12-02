@@ -8,7 +8,7 @@ import Image from "next/image"
 
 import  ProgressBr  from "../layouts/progressBar"
 
-const  DisplayProgressUpload=({t, files, progressPrctge, hashSet, fileErrorSet, finishedPromises, uploadingSet}) => {
+const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
   const checkProperty = (index,property) => {
     return (
       Boolean (uploadingSet[index]) &&
@@ -18,7 +18,6 @@ const  DisplayProgressUpload=({t, files, progressPrctge, hashSet, fileErrorSet, 
 
   const DisplayStatus = ({index}) => {
     if (!Boolean(uploadingSet[index]) || typeof uploadingSet[index].status ==='undefined')  return null
-    console.log('idx & status', index, uploadingSet[index].status)
     switch (uploadingSet[index].status)  {
       case 'pending':
         return (
@@ -28,7 +27,14 @@ const  DisplayProgressUpload=({t, files, progressPrctge, hashSet, fileErrorSet, 
         )
       case 'error':
         return (
-          <ExclamationCircleIcon className="h-5 w-5 text-red-600  ml-2"/>
+          <div className="group relative inline-block flex align-center justify-center">
+            <ExclamationCircleIcon className="h-6 w-6 text-red-600 "/>
+            {/* <button className="tooltip-span-right mt-2"> */}
+              <span className="tooltip-span-error-upload">
+                            {uploadingSet[index].error}
+              </span>
+            {/* </button> */}
+          </div>
         )
       case 'success':
         return (

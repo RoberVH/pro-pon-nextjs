@@ -22,6 +22,7 @@ function Searchrfps() {
   const router = useRouter()
 
   const handleShowRFP =(rfp) => {
+    setIsWaiting(true)
     const rfphomeparams=buildRFPURL(rfp)
     router.push('/homerfp?' + rfphomeparams)
   }

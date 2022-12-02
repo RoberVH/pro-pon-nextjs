@@ -11,9 +11,9 @@
     "companyessentialdataposted":"La transaction a été reçue sur la Blockchain, en attente de confirmation. Attendez s'il vous plaît...",
     "companyessentialdatasaved":"Les données d'identification de l'entreprise ont été publiées sur la Blockchain",    
     "signupsuccess":"Les données essentielles de l'entreprise ont été enregistrées dans la blockchai", 
-    "chekhash":"Afficher l'état de la transaction dans Blockchain Explorer",
+    "chekhash":"Afficher l'état de la transaction dans Blockchain Explorer. Attendez s'il vous plaît...",
     "nocompanyIdyet":"Votre compte blockchain n'a pas encore d'entreprise enregistrée",
-    "block":"La transaction a été incluse dans le bloc: ",
+    "block":"Terminé avec succès. La transaction a été incluse dans le bloc: ",
     "errors": {
         "address_already_admin":"Ce compte est déjà administrateur d'une autre entreprise",
         "unknownerror":"Erreur inconnue, essayez plus tard",

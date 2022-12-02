@@ -9,7 +9,7 @@ import { setResultObject } from '../utils/setResultObject'
 *    passed. With the signed signature upload content and tags from client to Bundlr
 */
 
- export const uploadDataBundlr = (setuploadingSet, remoteBundlr, address, file, fileData, filetype, rfpId, idx) => {
+ export const uploadDataBundlr = (setuploadingSet, remoteBundlr, address, file, fileData, filetype, rfpId, idx, rfpIndex) => {
   return new Promise(async (resolve, reject) => {
       
 // tags array defines label with tag to our uploading content
@@ -22,6 +22,7 @@ import { setResultObject } from '../utils/setResultObject'
     {name: "App-version", value: "0.1.0" },
     {name: "owner", value: address },
     {name: "file-type", value:filetype},
+    {name: "rfpIndex", value:rfpIndex},
     {name: "rfpId", value:rfpId}
   ]  
   const transaction = remoteBundlr.createTransaction(fileData, { tags })
@@ -52,7 +53,7 @@ import { setResultObject } from '../utils/setResultObject'
       body: JSON.stringify({ datatosign: Buffer.from(signatureData).toString("hex") }),
     });
        // codigo para probar rechazos
-        if (idx===1) {
+        if (false) { // idx===-11) {
                 setResultObject(setuploadingSet, idx, 'error', 'Error simulado en uploading Bundlr' )
                 setResultObject(setuploadingSet, idx, 'status', 'error')
                 return reject( 'Rejecting.. falso error uploading Bundlr')
@@ -66,9 +67,10 @@ import { setResultObject } from '../utils/setResultObject'
     setResultObject(setuploadingSet, idx, 'progress', 100)
     // signal we have finish here
     setResultObject(setuploadingSet, idx, 'status', 'success')
+    setResultObject(setuploadingSet, idx, 'name', file.name)
     // and saved unto object the Bundlr/Arweave Id of file
     setResultObject(setuploadingSet, idx, 'fileId', res.id)
-    resolve({txid:res.id})
+    return resolve({status:true, txid:res.id})
     } catch (error) {
       setResultObject(setuploadingSet, idx, 'status', 'error')
       // setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 

@@ -3,7 +3,6 @@ import { convDate } from '../utils/misc.js'
 
 
 function DisplayResults({fields,results, actions, t}) {
-//  const { t } = useTranslation("companies");
   if (!results.length) return 
       <div className="text-red-600 font-xl">
         {t('noresults')}

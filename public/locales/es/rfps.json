@@ -28,8 +28,8 @@
     "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red",
     "rfpessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación. Espere por favor... ",
     "uploadrequestsigning":"Se le pedirá que firme con su cuenta de billetera un mensaje con los datos de los archivos, no se preocupe ya que esta operación no le costará ninguna criptomoneda, es solo una forma de asegurarse de que tiene derecho a solicitar esta operación. Por favor firme el mensaje",
-    "chekhash":"Ver transaccion en el explorador de la Blockchain",
-    "block":"La Transacción fue incluida en el bloque: ",
+    "chekhash":"Puede ver y seguir la transaccion en el explorador de la Blockchain. Espere por favor...",
+    "block":"Terminó exitosamente. La Transacción fue incluida en el bloque: ",
     "rfpessentialdatasaved":"Los datos de identification de la compañía han sido publicados en la Blockchain",
     "rfpdatasaved":"Los datos del RFP han sido registrados",
     "titlescreen": "Solicitud de Propuestas (RFP)",
@@ -69,5 +69,10 @@
     "bidder_register":"Registrar participante",
     "bidders_showcase":"Mostrar Participantes",
     "declare_contest":"Declarar resultados",
-    "rfp_results":"Mostrar resultados"
+    "rfp_results":"Mostrar resultados",
+    "files_uploaded":"Archivos cargados a la red de Blockchain Arweave",
+    "tell_hover_errors":"Hubo error al cargar archivos, coloque el cursor sobre el icono de error para mostrarlo",
+    "call_to_record_files":"Aun falta registrar en la blockchain los metadatos de sus archivos, para continuar haga clic en botón aceptar y confirme transacción en Billetera",
+    "document_name":"Nombre de Documento",
+    "document_hash":"Hash de Documento"
 }

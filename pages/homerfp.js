@@ -11,10 +11,9 @@ import DeclareResults from "../components/rfp/declareResults";
 import DisplayItems from "../components/rfp/displayItems";
 import { proponContext } from "../utils/pro-poncontext";
 import HomeButtons from "../components/rfp/homeButtons";
+import { getArweaveFilesMetadata } from '../web3/getArweaveFilesMetadata'
 
 function HomeRFP({ query }) {
-  //{rfpRecord}
-  //const {  locale } = useRouter();
 
   const displayedPanels = [
     "rfp_bases", // show /allow owner to post requesting documents
@@ -25,12 +24,15 @@ function HomeRFP({ query }) {
   ];
 
   const [rfpRecord, setRfpRecord] = useState();
-  const [files, setFiles] = useState([]); // files to upload
+  const [newfiles, setNewFiles] = useState(false); // flag to refresh RFP files loaded
   const [rfpfiles, setRFPFiles] = useState([]); // uploaded files
   const [selectedPanel, setSelectedPanel] = useState(); // uploaded files
   const { companyData, address } = useContext(proponContext);
   const { t } = useTranslation("rfps");
-
+  
+  
+  const documentRequestType = 0  // it should read it from contract in future version
+  
   const RFPTabDisplayer = () => {
     switch (selectedPanel) {
       case displayedPanels[0]: //rfp_bases
@@ -38,9 +40,12 @@ function HomeRFP({ query }) {
           <RFPDocuments
             t={t}
             rfpfiles={rfpfiles}
-            setFiles={setFiles}
+            setNewFiles={setNewFiles}
             showUpload={companyData.companyId === rfpRecord.companyId}
             rfpId ={rfpRecord._id}
+            rfpIndex = {rfpRecord.rfpidx}
+            docType={documentRequestType}
+            owner={address}
           />
         );
       case displayedPanels[1]: //bidder_register
@@ -56,30 +61,31 @@ function HomeRFP({ query }) {
     }
   };
 
-  const processFiles = useCallback(() => {
-    const arrayFiles = [];
-    // here we upload files to arweave
-
-    Array.from(files).forEach((file) => {
-      arrayFiles.push(file.name);
-    });
-
-    setRFPFiles(arrayFiles);
-  }, [files]);
+  const updateRFPFilesArray = useCallback( async () => {
+    if (!rfpRecord?.rfpidx)  return
+    const result = await getArweaveFilesMetadata(rfpRecord.rfpidx)
+      if (result.status) {
+       console.log('docs', result.docs)
+        setRFPFiles(result.docs)
+    } else {
+        errToasterBox(result.error)
+        console.log('Error', result.error)
+      }
+  },[rfpRecord])
 
   useEffect(() => {
     const getRFP = () => {
       setRfpRecord(query);
+      updateRFPFilesArray()
     };
     getRFP();
-  }, [query]);
+  }, [query, updateRFPFilesArray]);
 
-  useEffect(() => {
-    if (files.length) processFiles(files);
-  }, [files, processFiles]);
+  useEffect(()=> {
+     if (newfiles) updateRFPFilesArray()
+   }, [newfiles, updateRFPFilesArray]);
 
   const handleDeclareWinner = () => {};
-
   if (!rfpRecord) return <div>No RFP</div>;
   return (
     <Fragment>
@@ -117,8 +123,7 @@ function HomeRFP({ query }) {
           </div>
           <div
             id="selected-tab-area"
-            className="bg-white border-2 border-orange-300 h-screen"
-          >
+            className="bg-white border-2 border-orange-300 min-h-screen">
             <div id="selected-usable-area" className="m-2">
               <RFPTabDisplayer />
             </div>
@@ -128,11 +133,6 @@ function HomeRFP({ query }) {
 
         <div></div>
       </div>
-      {/* {Boolean(files.length) && (
-        <div className="mt-4">
-          <UploadBuildrServerPaid t={t} files={files} />
-        </div>
-      )} */}
     </Fragment>
   );
 }

@@ -12,6 +12,7 @@ export const errorSmartContract = [
 
 
 // Arweave File Types 
+// this types used for Arweave metadata when uploading files there
 export const ArweavefileTypes = {
     requestFile : 'Request',        // RFP (Bases) Document 
     responseFile : 'Response',      // RFP response Document

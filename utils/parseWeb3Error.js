@@ -1,6 +1,7 @@
 import { errorSmartContract } from './constants'
 
 export const parseWeb3Error = (t,error) => {
+    console.log('parseWeb3Error', error)
     let customError=t('undetermined_blockchain_error',{ns:"gralerrors"})  // default answer, now check if we can specified it
     if (typeof error.reason!== 'undefined') {
     if (error.reason==='insufficient funds for intrinsic transaction cost')

@@ -26,10 +26,10 @@
         "datesnosequencial":"Wrong. Dates are not in sequencial order"
     },
     "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network",
-    "rfpessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Wait please...",
+    "rfpessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Please wait...",
     "uploadrequestsigning":"You will be asked to sign with your wallet account a message with file names, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you have the right to request this operation. Please sign the message",
-    "chekhash":"View transaction in the Blockchain Explorer",
-    "block":"This transaction has been included into Block: ",
+    "chekhash":"You can se and follow this transaction in the Blockchain Explorer... please wait",
+    "block":"Finish succesfully. This transaction has been included into Block: ",
     "rfpessentialdatasaved":"RFP Identification data has been posted to Blockchain",
     "rfpdatasaved":"RFP data has been saved",
     "titlescreen":"Request for Proposals (RFP)",
@@ -67,7 +67,12 @@
     "bidder_register":"Register bidder",
     "bidders_showcase":"Show bidders",
     "declare_contest":"Declare results",
-    "rfp_results":"Show results"
+    "rfp_results":"Show results",
+    "files_uploaded":"Files uploaded to Arweave Blockchain",
+    "tell_hover_errors":"There were error uploading files, place the cursor over error icon to show it",
+    "call_to_record_files":"We still need to register the metadata of your files in the blockchain, to continue click on the accept button and confirm the transaction in Wallet",
+    "document_name":"Document Name",
+    "document_hash":"Document hash"
     
 
 }

@@ -242,7 +242,7 @@ const changeNetworks= async () => {
           <div className="flex ml-4 ">
             <Link href="/" passHref>
                 <a>
-                <Image className="cursor-pointer"
+                <Image className="cursor-pointer object-contain mix-blend-color-dodge"
                 alt="logo"
                 src="/pro-ponLogo5.png"
                 width={205}

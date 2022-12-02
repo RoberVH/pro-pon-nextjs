@@ -11,9 +11,9 @@
     "companyessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación. Espere por favor... ",
     "companyessentialdatasaved":"Los datos de identification de la compañía han sido publicados en la Blockchain",    
     "signupsuccess":"Los datos esenciales de la empresa han sido guardados en blockchain",
-    "chekhash":"Ver status de transaccion en el explorador de la Blockchain",
+    "chekhash":"Ver status de transaccion en el explorador de la Blockchain. Espere por favor...",
     "nocompanyIdyet":"Su cuenta de blockchain aun no tiene registrada una empresa",
-    "block":"La Transacción fue incluida en el bloque: ",
+    "block":"Terminó exitosamente. La Transacción fue incluida en el bloque: ",
     "errors": {
         "address_already_admin":"Esta cuenta ya es administradora de otra empresa",
         "unknownerror":"Error desconocido, reintente mas tarde",

@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslation } from "next-i18next";
 import { customAlphabet } from 'nanoid'
-import { toastStyle } from "../../styles/toastStyle";
-import { toast } from "react-toastify";
+// import { toastStyle } from "../../styles/toastStyle";
+// import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 function RFPItemAdder({items, setItems, showItemsField, disable}) {
   const [itemTender, setItemTender] = useState('')      // local state var to control the current Item being added to prop items
-  const [editionLine, setEditionLine] = useState('')
-  const [editingIndexLine, seteditingIndexLine] = useState(-1)
-  const [editingLine, setEditingLine] = useState(false)
+  //const [editionLine, setEditionLine] = useState('')
+  //const [editingIndexLine, seteditingIndexLine] = useState(-1)
+  //const [editingLine, setEditingLine] = useState(false)
   const { t } = useTranslation("rfps");
   const nanoid = customAlphabet('abcdefghijklmnnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 8)
 
@@ -75,7 +75,7 @@ const handleKeyPress= (e) => {
                   disabled={(!Object.keys(items).length || disable)}
                   className="btn-removeall-circular disabled:cursor-not-allowed ml-1
                   group relative inline-block  "
-                  onClick={handleRemoveAllItems}>
+                  onClick={handleRemoveAllItems}> 
                       x
                       <span className="tooltip-span-rigth mt-2">
                           {t('removeallitems')}

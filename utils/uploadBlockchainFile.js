@@ -15,7 +15,7 @@ import { uploadDataBundlr } from '../web3/uploadDataBundlr'
 import { sha512 } from 'crypto-hash'
 
 
-export const uploadBlockchainFile =  (setuploadingSet, file, idx, ownerAddress, rfpId, remoteBundlr, fileType ) => {
+export const uploadBlockchainFile =  (setuploadingSet, file, idx, ownerAddress, rfpId, remoteBundlr, fileType, rfpIndex ) => {
 return new Promise(async (resolve, reject) => {
     try {                           
         const result= await readFile(setuploadingSet,file, 'readAsArrayBuffer', idx)
@@ -26,9 +26,10 @@ return new Promise(async (resolve, reject) => {
                              (indx=== idx) ? {...uploadObject,hash:hash} : uploadObject))
              } else reject(result) // pass up returning object from readFile (status, error.message)
         // all right,  continue uploading file to Bundlr server-paid
-         const loadingresult = await uploadDataBundlr(setuploadingSet, remoteBundlr, ownerAddress, file, result.file, fileType, rfpId, idx)
-        if (loadingresult.status) {console.log('Upload return', loadingresult);return resolve(loadingresult)}
-            else return reject (loadingresult) // pass up returning object from uploadDataBundlr (status, error.message)
+         const loadingresult = await uploadDataBundlr(setuploadingSet, remoteBundlr, ownerAddress, file, result.file, fileType, rfpId, idx,rfpIndex)
+        if (loadingresult.status) {
+            return resolve(loadingresult.txid)
+        } else return reject (loadingresult) // pass up returning object from uploadDataBundlr (status, error.message)
     } catch (error) {
         console.log('Error en catch UploadBlockchian promesa ',idx,'el error es:', error)
         return reject( error )
