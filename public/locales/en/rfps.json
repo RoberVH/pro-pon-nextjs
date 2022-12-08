@@ -2,6 +2,7 @@
     "rfp":"RFP - General Data",
     "rfpdocuments":"RFP - Requisition Documents",
     "onlyregisteredtoRFP":"Sorry, Only registered companies can create an RFP",
+    "not_registered":"Company not registered",
     "recresrfpdata":"Record RFP data (allow at least a day between datelines)",
     "accept":"accept",
     "savebutton":"Save",
@@ -33,7 +34,7 @@
     "rfpessentialdatasaved":"RFP Identification data has been posted to Blockchain",
     "rfpdatasaved":"RFP data has been saved",
     "titlescreen":"Request for Proposals (RFP)",
-    "name": "RFP  Name",
+    "name": "RFP Name",
     "companyId":"Company Id",
     "companyname":"Company Name",
     "openDate":"Start Date",
@@ -72,7 +73,15 @@
     "tell_hover_errors":"There were error uploading files, place the cursor over error icon to show it",
     "call_to_record_files":"We still need to register the metadata of your files in the blockchain, to continue click on the accept button and confirm the transaction in Wallet",
     "document_name":"Document Name",
-    "document_hash":"Document hash"
+    "document_hash":"Document hash",
+    "registerto_rfp":"Sign Up to RFP",
+    "rfp_invited":"Your company is welcomed to register to this RFP. After you are signed up you will be able to post response documents",
+    "notallowed_invited":"Sorry, RFP Issuer has not invited your company to this RFP",
+    "register_guest":"Invite companies to RFP",
+    "register_open":"You can register your company to this open RFP  if limit hasn't been reached, after you are signed up you will be able to post response documents",
+    "notallowed_open":"Sorry, you can not register your company. The limit has been reached",
+    "already_registered":"Company already registered",
+    "invitation_rfp":"This is an Invitation Contest, check on Show Bidders Tab if you are invited"
     
 
 }

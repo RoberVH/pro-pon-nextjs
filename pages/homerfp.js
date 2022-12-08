@@ -12,6 +12,8 @@ import DisplayItems from "../components/rfp/displayItems";
 import { proponContext } from "../utils/pro-poncontext";
 import HomeButtons from "../components/rfp/homeButtons";
 import { getArweaveFilesMetadata } from '../web3/getArweaveFilesMetadata'
+import { getContractRFPbidders } from '../web3/getContractRFPbidders'
+import { documentRequestType, openContest, inviteContest } from '../utils/constants'
 
 function HomeRFP({ query }) {
 
@@ -24,15 +26,27 @@ function HomeRFP({ query }) {
   ];
 
   const [rfpRecord, setRfpRecord] = useState();
-  const [newfiles, setNewFiles] = useState(false); // flag to refresh RFP files loaded
-  const [rfpfiles, setRFPFiles] = useState([]); // uploaded files
-  const [selectedPanel, setSelectedPanel] = useState(); // uploaded files
+  const [newfiles, setNewFiles] = useState(false); // flag to refresh RFP files loaded. Get them from contract
+  const [rfpfiles, setRFPFiles] = useState([]); // uploaded files from contract
+  const [selectedPanel, setSelectedPanel] = useState(); 
+  const [bidders, setBidders] = useState([])  // list of companies registered to this contest
+  const [guests, setGuests] = useState([])  // list of companies registered to this contest
+  
   const { companyData, address } = useContext(proponContext);
   const { t } = useTranslation("rfps");
   
-  
-  const documentRequestType = 0  // it should read it from contract in future version
-  
+ const GralMsg =({title}) => 
+    <div className="p-4">
+        <div className="mt-4 w-2/3 min-w-full h-[9rem] min-h-full border-2 border-coal-500 
+            flex shadow-lg p-4 justify-center items-center tracking-wide text-stone-500 uppercase">    
+            {title}
+        </div>
+    </div>
+
+  // const documentRequestType = 0  // it should read it from contract in future version
+  // const openContest = 0  // it should read it from contract in future version
+  // const inviteContest = 1  // it should read it from contract in future version
+
   const RFPTabDisplayer = () => {
     switch (selectedPanel) {
       case displayedPanels[0]: //rfp_bases
@@ -48,12 +62,30 @@ function HomeRFP({ query }) {
             owner={address}
           />
         );
-      case displayedPanels[1]: //bidder_register
-        return <RegisterBidder />;
+      case displayedPanels[1]: //bidder_register  only for Open Contests
+        if (!address || !Boolean(companyData.companyId )) 
+            return <GralMsg title={t('not_registered')} />
+        if (Number(rfpRecord.contestType) === inviteContest && 
+            companyData.companyId !== rfpRecord.companyId) 
+            return <GralMsg  title= {t('invitation_rfp')}/>
+        // all ok, show Register component
+        if (bidders)  return (
+            <RegisterBidder 
+              bidders={bidders}
+              setBidders={setBidders} 
+              t={t}
+              rfpRecord={rfpRecord} 
+              companyId={companyData.companyId}
+              inviteContest={inviteContest}
+              address={address}
+            />)
+             else return null
       case displayedPanels[2]: //bidders_showcase
-        return <ShowBidders />;
+        return <ShowBidders bidders={bidders}/>;
       case displayedPanels[3]: //declare_contest
-        return <DeclareResults />;
+        if (address===rfpRecord.owner) return <DeclareResults />
+        else return null
+        break
       case displayedPanels[4]: //rfp_results
         return <ShowResults />;
       default:
@@ -62,11 +94,13 @@ function HomeRFP({ query }) {
   };
 
   const updateRFPFilesArray = useCallback( async () => {
-    if (!rfpRecord?.rfpidx)  return
+    if (!rfpRecord || !rfpRecord.rfpidx)  return
     const result = await getArweaveFilesMetadata(rfpRecord.rfpidx)
       if (result.status) {
-       console.log('docs', result.docs)
         setRFPFiles(result.docs)
+        setNewFiles(false)
+        const bidders = await getContractRFPbidders(rfpRecord.rfpidx)
+        if (bidders.status) setBidders(bidders.bidders)
     } else {
         errToasterBox(result.error)
         console.log('Error', result.error)

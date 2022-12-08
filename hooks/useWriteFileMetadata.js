@@ -25,6 +25,7 @@ export const useWriteFileMetadata =  (onError) => {
         DocumentIdxs
    ) => {
         const proponContract = await getWritingProponContract()
+        setBlockchainsuccess(false) // make sure a clean state in case this is second time called
         try {
             const Tx = await proponContract.addDocuments(
                 rfpId,

@@ -1,12 +1,5 @@
 import Image from 'next/image'
 
-//recordingcompanylegend
-//savingtoblockchainmsg
-//companyessentialdataposted
-//chekhash
-//block
-//companyessentialdatasaved
-//completeprofile
 
 const TxInfoPanel = ({
     itemPosted,
@@ -17,8 +10,8 @@ const TxInfoPanel = ({
     handleDataEdition,
     t,
     txPosted
-    }) => //border-[#023c66]
-  <div className="  py-1 bg-white border   rounded-md border-orange-300
+    }) => 
+  <div className="py-1 bg-white border rounded-md border-orange-300
                   border-solid shadow-xl mb-2">
     <div className="text-xl font-khula  text-base py-4 pl-2">
         <div className="flex mb-2">

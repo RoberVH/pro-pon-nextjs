@@ -2,6 +2,7 @@
     "rfp":"RFP - Données générales",
     "rfpdocuments":"RFP - Documents de demande",
     "onlyregisteredtoRFP":"Désolé, Seules les entreprises enregistrées peuvent créer une demande de propositions",
+    "not_registered":"Société non enregistrée",
     "recresrfpdata":"Enregistrer les données RFP (laissez au moins un jour entre les échéances)",
     "accept":"Accepter",
     "savebutton":"Sauvegarder",
@@ -72,6 +73,13 @@
     "tell_hover_errors":"Une erreur s'est produite lors du téléchargement des fichiers, survolez l'icône d'erreur pour l'afficher",
     "call_to_record_files":"Nous devons encore enregistrer les métadonnées de vos fichiers dans la blockchain, pour continuer cliquez sur le bouton accepter et confirmez la transaction dans Wallet",
     "document_name":"Nom du document",
-    "document_hash":"Hash du Document"
-    
+    "document_hash":"Hash du Document",
+    "registerto_rfp":"S'inscrire à RFP",
+    "rfp_invited":"Votre entreprise est invitée à s'inscrire à la RFp. Une fois inscrit, vous pourrez poster des documents de réponse",
+    "notallowed_invited": "Désolé, le propriétaire de l'appel d'offres n'a pas invité votre entreprise à l'appel d'offres",
+    "register_guest":"Inviter des entreprises à l'appel d'offres",
+    "register_open":"Vous pouvez inscrire votre entreprise dans cet appel d'offres ouvert si la limite de participants n'a pas été atteinte, après vous être inscrit, vous pourrez publier des documents de réponse",
+    "notallowed_open":"Désolé, vous ne pouvez pas enregistrer votre entreprise. La limite a été atteinte",
+    "already_registered":"La société est déjà enregistrée",
+    "invitation_rfp":"Ceci est un concours sur invitation, cochez le curseur Afficher les enchérisseurs si vous êtes invité"
 }

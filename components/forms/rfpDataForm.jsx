@@ -196,11 +196,6 @@ const RFPDataForm = () => {
     }
     // validation passed ok 
     setWaiting(true)
-    // setPostedHash('9v83b39a8980fb2371ad083k920al340v02154d9e1c98022344514')
-    // setLink('https://arweave.net/9d2313dx37421v09ae4')
-    
-    // setBlock('09495822293489192230223')
-    // console.log('por scroll')
     // create entry on smart contract
     // setting rfpparams for when saveing to DB time comes!
     const params =  {

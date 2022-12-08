@@ -1,5 +1,7 @@
 import React from 'react'
 import { convDate } from '../utils/misc.js'
+import { documentRequestType, openContest, inviteContest } from '../utils/constants'
+
 
 
 function DisplayResults({fields,results, actions, t}) {
@@ -25,27 +27,29 @@ function DisplayResults({fields,results, actions, t}) {
             </tr>
          </thead>
          <tbody className="">
-            {
-              results.map(elem =>
-              <tr key={elem._id} className="text-stone-600 font-khula font-bold even:bg-slate-200 odd:bg-slate-100">
-                  <td className="p-2  ">{elem[fields[0].fieldName]}</td>
-                  <td>{elem[fields[1].fieldName]}</td>
-                  <td className="truncate">{elem[fields[2].fieldName]}</td>
-                  <td>{fields[3].date ? convDate(elem[fields[3].fieldName]) : elem[fields[3].fieldName]}</td>
-                  <td>{fields[4].date ? convDate(elem[fields[4].fieldName]) : elem[fields[4].fieldName]}</td>
-                  <td>{fields[5].date ? convDate(elem[fields[5].fieldName]) : elem[fields[5].fieldName]}</td>
-                    { actions.map ( action => 
-                          <td key={`action_${action.id}`}
-                          className="hover:pointer"
-                              > 
-                              <button className="cursor-pointer outline-orange-600 
-                                  hover:outline hover:outline-1 "
-                              onClick={()=>action.callBack(elem)}>
-                                {action.iconAction}
-                              </button>
-                          </td>                  
-                    )}
-              </tr>
+          {
+            results.map(elem =>
+            <tr key={elem._id} className="text-stone-600 font-khula font-bold even:bg-slate-200 odd:bg-slate-100">
+              { console.log('%cRFP:','color:red; backgroundColor:yello;', elem)}
+                <td className="p-2  ">{elem[fields[0].fieldName]}</td>
+                <td>{elem[fields[1].fieldName]}</td>
+                <td className="truncate">{elem[fields[2].fieldName]}</td>
+                <td>{fields[3].fieldName=== 'contestType' ? (Number(elem[fields[3].fieldName])===openContest ? t('open') : t('Invitation')) : elem[fields[3].fieldName]}</td>
+                <td>{fields[4].date ? convDate(elem[fields[4].fieldName]) : elem[fields[4].fieldName]}</td>
+                <td>{fields[5].date ? convDate(elem[fields[5].fieldName]) : elem[fields[5].fieldName]}</td>
+                <td>{fields[6].date ? convDate(elem[fields[6].fieldName]) : elem[fields[6].fieldName]}</td>
+                  { actions.map ( action => 
+                        <td key={`action_${action.id}`}
+                        className="hover:pointer"
+                            > 
+                            <button className="cursor-pointer outline-orange-600 
+                                hover:outline hover:outline-1 "
+                            onClick={()=>action.callBack(elem)}>
+                              {action.iconAction}
+                            </button>
+                        </td>                  
+                  )}
+            </tr>
                   )}
 
           </tbody>

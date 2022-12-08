@@ -173,6 +173,7 @@ const changeNetworks= async () => {
     // there is Address, return account menu functionality
     return (
       <div id="show-account" className="flex  mr-8 mb-2">
+
         <button
           className="text-orange-400  rounded-xl px-2 my-4 
                     bg-white border-solid border-2 border-orange-200
@@ -185,6 +186,7 @@ const changeNetworks= async () => {
           id="show-account-chevron"
           className="mt-7 ml-3 hover:cursor-pointer"
         >
+
           <Image
             onClick={handleDropDownAccount}
             alt="V"

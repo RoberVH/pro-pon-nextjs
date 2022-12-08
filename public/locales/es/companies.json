@@ -5,5 +5,6 @@
     "email": "Correo electrónico",
     "website": "Sitio web",
     "country": "País",
-    "noresults":"No hay resultados"    
+    "noresults":"No hay resultados",
+    "rfpWon":"Ganados"
 }

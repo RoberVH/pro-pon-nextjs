@@ -10,15 +10,19 @@ import UploadRFPForm from "../forms/uploadRFPForm";
 import DonwloadFileForm from "../forms/donwloadFileForm";
 
 const RFPDocuments = ({ t, rfpfiles, setNewFiles, showUpload, rfpId, rfpIndex, docType, owner }) => {
+
   let uploadComponent = null;
-  if (showUpload) uploadComponent = <UploadRFPForm 
-                                        t={t} 
-                                        setNewFiles={setNewFiles} 
-                                        rfpId={rfpId} 
-                                        rfpIndex={rfpIndex}
-                                        docType={docType}
-                                        owner={owner}
-                                      />;
+
+  if (showUpload) uploadComponent =
+        <UploadRFPForm 
+              t={t} 
+              setNewFiles={setNewFiles} 
+              rfpId={rfpId} 
+              rfpIndex={rfpIndex}
+              docType={docType}
+              owner={owner}
+            />;
+
   return (
     <div className="mt-2">
       {uploadComponent}

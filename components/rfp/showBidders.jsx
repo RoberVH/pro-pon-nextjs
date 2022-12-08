@@ -8,10 +8,15 @@
  *  to be coordinated with upload screen when we know how much its requested
  */
 
-const ShowBidders = () => {
+const ShowBidders = ({bidders}) => {
     return (
     <div>
         ShowBidders
+        {bidders?.length ?
+            bidders.map(bidder => <p className="p-4 text-blue-800" key={bidder.name}>{bidder.name}</p>)
+            :
+            <p>NO BIDDERS</p>
+        }
         {console.log('ShowBidders')}
     </div>
     )

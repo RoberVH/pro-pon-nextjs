@@ -2,6 +2,7 @@
     "rfp":"RFP - Datos Generales",
     "rfpdocuments":"RFP - Documentos de solicitud",
     "onlyregisteredtoRFP":"Disculpe, sólo las empresas registradas pueden crear un RFP",
+    "not_registered":"Compañia no registrada",
     "recresrfpdata":"Registre datos del RFP (deje al menos un día entre plazos)",
     "accept":"Aceptar",
     "savebutton":"Guardar",
@@ -35,7 +36,7 @@
     "titlescreen": "Solicitud de Propuestas (RFP)",
     "companyId": "Identificación de la empresa",
     "companyname": "Nombre de la empresa",
-    "name": "RFP",
+    "name": "Nombre RFP",
     "openDate":"F. Inicial",
     "openDate_initial":"Comienzo F. Inicial",
     "openDate_ending":"Fin F. Inicial",
@@ -74,5 +75,13 @@
     "tell_hover_errors":"Hubo error al cargar archivos, coloque el cursor sobre el icono de error para mostrarlo",
     "call_to_record_files":"Aun falta registrar en la blockchain los metadatos de sus archivos, para continuar haga clic en botón aceptar y confirme transacción en Billetera",
     "document_name":"Nombre de Documento",
-    "document_hash":"Hash de Documento"
+    "document_hash":"Hash de Documento",
+    "registerto_rfp":"Registrarse al RFP",
+    "rfp_invited":"Su empresa es bienvenida a registrarse en el RFp. Una vez que se haya registrado, podrá publicar documentos de respuestas",
+    "notallowed_invited":"Lo sentimos, el dueño del RFP no ha invitado a su empresa al RFP",
+    "register_guest":"Invite compañias al RFP",
+    "register_open":"Puede registrar su empresa en este RFP abierta  si el limite no ha sido alcanzado, después de registrarse podrá publicar documentos de respuestas",
+    "notallowed_open":"Disculpas, no puede registrar su empresa. El límite ha sido alcanzado",
+    "already_registered":"Compañia ya está registrada",
+    "invitation_rfp":"Este es un Concurso por Invitación, verifique en la regleta Mostrar participantes si está invitado"
 }

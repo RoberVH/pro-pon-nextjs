@@ -32,3 +32,7 @@ export const companyIdPlaceHolder = {
     'COL':'colombiaCompanyId',
     'CHL':'chileCompanyId'
 }
+
+export const documentRequestType = 0  // it should read it from contract in future version
+export const openContest = 0  // it should read it from contract in future version
+export const inviteContest = 1  // it should read it from contract in future version

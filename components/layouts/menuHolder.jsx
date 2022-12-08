@@ -16,6 +16,7 @@ function MenuHolder({options, t, setMenuFlag}) {
             flex flex-col bg-slate-200  rounded-2xl text-stone-600
             justify-start py-4 px-2  ">
             <div>
+
             {   
             options.map(menu => 
                 <p key={menu.tag} 
