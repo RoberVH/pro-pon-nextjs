@@ -9,7 +9,6 @@
         //const network= '0x' + process.env.NEXT_PUBLIC_NETWORK_VERSION
       try {
         // Try to switch to the working blockchain network
-        console.log('switchNetwork to network:', network)
         await ethereum.request({
             method: 'wallet_switchEthereumChain',
             params: [{ chainId: network }], // Check networks.js for hexadecimal network ids

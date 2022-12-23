@@ -1,18 +1,31 @@
 import React from 'react'
 import { convDate } from '../utils/misc.js'
-import { documentRequestType, openContest, inviteContest } from '../utils/constants'
+import {  openContest } from '../utils/constants'
+import { nanoid } from 'nanoid'
+
 
 
 
 function DisplayResults({fields,results, actions, t}) {
-  if (!results.length) return 
-      <div className="text-red-600 font-xl">
+  const parseField = (fields, elem) => {
+    if (fields.fieldName==='contestType') 
+      return (
+        Number(elem[fields.fieldName])===openContest ? t('open') : t('Invitation')
+      )
+    if (fields.date)     
+        return (convDate(elem[fields.fieldName]))
+      else return (elem[fields.fieldName])
+    }
+
+    if (!results.length) return 
+
+<div className="text-red-600 font-xl">
         {t('noresults')}
       </div>  // we won't check later if there are results
   return (
     <div className="">
          <table className="table-fixed w-full ">
-         <thead className="bg-orange-100 font-khula font-bold text-sm text-orange-600 border-2 rounded-lg   ">
+         <thead className="bg-orange-100 font-khula font-bold text-sm text-orange-600 border-2 rounded-lg">
             <tr className="text-left">
                 { fields.map (titleField =>
                    <th key={t(titleField.id)} 
@@ -26,33 +39,28 @@ function DisplayResults({fields,results, actions, t}) {
               )}                
             </tr>
          </thead>
-         <tbody className="">
+          <tbody className="">
           {
-            results.map(elem =>
-            <tr key={elem._id} className="text-stone-600 font-khula font-bold even:bg-slate-200 odd:bg-slate-100">
-              { console.log('%cRFP:','color:red; backgroundColor:yello;', elem)}
-                <td className="p-2  ">{elem[fields[0].fieldName]}</td>
-                <td>{elem[fields[1].fieldName]}</td>
-                <td className="truncate">{elem[fields[2].fieldName]}</td>
-                <td>{fields[3].fieldName=== 'contestType' ? (Number(elem[fields[3].fieldName])===openContest ? t('open') : t('Invitation')) : elem[fields[3].fieldName]}</td>
-                <td>{fields[4].date ? convDate(elem[fields[4].fieldName]) : elem[fields[4].fieldName]}</td>
-                <td>{fields[5].date ? convDate(elem[fields[5].fieldName]) : elem[fields[5].fieldName]}</td>
-                <td>{fields[6].date ? convDate(elem[fields[6].fieldName]) : elem[fields[6].fieldName]}</td>
-                  { actions.map ( action => 
-                        <td key={`action_${action.id}`}
-                        className="hover:pointer"
-                            > 
-                            <button className="cursor-pointer outline-orange-600 
-                                hover:outline hover:outline-1 "
-                            onClick={()=>action.callBack(elem)}>
-                              {action.iconAction}
-                            </button>
-                        </td>                  
-                  )}
-            </tr>
-                  )}
-
-          </tbody>
+            results.map(elem => (
+              <tr key={elem._id} className="text-stone-600 font-khula font-bold even:bg-slate-200 odd:bg-slate-100">
+                { fields.map(fields => (
+                  <td key={nanoid()} className="p-2 truncate">
+                      {parseField(fields, elem)}
+                   </td>)) 
+                }
+         
+          { actions.map ( action => 
+                <td key={`action_${action.id}`} className="hover:pointer"> 
+                    <button className="cursor-pointer outline-orange-600 
+                        hover:outline hover:outline-1 "
+                    onClick={()=>action.callBack(elem)}>
+                      {action.iconAction}
+                    </button>
+                </td>                  
+                  )}    
+              </tr>)
+              )}
+          </tbody> 
         </table>
     </div>
   )

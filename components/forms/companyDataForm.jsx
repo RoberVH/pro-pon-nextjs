@@ -1,10 +1,14 @@
 /**
  * CompanyDataForm
- *    Present stepper step 3 to register rest of company data to DB form
+ *    Present form to register rest of company data to DB form (adminname, email and website)
  *    This form can only acept data if and only if the context has already the company ID &
  *    company name. This value could have been set in the immidiate step 2 prior to this or if
  *    Tx took too much time, later, when user navigate to this screen and have read the data
  *    from the blockchain for this address
+ *    Notice: As companyData in context has data for other components that won't be updated 
+ *            in the form, there is not need to pass them onto update (PATCH call to server) DB 
+ *            method at handleSave, so we  filter those out before updating, namely rfpWon, 
+ *            rfpSent and companyRFPs array
  *
  */
 import { useState, useContext, useRef, useEffect } from "react";
@@ -30,7 +34,6 @@ import { InputEmail } from "../input-controls/InputEmail";
 import { InputAdminName } from "../input-controls/InputAdminName";
 
 import { useSignMessage } from '../../hooks/useSignMessage'
-import { Router } from "next/router";
 
 countries.registerLocale(english);
 countries.registerLocale(spanish);
@@ -38,12 +41,11 @@ countries.registerLocale(french);
 
 
 
-const CompanyDataForm = ({companyData, setCompanyData, address}) => {
+const CompanyDataForm = ({companyData, setCompanyData}) => {
   const { t, i18n } = useTranslation(['signup', 'common'])
   const [saving, setSaving] = useState(false)
   const [showSignMsg, setShowSignMsg] = useState(false)
   const [countryList, setCountryList] = useState([])
-  //const { setCompanyData, companyData } = useContext(proponContext)
   const { values, handleChange } = useInputForm(companyData)
   const [message, setMsgtoSign] = useState()
   const [lang, setLang] = useState('')
@@ -54,17 +56,15 @@ const CompanyDataForm = ({companyData, setCompanyData, address}) => {
         ? companyData.profileCompleted
         : false
   );
-
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
-
   const onSuccess= async  (message, signature) => {
-  // Verify signature when sign message succeeds
-  //const address = verifyMessage(message, signature)
-  const result = await verifyData_Save(message,signature)
+  // When sign message succeeds, send to server for checking and to update DB with email/adminname/website
+    const result = await verifyData_Save(message,signature)
   if (result.status ) {
     toast.success(t('companydataadded',toastStyleSuccess))
+    // Update Context with all data of updated company: 
     setCompanyData(JSON.parse(message))
   } else
   errToasterBox(result.message);
@@ -72,16 +72,12 @@ const CompanyDataForm = ({companyData, setCompanyData, address}) => {
 };
 
   const  onError =  async (error) => {
-    console.log('onerror error.reason',error.reason )
-    console.log('onerror error.message',error.message )
     let customError=t('errors.undetermined_blockchain_error')  // default answer, now check if we can specified it
     if (typeof error.reason!== 'undefined') {
-      console.log('checking error.reason',  error.reason.includes('rejected'))
       if (error.reason==='insufficient funds for intrinsic transaction cost')
           customError=t('errors.insufficient_funds')
       if (error.reason==='user rejected signing')
           customError=t('errors.user_rejection')
-          // read errors coming from Contract require statements
       if (errorSmartContract.includes(error.reason)) customError=t(`error.${error.reason}`)
     } else {
         if (error.data && error.data.message) customError=error.data.message
@@ -128,14 +124,15 @@ const CompanyDataForm = ({companyData, setCompanyData, address}) => {
     await signMessage(message)
   }
 
-  // Validate and Save data to DB
+  // Validate and Update data to DB
   const handleSave = async () => {
     const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
-      if (key !== "profileCompleted")
-        trimmedValues[key] = (typeof value !== "undefined" ? value : "").trim();
-      else trimmedValues[key] = value;
+        if (!['rfpWon', 'rfpSent','companyRFPs','profileCompleted'].includes(key)) {
+        trimmedValues[key] = (typeof value !== "undefined" ? value.trim() : "")}
+      //else trimmedValues[key] = value;
     }
+    
     if (!validate(
         patronobligatorio,
         trimmedValues.adminname,
@@ -157,9 +154,13 @@ const CompanyDataForm = ({companyData, setCompanyData, address}) => {
   const inputclasses ="require leading-normal flex-1 border-0  border-grey-light " &&
     "rounded rounded-l-none outline-none pl-10 w-full bg-stone-100 focus:bg-blue-100 font-khula font-extrabold";
 
-  const patronemail = new RegExp(
+  /*const patronemail = new RegExp(
     "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-  );
+  );*/
+
+  const patronemail = new RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+  
+  
   const patronobligatorio = new RegExp("^(?!s*$).+");
   //const patronwebsite= new RegExp("/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/")
   const patronwebsite = new RegExp(

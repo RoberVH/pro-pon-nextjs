@@ -10,7 +10,6 @@ import { getProponContract } from "./contractsettings";
  */
 export const getContractRFPbidders = async (RFPIndex) => {
   const proponContract = await getProponContract()
-console.log(typeof parseInt(RFPIndex))
   try {
     const bidders = await proponContract.getRFPbyIndex(RFPIndex)
     return { status: true, bidders: bidders.participants }

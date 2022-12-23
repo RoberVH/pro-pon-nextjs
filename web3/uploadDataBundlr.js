@@ -35,9 +35,6 @@ import { setResultObject } from '../utils/setResultObject'
    if(chunksize > 190_000_000) chunksize = 190_000_000
    uploader.setChunkSize(chunksize); 
    uploader.on("chunkUpload", (chunkInfo) => {
-    //  console.log(`file: ${file.name} finished uploaded Chunk number ${chunkInfo.id}, 
-    //    offset of ${chunkInfo.offset}, 
-    //    size ${chunkInfo.size} Bytes, with a total of ${chunkInfo.totalUploaded} bytes uploaded.`);
        const prctje = (chunkInfo.totalUploaded/file.size)
        const progress=Math.round(50 * prctje)
        setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 

@@ -59,7 +59,7 @@
     "dowloadrequestfiles":"Télécharger les documents de l'appel d'offres",
     "additemstitle":"Ajouter des articles à la demande de propositions/appel d'offres",
     "addintemsinstructions":"Cliquez sur l'icône verte pour ajouter un jeu à la liste. Cliquez sur un jeu dans la liste pour le modifier",
-    "typecontest": "Type",
+    "contestType": "Type",
     "open": "Ouvert",
     "invitation":"Invitation",
     "showItems":"Lots/Categories",
@@ -77,9 +77,15 @@
     "registerto_rfp":"S'inscrire à RFP",
     "rfp_invited":"Votre entreprise est invitée à s'inscrire à la RFp. Une fois inscrit, vous pourrez poster des documents de réponse",
     "notallowed_invited": "Désolé, le propriétaire de l'appel d'offres n'a pas invité votre entreprise à l'appel d'offres",
-    "register_guest":"Inviter des entreprises à l'appel d'offres",
+    "register_guest":"Invitez les entreprises à l'appel d'offres. Recherchez des entreprises et cliquez sur l'icône Épingler pour les ajouter à la liste des invités, puis cliquez sur enregistrer les invités",
+    "register_gueststo_rfp":"enregistrer les invités", 
+    "remove_guest":"Retirer",
+    "id_guest":"Id",
+    "company_guest":"Nom",
+    "canotinvite_self":"Vous ne pouvez pas vous inviter à votre propre RFP",
     "register_open":"Vous pouvez inscrire votre entreprise dans cet appel d'offres ouvert si la limite de participants n'a pas été atteinte, après vous être inscrit, vous pourrez publier des documents de réponse",
     "notallowed_open":"Désolé, vous ne pouvez pas enregistrer votre entreprise. La limite a été atteinte",
     "already_registered":"La société est déjà enregistrée",
-    "invitation_rfp":"Ceci est un concours sur invitation, cochez le curseur Afficher les enchérisseurs si vous êtes invité"
+    "invitation_rfp":"Ceci est un concours sur invitation, cochez le curseur Afficher les enchérisseurs si vous êtes invité",
+    "owner_open_rfp_recordbidders":"Ceci est votre appel d'offres ouvert, informez les entreprises candidates pour qu'elles s'inscrivent !"
 }

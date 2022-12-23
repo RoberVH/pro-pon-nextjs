@@ -6,10 +6,24 @@ import { documentRequestType, openContest, inviteContest } from '../../utils/con
 
 
 function RFPessentialData({t, rfpRecord}) {
-    const TableEntry = ({title, value}) => 
+    const TableEntry = ({title, value, link}) => 
     <tr>
-      <td className="w-64"><strong>{title}: </strong></td>
-      <td className="w-48 text-orange-500"><strong>{value}</strong></td>
+      <td className="w-[9em]"><strong>{title}: </strong></td>
+      { !Boolean(link) ?
+          <td className="w-[22em] w-full text-orange-500 flex flex-wrap overflow-hidden">
+            <strong>{value}</strong>
+          </td>
+        :
+        <td className="w-[22em] w-full text-orange-500 flex flex-wrap overflow-hidden underline cursor-pointer">
+          <a
+          className=""
+          href={value}
+          target="_blank"
+          rel="noreferrer">
+          {value}
+          </a>
+        </td>
+      }
     </tr>
 
     return (
@@ -22,7 +36,7 @@ function RFPessentialData({t, rfpRecord}) {
         <tbody className="">
           <TableEntry title={t('rfpform.companyId')} value={rfpRecord.companyId}/>
           <TableEntry title={t('rfpform.companyname')} value={rfpRecord.companyname} />
-          <TableEntry title={t('rfpform.rfpwebsite')} value={rfpRecord.rfpwebsite} />
+          <TableEntry title={t('rfpform.rfpwebsite')} value={rfpRecord.rfpwebsite} link={true}/>
           <TableEntry title={t('rfpform.openDate')} value={convDate(rfpRecord.openDate)} />
           <TableEntry title={t('rfpform.endReceivingDate')} value={convDate(rfpRecord.endReceivingDate)} />
           <TableEntry title={t('rfpform.endDate')} value={convDate(rfpRecord.endDate)} />

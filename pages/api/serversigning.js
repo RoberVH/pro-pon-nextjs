@@ -17,7 +17,6 @@ export default async function handler(req, res) {
   try {  
     const signedData = await serverBundlr.currencyConfig.sign(clientData) 
     const signedDataEncoded = Buffer.from (signedData)
-    console.log('signedData:', signedData)
     res.status(200).json({ msg:'ok',signeddata:signedDataEncoded })
   } catch (error) {
     console.log('serversigning error', error)

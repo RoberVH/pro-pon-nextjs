@@ -61,7 +61,7 @@
     "dowloadrequestfiles":"Descargue Documentos (Bases) de RFP/Licitación",
     "additemstitle":"Agregue Partidas al RFP/Licitación",
     "addintemsinstructions":"Haga click en ícono verde para agregar partida a la lista. Haga click en partida de la lista para editarla",
-    "typecontest": "Tipo",
+    "contestType": "Tipo",
     "open": "Abierta",
     "invitation":"Invitación",
     "showItems":"Partidas",
@@ -79,9 +79,15 @@
     "registerto_rfp":"Registrarse al RFP",
     "rfp_invited":"Su empresa es bienvenida a registrarse en el RFp. Una vez que se haya registrado, podrá publicar documentos de respuestas",
     "notallowed_invited":"Lo sentimos, el dueño del RFP no ha invitado a su empresa al RFP",
-    "register_guest":"Invite compañias al RFP",
+    "register_guest":"Invite compañias al RFP. Busque compañias y haga clic en ícono Alfiler para agregarlas a la lista de invitados, después haga click en registrar invitados",
+    "register_gueststo_rfp":"Registrar Invitados",
+    "remove_guest":"Quitar",
+    "id_guest":"Id",
+    "company_guest":"Nombre",
+    "canotinvite_self":"No puede invitarse a su RFP",
     "register_open":"Puede registrar su empresa en este RFP abierta  si el limite no ha sido alcanzado, después de registrarse podrá publicar documentos de respuestas",
     "notallowed_open":"Disculpas, no puede registrar su empresa. El límite ha sido alcanzado",
     "already_registered":"Compañia ya está registrada",
-    "invitation_rfp":"Este es un Concurso por Invitación, verifique en la regleta Mostrar participantes si está invitado"
+    "invitation_rfp":"Este es un Concurso por Invitación, verifique en la regleta Mostrar participantes si está invitado",
+    "owner_open_rfp_recordbidders":"Este es su RFP abierto, ¡notifique a compañías candidatas a registrarse!"
 }

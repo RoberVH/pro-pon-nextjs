@@ -33,6 +33,9 @@ export const companyIdPlaceHolder = {
     'CHL':'chileCompanyId'
 }
 
-export const documentRequestType = 0  // it should read it from contract in future version
-export const openContest = 0  // it should read it from contract in future version
-export const inviteContest = 1  // it should read it from contract in future version
+export const documentRequestType = 0  
+export const openContest = 0  
+export const inviteContest = 1  
+
+export const PRODUCTION = false
+export const LOCAL = false

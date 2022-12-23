@@ -66,7 +66,7 @@ const RFPDataForm = () => {
   
   
   // Function to display error msg
-  const errToasterBox = (msj) => {
+  const errToasterBox = (msj) => {errToasterBox
     toast.error(msj, toastStyle);
   };
 

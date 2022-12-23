@@ -1,8 +1,13 @@
 import { getProponContract } from "./contractsettings";
 
-// Read from pro-pon contract the company record registered to passed address 
-// if exists it returns record with data
-// if still doesn't exist, returns the record with empty values
+/**
+ * Retrieve the company record registered from the Propon smart contract, given a passed address
+ * if exists it returns record with data
+ * if doesn't exist, returns the record with empty values
+ * @async
+ * @param {string} address - Ethereum address of the company
+ * @returns {Promise<Object>} Return a promise object with the company data or error message
+ */
 export const getContractCompanyData = async (address) => {
   const proponContract = await getProponContract()
 

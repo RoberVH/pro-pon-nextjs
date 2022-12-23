@@ -6,7 +6,6 @@
  */
 
  import { useState } from 'react'
-//import { ethers } from 'ethers'
 import { getWritingProponContract } from "../web3/contractsettings";
 
 export const useWriteFileMetadata =  (onError) => {
@@ -15,7 +14,7 @@ export const useWriteFileMetadata =  (onError) => {
    const [link, setLink] = useState()
    const [blockchainsuccess, setBlockchainsuccess] = useState(false)
    
-   const styleprop= 'background-color:yellow; color:red'
+   const debugstyleprop= 'background-color:yellow; color:red'
 
    const  write = async (
         rfpId,
@@ -24,25 +23,28 @@ export const useWriteFileMetadata =  (onError) => {
         DocumentHashes,
         DocumentIdxs
    ) => {
-        const proponContract = await getWritingProponContract()
-        setBlockchainsuccess(false) // make sure a clean state in case this is second time called
-        try {
-            const Tx = await proponContract.addDocuments(
-                rfpId,
-                fileType,
-                DocumentNames,
-                DocumentHashes,
-                DocumentIdxs 
-             )
-          setPostedHash(Tx.hash)
-          setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
-          const data=await Tx.wait()
-          setBlock(data.blockNumber)
-          setBlockchainsuccess(true)
-        } catch (error) {
-                console.log('%c En catch write, error:', styleprop, error)
-                onError(error);
-                }       
+      const proponContract = await getWritingProponContract()
+      // make sure a clean state in case this is second time called
+      setBlockchainsuccess(false) 
+      setBlock(false)
+      setLink(false)
+      setPostedHash(false)
+      try {
+         const Tx = await proponContract.addDocuments(
+               rfpId,
+               fileType,
+               DocumentNames,
+               DocumentHashes,
+               DocumentIdxs 
+            )
+         setPostedHash(Tx.hash)
+         setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
+         const data=await Tx.wait()
+         setBlock(data.blockNumber)
+         setBlockchainsuccess(true)
+      } catch (error) {
+               onError(error);
+               }       
     };
    return {write, postedHash, block, link, blockchainsuccess}
 };

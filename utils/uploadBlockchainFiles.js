@@ -57,12 +57,7 @@ export const uploadBlockchainFiles = (
         return resolve(loadingresult.txid);
       } else return reject(loadingresult); // pass up returning object from uploadDataBundlr (status, error.message)
     } catch (error) {
-      console.log(
-        "Error en catch UploadBlockchian promesa ",
-        idx,
-        "el error es:",
-        error
-      );
+      console.log("Error en catch UploadBlockchian promesa ",idx,"el error es:",error);
       return reject(error);
     }
   });

@@ -1,6 +1,4 @@
 import { connectToDatabase } from "../../database/mongodb";
-//import  { ObjectId } from 'mongodb'
-//import { verifyMessage } from 'ethers/lib/utils'
 
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();

@@ -1,17 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import useInputForm from '../hooks/useInputForm'
-import CountryParamSearch  from '../components/CountryParamSearch'
-import { useTranslation } from "next-i18next";
+import InputCountrySel  from './InputCountrySel'
+//import { useTranslation } from "next-i18next";
 
-//t, handleChange, values, i18n, setPlaceHolder, companyData, profileCompleted
 const errorColor = {
   true:'border-red-400 border-4',
   false:''
 }
 function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
   const {  values, handleChange} = useInputForm();
+  const [currInput, setCurrInput] = useState()
   
-  const SearchBox = ({field}) => {
+  const inputRefs = useRef([]);
+  const usR = useRef // to avoid calling a hook inside a callback when setting inputRefs next line
+  inputRefs.current=fields.map(() => usR(null))
+  
+  const prehandleChange= (e,ref) => {
+    handleChange(e)
+    setCurrInput(ref)
+  }
+  
+  const SearchBox = ({field, index}) => {
     const [faultyDates,setFaultyDates] = useState(false)
   
     useEffect(()=>{
@@ -22,26 +31,29 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
     return (
         <input className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none 
                   p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8"
+          //ref={ref} // add the ref to the input field
+          ref={inputRefs.current[index]}
           type='text' 
           id= {field.fieldName}
           placeholder={t(field.fieldName)}
           value={values[field.fieldName]}
-          onChange={handleChange}/>)
+          //onChange={(e) => prehandleChange(e,ref)}
+          onChange={(e) => prehandleChange(e,inputRefs.current[index])}
+          />)
       }
 
   return (
     <div className="">
       {
-        !field.date 
-        ? // no date type
+        !field.date ? // no date type
           ( // check if country tpye
             field.fieldName!=='country'?
-               <InputSearchTerm /> :
-                <CountryParamSearch 
-                t={t}
-                i18n={i18n}
-                handleChange={handleChange}
-                values={values}
+                <InputSearchTerm /> :
+                  <InputCountrySel 
+                  t={t}
+                  i18n={i18n}
+                  handleChange={prehandleChange}//{handleChange}
+                  values={values}
                 />
           )
         :
@@ -68,7 +80,7 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
                 id= {`${field.fieldName}_end`}
                 placeholder={t('finaldate')}
                 value={values[`${field.fieldName}_end`]}
-                onChange={handleChange}
+                onChange={prehandleChange}//{handleChange}
                 onFocus={(e) => e.currentTarget.type = "date"}
                 onBlur={(e) => {e.currentTarget.type = "text"; e.currentTarget.placeholder=t('finaldate')}}/>
             </div>
@@ -93,10 +105,12 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
           setResults(data)
           return;
     } catch (error) {
-        console.log("Error del server:", error.message);
+        console.log("Server error:", error.message);
       setError(error)
     } finally {
       setWait(false)
+      if (currInput) currInput.current.focus()
+      
     }
   }
   
@@ -109,9 +123,9 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
   return (
     <div className="p-2 flex justify-start ">
     { 
-      fields.map((field) => 
+      fields.map((field,index) => 
         <div key={field.id} className="resize">
-          {field.searchable && <SearchBox field={field} /> }
+          {field.searchable && <SearchBox field={field} index={index}/> }
         </div>
         )
       }
@@ -120,8 +134,4 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
 }
 
 
-    function undefined({t, handleChange}) {
-      return (<input className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none 
-              p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8 b" type='text' id={field.fieldName} placeholder={t(field.fieldName)} value={values[field.fieldName]} onChange={handleChange} />);
-    }
   export default SearchDB

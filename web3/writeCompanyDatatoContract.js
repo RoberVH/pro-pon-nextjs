@@ -9,7 +9,6 @@ export const writeCompanyDatatoContract = async (
         country,
         value) => {
     const proponContract = await getProponContract()
-    console.log('writeCompanyDatatoContract',address)
     try {
     const createCompanyTx = await proponContract.createCompany(
             companyId,

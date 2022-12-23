@@ -1,3 +1,8 @@
+/**
+ * @module HeadBar
+ * @description This module is used for to display the headbar for the application 
+ */
+
 import { useState, useContext, useEffect, useCallback } from "react";
 import { getContractCompanyData } from "../../web3/getContractCompanyData"
 import { checkMMAccounts } from "../../web3/getMetaMaskAccounts"
@@ -16,6 +21,8 @@ import { StatusOfflineIcon } from "@heroicons/react/outline"
 import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork"
 import NoMetamaskWarning from "./noMetamaskWarning"
 import NoRightNetworkWarning from "./noRightNetworkWarning"
+import { PRODUCTION, LOCAL } from '../../utils/constants'
+import { getDefaultProvider } from 'ethers'
 
 
 // toastify related imports
@@ -23,13 +30,18 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyle } from '../../styles/toastStyle'
 
-
+/**
+ * This function displays the HeadBar for the application. It contains the company logo, menus, 
+ * select language, connected account and no metamask warning
+ * 
+ * @returns {JSX.Element}
+ */
 const HeadBar = () => {
   const [hideMenuAccount, sethideMenuAccount] = useState(false);
   const [noMetaMask, setNoMetaMask] = useState(true);
   const [addingNetwork, setAddingNetwork]=useState(false);
 
-  
+  // get context variables
   const {   companyData, 
             setCompanyData, 
             address, 
@@ -41,9 +53,22 @@ const HeadBar = () => {
   const { t } = useTranslation(["menus", "common"]);
   const router = useRouter();
   
-  const errToasterBox = (msj) => {
+  const errToasterBox =
+  
+  /**
+   * Error Toaster Box
+   * @param {String} msj Error message to show in the toaster box
+   */ (msj) => {
     toast.error(msj, toastStyle);
   };  
+  
+  /**
+  * getCompany - 
+  *   Destruct data from contract results, get rest of data from DB and merge them
+  *   setCompanyData with merged data
+  * 
+  * @param {Object} contractCiaData Contract Company data
+  */
   const getCompany = useCallback(
     async (contractCiaData) => {
       const {id, company_RFPs,RPFsWon,RFPSent} = contractCiaData
@@ -54,25 +79,35 @@ const HeadBar = () => {
       setCompanyData({rfpWon, rfpSent, companyRFPs, ...result});
     },[setCompanyData]);
 
+  // check if there is an account already granted and set a listener to MMask change account event
   useEffect(() => {
-      if (typeof window === "undefined") return;
-      if (window.ethereum) 
-          setNoMetaMask(false)
-        else checkMMAccounts(setAddress)
-  }, [setAddress]);
+
+    const handleAccountChange = () => {
+      console.log('Change Account!')
+      router.push({pathname:'/'})
+      window.location.reload()
+    };
+
+    if (typeof window === "undefined") return;
+    if (window.ethereum) {
+        setNoMetaMask(false) // there is Metamask or provider installed at browser
+        checkMMAccounts(setAddress)  //
+        window.ethereum.on('accountsChanged', handleAccountChange);
+        return () => { window.ethereum.off('accountsChanged', handleAccountChange) }
+      };
+  }, []);
 
   useEffect(()=>{
-    if (address) {
-      setNoRightNetwork(window.ethereum.networkVersion!==process.env.NEXT_PUBLIC_NETWORK_VERSION) }
-  },[address,setNoRightNetwork])
 
-
-  useEffect(()=>{
-  // get company data from contract. If there is one, set companyData to DB record
-  // don't do nothing otherwise
-  // is only call when address has changed
     async function getDatafromContract() {
+      // check if address is valir
         if (address) {
+          //first check if network is rigth
+          if (!LOCAL) 
+             setNoRightNetwork(window.ethereum.networkVersion!==process.env.NEXT_PUBLIC_NETWORK_VERSION) 
+            else {
+            setNoRightNetwork(window.ethereum.networkVersion!==process.env.NEXT_PUBLIC_NETWORK_VERSION_LOCAL) 
+          }
             setShowSpinner(true)
             // get essential company data from Contract
             // Remember that in contract some prop ids are different than db
@@ -87,15 +122,17 @@ const HeadBar = () => {
                 await getCompany(result.data)
             setShowSpinner(false)
         } 
-    }
-    getDatafromContract()
-  },[address, getCompany, setShowSpinner])
+      }
+      getDatafromContract()
+  },[address, getCompany, setShowSpinner, setNoRightNetwork])
 
-const changeNetworks= async () => {
+
+
+
+  const changeNetworks= async () => {
   const result= await switchNetwork()
   if (result.status) setNoRightNetwork(false)
-  else
-  if (result.error.code === 4902) {
+  else if (result.error.code === 4902) {
         // This error code means that the chain we want has not been added to MetaMask
         // In this case we ask the user to add it to their MetaMask
         setAddingNetwork(true)
@@ -132,7 +169,8 @@ const changeNetworks= async () => {
     if (!result.status) {
         errToasterBox(t(result.message),{ns:'common'})
     } else {
-        setAddress(result.address)
+      console.log('address!', result.address)
+        setAddress(result.address)    // now address in in the context
     }
 
   };
@@ -173,6 +211,7 @@ const changeNetworks= async () => {
     // there is Address, return account menu functionality
     return (
       <div id="show-account" className="flex  mr-8 mb-2">
+            { console.log('CompanyData:', companyData) }
 
         <button
           className="text-orange-400  rounded-xl px-2 my-4 

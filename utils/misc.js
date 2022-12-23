@@ -21,7 +21,6 @@ export const isEmpty = obj => Reflect.ownKeys(obj).length === 0 && obj.construct
 
 // Send a warning to Serve to signal a malfunction
 export const sendWarningServer = async (msgType, msg) => {
-    console.log('msgType msg', msgType, msg)
     try {
         const response = await fetch("/api/serverwarningsignaling", {
           method: "POST",

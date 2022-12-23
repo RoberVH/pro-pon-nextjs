@@ -26,7 +26,7 @@ export default async function handler (req, res) {
       .toArray();
       res.json(companies);
       break
-    case 'PATCH':  //  modify company data
+    case 'PATCH':  //  Verify passed signed data and if succesful modify company data at Data Base
       const {signature,...msg} = req.body
       const account=await verifyMessage(JSON.stringify(msg), signature)
       if ( !await accountHasRigths(account, msg.companyId)) {
@@ -41,7 +41,7 @@ export default async function handler (req, res) {
           delete msg.companyId
           delete msg.companyname
           delete msg.country
-          console.log('Post', msg)
+          delete msg.address
           await db
           .collection("companies")
           .updateOne({_id:ObjectId(uniqueIdRecord)},{$set: msg}) 

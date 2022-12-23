@@ -59,7 +59,7 @@
     "dowloadrequestfiles":"Download RFP files",
     "additemstitle":"Add Items to RFP/Tender",
     "addintemsinstructions":"Click green icon to add Item to list. Clic on added Item to edit it",
-    "typecontest": "Type",
+    "contestType": "Type",
     "open": "Open",
     "invitation":"Invitation",
     "showItems":"Items",
@@ -77,11 +77,17 @@
     "registerto_rfp":"Sign Up to RFP",
     "rfp_invited":"Your company is welcomed to register to this RFP. After you are signed up you will be able to post response documents",
     "notallowed_invited":"Sorry, RFP Issuer has not invited your company to this RFP",
-    "register_guest":"Invite companies to RFP",
+    "register_guest":"Invite companies to the RFP. Search for companies and click the Pin icon to add it to invitation list, then click on register guests",
+    "register_gueststo_rfp":"Register guests", 
+    "remove_guest":"Remove",
+     "id_guest":"Id",
+     "company_guest":"Name",
+     "canotinvite_self":"Can not Invite yourself to own RFP",
     "register_open":"You can register your company to this open RFP  if limit hasn't been reached, after you are signed up you will be able to post response documents",
     "notallowed_open":"Sorry, you can not register your company. The limit has been reached",
     "already_registered":"Company already registered",
-    "invitation_rfp":"This is an Invitation Contest, check on Show Bidders Tab if you are invited"
+    "invitation_rfp":"This is an Invitation Contest, check on Show Bidders Tab if you are invited",
+    "owner_open_rfp_recordbidders":"This is your open RFP, notify candidate companies to sign up!"
     
 
 }

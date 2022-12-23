@@ -21,6 +21,12 @@ export const getCurrentRFPPrices = async () => {
   }
 };
 
+/**
+ * Fetches the current price for creating a record company.
+ *
+ * @returns {Object} An object containing the status of the request and either the createCoPrice
+ *                   or an error message.
+ */
 export const getCurrentRecordCompanyPrice = async () => {
   const proponContract = await getProponContract()
   try {

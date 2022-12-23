@@ -2,6 +2,7 @@
  * SignUpCompanyDataForm
  *    Manage posting essential (name, id and country) company data to contract 
 */
+
 import React, { useState, useContext, useEffect} from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -21,6 +22,8 @@ import { InputCompanyName } from "../input-controls/InputCompanyName";
 import { saveCompanyID2DB, getCompanydataDB } from '../../database/dbOperations'
 import { InputCountrySel } from '../input-controls/InputCountrySel'
 import { useWriteCompanyData } from '../../hooks/useWriteCompanyData'
+import { proponContext } from "../../utils/pro-poncontext"
+
 
 
 countries.registerLocale(english);
@@ -31,6 +34,13 @@ countries.registerLocale(french);
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
                     "font-roboto  outline-none pl-10 w-full focus:bg-blue-100 bg-stone-100"                    
 
+ 
+ /**
+ * SignUpCompanyDataForm is a React functional component that manages posting 
+ * essential (name, id and country) company data to contract.
+ * @param {object} setCompanyData - Callback function for setting company data in parent component.
+ * @param {object} companyData - Object containing current company data from parent component.
+ */
 const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   
   // State Variables & constants of module
   const { t, i18n  } = useTranslation("signup");
@@ -44,18 +54,25 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
   const [isSaving, setIsSaving] = useState(false) //false
   const[taxPayerPlaceHolder,setTaxPayerPlaceHolder]=useState('companyId')
   const { values, handleChange } = useInputForm()
-  //const { setCompanyData, companyData } = useContext(proponContext);
   const [profileCompleted, setProfileCompleted] = useState(
     (companyData && typeof companyData.profileCompleted!=='undefined')
         ? companyData.profileCompleted
         : false
   );
+  
+    // Get context containing Ethereum address of current user
+  const { address } = useContext(proponContext);
 
+  // Load list of countries on current displayed language
   useEffect(() => {
     function changeLanguage() {
+      // Get current language code
       const lang = i18n.language;
+      // Get list of countries in current language
       const countryGen = countries.getNames(lang);
+      // Convert object to array of country names
       const countryArray = Object.values(countryGen);
+      // Sort list of countries by current language  
       switch (lang) {
         case "fr":
           countryArray.sort((a, b) => a.localeCompare(b, "fr"));
@@ -68,23 +85,28 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
           countryArray.sort((a, b) => a.localeCompare(b, "en"));
           break;
       }
+      // Set list of countries in state
       setCountryList(countryArray);
+      // Set current language code in state
       setLang(lang)
     }
+    // Call function to change language
     changeLanguage();
   }, [i18n.language]);
 
     // Get Country Name on current displayed language
-  // receive Alplha-3 three letter Country Code  and get name
-  const getCountryName=(threeLetterCodeCountry) => {
+    // receive Alplha-3 three letter Country Code  
+    const getCountryName=(threeLetterCodeCountry) => {
+    // Return country name in current displayed language
     return countries.getName(threeLetterCodeCountry, lang)
 }
 
   const onEvent = async (address, companyId, CompanyName) => {
     // save company data to DB record and also to context in case DB write/read fails
-    await saveCompanyData() 
+    await saveCompanyData(address) 
+    // we need to read what we just write to retreieve DB id of record and have it on the context
     const company= await getCompanydataDB(values.companyId.trim()) // read from DB company data
-    setCompanyData(company) // write db record to context
+     setCompanyData(company) // write db record to context with id that we'll use to update it
     setcompanyCreated(true)
   };
 
@@ -93,8 +115,8 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
   }
 
   const onError = (error) => {
-    console.log(error)
-    let customError=t('errors.undetermined_blockchain_error')  // default answer, now check if we can specified it
+    // default answer, now check if we can specified it
+    let customError=t('errors.undetermined_blockchain_error')  
     if (typeof error.reason!== 'undefined') {
       if (error.reason==='insufficient funds for intrinsic transaction cost')
           customError=t('errors.insufficient_funds')
@@ -133,7 +155,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
     };
 
         
-  // handleCacel Drop form and go back to root address
+  // handleCacel Drop form and go back to root url
   const handleCancel = () => {
     router.push({pathname: '/'})
   }
@@ -160,27 +182,32 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
         t("companyform.countryerror")
       ))return;
 
+    
     // validation passed ok, 
     // create entry on smart contract
     setIsSaving(true)
+    
+
       await write(
          trimmedValues.companyId,
          trimmedValues.companyname, 
          trimmedValues.country,
          "0.0001")
+         // debug
+         //onEvent('33340000034443434','no','no')
    };
 
   
-  // Save companyId & companyname to App context
-  const saveCompanyData = async () => {
+  // Save companyId & companyname to App context to appear on App Heading
+  const saveCompanyData = async (address) => {
     const companyID = values.companyId.trim()
     const companyName = values.companyname.trim()
     const country = values.country.trim()
-    setCompanyData({companyId:companyID, companyname: companyName, country:country, profileCompleted:false})
     // company has been created at smart contract, now reflect on Mongo DB
     // and save the data we already have. Set profileCompleted DB field to false
-    // so user will have to fill that later    
-    await  saveCompanyID2DB(companyID, companyName, country)
+    // so user will have to fill that later
+    // Dic 2022 added address to save time when inviting companies to RFP and need to recover it
+    await  saveCompanyID2DB(companyID, companyName, country, address, errToasterBox)
   }
 
 // render of Component

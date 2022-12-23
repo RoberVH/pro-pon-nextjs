@@ -45,8 +45,7 @@ function UploadRFPForm({ t, setNewFiles, rfpId, rfpIndex, docType, owner }) {
     toast.error(msj, toastStyle);
   };
 
-  const { write, postedHash, block, link, blockchainsuccess } =
-    useWriteFileMetadata(onError);
+  const { write, postedHash, block, link, blockchainsuccess } = useWriteFileMetadata(onError);
 
   // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
@@ -227,7 +226,6 @@ function UploadRFPForm({ t, setNewFiles, rfpId, rfpIndex, docType, owner }) {
     router.push({ pathname: "/" });
   };
 
-  console.log('pickedFiles.length -> its Boolean',pickedFiles.length,Boolean(pickedFiles.length))
   if (!Boolean(pickedFiles.length))
     return (
       <div className="my-8 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-md">

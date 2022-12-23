@@ -11,13 +11,21 @@ function DisplayItems({items, t}) {
                 <Image alt="Proposal" src="/surveys-icon.svg" height={17} width={17} 
                 className="text-orange-400 mt-1 ml-2" />  
                 <p className="font-khula ml-4 mt-1 text-md text-stone-900">{t('showItems')}
-                    ({items.length})
+                   {` (${(items.length)})`}
                  </p>
             </div>
             <div className="mt-3 mr-4">
+            { showingItems ? 
                 <Image  
                     onClick = {() => setShowingItems(!showingItems)}
-                    alt="V" src={'/chevrondown.svg'} width={22} height={22}></Image>
+                    alt="V" src={'/dash.svg'} width={22} height={22}>
+                </Image>
+                :
+                <Image  
+                    onClick = {() => setShowingItems(!showingItems)}
+                    alt="V" src={'/chevrondown2.svg'} width={22} height={22}>
+                </Image>
+            }
             </div>
         </div>
         <div className="my-4 px-4 pb-6">

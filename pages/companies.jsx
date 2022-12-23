@@ -15,10 +15,7 @@ const companyActions = [
   { id:1,
     iconAction:'',
     titleAction:'review',
-    callBack:''},
-    { id:2,
-      iconAction:'',
-      callBack:''}
+    callBack:''}
 ]
 
 function Companies() {

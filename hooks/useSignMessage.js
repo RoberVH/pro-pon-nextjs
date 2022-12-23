@@ -8,12 +8,9 @@ import { ethers } from 'ethers'
 export const useSignMessage = ({onSuccess,onError}) => {
   const signMessage = async (message) => {
     try {
-        console.log('message',message)
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
-        console.log('por firmar mensaje:', message)
         const signature = await signer.signMessage(message)
-        console.log ('signature', signature)
         onSuccess(message, signature)
     } catch (error) {
         onError(error);

@@ -1,15 +1,22 @@
 import { CONTRACT_ADDRESS } from './proponcontractAddress'
 import CONTRACT_ABI from './pro_pon.json'
 import { ethers } from 'ethers'
+import { PRODUCTION, LOCAL } from '../utils/constants'
 
 
 // For blockchain read operations at client we use an Alchemy provider
 export const getProponContract = async () => {
   try {
-    const alchemyProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL) 
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, alchemyProvider)
-    return contract
-
+    if (!LOCAL) {  
+      const alchemyProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL) 
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, alchemyProvider)
+      return contract
+    } else {
+      const provider= await new ethers.providers.Web3Provider(window.ethereum)
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, signer)
+      return contract
+    }
   } catch (error) { 
     console.log('contractsettings error', error)
     return undefined

@@ -24,7 +24,6 @@ export default async function handler (req, res) {
         // break
         case 'POST':
         try {
-            console.log('Server wargning', req.body)
             const loggingDB = await db
             .collection("Logging")
             .insertOne({...req.body,

@@ -8,11 +8,9 @@ import { convUnixEpoch } from '../utils/misc'
   export const getRFPbyId = async (rfpId) => {
     const params=new URLSearchParams({rfpId:rfpId})
     const url=process.env.NEXT_PUBLIC_PROPON_URL + `/api/readonerfp?${params}`
-    console.log('DB URL:', url)
     try {
       const response = await fetch(url)
       const resp = await response.json();
-      console.log('Obtuve:', resp)
       return resp
     } catch (error) {
       console.log("Error del server:", error);
@@ -34,7 +32,6 @@ export const buildQuery = (params) => {
             const operator = (comparator==='ini') ? '$gte' : '$lte'
             const condition = { [operator] : unixEpoch}
             expr = {[field] : condition}
-            console.log('exp', expr)
         } else {
             expr ={[key] : new RegExp('^'+params[key], "i")}
         }

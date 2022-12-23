@@ -20,7 +20,6 @@ function Companyprofile() {
     </div>
   )
 
-  console.log('prof', companyData)
   if (isEmpty(companyData)) router.push({pathname: '/'})
   
   return (

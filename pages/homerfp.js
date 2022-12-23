@@ -33,7 +33,11 @@ function HomeRFP({ query }) {
   const [guests, setGuests] = useState([])  // list of companies registered to this contest
   
   const { companyData, address } = useContext(proponContext);
-  const { t } = useTranslation("rfps");
+  const { t } = useTranslation("rfps")
+  const  t_companies  = useTranslation("companies").t // tp search for companies when inviting them
+  
+  //Next line  because we'll need to be able to search for Companies when inviting them to contest
+  const { i18n  } = useTranslation("companies") 
   
  const GralMsg =({title}) => 
     <div className="p-4">
@@ -43,9 +47,6 @@ function HomeRFP({ query }) {
         </div>
     </div>
 
-  // const documentRequestType = 0  // it should read it from contract in future version
-  // const openContest = 0  // it should read it from contract in future version
-  // const inviteContest = 1  // it should read it from contract in future version
 
   const RFPTabDisplayer = () => {
     switch (selectedPanel) {
@@ -63,21 +64,25 @@ function HomeRFP({ query }) {
           />
         );
       case displayedPanels[1]: //bidder_register  only for Open Contests
-        if (!address || !Boolean(companyData.companyId )) 
-            return <GralMsg title={t('not_registered')} />
+        if (!address || !Boolean(companyData.companyId )) return <GralMsg title={t('not_registered')} />
         if (Number(rfpRecord.contestType) === inviteContest && 
             companyData.companyId !== rfpRecord.companyId) 
             return <GralMsg  title= {t('invitation_rfp')}/>
+        if (Number(rfpRecord.contestType) === openContest && 
+                companyData.companyId === rfpRecord.companyId)  // OPen and its owner     
+            return <GralMsg  title= {t('owner_open_rfp_recordbidders')}/>          
         // all ok, show Register component
         if (bidders)  return (
             <RegisterBidder 
               bidders={bidders}
               setBidders={setBidders} 
               t={t}
+              t_companies={t_companies}
               rfpRecord={rfpRecord} 
               companyId={companyData.companyId}
-              inviteContest={inviteContest}
+              inviteContest={Number(rfpRecord.contestType) === inviteContest}
               address={address}
+              i18n={i18n}  // This is because SearchDB needs it to be able to search for Companies
             />)
              else return null
       case displayedPanels[2]: //bidders_showcase
@@ -92,6 +97,7 @@ function HomeRFP({ query }) {
         return <div>default</div>;
     }
   };
+
 
   const updateRFPFilesArray = useCallback( async () => {
     if (!rfpRecord || !rfpRecord.rfpidx)  return
@@ -184,6 +190,7 @@ export async function getServerSideProps({ locale, query }) {
         "common",
         "gralerrors",
         "menus",
+        "companies"
       ])),
       // Will be passed to the page component as props
     },

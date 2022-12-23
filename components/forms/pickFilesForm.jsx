@@ -53,8 +53,6 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize}) => {
     setDroppingFiles(false);
     const files = [...e.dataTransfer.files];
     setCandidateFiles(files);
-    //  for  (const i=0; i < e.dataTransfer.files.length; i++)
-    //  console.log('handleDrop file[',i,']', e.dataTransfer.files[i])
   };
 
   const handleDragOver = (e) => {
@@ -92,8 +90,7 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize}) => {
             <div
               id="upload-tools"
               className="flex flex-col
-                items-center justify-center "
-            >
+                items-center justify-center">
               <div
                 className={`${
                   droppingFiles ? "outline outline-4" : "outline-2"
@@ -102,8 +99,7 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize}) => {
                                 justify-evenly`}
                 onDrop={(e) => handleDrop(e)}
                 onDragOver={(e) => handleDragOver(e)}
-                onDragLeave={(e) => handleDragLeave(e)}
-              >
+                onDragLeave={(e) => handleDragLeave(e)}>
                 <div>
                   <UploadIcon
                     className={`h-8 w-8 ${

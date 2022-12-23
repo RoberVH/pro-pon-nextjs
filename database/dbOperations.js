@@ -32,9 +32,9 @@ export const verifyData_Save = async (message, signature) => {
   };
 
   // Create initial record for company at database, set profileCompleted to false
-  export const saveCompanyID2DB = async (companyId, companyname, country) => {
+  export const saveCompanyID2DB = async (companyId, companyname, country, address, errToasterBox) => {
     let method = "POST";
-    const webload= {profileCompleted:false, companyId, companyname, country}
+    const webload= {profileCompleted:false, companyId, companyname, country, address}
     try {
       const response = await fetch("/api/companycreation", {
         method: method,
@@ -61,9 +61,23 @@ export const verifyData_Save = async (message, signature) => {
         const resp = await response.json();
         return resp;
       } catch (error) {
-        console.log("Error del server:", error);
-        errToasterBox(error, toastStyle);
+        return ({status:false, msg:error.message});
       } 
     }
 
+  // getDBGuestCompaniesAddresses 
+  //    For each company in passed  invitedCompanies param get from DB its address
+  export const getDBGuestCompaniesAddresses = (invitedCompanies) => {
+    
+  // create a new Promise for each company in the invitedCompanies array
+  const promises = invitedCompanies.map((company) => {
+    // use the company's id to retrieve its address from the database
+    const params=new URLSearchParams({companyId:companyId})
+    // return a Promise that resolves with the company's address or rejects with an error
+    return fetch(`/api/readonecompany?${new URLSearchParams({companyId:companyId})}`).then((response) => response.json()).catch((error) => error);
+  });
+
+  // return a Promise that resolves with an array of all the company addresses and errors
+  return Promise.allSettled(promises);
+  }  
  
