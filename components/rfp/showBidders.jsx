@@ -8,12 +8,22 @@
  *  to be coordinated with upload screen when we know how much its requested
  */
 
+import { useEffect, useState } from "react";
+
 const ShowBidders = ({bidders}) => {
+    const [Bidders, setBidders] = useState([])
+    console.log('showbidders',bidders)
+
+useEffect(()=>{
+    console.log('showbidders biddersx',bidders)
+    
+},[])    
     return (
     <div>
         ShowBidders
         {bidders?.length ?
-            bidders.map(bidder => <p className="p-4 text-blue-800" key={bidder.name}>{bidder.name}</p>)
+            bidders.map(bidder => <p className="p-4 text-blue-800" 
+                key={bidder}>{`${bidder} - ${bidder.companyName}`}</p>)
             :
             <p>NO BIDDERS</p>
         }

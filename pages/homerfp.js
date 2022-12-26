@@ -1,3 +1,13 @@
+/**
+ * HomeRFP
+ *      Page to interact wuth an RPF
+ *   @param {object} query - HomeRFP receive from URL a string of params that gets converted 
+ *                          to an object on query
+ *      HomeRFP display RFPessentialData to show data from RFP at left panel of UI
+ *      On rigth panel it shows RFPTabDisplayer that portraits tabs with different functionalities
+ *      Each Tab host a component to present the required functionality   
+ */
+
 import { useState, useEffect, useCallback, useContext, Fragment } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -16,7 +26,6 @@ import { getContractRFPbidders } from '../web3/getContractRFPbidders'
 import { documentRequestType, openContest, inviteContest } from '../utils/constants'
 
 function HomeRFP({ query }) {
-
   const displayedPanels = [
     "rfp_bases", // show /allow owner to post requesting documents
     "bidder_register", // allow participant to register and upload bids
@@ -69,7 +78,7 @@ function HomeRFP({ query }) {
             companyData.companyId !== rfpRecord.companyId) 
             return <GralMsg  title= {t('invitation_rfp')}/>
         if (Number(rfpRecord.contestType) === openContest && 
-                companyData.companyId === rfpRecord.companyId)  // OPen and its owner     
+                companyData.companyId === rfpRecord.companyId)  // Open contest and address it's owner's     
             return <GralMsg  title= {t('owner_open_rfp_recordbidders')}/>          
         // all ok, show Register component
         if (bidders)  return (
@@ -98,14 +107,21 @@ function HomeRFP({ query }) {
     }
   };
 
-
+/**
+ *  Read from contract the list of RFP (requesting documents) metadata files on the
+ *  current RFP. Read from contract the list of bidders on the contract 
+ */
   const updateRFPFilesArray = useCallback( async () => {
+    console.log('Update RFP file array')
     if (!rfpRecord || !rfpRecord.rfpidx)  return
     const result = await getArweaveFilesMetadata(rfpRecord.rfpidx)
       if (result.status) {
         setRFPFiles(result.docs)
         setNewFiles(false)
         const bidders = await getContractRFPbidders(rfpRecord.rfpidx)
+        console.log('UpdateRFPFilesArray bidders', bidders)
+        
+        console.log('Getting bidders!', bidders)
         if (bidders.status) setBidders(bidders.bidders)
     } else {
         errToasterBox(result.error)

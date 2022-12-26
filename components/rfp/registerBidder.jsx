@@ -20,8 +20,12 @@ import { toastStyle } from '../../styles/toastStyle'
 import { useRegisterBidders } from '../../hooks/useRegisterBidders'
 import ShowTXSummary  from './ShowTXSummary'
 import { getDBGuestCompaniesAddresses } from '../../database/dbOperations'
+ import { useBidders } from '../../hooks/useBidders'
+import { parseWeb3Error } from '../../utils/parseWeb3Error'
 
-const RegisterBidder = ({bidders, setBidders, t, t_companies, rfpRecord, companyId, inviteContest, guests, address,i18n}) => {
+
+const RegisterBidder = ({bidders, setBidders, t, t_companies, rfpRecord, 
+  companyId, inviteContest, guests, address,i18n}) => {
  const [alreadyRegistered, setAlreadyRegistered] = useState(bidders.includes(address))
  const [allowedtoRegister, setAllowed] = useState(false)
  const [rfpOwner, setrfpOwner ] = useState(companyId===rfpRecord.companyId) 
@@ -39,7 +43,7 @@ const RegisterBidder = ({bidders, setBidders, t, t_companies, rfpRecord, company
         { id:1,
           iconAction:'📍',
           titleAction:'Invite',
-          callBack:handleAddGuestCompany,
+          callBack:handleAddGuestCompanytoList,
           width: '[5%]'}
         ]    
 
@@ -48,6 +52,10 @@ const errToasterBox = (msj) => {
     };         
     const { write, postedHash, block, link, blockchainsuccess } = useRegisterBidders(onError);
 
+    
+    const onSuccess = () => {
+      refreshBidders()
+    }
       // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
     const customError = parseWeb3Error(t, error);
@@ -56,7 +64,7 @@ const errToasterBox = (msj) => {
     setsendingBlockchain(false);
   }
     
-    function handleAddGuestCompany(company) {
+    function handleAddGuestCompanytoList(company) {
      if (company.address.toLowerCase()===address) {
          errToasterBox(t('canotinvite_self'))
          return
@@ -87,15 +95,10 @@ const errToasterBox = (msj) => {
     }
 
     const handleRegisterGuests = async () => {
-      console.log('recibido:',rfpRecord.rfpidx, companyId, guestCompanies)
-      // const guestAddresses= await getDBGuestCompaniesAddresses(guestCompanies)
-      // console.log('obtuve', guestAddresses)
       const addresses=  guestCompanies.filter(obj => obj.status !== 'fulfilled')
-        .map(obj => obj.address);
+                        .map(obj => obj.address);
       const notRetrieved=  guestCompanies.filter(obj => obj.status === 'fulfilled')
-        .map(obj => obj.name);  
-      console.log('addresses:',addresses)
-      console.log('addressArray:',notRetrieved)
+                        .map(obj => obj.name);  
       if (addresses.length){
         setShowPanel(true)
         write('inviteguests', rfpRecord.rfpidx, companyId, addresses)
