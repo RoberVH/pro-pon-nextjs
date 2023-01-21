@@ -1,6 +1,6 @@
 {
     "rfp":"RFP - Datos Generales",
-    "rfpdocuments":"RFP - Documentos de solicitud",
+    "rfpdocuments":"RFP - Documentos",
     "onlyregisteredtoRFP":"Disculpe, sólo las empresas registradas pueden crear un RFP",
     "not_registered":"Compañia no registrada",
     "recresrfpdata":"Registre datos del RFP (deje al menos un día entre plazos)",
@@ -46,7 +46,7 @@
     "finaldate":"Antes o el", 
     "noresults":"No hay resultados",
     "declarewinner":"Declarar ganador",
-    "uploaddocuments":"Cargue documentos de Solicitud",
+    "uploaddocuments":"Cargue sus documentos",
     "dragfileshere":"Arrastre archivos aqui",
     "orselectfiles":"o Seleccione Archivo(s)",
     "itemplaceholder":"Nombre de la Partida",
@@ -57,8 +57,8 @@
     "maxfileserror":"Excedió limite de carga de archivos. Solo puede cargar hasta 5 archivos cada vez",
     "maxsizeerror":"Excedió tamaño máximo de carga de archivos. Solo puede cargar hasta 100 MB combinados cada vez",
     "nofiles":"No hay Archivos",
-    "uploadrequestdocuments":"Cargue en la blockchain sus documentos de la Solicitud (técnicos, legales, comerciales, etc.",
-    "dowloadrequestfiles":"Descargue Documentos (Bases) de RFP/Licitación",
+    "uploadrequestdocuments":"Cargue en la blockchain sus documentos",
+    "dowloadrequestfiles":"Descargue Documentos de RFP/Licitación",
     "additemstitle":"Agregue Partidas al RFP/Licitación",
     "addintemsinstructions":"Haga click en ícono verde para agregar partida a la lista. Haga click en partida de la lista para editarla",
     "contestType": "Tipo",
@@ -68,7 +68,7 @@
     "remove_items_first":"Remueva las partidas existentes primero",
     "rfp_bases":"Documentos de Bases",
     "bidder_register":"Registrar participante",
-    "bidders_showcase":"Mostrar Participantes",
+    "bidders_showcase":"Archivos de Participantes",
     "declare_contest":"Declarar resultados",
     "rfp_results":"Mostrar resultados",
     "files_uploaded":"Archivos cargados a la red de Blockchain Arweave",
@@ -89,5 +89,15 @@
     "notallowed_open":"Disculpas, no puede registrar su empresa. El límite ha sido alcanzado",
     "already_registered":"Compañia ya está registrada",
     "invitation_rfp":"Este es un Concurso por Invitación, verifique en la regleta Mostrar participantes si está invitado",
-    "owner_open_rfp_recordbidders":"Este es su RFP abierto, ¡notifique a compañías candidatas a registrarse!"
+    "owner_open_rfp_recordbidders":"Este es su RFP abierto, ¡notifique a compañías candidatas a registrarse!",
+    "doc_type":"Tipo Doc.",
+    "copied_clipboard":"Copiado al portapapeles",
+    "request_doc":"Solicitud",  
+    "q_a_doc":"Aclaraciones",  
+    "prop_doc":"Propuesta",  
+    "pricing_doc":"Oferta",
+    "legal_doc":"Legal",  
+    "financial_doc":"Financiero",  
+    "admin_doc":"Administrativo"     
+
 }

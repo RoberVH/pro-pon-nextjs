@@ -16,12 +16,12 @@ function DisplayItems({items, t}) {
             </div>
             <div className="mt-3 mr-4">
             { showingItems ? 
-                <Image  
+                <Image  className="cursor-pointer"
                     onClick = {() => setShowingItems(!showingItems)}
                     alt="V" src={'/dash.svg'} width={22} height={22}>
                 </Image>
                 :
-                <Image  
+                <Image  className="cursor-pointer" 
                     onClick = {() => setShowingItems(!showingItems)}
                     alt="V" src={'/chevrondown2.svg'} width={22} height={22}>
                 </Image>

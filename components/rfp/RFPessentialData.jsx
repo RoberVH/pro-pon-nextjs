@@ -1,7 +1,7 @@
 import { rfpParams } from '../../utils/rfpItems'
 import { convDate } from '../../utils/misc'
 import { TableIcon } from '@heroicons/react/outline'
-import { documentRequestType, openContest, inviteContest } from '../../utils/constants'
+import {  openContest, inviteContest } from '../../utils/constants'
 
 
 
@@ -40,7 +40,7 @@ function RFPessentialData({t, rfpRecord}) {
           <TableEntry title={t('rfpform.openDate')} value={convDate(rfpRecord.openDate)} />
           <TableEntry title={t('rfpform.endReceivingDate')} value={convDate(rfpRecord.endReceivingDate)} />
           <TableEntry title={t('rfpform.endDate')} value={convDate(rfpRecord.endDate)} />
-          <TableEntry title={t("typecontest")} value={Number(rfpRecord.contestType) ===openContest ? t('open'): t('invitation')} />
+          <TableEntry title={t("contestType")} value={Number(rfpRecord.contestType) ===openContest ? t('open'): t('invitation')} />
         </tbody>
       </table>
       </div>

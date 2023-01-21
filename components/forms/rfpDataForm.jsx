@@ -83,7 +83,11 @@ const RFPDataForm = () => {
   const saveRFPDATA2DB = async (params) => {
     const resp= await saveRFP2DB (params) 
     if (resp.status) {
-      setRFPParams(rfpparams => ({...rfpparams, _id: resp._id, rfpidx:params.rfpidx}))
+      // we retrieve the address of the rfp owner from OnEvent event as we need it 
+      //but it's not in this form component. Then we set the whole RFP params to be include 
+      // on the URL that RFP button edit will trigger 
+      const { owneraddress } = params
+      setRFPParams(rfpparams => ({...rfpparams, _id: resp._id, rfpidx:params.rfpidx, owneraddress}))
       toast.success(t('rfpdatasaved',toastStyleSuccess))
       setrfpCreated(true)
     } else {
@@ -103,7 +107,7 @@ const RFPDataForm = () => {
   const onEvent = async (address, rfpIdx, rfpName, params) => {
     const rfpidx=parseInt(rfpIdx)
     if (!rfpCreated) {  
-      const rfpparams={rfpidx,...params}
+      const rfpparams={rfpidx, owneraddress:address,...params}
       saveRFPDATA2DB(rfpparams)
     }
   };
@@ -305,7 +309,7 @@ const RFPDataForm = () => {
                   />
                 </div>
                 <div className={`bg-stone-100 p-2 flex ${itemStyleDate[showItemsField]}`}>
-                  <label className="text-stone-500">{t('typecontest')}</label> 
+                  <label className="text-stone-500">{t('contestType')}</label> 
                   <br></br>
                   <div className=" ml-12 flex justify-start text-sm" >
                     <label 

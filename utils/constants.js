@@ -33,7 +33,35 @@ export const companyIdPlaceHolder = {
     'CHL':'chileCompanyId'
 }
 
-export const documentRequestType = 0  
+// To easily reference this as an object instead of an array throughout the code I define a
+// docTypes record as a numeric property identifying each category of document type referencing 
+// a docType record
+// on this version of Pro-pon (1.0) only documentProposalType document type is password protected, all others are public
+export const docTypes = {
+    // Doctypes for RFP Issuer
+    0: {id: 0,type:'documentRequestType', desc:"request_doc", public:true},         // RFP doc  from Owner
+    1: {id: 1,type:'documentQandAType', desc:"q_a_doc", public:true},               // Clarification Questions and answers from Owner
+    2: {id: 2,type:'documentContract', desc:"cto_doc", public:true},                // Contract, adenda, guaranties etc documents created between owner and winners 
+    // Doctypes for RFP Participant
+    3: {id: 3,type:'documentProposalType',desc:"prop_doc", public:false},           // Technical offering, RFPs answers from participant
+    4: {id: 4,type:'documentPricingOfferingType',desc:"legal_doc", public:true},    // Economic Proposal from participant. It's password protected
+    5: {id: 5,type:'documentLegalType',desc:"legal_doc", public:true},              // Legal documents from participants
+    6: {id: 6,type:'documentFinancialType',desc:"financial_doc", public:true},      // Financial statements and documents from participants
+    7: {id: 7,type:'documentAdministrativeType',desc:"admin_doc", public:true}      // Administrative documents from participants
+}
+// Also a IdxDocTypes is defined to better reference index of docTypes record
+export const IdxDocTypes = {
+    'documentRequestType':0,
+    'documentQandAType':1,
+    'documentContract':2,
+    'documentProposalType':3,
+    'documentPricingOfferingType':4,
+    'documentLegalType':5,
+    'documentFinancialType':6,
+    'documentAdministrativeType':7
+}
+
+
 export const openContest = 0  
 export const inviteContest = 1  
 

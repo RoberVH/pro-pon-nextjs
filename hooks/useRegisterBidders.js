@@ -1,11 +1,10 @@
 /**
- *  useWriteFileMetadata
- *          Hook to write uploaded file metadata to pro-pon contract
- *          This data is used to guarantee hash files are recorded and files have not been tampered with
- *          Also, it provides a reference of what files belong to the contest
+ *  useRegisterBidders
+ *          Hook to write guests accounts to RFP contract's array var participants
+ *          
  */
 
- import { useState } from 'react'
+import { useState } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
 export const useRegisterBidders =  (onError) => {
@@ -35,7 +34,6 @@ export const useRegisterBidders =  (onError) => {
       companyId,
       guestsCompanies
       ) => {
-         console.log('%cWRITE: ','background-color:blue;', registerType,rfpidx, companyId, guestsCompanies )
          const proponContract = await getWritingProponContract()
       // make sure a clean state in case this is consecutive second time called
       setBlockchainsuccess(false) 

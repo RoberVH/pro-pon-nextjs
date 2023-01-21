@@ -211,7 +211,6 @@ const HeadBar = () => {
     // there is Address, return account menu functionality
     return (
       <div id="show-account" className="flex  mr-8 mb-2">
-            { console.log('CompanyData:', companyData) }
 
         <button
           className="text-orange-400  rounded-xl px-2 my-4 

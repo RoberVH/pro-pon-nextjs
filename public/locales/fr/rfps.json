@@ -1,6 +1,6 @@
 {
     "rfp":"RFP - Données générales",
-    "rfpdocuments":"RFP - Documents de demande",
+    "rfpdocuments":"RFP - Documents",
     "onlyregisteredtoRFP":"Désolé, Seules les entreprises enregistrées peuvent créer une demande de propositions",
     "not_registered":"Société non enregistrée",
     "recresrfpdata":"Enregistrer les données RFP (laissez au moins un jour entre les échéances)",
@@ -44,7 +44,7 @@
     "finaldate":"Avant ou le", 
     "noresults":"Aucun résultat",
     "declarewinner":"Déclarer le gagnant",
-    "uploaddocuments":"télécharger les documents de demande",
+    "uploaddocuments":"Télécharger vos documents",
     "dragfileshere":"Déplacez des fichiers ici",
     "orselectfiles":"ou Sélectionner le(s) fichier(s)",
     "itemplaceholder":"Nom de la catégorie/du lot",
@@ -66,7 +66,7 @@
     "remove_items_first":"Supprimer d'abord les catégories/lots existants",
     "rfp_bases":"Documents d'appel d'offres",
     "bidder_register":"Inscrire un enchérisseur",
-    "bidders_showcase":"Afficher les enchérisseurs",
+    "bidders_showcase":"Fichiers des soumissionnaires",
     "declare_contest":"Déclarer les résultats",
     "rfp_results":"Afficher les résultats",
     "files_uploaded":"Fichiers téléchargés sur Blockchain Arweave",
@@ -87,5 +87,14 @@
     "notallowed_open":"Désolé, vous ne pouvez pas enregistrer votre entreprise. La limite a été atteinte",
     "already_registered":"La société est déjà enregistrée",
     "invitation_rfp":"Ceci est un concours sur invitation, cochez le curseur Afficher les enchérisseurs si vous êtes invité",
-    "owner_open_rfp_recordbidders":"Ceci est votre appel d'offres ouvert, informez les entreprises candidates pour qu'elles s'inscrivent !"
+    "owner_open_rfp_recordbidders":"Ceci est votre appel d'offres ouvert, informez les entreprises candidates pour qu'elles s'inscrivent !",
+    "copied_clipboard":"Copié dans le presse-papiers",
+    "doc_type":"Type Doc.",
+    "request_doc":"Demande",  
+    "q_a_doc":"Clarifications",  
+    "prop_doc":"Proposition",  
+    "pricing_doc":"Offre",
+    "legal_doc":"Juridique",  
+    "financial_doc":"Finance",  
+    "admin_doc":"Administratif"
 }

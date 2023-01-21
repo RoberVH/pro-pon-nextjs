@@ -12,6 +12,7 @@ export const getContractRFPbidders = async (RFPIndex) => {
   const proponContract = await getProponContract()
   try {
     const bidders = await proponContract.getRFPbyIndex(RFPIndex)
+
     return { status: true, bidders: bidders.participants }
   } catch (error) {
     console.log('getCurrentBidders error', error)

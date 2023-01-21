@@ -28,7 +28,7 @@ import { useWriteFileMetadata } from "../../hooks/useWriteFileMetadata";
  *      rfpIndex - Global index on Contract var array RFPs of current RFP
  *
  */
-function UploadRFPForm({ t, setNewFiles, rfpId, rfpIndex, docType, owner }) {
+function UploadRFPForm({ t, setNewFiles, rfpId, rfpIndex, allowedDocTypes, owner }) {
   // state var for child pickFIlesForm let us know files are pickedup
   const [pickedFiles, setPickedFiles] = useState([]); 
   const [uploadingSet, setuploadingSet] = useState([]);
@@ -142,9 +142,12 @@ function UploadRFPForm({ t, setNewFiles, rfpId, rfpIndex, docType, owner }) {
     const fileIdArray = uploadingSet
       .filter((doc) => doc.status === "success")
       .map((filtered) => filtered.fileId);
+      const docTypesArray= uploadingSet   // Pendiente por agregar en uploading !!!!!!!!!!!!!!!!!!!!
+      .filter((doc) => doc.status === "success")
+      .map((filtered) => filtered.DocType);
     try {
       // write metadata files to contract
-      await write(rfpIndex, docType, nameArray, hashArray, fileIdArray);
+      await write(rfpIndex, docTypesArray, nameArray, hashArray, fileIdArray);
     } catch (error) {
       console.log(error);
     } finally {
@@ -218,6 +221,7 @@ function UploadRFPForm({ t, setNewFiles, rfpId, rfpIndex, docType, owner }) {
         errToasterBox={errToasterBox}
         setPickedFiles={setPickedFiles}
         setTotalSize={setTotalSize}
+        allowedDocTypes={allowedDocTypes}
       />
     </div>
   );

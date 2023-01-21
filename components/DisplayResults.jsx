@@ -1,3 +1,13 @@
+/* 
+  DisplayResults component
+    Display results from DataBase passed on results param. 
+@module DisplayResults
+@param {Array} fields - The DB fields to display in the table
+@param {Array} results - The data to br displayed in a table
+@param {Array} actions - The button actions to display in the table
+@param {function} t - The i18n translation function
+*/
+
 import React from 'react'
 import { convDate } from '../utils/misc.js'
 import {  openContest } from '../utils/constants'
@@ -7,6 +17,7 @@ import { nanoid } from 'nanoid'
 
 
 function DisplayResults({fields,results, actions, t}) {
+  // Inner functions ******************
   const parseField = (fields, elem) => {
     if (fields.fieldName==='contestType') 
       return (
@@ -16,12 +27,12 @@ function DisplayResults({fields,results, actions, t}) {
         return (convDate(elem[fields.fieldName]))
       else return (elem[fields.fieldName])
     }
-
-    if (!results.length) return 
-
-<div className="text-red-600 font-xl">
-        {t('noresults')}
-      </div>  // we won't check later if there are results
+    // if not results return informative msg
+  if (!results.length) return 
+    <div className="text-red-600 font-xl">
+            {t('noresults')}
+    </div>  // we won't check later if there are results
+  // There are results. display them
   return (
     <div className="">
          <table className="table-fixed w-full ">

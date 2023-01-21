@@ -15,7 +15,6 @@ export const writeCompanyDatatoContract = async (
             companyname, 
             country, {value: ethers.utils.parseEther(value)})
     await createCompanyTx.wait()
-    console.log('companyData',companyData)
     return { status: true, data: companyData }
     } catch (error) {
     return({ status: false, message: error.reason });

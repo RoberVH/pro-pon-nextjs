@@ -28,7 +28,6 @@ export const sendWarningServer = async (msgType, msg) => {
           body: JSON.stringify({msgType: msgType, msg: msg})
         });
         const resp = await response.json();
-        console.log('Resp:', resp)
         return
     } catch (error) {
         console.log('Error sending warning message', error)

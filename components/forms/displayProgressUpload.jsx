@@ -49,7 +49,6 @@ const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
   return (
     <div> 
       <table className="table-fixed w-full">
-        
         <thead></thead>
         <tbody className="">
         {

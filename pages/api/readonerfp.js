@@ -4,8 +4,6 @@ import  { ObjectId } from 'mongodb'
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();
   const { method } = req
-  console.log('readonerfp hit, req.method is', req.method)
-  console.log('readonerfp hit, req.query is', req.query)
   // Find just the one rfp based on MongoDB generated _id field in the param rfpId
   const rfpDB = await db
   switch (method) {

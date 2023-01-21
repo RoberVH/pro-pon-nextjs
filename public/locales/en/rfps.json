@@ -1,6 +1,6 @@
 {
     "rfp":"RFP - General Data",
-    "rfpdocuments":"RFP - Requisition Documents",
+    "rfpdocuments":"RFP - Documents",
     "onlyregisteredtoRFP":"Sorry, Only registered companies can create an RFP",
     "not_registered":"Company not registered",
     "recresrfpdata":"Record RFP data (allow at least a day between datelines)",
@@ -44,7 +44,7 @@
     "finaldate":"Before or on",
     "noresults":"No results",
     "declarewinner":"Declare winner",
-    "uploaddocuments":"Load Request Documents",
+    "uploaddocuments":"Load your Documents",
     "dragfileshere":"Drag files here",
     "orselectfiles":"or Select File(s)",
     "itemplaceholder":"Item Name",
@@ -66,7 +66,7 @@
     "remove_items_first":"Remove existing Items first",
     "rfp_bases":"Requesting documents",
     "bidder_register":"Register bidder",
-    "bidders_showcase":"Show bidders",
+    "bidders_showcase":"Bidders Files",
     "declare_contest":"Declare results",
     "rfp_results":"Show results",
     "files_uploaded":"Files uploaded to Arweave Blockchain",
@@ -87,7 +87,14 @@
     "notallowed_open":"Sorry, you can not register your company. The limit has been reached",
     "already_registered":"Company already registered",
     "invitation_rfp":"This is an Invitation Contest, check on Show Bidders Tab if you are invited",
-    "owner_open_rfp_recordbidders":"This is your open RFP, notify candidate companies to sign up!"
-    
-
+    "owner_open_rfp_recordbidders":"This is your open RFP, notify candidate companies to sign up!",
+    "copied_clipboard":"Copied to Clipboard",
+    "doc_type":"Doc Type",
+    "request_doc":"Request",  
+    "q_a_doc":"Q & A",  
+    "prop_doc":"Proposal",  
+    "pricing_doc":"Offering",  
+    "legal_doc":"Legal",  
+    "financial_doc":"Financial",  
+    "admin_doc":"Administrative"     
 }
