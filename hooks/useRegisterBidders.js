@@ -7,13 +7,13 @@
 import { useState } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
-export const useRegisterBidders =  (onError) => {
+export const useRegisterBidders =  (onError, onSuccess) => {
    const [postedHash, setPostedHash] = useState()
    const [block, setBlock] = useState()
    const [link, setLink] = useState()
    const [blockchainsuccess, setBlockchainsuccess] = useState(false)
    
-   const debugstyleprop= 'background-color:yellow; color:red'
+   // const debugstyleprop= 'background-color:yellow; color:red'
 
    /**
     * write 
@@ -57,6 +57,7 @@ export const useRegisterBidders =  (onError) => {
          const data=await Tx.wait()
          setBlock(data.blockNumber)
          setBlockchainsuccess(true)
+         onSuccess()
       } catch (error) {
                onError(error);
                }       

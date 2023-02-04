@@ -10,7 +10,7 @@ import { docTypes } from '../.././utils/constants'
 @param {String} owner - Address of the user account logged in if.
 @returns {JSX.Element} - The rendered DownloadFileForm component.
 */
-const DownloadFileForm = ({ rfpfiles, t, docType, owner }) => {
+const DownloadFileForm = ({ rfpfiles, t, allowedDocTypes, owner }) => {
   const [downloadableFiles, setDownloadableFiles] = useState([]);
   const [timerWarning, setTimerWarning] = useState(false);
 
@@ -21,17 +21,18 @@ const DownloadFileForm = ({ rfpfiles, t, docType, owner }) => {
     setTimeout(() => setTimerWarning(false), 600);
   };
 
-  
+  console.log('Download component rfpfiles',rfpfiles)
+  console.log('Passed docType', allowedDocTypes)
   useEffect(() => {
     if (rfpfiles)
       setDownloadableFiles(
         rfpfiles.filter(
           (doc) =>
-            doc.owner.toLowerCase() === owner.toLowerCase() &&
-            doc.docType.toNumber() === docType.id
+            doc.owner.toLowerCase() === owner.toLowerCase() && allowedDocTypes.some(obj => obj.id === doc.docType.toString())
+            //doc.docType.toNumber() === docType.id // is included on
         )
       );
-  }, [rfpfiles, docType, owner]);
+  }, [rfpfiles, allowedDocTypes, owner]);
 
   return (
     <div className="m-auto py-2 max-w-[90%] ">
@@ -69,6 +70,7 @@ const DownloadFileForm = ({ rfpfiles, t, docType, owner }) => {
                 key={file.idx}
                 className="even:bg-slate-200 odd:bg-slate-300 "
                 >
+                  {console.log('file por mostrar:', file)}
                   <td className="odd:border-2 odd:border-coal-900 flex p-2 truncate">
                     <div className="flex">
                       <a

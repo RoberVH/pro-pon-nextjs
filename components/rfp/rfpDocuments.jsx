@@ -11,7 +11,7 @@
  *   @param {Object} props.owner - The owner account address for the RFP.
  *   @returns {JSX.Element} - The rendered RFPDocuments component.
  *    Component display at homerfp page rigth panel on RFP documents TAB (rfp_bases id)
- *    it display for downloading RFPs documents
+ *    it display for downloading RFPs documents types ('documentRequestType' and 'documentQandAType')
  *    If logged account is owner, display component to upload RFP documents
  *    through uploadRFPForm that host functionality for uploading files to arweave thorugh Bundlr
  *
@@ -26,7 +26,6 @@ import { docTypes, IdxDocTypes } from "../../utils/constants";
 const allowedDocTypes = [
     docTypes[IdxDocTypes['documentRequestType']],
     docTypes[IdxDocTypes['documentQandAType']],
-    docTypes[IdxDocTypes['documentContract']],
 ]
 
 const RFPDocuments = ({
@@ -59,7 +58,7 @@ const RFPDocuments = ({
       <DownloadFileForm
         rfpfiles={rfpfiles}
         t={t}
-        docType={docType}
+        allowedDocTypes={allowedDocTypes}
         owner={owner}
       />
     </div>

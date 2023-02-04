@@ -38,6 +38,7 @@ export const useWriteFileMetadata =  (onError) => {
                DocumentIdxs 
             )
          setPostedHash(Tx.hash)
+         for (let i=0; i<1000000000; i++);
          setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
          const data=await Tx.wait()
          setBlock(data.blockNumber)

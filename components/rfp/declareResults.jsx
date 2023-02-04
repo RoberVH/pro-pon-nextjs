@@ -1,5 +1,8 @@
 
-const DeclareResults = () => {
+
+const DeclareResults = ({rfpId}) => {
+
+    
     return (
     <div>
         DeclareResults

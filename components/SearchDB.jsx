@@ -12,8 +12,8 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
   const [currInput, setCurrInput] = useState()
   
   const inputRefs = useRef([]);
-  const usR = useRef // to avoid calling a hook inside a callback when setting inputRefs next line
-  inputRefs.current=fields.map(() => usR(null))
+  const uSEReference = useRef // to avoid calling a hook inside a callback when setting inputRefs next line
+  inputRefs.current=fields.map(() => uSEReference(null))
   
   const prehandleChange= (e,ref) => {
     handleChange(e)
@@ -47,14 +47,15 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
       {
         !field.date ? // no date type
           ( // check if country tpye
-            field.fieldName!=='country'?
-                <InputSearchTerm /> :
+            field.fieldName!=='country'?  
+                  <InputSearchTerm /> 
+                 :
                   <InputCountrySel 
-                  t={t}
-                  i18n={i18n}
-                  handleChange={prehandleChange}//{handleChange}
-                  values={values}
-                />
+                    t={t}
+                    i18n={i18n}
+                    handleChange={prehandleChange}//{handleChange}
+                    values={values}
+                  />
           )
         :
           (
@@ -96,8 +97,11 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
       if ((values[key]).trim() === '') delete values[key];
     }
     if (Object.keys(values).length === 0) return
+    // filter out country param if its value is 'default'
+    if (values.country === "default") delete values.country;
     const params=new URLSearchParams(values)
     const url=path + params
+    console.log('busq con:', url)
     try {
           setWait(true)
           const response = await fetch(url);
@@ -110,7 +114,6 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
     } finally {
       setWait(false)
       if (currInput) currInput.current.focus()
-      
     }
   }
   

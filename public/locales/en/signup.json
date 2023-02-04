@@ -11,9 +11,10 @@
     "companyessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Wait please...",
     "companyessentialdatasaved":"Company Identification data has been posted to Blockchain",
     "signupsuccess":"Essential Company Data has been saved to blockchain",
-    "chekhash":"View transaction status in the Blockchain Explorer. Wait please...",
+    "chekhash":"Processing, you can check the status of the transaction in this link of Blockchain explorer:",
     "nocompanyIdyet":"Your blockchain account does not have a company registered yet",
     "block":"Finish succesfully. This transaction has been included into Block: ",
+    "loading_to_blockchain":"Loading data to Blockchain",
     "errors": {
         "address_already_admin":"This account is already admin of another company",
         "unknownerror":"Unkwon error, try later",
@@ -26,7 +27,7 @@
     },
     "companyform": {
         "recordessentialdata":"Register basic company data",
-        "recordcompanytitle": "Register your name and the company details",
+        "recordcompanytitle": "Edit your name and the company details",
         "adminname": "Your name (admin rights will be granted)",
         "companyname":"Company Name",
         "companyId":"Company Unique Tax Payer ID",

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import  Spinner  from '../components/layouts/Spinner'
 import { SearchIcon } from "@heroicons/react/outline";
 import DisplayResults from "../components/DisplayResults";
@@ -19,7 +19,7 @@ const companyActions = [
 ]
 
 function Companies() {
-  const { locale,pathname, query, asPath   } = useRouter();
+  //const { locale,pathname, query, asPath   } = useRouter();
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
   const [results, setResults] = useState([]);
@@ -33,12 +33,11 @@ function Companies() {
     if (error.message) errToasterBox(error.message);
   }, [error]);
 
-  const router = useRouter()
+  //const router = useRouter()
 
   const { t, i18n  } = useTranslation("companies")
   return (
     <div id="companies">
-
       <h1 className="mt-4 text-stone-500 text-2xl text-center">
         {t("titlescreen")}
       </h1>

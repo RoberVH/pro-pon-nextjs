@@ -4,7 +4,7 @@
  *      when user drop or select files, these are set on candidateFiles which triggers useEffect 
  *      that call size limits with function checklimits, it validates limits in quantity or total size of files aren't surpassed 
  *
- *      if  limits are ok, files are set in local filesforDoctyping state var, that shows html of  Doctype set form table to allow user
+ *      if  limits are ok, files are set in local candidateFiles state var, that shows html of  Doctype set form table to allow user
  *      set docTypes  for them
  *      On that Doctype set form,  user can accept or cancel operation
  *      if Accept, docTypes are added and set with prop function setPickedFiles to trigger action on parent component 
@@ -26,13 +26,11 @@ const dropfilesFormat = {
 const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedDocTypes}) => {
   const [droppingFiles, setDroppingFiles] = useState(false);
   const [candidateFiles, setCandidateFiles] = useState([])
-  const [filesforDoctyping, setFilesforDoctyping] = useState([])
   
 
   const inputRef = useRef(null);
 
   // Inner Components ******************************************************************************************
-  // 0: {id: 0,type:'documentRequestType', desc:"request_doc", public:true},
   const  TitleUploader= () => 
     <div className="flex  pl-2 py-1 px-4">
       <Image className="text-orange-400 mt-1 ml-2" alt="Proposal" src="/surveys-icon.svg" height={17} width={17} />
@@ -43,16 +41,14 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
     
     const SelectDocTypes= ({fileName}) => 
          <select 
-            className=" block w-full px-3 py-1.5 text-sm font-khula bg-gray-100 bg-clip-padding 
+            className=" block w-full px-3 py-1.5 text-sm font-khula border-2 bg-white bg-clip-padding 
                         bg-no-repeat border border-solid border-gray-300 outline-none rounded transition ease-in-out
-                        border-0 border-grey-light  focus:bg-blue-100 
-                        text-black  font-khula"
+                        border-0 border-grey-light hover:cursor-pointer  "
             onChange={(e)=>handleChangeDocType(e,fileName)}
-            value={filesforDoctyping.filter(file=> file.name===fileName).docType}
-            defaultValue={allowedDocTypes[2].type}>
+            value={candidateFiles.filter(file=> file.name===fileName)[0].docType}
+          >
             { allowedDocTypes.map (docType =>
-              <option key= {docType.id} value={docType.id}>{t(docType.desc)}
-              </option> 
+              <option key= {docType.id} value={docType.id} label={t(docType.desc)} />
             )}
         </select>
     
@@ -104,60 +100,52 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
   </div>  
 
   // UseEffect Hooks                ******************************************************************************************
+  // checkFileLimits is called from useEffect when candidateFiles is set
   useEffect(() => {
-    checkFileLimits(filesforDoctyping);
-  }, [filesforDoctyping, checkFileLimits]);
-//}, [candidateFiles, checkFileLimits]);
+    checkFileLimits(candidateFiles);
+  }, [candidateFiles, checkFileLimits]);
 
 
 
-  // Functions to check totla size against App limit  *****************************************************************************************
-  // checkFileLimits is called from useEffect when filesforDoctyping is set
-  // If everthing fine, add the default docktype to filesforDoctyping and set candidateFiles for further processing
+  // Functions to check totla size against App limit  *****************************************************************************
+  // if excedeed limits, clear candidateFiles and display error message
+  // If everthing fine, add the default docktype to candidateFiles and set candidateFiles for further processing
   const checkFileLimits = useCallback((files) => {
+    const sizeLimit = parseFloat(MAX_CAPACITY_FILES.replace(/_/g, ""))
     if (files.length > 0) {
       // process upload candidate files
       // Only MAX_FILES having less o equal MAX_CAPACITY_FILES bytes
       if (files.length > MAX_FILES) {
-        errToasterBox(t("maxfileserror"));
+        setCandidateFiles([])
+        errToasterBox(t("maxfileserror") + MAX_FILES) ;
         return;
       }
       const totalFilesSize = calculateFilesSize(files)
-      if (totalFilesSize > MAX_CAPACITY_FILES) {
-        errToasterBox(t("maxsizeerror"));
+
+      if (totalFilesSize > sizeLimit) {
+        setCandidateFiles([])
+        errToasterBox(t("maxsizeerror") + MAX_CAPACITY_FILES.replace(/_/g, ",") + ' bytes');
         return;
       }
-      /* this code pass it 
-      // all ok, pass back selected Files on parent state var funtion
-      setPickedFiles(files)*/
-
-      // add default doctypes to  candidateFiles
-      console.log('to begin with files:',files)
-      //  const nuevoset = files.map(file =>  { return {...file, docType:allowedDocTypes[0].id} })
-       
-      //  console.log('agregado:', nuevoset)
-      //setFilesforDoctyping(prevFile => prevFile.map(file => ({...file, docType: allowedDocTypes[0].id})))
 
     }
     setTotalSize(totalFilesSize)
-  }, [t, setPickedFiles, errToasterBox, setTotalSize]);
+  }, [t, errToasterBox, setTotalSize]);
 
   // Handlers for dropping & manually selecting files and handle changes *********************************************************************
   const handleDrop = (e) => {
     e.preventDefault();
     setDroppingFiles(false);
     const files = [...e.dataTransfer.files];
-    //setFilesforDoctyping(files);
-    console.log('files', files)
-    setFilesforDoctyping(files.map(file => {
+    setCandidateFiles(files.map(file => {
       return { 
         name: file.name,
         size: file.size,
         type: file.type,
-        docType: allowedDocTypes[0].id
+        docType: allowedDocTypes[0].id, // as default set the first allowed type to document
+        originalFile:file
       };
     }))
-    //setFilesforDoctyping(newFiles);
   };
 
   const handleDragOver = (e) => {
@@ -172,24 +160,20 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
 
   const handleFileChange = (e) => {
     const chosenFiles = Array.prototype.slice.call(e.target.files);
-    //setFilesforDoctyping(chosenFiles);
-    console.log('chosenFiles', chosenFiles)
-    setFilesforDoctyping(chosenFiles.map(file => {
+    setCandidateFiles(chosenFiles.map(file => {
       return { 
         name: file.name,
         size: file.size,
         type: file.type,
-        docType: allowedDocTypes[0].id
+        docType: allowedDocTypes[0].id, // as default set the first allowed type to document
+        originalFile:file
       };
     }))
   };
 
   const handleChangeDocType = (event,fileName) => {
-    console.log('event.target',event.target)
       const selectedValue = event.target.value;
-      console.log('selectedValue',selectedValue)
-      console.log('fileName',fileName)
-      setFilesforDoctyping(prevFiles => {
+      setCandidateFiles(prevFiles => {
           const updatedFiles = prevFiles.map(file => {
             if (file.name === fileName) {
               return { ...file, docType: selectedValue };
@@ -201,17 +185,30 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
 
   };
 
-  // everything went fine, user select files / selected docType for all.
-  // and has clicked on ok to upload button, proced to triger actions seting the candidatefiles 
+  
+  /* handleAcceptUploadFiles
+   * Everything went fine, user select files / selected docType for all.
+   * and has clicked on ok to upload button, proced to triger actions seting the candidatefiles 
+  */
   const handleAcceptUploadFiles = (files) => {
     // all ok, pass back selected Files on parent state var funtion
-    setPickedFiles(files)
+    setPickedFiles(candidateFiles)
   }
+
+  /* handleCancelUploadFiles
+   * USer repent and cancel present document batch, so go back to square zero
+   * discard selected files
+  */
+  const handleCancelUploadFiles = (files) => {
+    // all ok, pass back selected Files on parent state var funtion
+    setCandidateFiles([])
+  }
+
 // PickFilesForm returned JSX: ----------------------------------
     return (
-        <Fragment>
+        <div>
           <TitleUploader />
-          { !Boolean(filesforDoctyping.length) ?
+          { !Boolean(candidateFiles.length) ?
           <div id="displayFilePicker">
             <p className="mx-8 py-1"> {t("uploadrequestdocuments")} </p>
             <div id="upload-tools" className="flex flex-col items-center justify-center">
@@ -220,14 +217,21 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
             </div>
           </div>
           :
-          <div id="displayTableDocTypes">
-            {/* {console.log(filesforDoctyping)} */}
-            <table className="m-4 table-fixed w-[80%] border-2 border-orange-200">
+          <>
+          <p className="ml-8 font-khula">{t('select_doctype')}</p>
+          <div id="displayTableDocTypes" className="border-0 border-gray-200 mb-2 flex justify-center">
+            <table className="m-4  table-fixed   w-[80%]">
               <tbody className="p-2">
-              { filesforDoctyping.map((file,idx) => 
+              { candidateFiles.map((file,idx) => 
                 <tr key={file.name} className="font-khula">
-                  <td className="w-[45%] text-left pl-2"> {file.name} </td>
-                  <td className="w-[55%] text-left"> 
+                  <td className="w-[65%] text-left pl-2 border-2 border-gray-200 font-khula text-sm truncate group "> 
+                  {file.name} 
+                    <span className="absolute invisible group-hover:visible  bg-white p-2 rounded-md bg-gray-100 shadow-md font-xs opacity-0 
+                            group-hover:opacity-100 transition left-[35%] top-[50%]">
+                        {file.name}
+                    </span>
+                  </td>
+                  <td className="w-[45%] text-left border-2 border-gray-200"> 
                     <SelectDocTypes fileName={file.name}/>
                   </td>
                 </tr>
@@ -236,8 +240,26 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
               </tbody>
             </table>
           </div>
+            <div className="m-6 flex justify-center">
+                <button 
+                  onClick={handleAcceptUploadFiles}
+                  className="bg-orange-400 font-xl font-bold font-khula  mr-10 px-4 py-2.5  
+                    text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 active:hover:shadow-lg 
+                    active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none active:focus:ring-0 active:bg-orange-800 
+                    active:shadow-lg transition duration-150 ease-in-out disabled:bg-orange-400 text-sm">
+                    {t('accept')}
+                </button>
+                <button 
+                onClick={handleCancelUploadFiles}
+                  className="bg-stone-400 font-xl font-bold font-khula   px-4 py-2.5 text-white leading-tight uppercase rounded shadow-md 
+                    focus:outline-none  active:shadow-lg transition duration-150 ease-in-out hover:shadow-lg focus:ring-0 active:bg-stone-800 
+                    focus:bg-stone-700 focus:shadow-lg text-sm">
+                    {t('cancelbutton')}
+                </button>
+            </div>
+          </>
           }
-        </Fragment>
+        </div>
         )
     }
 

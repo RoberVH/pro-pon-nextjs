@@ -26,6 +26,7 @@ import { proponContext } from "../../utils/pro-poncontext"
 
 
 
+
 countries.registerLocale(english);
 countries.registerLocale(spanish);
 countries.registerLocale(french);
@@ -44,14 +45,14 @@ const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded r
 const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   
   // State Variables & constants of module
   const { t, i18n  } = useTranslation("signup");
-  const [posted, setPosted] = useState(false) //false  
+  const [posted, setPosted] = useState(false) // // begins with false
   const [companyCreated, setcompanyCreated] = useState(false)
   const [lang, setLang] = useState('')
   const [countryList, setCountryList] = useState([]);
-  const [block, setBlock] = useState('')
-  const [hash, setHash] = useState('') 
-  const [link, setLink] = useState('')
-  const [isSaving, setIsSaving] = useState(false) //false
+  const [block, setBlock] = useState('')  // begins with ''
+  const [hash, setHash] = useState('') // begins with ''
+  const [link, setLink] = useState('') // begins with ''
+  const [isSaving, setIsSaving] = useState(false) //begins with false
   const[taxPayerPlaceHolder,setTaxPayerPlaceHolder]=useState('companyId')
   const { values, handleChange } = useInputForm()
   const [profileCompleted, setProfileCompleted] = useState(
@@ -216,14 +217,14 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
     {/* Entry Form with buttons save & cancel */}
     <div id="dataentrypanel" className="mt-4  p-4 bg-white  border-orange-200 rounded-md
                   container  my-8 mx-4 border-2 border-solid">
-      <p className="text-gray-600 text-extrabold text-base text-xl mb-4 font-khula">
+      <p className="text-gray-600 text-extrabold text-base  mb-4 font-khula">
         ⌨ <strong> {t("companyform.recordessentialdata")}</strong>
       </p>
       <form
         action=""
         disabled={posted || companyCreated } 
-        className="flex flex-col items-center justify-between leading-8 my-10">
-        <div className="w-[50%] relative mb-4">
+        className="flex flex-col items-center justify-between leading-8 my-6">
+        <div className="w-[50%] relative mb-2">
         { typeof companyData.profileCompleted === 'undefined' ?
           // Company not yet registered to blockchain contract
           <React.Fragment>
@@ -284,10 +285,11 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
         </div>        
       </form>
       <div id="footersubpanel3">
-        <div className={`my-4 py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md ${companyCreated?'hidden':null}`}>
+        <div className={`my-2 py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md ${companyCreated?'hidden':null}`}>
          { typeof companyData.profileCompleted === 'undefined' ?
-          <React.Fragment>
-              <div className="mt-4 mr-10 " >
+          <div >
+            <div className="flex">
+              <div className="mt-2 mr-10 " >
                 <button
                   type="button"
                   onClick={handleSave}
@@ -304,7 +306,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
                   )}
                 </button>
               </div>
-              <div className="mt-4">
+              <div className="mt-2">
                 <button
                   type="button"
                   onClick={handleCancel}
@@ -313,7 +315,8 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
                   {t("cancelbutton")}
                 </button>
               </div>
-          </React.Fragment>
+            </div>
+          </div>
          :
          <div className="flex justify-center">
                     <button 
@@ -323,11 +326,10 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
                     </button>
          </div>
          }
-
         </div>
       </div>
-
     </div>
+  
     <div className="mx-auto ml-6">
       {isSaving && 
         <TxInfoPanel 

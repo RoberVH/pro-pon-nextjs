@@ -48,21 +48,21 @@ useEffect(() => {
 return (
     <select
       className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-stone-100 bg-clip-padding
-            bg-no-repeat border border-solid border-gray-300 outline-none rounded transition ease-in-out
-            border-0 border-grey-light rounded rounded-l-none focus:bg-blue-100 
+            bg-no-repeat border border-solid border-gray-300 outline-none transition ease-in-out
+            border-grey-light rounded rounded-l-none focus:bg-blue-100 
               text-black  font-khula"
       onChange={handleChange}
       id={"country"}
-      defaultValue={profileCompleted ? companyData.country: "default"} >
-      <option value={"default"} >
-        {!profileCompleted
-          ? `${t("companyform.country")}*`
-          : companyData.country}
-      </option>
-      {countryList.map((country, index) => (
-        <option key={index} value={countries.getAlpha3Code(country,i18n.language)}>
-          {country}
+      value={profileCompleted ? companyData.country: "default"}>
+        <option value={"default"} >
+          {!profileCompleted
+            ? `${t("companyform.country")}*`
+            : companyData.country}
         </option>
+        {countryList.map((country, index) => (
+          <option key={index} value={countries.getAlpha3Code(country,i18n.language)}>
+            {country}
+          </option>
       ))}
   </select>
 )

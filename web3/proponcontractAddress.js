@@ -4,7 +4,8 @@
  
  // Mumbai
  
- export const CONTRACT_ADDRESS ='0x985Ce141c5a13941Da5FB084b015bfb33f157bD0'
+export const CONTRACT_ADDRESS ='0xD6AB47CAd8770F49AbfDa3569b02085423eACbAa' 
+ //export const CONTRACT_ADDRESS ='0x748d6fF15466D4e870F9a209A2777520D445d18f' // pre enero 31
 
  // Dic 13 HAve this other contract '0x4d912bA1b6778d5419Fe30C4f17E19f35D0Ca68e' 
  // equal to 0xF50045E0b0DE5d90eac31cc7016a19ffeCC42Af3 but empty for more trials
@@ -14,7 +15,9 @@
  //export const CONTRACT_ADDRESS ='0x8464135c8F25Da09e49BC8782676a84730C318bC'
 
   
- // Historic Mumbai contracts deployed
+ // Historic Mumbai contracts deployed from last to first deployed 
+ //'0x748d6fF15466D4e870F9a209A2777520D445d18f'  changed on January 31
+ //'0x985Ce141c5a13941Da5FB084b015bfb33f157bD0'  changed on january 27th, 2023
  //0xEBE652c7a620ab7E15d746691608c844b3c7DB25
  //0xBB9bac7E25B1739c090B823078F9e5a390AE2a91
  //0xd3d851bA386FdAD02BF1DcE2BcF0108eF74C20ce

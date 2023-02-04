@@ -24,7 +24,8 @@
         "opendateerror":"Wrong Start Date",
         "endrecerror":"Wrong Dateline to receive proposals",
         "enddateerror":"Wrong Decision Dateline",
-        "datesnosequencial":"Wrong. Dates are not in sequencial order"
+        "datesnosequencial":"Wrong. Dates are not in sequencial order",
+        "beginingdaterror":"Beginning date can only start from today"
     },
     "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network",
     "rfpessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Please wait...",
@@ -52,8 +53,8 @@
     "additemscheckbox":"Check box if you want to add Item(s) to be granted individually as part of your RFP/Tender",
     "removeallitems":"Remove all Items",
     "removethisitem":"Remove this Item",
-    "maxfileserror":"Load Files exceeded. Only 5 files each time",
-    "maxsizeerror":"Maximun file size exceeded. Only can upload up to 100 MB combined each time",
+    "maxfileserror":"Load Files exceeded. On each time, you can only upload: ",
+    "maxsizeerror":"Maximun file size exceeded. On each time, you can upload a combined load of : ",
     "nofiles":"No Files",
     "uploadrequestdocuments":"Upload your Request documents",
     "dowloadrequestfiles":"Download RFP files",
@@ -71,7 +72,7 @@
     "rfp_results":"Show results",
     "files_uploaded":"Files uploaded to Arweave Blockchain",
     "tell_hover_errors":"There were error uploading files, place the cursor over error icon to show it",
-    "call_to_record_files":"We still need to register the metadata of your files in the blockchain, to continue click on the accept button and confirm the transaction in Wallet",
+    "call_to_record_files":"Recording your files metadata on the Blockchain, confirm transaction in Wallet",
     "document_name":"Document Name",
     "document_hash":"Document hash",
     "registerto_rfp":"Sign Up to RFP",
@@ -96,5 +97,12 @@
     "pricing_doc":"Offering",  
     "legal_doc":"Legal",  
     "financial_doc":"Financial",  
-    "admin_doc":"Administrative"     
+    "admin_doc":"Administrative",
+    "cto_doc":"Contract",
+    "select_doctype":"Select the Document Type for every file",
+    "no_bidders":"No bidders yet registered",
+    "uploading_metadata":"Uploading Metadata to Blockchain... wait",
+    "loading_data":"Loading Data to Blockchain",
+    "waiting_decision":"Waiting for declaration of RFP results",
+    "select_tab":"Select a tab"
 }

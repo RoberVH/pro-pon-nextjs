@@ -29,11 +29,9 @@ const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
         return (
           <div className="group relative inline-block flex align-center justify-center">
             <ExclamationCircleIcon className="h-6 w-6 text-red-600 "/>
-            {/* <button className="tooltip-span-right mt-2"> */}
               <span className="tooltip-span-error-upload">
                             {uploadingSet[index].error}
               </span>
-            {/* </button> */}
           </div>
         )
       case 'success':

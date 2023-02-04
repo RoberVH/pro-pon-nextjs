@@ -14,7 +14,7 @@ html {
       text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 
       active:hover:shadow-lg active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none
       active:focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 
-      ease-in-out disabled:bg-orange-400; focus:outline-none 
+      ease-in-out disabled:bg-orange-400 focus:outline-none 
     }
     .secondary-btn {
       @apply bg-stone-400 text-sm font-bold font-khula text-white leading-tight uppercase 
@@ -57,5 +57,33 @@ html {
       after:left-1/2 overflow-visible after:top-[20%] after:left-[100%]  after:border-[10px] after:border-x-transparent 
       after:border-l-transparent  after:border-l-red-500
     }
+
+    .animate-blue-div {
+      animation: animate-blue-dot;
+      transform:translateX(-100%);
+    }
+    
+    .animate-blue-dot {
+      animation: animate-blue-dot 1.5s ease-in-out infinite alternate;
+      position:absolute;
+    }
+    
+    @keyframes animate-blue-dot {
+      from {
+        left:0%;
+      }
+      to {
+        left:93%;
+      }
+    }
+     
+    
+    
+    
+    
+
+    
+    
+    
 
   }

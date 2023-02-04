@@ -3,10 +3,10 @@ const Spinner = () => (
         <div className="">
             <div className="mx-auto  inline-block w-48 h-48 
                     border-[18px] 
-                    border-b-orange-100
-                    border-t-stone-100
-                    border-r-stone-100
-                    border-l-stone-100
+                    border-b-orange-200
+                    border-t-stone-200
+                    border-r-stone-200
+                    border-l-stone-200
                     rounded-full 
                     animate-spin">
             </div>    

@@ -7,7 +7,7 @@
  */
  
 import { setResultObject } from '../utils/setResultObject'
-
+const MaxProgress = 40  // set how much percentage of this reading process is reflected on progress bar at UX
 
 export const readFile = (setuploadingSet, filetoRead,  readType, idx) => {
    return new Promise((resolve, reject) => {
@@ -23,7 +23,7 @@ export const readFile = (setuploadingSet, filetoRead,  readType, idx) => {
          reject(reader.error)
     };
     reader.onprogress= (evt) => {
-        let pctje=Math.round((evt.loaded / evt.total) * 50);
+        let pctje=Math.round((evt.loaded / evt.total) * MaxProgress);
         setResultObject(setuploadingSet, idx, 'progress', pctje)
         // codigo para probar rechazos
         if (false ) {  //pctje > 25 && (idx===-22 )) {
@@ -31,8 +31,8 @@ export const readFile = (setuploadingSet, filetoRead,  readType, idx) => {
                 setResultObject(setuploadingSet, idx, 'status', 'error')
                 return reject({error: 'falso error en READ FILE', idx:idx}) //for testing
             }
-        setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 
-                             (indx=== idx) ? {...uploadObject,progress:pctje} : uploadObject))
+        // setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 
+        //                      (indx=== idx) ? {...uploadObject,progress:pctje} : uploadObject))
     }
     switch (readType) {
         case 'readAsDataUrl':

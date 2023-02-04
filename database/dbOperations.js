@@ -71,6 +71,7 @@ export const verifyData_Save = async (message, signature) => {
   //    Create an array of promises that call the API route for each element in 
   //    the companyAddresses array
   export const getDBCompaniesbyAddress = async (companiesAddresses) => {
+    if (companiesAddresses.length===0) return []
   const fetchPromises = companiesAddresses.map((address) => {
     return fetch(`/api/readonecompany?${new URLSearchParams({address: address})}`)
       .then((response) => response.json())
@@ -94,22 +95,8 @@ export const verifyData_Save = async (message, signature) => {
       return null;
     }
   });
-
   return data;
 };
 
-    //******************************************************** */
-    
-  // create a new Promise for each company in the invitedCompanies array
-  // const promises = invitedCompanies.map((company) => {
-  //   // use the company's address to retrieve its data from the database
-  //   const params=new URLSearchParams({companyId:companyId})
-  //   // return a Promise that resolves with the company's address or rejects with an error
-  //   return fetch(`/api/readonecompany?${new URLSearchParams({companyId:companyId})}`).then((response) => response.json()).catch((error) => error);
-  // });
 
-  // // return a Promise that resolves with an array of all the company addresses and errors
-  // return Promise.allSettled(promises);
-
-  // }  
  

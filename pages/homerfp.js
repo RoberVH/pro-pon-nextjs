@@ -23,10 +23,10 @@ import { useFilesRFP } from "../hooks/useFilesRFP";
 import { proponContext } from "../utils/pro-poncontext";
 import HomeButtons from "../components/rfp/homeButtons";
 import { getArweaveFilesMetadata } from "../web3/getArweaveFilesMetadata";
+import { getContractRFP } from '../web3/getContractRFP'
 import { toastStyle, toastStyleSuccess } from "../styles/toastStyle";
 import { toast } from "react-toastify";
 
-import { useBidders } from "../hooks/useBidders";
 import { docTypes, openContest, inviteContest } from "../utils/constants";
 
 function HomeRFP({ query }) {
@@ -40,7 +40,6 @@ function HomeRFP({ query }) {
 
   const [rfpRecord, setRfpRecord] = useState();
   const [selectedPanel, setSelectedPanel] = useState();
-  //const [guests, setGuests] = useState([]); // list of companies registered to this contest
 
   const { companyData, address } = useContext(proponContext);
   const { t } = useTranslation("rfps");
@@ -50,12 +49,11 @@ function HomeRFP({ query }) {
   const { i18n } = useTranslation("companies");
   //const { newfiles, setNewFiles, rfpfiles, setRFPFiles, updateRFPFilesArray } = useFilesRFP(rfpRecord);
   const { setNewFiles, rfpfiles, updateRFPFilesArray } = useFilesRFP(rfpRecord);
-  const { bidders, getBidders, companies } = useBidders(rfpRecord);
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
-
+//  Inner Components ******************************************************************
   const GralMsg = ({ title }) => (
     <div className="p-4">
       <div
@@ -67,29 +65,32 @@ function HomeRFP({ query }) {
     </div>
   );
 
-  // Get files for this RFP at load component
+  // Get RFP record values and  files for this RFP at load component
   useEffect(() => {
     const getRFP = () => {
+ /*  cambio eventual para obtener del contrato el RFP:
+      const RFP=getContractRFP(query.rfpidx)
+      if (RFP.status){ console.log('RFP',RFP.RFP) } */
+      if (typeof query.items === 'string') query.items=[query.items] // in case there is only 1 item list
       setRfpRecord(query);
-      updateRFPFilesArray();
     };
     getRFP();
-  }, [query, updateRFPFilesArray]);
+  }, [query]);
 
   // Get bidders for this RFP at load component
-  useEffect(() => {
-    async function retrieveBidders() {
-      if (rfpRecord?.rfpidx) {
-        const res = getBidders();
-        if (!res.status) errToasterBox(res.message);
-      }
-    }
-    retrieveBidders();
-  }, [getBidders, rfpRecord]);
+  // useEffect(() => {
+  //   async function retrieveBidders() {
+  //     if (rfpRecord?.rfpidx) {
+  //       const res = getBidders();
+  //       if (!res.status) errToasterBox(res.message);
+  //     }
+  //   }
+  //   retrieveBidders();
+  // }, [getBidders, rfpRecord]);
 
-  const RFPTabDisplayer = () => {
-    switch (selectedPanel) {
-      case displayedPanels[0]: //rfp_bases
+const RFPTabDisplayer = () => {
+  switch (selectedPanel) {
+    case 'rfp_bases':
         return (
           <RFPDocuments
             t={t}
@@ -102,61 +103,53 @@ function HomeRFP({ query }) {
             owner={rfpRecord.owneraddress}
           />
         );
-      case displayedPanels[1]: //bidder_register  only for Open Contests
+    case 'bidder_register': //bidder_register  only for Open Contests
         if (!address || !Boolean(companyData.companyId))
           return <GralMsg title={t("not_registered")} />;
-        if (
-          Number(rfpRecord.contestType) === inviteContest &&
-          companyData.companyId !== rfpRecord.companyId
-        )
-          return <GralMsg title={t("invitation_rfp")} />;
-        if (
-          Number(rfpRecord.contestType) === openContest &&
-          companyData.companyId === rfpRecord.companyId
-        )
-          // Open contest and address it's owner's
-          return <GralMsg title={t("owner_open_rfp_recordbidders")} />;
+        if (Number(rfpRecord.contestType) === inviteContest &&companyData.companyId !== rfpRecord.companyId)
+            return <GralMsg title={t("invitation_rfp")} />;
+        if (Number(rfpRecord.contestType) === openContest &&companyData.companyId === rfpRecord.companyId)
+            // Open contest and address it's owner's
+            return <GralMsg title={t("owner_open_rfp_recordbidders")} />;
         // all ok, show Register component
-        if (bidders)
           return (
             <RegisterBidder
-              bidders={bidders}
               t={t}
               t_companies={t_companies}
               rfpRecord={rfpRecord}
               companyId={companyData.companyId}
-              getBidders={getBidders}
               inviteContest={Number(rfpRecord.contestType) === inviteContest}
               address={address}
               i18n={i18n} // This is because SearchDB needs it to be able to search for Companies
             />
           );
-        else return null;
-      case displayedPanels[2]: //bidders_showcase
+    case 'bidders_showcase': //bidders_showcase
         return (
           <ShowBidders
             t={t}
-            setNewFiles={setNewFiles}
             rfpId={rfpRecord._id}
             docType={docTypes[0]}
             address={address}
-            companies={companies}
             rfpfiles={rfpfiles}
+            rfpIndex={rfpRecord.rfpidx}
             owner={rfpRecord.owneraddress}
           />
         );
-      case displayedPanels[3]: //declare_contest
-        if (address === rfpRecord.owner) return <DeclareResults />;
-        else return null;
+    case 'declare_contest': //declare_contest
+        if (address === rfpRecord.owner) return (
+            <DeclareResults 
+              t={t}
+              rfpId={rfpRecord._id}/>)
+          else return <GralMsg title={t('waiting_decision')} />;
         break;
-      case displayedPanels[4]: //rfp_results
+    case 'rfp_results': //rfp_results
         return <ShowResults />;
-      default:
-        return <div>default</div>;
-    }
-  };
+    default:
+        return <GralMsg title={t('select_tab')}/>;
+  }
+};
 
-  const handleDeclareWinner = () => {};
+
   if (!rfpRecord) return <div>No RFP</div>;
   return (
     <Fragment>
@@ -173,11 +166,11 @@ function HomeRFP({ query }) {
               <RFPessentialData
                 t={t}
                 rfpRecord={rfpRecord}
-                handleDeclareWinner={handleDeclareWinner}
               />
             </div>
             {rfpRecord.items && rfpRecord.items.length && (
               <div className="shadow-md ">
+                { console.log('rfpRecord.items', rfpRecord.items)}
                 <DisplayItems items={rfpRecord.items} t={t} />
               </div>
             )}

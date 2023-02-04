@@ -11,9 +11,10 @@
     "companyessentialdataposted":"La transaction a été reçue sur la Blockchain, en attente de confirmation. Attendez s'il vous plaît...",
     "companyessentialdatasaved":"Les données d'identification de l'entreprise ont été publiées sur la Blockchain",    
     "signupsuccess":"Les données essentielles de l'entreprise ont été enregistrées dans la blockchai", 
-    "chekhash":"Afficher l'état de la transaction dans Blockchain Explorer. Attendez s'il vous plaît...",
+    "chekhash":"Traitement, vous pouvez vérifier l'état de la transaction dans ce lien de l'explorateur Blockchain.",
     "nocompanyIdyet":"Votre compte blockchain n'a pas encore d'entreprise enregistrée",
     "block":"Terminé avec succès. La transaction a été incluse dans le bloc: ",
+    "loading_to_blockchain":"Charger des données dans la Blockchain",
     "errors": {
         "address_already_admin":"Ce compte est déjà administrateur d'une autre entreprise",
         "unknownerror":"Erreur inconnue, essayez plus tard",
@@ -26,7 +27,7 @@
     },    
     "companyform": {
         "recordessentialdata":"Enregistrer les données de base de l'entreprise",
-        "recordcompanytitle": "Enregistrez votre nom et les détails de l'entreprise",
+        "recordcompanytitle": "Éditer votre nom et les détails de l'entreprise",
         "adminname": "Votre nom (les droits d'administrateur seront accordés)",
         "companyname":"Nom de l'entreprise",
         "emailcompany": "E-mail de contact pour les concours RFP",

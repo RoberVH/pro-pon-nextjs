@@ -11,7 +11,8 @@ import { setResultObject } from '../utils/setResultObject'
 
  export const uploadDataBundlr = (setuploadingSet, remoteBundlr, address, file, fileData, filetype, rfpId, idx, rfpIndex) => {
   return new Promise(async (resolve, reject) => {
-      
+
+    const MaxBundlrArweaveProgress = 80   // max percentage to show max when uploading the file to arweave on UX progress Bar
 // tags array defines label with tag to our uploading content
 // Helps to retrieve information at www.arweave.net/graphql
 // Make the content discoverable on arweanet with this indexes
@@ -21,11 +22,14 @@ import { setResultObject } from '../utils/setResultObject'
     {name: "App-Name", value: "pro-pon"},
     {name: "App-version", value: "0.1.0" },
     {name: "owner", value: address },
-    {name: "file-type", value:filetype},
+    {name: "doc-type", value:filetype}, // the docType of file, the filetype is a number, the index property  on docTypes records Object
     {name: "rfpIndex", value:rfpIndex},
     {name: "rfpId", value:rfpId}
   ]  
+
   const transaction = remoteBundlr.createTransaction(fileData, { tags })
+  //const transaction = remoteBundlr.createTransaction(fileData, { tags: [{ tags }] })
+  
    //advanced uploader
    const uploader = remoteBundlr.uploader.chunkedUploader;
    // divide loading into 10 chuncks - event should ring every chunksize bytes
@@ -61,7 +65,7 @@ import { setResultObject } from '../utils/setResultObject'
     transaction.setSignature(signed)
     const res = await transaction.upload();
     // in case upload event never was call up because file was too small, we set progress to 100%
-    setResultObject(setuploadingSet, idx, 'progress', 100)
+    setResultObject(setuploadingSet, idx, 'progress', MaxBundlrArweaveProgress)
     // signal we have finish here
     setResultObject(setuploadingSet, idx, 'status', 'success')
     setResultObject(setuploadingSet, idx, 'name', file.name)
@@ -70,9 +74,7 @@ import { setResultObject } from '../utils/setResultObject'
     return resolve({status:true, txid:res.id})
     } catch (error) {
       setResultObject(setuploadingSet, idx, 'status', 'error')
-      // setuploadingSet(previousValue => previousValue.map( (uploadObject, indx) => 
-      // (indx=== idx) ? {...uploadObject,error:error.message, status:'error'} : uploadObject)) 
-        reject({status:false, msg:error.message})
+      reject({status:false, msg:error.message})
     }
 })
 }

@@ -10,11 +10,11 @@ function RFPessentialData({t, rfpRecord}) {
     <tr>
       <td className="w-[9em]"><strong>{title}: </strong></td>
       { !Boolean(link) ?
-          <td className="w-[22em] w-full text-orange-500 flex flex-wrap overflow-hidden">
+          <td className="w-[22em] text-orange-500 flex flex-wrap overflow-hidden">
             <strong>{value}</strong>
           </td>
         :
-        <td className="w-[22em] w-full text-orange-500 flex flex-wrap overflow-hidden underline cursor-pointer">
+        <td className="w-[22em] text-orange-500 flex flex-wrap overflow-hidden underline cursor-pointer">
           <a
           className=""
           href={value}

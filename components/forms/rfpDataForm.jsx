@@ -26,6 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { InputDate } from "../input-controls/InputDate";
 import RFPItemAdder from '../rfp/RFPItemAdder'
+import SpinnerBar from "../layouts/SpinnerBar"
 
 
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
@@ -132,9 +133,15 @@ const RFPDataForm = () => {
 
 
     // Receive a date with format 'YYYY-MM-DD';
+    // Need to add currennt time in format hh:mm before getting Unix Epoch to have exact time
   const convertDate2UnixEpoch=(dateStr)=> {
-    const date = new Date(dateStr);
-    const unixTimestamp = Math.floor(date.getTime() / 1000);
+    // add current time to date 
+    const currentTime = new Date()
+    const hh=currentTime.getHours()
+    const mm= currentTime.getMinutes()
+    const mytimeString=`${dateStr} ${hh}:${mm}`
+    const date = new Date(mytimeString)
+    const unixTimestamp = Math.floor(date.getTime() / 1000)
     return unixTimestamp
     }
 
@@ -184,6 +191,8 @@ const RFPDataForm = () => {
   
     // Dates
     const dates=[]
+
+    //const initialDate=
     for (const [field, errormessage] of validatingFields) 
     {
       const [convertedDate, status ]= validateDate(
@@ -198,9 +207,16 @@ const RFPDataForm = () => {
       errToasterBox(t('rfpform.datesnosequencial'))
       return
     }
+    // late addition: check initial date is not older than 50 minutes ago!
+    if (dates[0] < (Math.floor(new Date().getTime() / 1000) -3000 )) {
+       errToasterBox(t('rfpform.beginingdaterror'))
+       return
+    }
     // validation passed ok 
     setWaiting(true)
     // create entry on smart contract
+
+
     // setting rfpparams for when saveing to DB time comes!
     const params =  {
       companyId: companyData.companyId,
@@ -423,6 +439,9 @@ const RFPDataForm = () => {
               </div>
           }
         </div>
+        { !rfpCreated &&
+        <SpinnerBar msg={t('loading_data')} />
+        }
       </div>}
   </div>
   );

@@ -15,29 +15,40 @@ const ShowTXSummary = ({
     link,
     block,
     t,
-    handleClose,
-    }) =>    <>
-    {postedHash && <p>{t("rfpessentialdataposted")}</p>}
-    {link && (
-      <div>
-        <label>{t("chekhash")}</label>
-        <a
-          className=" text-blue-600 "
-          href={link}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {`${postedHash.slice(0, 10)}...${postedHash.slice(-11)}`}
-        </a>
-      </div>
-    )}
-    {block && (
-      <div>
-        <label>{t("block")} </label>
-        <label className="text-blue-600">&nbsp;{block}</label>
-      </div>
-    )}
-    <div className="flex my-4 mx-auto ">
-    </div>
+    handleClosePanel
+    }) =>   
+     <>
+     <p>{t('savingtoblockchainmsg')}</p>
+      {postedHash && <p>{t("rfpessentialdataposted")}</p>}
+      {link && (
+        <div>
+          <label>{t("chekhash")}</label>
+          <a
+            className=" text-blue-600 "
+            href={link}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {`${postedHash.slice(0, 10)}...${postedHash.slice(-11)}`}
+          </a>
+        </div>
+      )}
+      {block && (
+        <>
+          <div>
+            <label>{t("block")} </label>
+            <label className="text-blue-600">&nbsp;{block}</label>
+          </div>
+          <div className="flex justify-center ">
+            <button 
+              className="py-2 px-4 rounded-md font-bold bg-stone-400 text-white hover:bg-stone-700 hover:shadow-lg focus:ring-0 active:bg-stone-800
+                        text-base focus:bg-stone-700 focus:shadow-lg"
+              onClick={handleClosePanel} >
+                {t('accept')}
+            </button>
+          </div>
+        </>
+      )}
+      
    </>
 export default ShowTXSummary;

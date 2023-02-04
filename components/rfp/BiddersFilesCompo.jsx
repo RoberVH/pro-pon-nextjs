@@ -23,7 +23,7 @@ import { documentResponseType, openContest, inviteContest } from "../../utils/co
         <DownloadFileForm 
             rfpfiles= {rfpfiles}
             t={t} 
-            docType={documentResponseType} 
+            docTypes={allowedDocTypes}
             owner={bidderAddress} 
         />
         </div>

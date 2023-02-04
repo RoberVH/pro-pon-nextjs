@@ -13,7 +13,7 @@ export const  useFilesRFP= (rfpRecord) => {
 const updateRFPFilesArray = useCallback( async () => {
     if (!rfpRecord || !rfpRecord.rfpidx)  return
     
-    const result = await getArweaveFilesMetadata(rfpRecord.rfpidx)
+    const result = await getArweaveFilesMetadata(rfpRecord.rfpidx) // get RFP arweave metadata files from contract
       if (result.status) {
         setRFPFiles(result.docs)
         setNewFiles(false)

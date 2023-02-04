@@ -22,9 +22,10 @@
         "namerror":"Nombre de RFP errónea",
         "descriptionerror":"Descripción errónea",
         "opendateerror":"Fecha Inicial errónea",
-        "endrecerror":"Fecha fina para recibir propuestas errónea",
+        "endrecerror":"Fecha final para recibir propuestas errónea",
         "enddateerror":"Fecha para emitir decisión errónea",        
-        "datesnosequencial":"Las fechas no están en orden secuencial"
+        "datesnosequencial":"Las fechas no están en orden secuencial",
+        "beginingdaterror":"Fecha inicial solo puede empezar a partir de hoy"
     },
     "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red",
     "rfpessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación. Espere por favor... ",
@@ -54,8 +55,8 @@
     "additemscheckbox":"Marque casilla si quiere agregar Partidas a ser adjudicadas individualmente como parte de su RFP/Licitación",
     "removeallitems":"Remover  todas las Partidas",
     "removethisitem":"Remover esta Partida",
-    "maxfileserror":"Excedió limite de carga de archivos. Solo puede cargar hasta 5 archivos cada vez",
-    "maxsizeerror":"Excedió tamaño máximo de carga de archivos. Solo puede cargar hasta 100 MB combinados cada vez",
+    "maxfileserror":"Excedió limite de carga de archivos. Solo puede cargar a la vez hasta: ",
+    "maxsizeerror":"Excedió tamaño máximo de carga de archivos. Solo puede cargar por vez una combinación de hasta: ",
     "nofiles":"No hay Archivos",
     "uploadrequestdocuments":"Cargue en la blockchain sus documentos",
     "dowloadrequestfiles":"Descargue Documentos de RFP/Licitación",
@@ -73,7 +74,7 @@
     "rfp_results":"Mostrar resultados",
     "files_uploaded":"Archivos cargados a la red de Blockchain Arweave",
     "tell_hover_errors":"Hubo error al cargar archivos, coloque el cursor sobre el icono de error para mostrarlo",
-    "call_to_record_files":"Aun falta registrar en la blockchain los metadatos de sus archivos, para continuar haga clic en botón aceptar y confirme transacción en Billetera",
+    "call_to_record_files":"Registrando los metadatos de sus archivos en la Blockchain, confirme transacción en Billetera",
     "document_name":"Nombre de Documento",
     "document_hash":"Hash de Documento",
     "registerto_rfp":"Registrarse al RFP",
@@ -98,6 +99,12 @@
     "pricing_doc":"Oferta",
     "legal_doc":"Legal",  
     "financial_doc":"Financiero",  
-    "admin_doc":"Administrativo"     
-
+    "admin_doc":"Administrativo",
+    "cto_doc":"Contrato",
+    "select_doctype":"Seleccion el tipo de documento para cada archivo",
+    "no_bidders":"Aun no hay participantes registrados",
+    "uploading_metadata":"Cargando Metadata a la Blockchain... espere",
+    "loading_data":"Cargango Datos a la Blockchain",
+    "waiting_decision":"Esperando la declaración de resultados del RFP",
+    "select_tab":"Seleccione una pestaña"
 }

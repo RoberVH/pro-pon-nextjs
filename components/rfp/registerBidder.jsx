@@ -12,39 +12,44 @@ import DisplayResults from "../DisplayResults";
 import Spinner from "../layouts/Spinner";
 import { companyFields } from "../../utils/companyFieldsonRFP";
 import { nanoid } from "nanoid";
+
 // toastify related imports
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyle } from "../../styles/toastStyle";
 import { useRegisterBidders } from "../../hooks/useRegisterBidders";
+import { useBidders } from '../../hooks/useBidders'
 import ShowTXSummary from "./ShowTXSummary";
 // import { getDBGuestCompaniesAddresses } from "../../database/dbOperations";
-import { useBidders } from "../../hooks/useFilesRFP";
+// import { useBidders } from "../../hooks/useFilesRFP";
 import { parseWeb3Error } from "../../utils/parseWeb3Error";
+import SpinnerBar from "../layouts/SpinnerBar";
 
 const RegisterBidder = ({
-  bidders,
   t,
   t_companies,
   rfpRecord,
   companyId,
   inviteContest,
-  getBidders,
   address,
   i18n,
 }) => {
+  const { bidders, getBidders, companies } = useBidders(rfpRecord.rfpidx);
+
    // same address could have different case but are the same address, that's why we check like this the address vs bidders array 
-  const [alreadyRegistered, setAlreadyRegistered] = useState(-1!==bidders.findIndex(element => {
-    return element.toLowerCase() === address.toLowerCase();
-  }));
-  const [allowedtoRegister, setAllowed] = useState(false);
+   const [alreadyRegistered, setAlreadyRegistered] = useState(false)
+  //const [alreadyRegistered, setAlreadyRegistered] = useState(-1!==bidders.findIndex(element => {
+  //   return element.toLowerCase() === address.toLowerCase();
+  // }))
+
+  //const [allowedtoRegister, setAllowed] = useState(false);
   const [rfpOwner, setrfpOwner] = useState(companyId === rfpRecord.companyId);
   const [guestCompanies, setGuestCompanies] = useState([]);
   const [results, setResults] = useState([]);
   const [error, setError] = useState(false);
   // Next  is for SearchDB component & make Spinner spin when searching
   const [IsWaiting, setIsWaiting] = useState(false);
-  const [recordingtoContract, setRecordingtoContract] = useState(false);
+  //const [recordingtoContract, setRecordingtoContract] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [sendingBlockchain, setsendingBlockchain] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
@@ -59,14 +64,29 @@ const RegisterBidder = ({
     },
   ];
 
+
+  // Hooks   ******************************************************************************** */
+  useEffect(()=>{
+    getBidders(rfpRecord.rfpidx)
+  },[])
+
+useEffect(()=>{
+  if (bidders) 
+      setAlreadyRegistered((-1!==bidders.findIndex(element => {
+          return element.toLowerCase() === address.toLowerCase();
+      })))
+},[bidders, address])
+
+  /** UTILITY FUNCTIONS ********************************************************************** */
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
-  const { write, postedHash, block, link, blockchainsuccess } = useRegisterBidders(onError);
-
+  
   const onSuccess = () => {
-    getBidders();
+    setsendingBlockchain(false);
   };
+
+  const { write, postedHash, block, link, blockchainsuccess } = useRegisterBidders(onError, onSuccess);
   
   // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
@@ -96,18 +116,16 @@ const RegisterBidder = ({
   }
 
   const handleRegisterItself = () => {
-
+    console.log('handleRegisterItself')
   };
 
   const handleRemoveCompany = (companyId) => {
-    setGuestCompanies(
-      guestCompanies.filter((company) => companyId !== company.companyId)
-    );
+    setGuestCompanies(guestCompanies.filter((company) => companyId !== company.companyId));
   };
 
   const handleClosePanel = () => {
     setShowPanel(false);
-    setGuestCompanies;
+    setGuestCompanies([]);
   };
 
   const handleRegisterGuests = async () => {
@@ -119,6 +137,7 @@ const RegisterBidder = ({
       .map((obj) => obj.name);
     if (addresses.length) {
       setShowPanel(true);
+      setsendingBlockchain(true)
       write("inviteguests", rfpRecord.rfpidx, companyId, addresses);
     }
   };
@@ -176,7 +195,7 @@ const RegisterBidder = ({
   };
 
   const ButtonsRegisterGuests = (
-    <div className="mt-2 mb-4 flex  p-4 justify-center items-center">
+    <div className="mt-2 mb-2 flex  pt-4 pl-4 pr-4  justify-center items-center">
       <button className="main-btn" onClick={handleRegisterGuests}>
         {t("register_gueststo_rfp")}
       </button>
@@ -253,19 +272,21 @@ const RegisterBidder = ({
             </>
           )}
           {showPanel && (
-            <div
-              className="py-1 bg-white border rounded-md border-orange-300
-          border-solid shadow-xl mb-2"
-            >
-              <div className="text-xl font-khula text-base py-4 pl-2">
+            <div className="mt-4 py-1 bg-white border rounded-md border-orange-300 border-solid shadow-xl  mb-2">
+              <div className="font-khula text-base py-4 pl-2">
                 <ShowTXSummary
                   postedHash={postedHash}
                   link={link}
                   block={block}
                   t={t}
-                  handleClose={handleClosePanel}
+                  handleClosePanel={handleClosePanel}
                 />
               </div>
+              { sendingBlockchain &&
+              <div className="mb-4 ">
+                <SpinnerBar msg={t('loading_data')} />
+                </div>
+              }
             </div>
           )}
         </div>
