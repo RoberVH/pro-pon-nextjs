@@ -10,6 +10,7 @@
     "savingstate": " Enregistrement...",
     "editrfp":"modifier RFP",
     "closebutton":"Fermer",
+    "Copied_clipboard":"Copié dans le presse-papiers",
     "rfpform": {
         "companyId": "Identifiant de l'entreprise",
         "companyname": "Nom de l'entreprise",
@@ -104,5 +105,7 @@
     "uploading_metadata":"Téléchargement des métadonnées sur la Blockchain... attendez",
     "loading_data":"Téléchargement des données dans la blockchain",
     "waiting_decision":"En attente de la déclaration des résultats de l'appel d'offres",
-    "select_tab":"sélectionner un onglet"
+    "select_tab":"sélectionner un onglet",
+    "reset_search":"Réinitialiser les recherches",
+    "loading_out_of_period":"Période improvisée pour charger les documents!"
 }

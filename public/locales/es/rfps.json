@@ -10,6 +10,7 @@
     "savingstate": " Guardando...", 
     "editrfp":"Editar RFP",
     "closebutton":"Cerrar",
+    "Copied_clipboard":"Copiado al portapales",
     "rfpform": {
         "companyId":"Identificación de la empresa",
         "companyname":"Nombre de la empresa",
@@ -104,7 +105,9 @@
     "select_doctype":"Seleccion el tipo de documento para cada archivo",
     "no_bidders":"Aun no hay participantes registrados",
     "uploading_metadata":"Cargando Metadata a la Blockchain... espere",
-    "loading_data":"Cargango Datos a la Blockchain",
+    "loading_data":"Cargando Datos a la Blockchain",
     "waiting_decision":"Esperando la declaración de resultados del RFP",
-    "select_tab":"Seleccione una pestaña"
+    "select_tab":"Seleccione una pestaña",
+    "reset_search":"Restablecer Búsquedas",
+    "loading_out_of_period":"¡Periodo extemporáneo para cargar document0s!"
 }

@@ -72,6 +72,7 @@ export const verifyData_Save = async (message, signature) => {
   //    the companyAddresses array
   export const getDBCompaniesbyAddress = async (companiesAddresses) => {
     if (companiesAddresses.length===0) return []
+    console.log('Calling DB!!')
   const fetchPromises = companiesAddresses.map((address) => {
     return fetch(`/api/readonecompany?${new URLSearchParams({address: address})}`)
       .then((response) => response.json())

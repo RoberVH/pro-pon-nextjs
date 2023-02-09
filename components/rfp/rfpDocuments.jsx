@@ -17,8 +17,13 @@
  *
  */
 
+import {  useEffect } from 'react'
+import { useFilesRFP } from "../../hooks/useFilesRFP";
 import UploadRFPForm from "../forms/uploadRFPForm"
 import DownloadFileForm from "../forms/downloadFileForm"
+import { toastStyle } from "../../styles/toastStyle";
+import {  toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { docTypes, IdxDocTypes } from "../../utils/constants";
 
@@ -30,14 +35,31 @@ const allowedDocTypes = [
 
 const RFPDocuments = ({
   t,
-  rfpfiles,
-  setNewFiles,
   showUpload,
   rfpId,
   rfpIndex,
   docType,
   owner,
 }) => {
+  const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } = useFilesRFP(rfpIndex);
+
+  /** UTILITY FUNCTIONS ********************************************************************** */
+  const errToasterBox = (msj) => {
+    toast.error(msj, {
+      //toastId: id,
+      ...toastStyle
+    });
+  };
+
+/** Hooks ********************************************************************** */
+useEffect(()=>{
+  async function getFilesData() {
+    const result = await updateRFPFilesArray()
+    if (!result.status) errToasterBox(result.message)
+  }
+  getFilesData()
+},[])
+
   let uploadComponent = null;
 
   if (showUpload)
@@ -60,6 +82,7 @@ const RFPDocuments = ({
         t={t}
         allowedDocTypes={allowedDocTypes}
         owner={owner}
+        doneLookingFiles={doneLookingFiles}
       />
     </div>
   );

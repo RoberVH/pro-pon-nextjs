@@ -169,7 +169,6 @@ const HeadBar = () => {
     if (!result.status) {
         errToasterBox(t(result.message),{ns:'common'})
     } else {
-      console.log('address!', result.address)
         setAddress(result.address)    // now address in in the context
     }
 

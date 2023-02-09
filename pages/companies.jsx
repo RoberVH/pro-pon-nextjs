@@ -43,11 +43,11 @@ function Companies() {
       </h1>
       <div
         id="companies-search"
-        className="mt-4  bg-white flex 
-                rounded-lg justify-beetween py-4 border-2 border-orange-200"
+        className="mt-2  bg-white flex 
+                rounded-lg justify-beetween py-2 border-2 border-orange-200"
       >
-        <SearchIcon className="ml-8 h-8 w-8 text-orange-400  " />
-        <div className="w-[100%] pl-4">
+        {/* <SearchIcon className="ml-8 h-8 w-8 text-orange-400  " /> */}
+        <div className="w-[100%] pl-0">
           <SearchDB
             fields={companyParams}
             path={`/api/servercompanies?`}
@@ -61,7 +61,10 @@ function Companies() {
       </div>
       <div id="companies-result"></div>
       {  IsWaiting ? 
-           <Spinner /> :
+          <div className="mt-24 mb-4 ">
+             <Spinner />
+          </div>
+           :
           (<div className="mt-8 w-full">
             {(results.length>0) ? (
               <DisplayResults

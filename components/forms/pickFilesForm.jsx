@@ -10,12 +10,12 @@
  *      if Accept, docTypes are added and set with prop function setPickedFiles to trigger action on parent component 
  */
 
-import { Fragment, useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from "next/image";
 import { MAX_FILES, MAX_CAPACITY_FILES } from "../../utils/constants"
 import { UploadIcon } from "@heroicons/react/outline";
 import { calculateFilesSize } from "../../utils/calculateFilesSize"
-import { docTypes, IdxDocTypes } from '../../utils/constants'
+//import { docTypes, IdxDocTypes } from '../../utils/constants'
 
 
 const dropfilesFormat = {
@@ -23,11 +23,12 @@ const dropfilesFormat = {
   active: "text-orange-600",
 };
 
-const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedDocTypes}) => {
+const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedDocTypes, isInTime}) => {
   const [droppingFiles, setDroppingFiles] = useState(false);
   const [candidateFiles, setCandidateFiles] = useState([])
+  const [localTotalSize, setLocalTotalSize] = useState(0)
   
-
+console.log('isInTime',isInTime)
   const inputRef = useRef(null);
 
   // Inner Components ******************************************************************************************
@@ -39,23 +40,22 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
       </p>
   </div>
     
-    const SelectDocTypes= ({fileName}) => 
-         <select 
-            className=" block w-full px-3 py-1.5 text-sm font-khula border-2 bg-white bg-clip-padding 
-                        bg-no-repeat border border-solid border-gray-300 outline-none rounded transition ease-in-out
-                        border-0 border-grey-light hover:cursor-pointer  "
-            onChange={(e)=>handleChangeDocType(e,fileName)}
-            value={candidateFiles.filter(file=> file.name===fileName)[0].docType}
-          >
-            { allowedDocTypes.map (docType =>
-              <option key= {docType.id} value={docType.id} label={t(docType.desc)} />
-            )}
-        </select>
+  const SelectDocTypes= ({fileName}) => 
+      <select 
+        className=" block w-full px-3 py-1.5 text-sm font-khula  bg-white bg-clip-padding 
+                    bg-no-repeat border border-solid border-gray-300 outline-none rounded transition ease-in-out
+                      border-grey-light hover:cursor-pointer  "
+        onChange={(e)=>handleChangeDocType(e,fileName)}
+        value={candidateFiles.filter(file=> file.name===fileName)[0].docType}
+      >
+        { allowedDocTypes.map (docType =>
+          <option key= {docType.id} value={docType.id} label={t(docType.desc)} />
+        )}
+    </select>
     
 
-
   const DroppingFilesArea= () => 
-    <div className={`${droppingFiles ? "outline outline-4" : "outline-2"} h-[12em] w-3/4 my-4 h-40  outline items-center 
+    <div className={`${droppingFiles ? "outline outline-4" : "outline-2"} h-[12em] w-3/4 my-4   items-center 
                                   outline-dashed  outline-orange-300 text-sm  text-orange-500 rounded-sm  flex flex-col justify-evenly`}
       onDrop={(e) => handleDrop(e)}
       onDragOver={(e) => handleDragOver(e)}
@@ -82,7 +82,7 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
     <input
       id="selectrfprequestdocs"
       ref={inputRef}
-      className="font-khula mx-auto w-5/6  text-sm  text-orange-500 file:mr-4 
+      className="font-khula mx-auto  text-sm  text-orange-500 file:mr-4 
                 file:py-2 file:px-4file:rounded-full file:border-0 file:text-sm file:font-semibold w-0 
                 file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
       onChange={(e) => handleFileChange(e)}
@@ -129,8 +129,8 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
       }
 
     }
-    setTotalSize(totalFilesSize)
-  }, [t, errToasterBox, setTotalSize]);
+    setLocalTotalSize(totalFilesSize)
+  }, [t, errToasterBox]);
 
   // Handlers for dropping & manually selecting files and handle changes *********************************************************************
   const handleDrop = (e) => {
@@ -191,7 +191,9 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
    * and has clicked on ok to upload button, proced to triger actions seting the candidatefiles 
   */
   const handleAcceptUploadFiles = (files) => {
-    // all ok, pass back selected Files on parent state var funtion
+    // all ok, pass back selected Files on parent state var funtion, 
+    //but first update total file size
+    setTotalSize(localTotalSize)
     setPickedFiles(candidateFiles)
   }
 
@@ -207,58 +209,67 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
 // PickFilesForm returned JSX: ----------------------------------
     return (
         <div>
+          {console.log('candidateFiles', candidateFiles)}
           <TitleUploader />
-          { !Boolean(candidateFiles.length) ?
-          <div id="displayFilePicker">
-            <p className="mx-8 py-1"> {t("uploadrequestdocuments")} </p>
-            <div id="upload-tools" className="flex flex-col items-center justify-center">
-              <DroppingFilesArea />
-              <SelectFilesCompo />
+          { !isInTime ?
+              <div className="">
+                <p className="mx-8 py-1"> {t("uploadrequestdocuments")} </p>
+                <div className="flex justify-center">
+                  <p className="my-8 py-2 px-4 mx-auto  text-khula text-stone-700 font-bold text-lg ">
+                  🚫 &nbsp;{t("loading_out_of_period")}
+                </p>
+                </div>
+              </div> :
+            !Boolean(candidateFiles.length) ?
+            <div id="displayFilePicker">
+              <div id="upload-tools" className="flex flex-col items-center justify-center">
+                <DroppingFilesArea />
+                <SelectFilesCompo />
+              </div>
             </div>
-          </div>
-          :
-          <>
-          <p className="ml-8 font-khula">{t('select_doctype')}</p>
-          <div id="displayTableDocTypes" className="border-0 border-gray-200 mb-2 flex justify-center">
-            <table className="m-4  table-fixed   w-[80%]">
-              <tbody className="p-2">
-              { candidateFiles.map((file,idx) => 
-                <tr key={file.name} className="font-khula">
-                  <td className="w-[65%] text-left pl-2 border-2 border-gray-200 font-khula text-sm truncate group "> 
-                  {file.name} 
-                    <span className="absolute invisible group-hover:visible  bg-white p-2 rounded-md bg-gray-100 shadow-md font-xs opacity-0 
-                            group-hover:opacity-100 transition left-[35%] top-[50%]">
-                        {file.name}
-                    </span>
-                  </td>
-                  <td className="w-[45%] text-left border-2 border-gray-200"> 
-                    <SelectDocTypes fileName={file.name}/>
-                  </td>
-                </tr>
-              )
-              }
-              </tbody>
-            </table>
-          </div>
-            <div className="m-6 flex justify-center">
-                <button 
-                  onClick={handleAcceptUploadFiles}
-                  className="bg-orange-400 font-xl font-bold font-khula  mr-10 px-4 py-2.5  
-                    text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 active:hover:shadow-lg 
-                    active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none active:focus:ring-0 active:bg-orange-800 
-                    active:shadow-lg transition duration-150 ease-in-out disabled:bg-orange-400 text-sm">
-                    {t('accept')}
-                </button>
-                <button 
-                onClick={handleCancelUploadFiles}
-                  className="bg-stone-400 font-xl font-bold font-khula   px-4 py-2.5 text-white leading-tight uppercase rounded shadow-md 
-                    focus:outline-none  active:shadow-lg transition duration-150 ease-in-out hover:shadow-lg focus:ring-0 active:bg-stone-800 
-                    focus:bg-stone-700 focus:shadow-lg text-sm">
-                    {t('cancelbutton')}
-                </button>
+            :
+            <>
+            <p className="ml-8 font-khula">{t('select_doctype')}</p>
+            <div id="displayTableDocTypes" className="border-0 border-gray-200 mb-2 flex justify-center">
+              <table className="m-4  table-fixed   w-[80%]">
+                <tbody className="p-2">
+                { candidateFiles.map((file,idx) => 
+                  <tr key={file.name} className="font-khula">
+                    <td className="w-[65%] text-left pl-2 border-2 border-gray-200 font-khula text-sm truncate group "> 
+                    {file.name} 
+                      <span className="absolute invisible group-hover:visible  px-4 py-2 rounded-md bg-gray-100 shadow-md font-xs font-semibold opacity-0 
+                              group-hover:opacity-100 transition left-[35%] top-[50%]">
+                          {file.name}
+                      </span>
+                    </td>
+                    <td className="w-[45%] text-left border-2 border-gray-200"> 
+                      <SelectDocTypes fileName={file.name}/>
+                    </td>
+                  </tr>
+                )
+                }
+                </tbody>
+              </table>
             </div>
-          </>
-          }
+              <div className="m-6 flex justify-center">
+                  <button 
+                    onClick={handleAcceptUploadFiles}
+                    className="bg-orange-400 font-xl font-bold font-khula  mr-10 px-4 py-2.5  
+                      text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 active:hover:shadow-lg 
+                      active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none active:focus:ring-0 active:bg-orange-800 
+                      active:shadow-lg transition duration-150 ease-in-out disabled:bg-orange-400 text-sm">
+                      {t('accept')}
+                  </button>
+                  <button 
+                  onClick={handleCancelUploadFiles}
+                    className="bg-stone-400 font-xl font-bold font-khula   px-4 py-2.5 text-white leading-tight uppercase rounded shadow-md 
+                      focus:outline-none  active:shadow-lg transition duration-150 ease-in-out hover:shadow-lg focus:ring-0 active:bg-stone-800 
+                      focus:bg-stone-700 focus:shadow-lg text-sm">
+                      {t('cancelbutton')}
+                  </button>
+              </div>
+            </>
+            }
         </div>
         )
     }

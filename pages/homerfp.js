@@ -47,8 +47,6 @@ function HomeRFP({ query }) {
 
   //Next line  because we'll need to be able to search for Companies when inviting them to contest
   const { i18n } = useTranslation("companies");
-  //const { newfiles, setNewFiles, rfpfiles, setRFPFiles, updateRFPFilesArray } = useFilesRFP(rfpRecord);
-  const { setNewFiles, rfpfiles, updateRFPFilesArray } = useFilesRFP(rfpRecord);
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
@@ -77,16 +75,6 @@ function HomeRFP({ query }) {
     getRFP();
   }, [query]);
 
-  // Get bidders for this RFP at load component
-  // useEffect(() => {
-  //   async function retrieveBidders() {
-  //     if (rfpRecord?.rfpidx) {
-  //       const res = getBidders();
-  //       if (!res.status) errToasterBox(res.message);
-  //     }
-  //   }
-  //   retrieveBidders();
-  // }, [getBidders, rfpRecord]);
 
 const RFPTabDisplayer = () => {
   switch (selectedPanel) {
@@ -94,8 +82,6 @@ const RFPTabDisplayer = () => {
         return (
           <RFPDocuments
             t={t}
-            rfpfiles={rfpfiles}
-            setNewFiles={setNewFiles}
             showUpload={companyData.companyId === rfpRecord.companyId}
             rfpId={rfpRecord._id}
             rfpIndex={rfpRecord.rfpidx}
@@ -112,8 +98,8 @@ const RFPTabDisplayer = () => {
             // Open contest and address it's owner's
             return <GralMsg title={t("owner_open_rfp_recordbidders")} />;
         // all ok, show Register component
-          return (
-            <RegisterBidder
+        return (
+          <RegisterBidder
               t={t}
               t_companies={t_companies}
               rfpRecord={rfpRecord}
@@ -121,7 +107,7 @@ const RFPTabDisplayer = () => {
               inviteContest={Number(rfpRecord.contestType) === inviteContest}
               address={address}
               i18n={i18n} // This is because SearchDB needs it to be able to search for Companies
-            />
+          />
           );
     case 'bidders_showcase': //bidders_showcase
         return (
@@ -130,9 +116,9 @@ const RFPTabDisplayer = () => {
             rfpId={rfpRecord._id}
             docType={docTypes[0]}
             address={address}
-            rfpfiles={rfpfiles}
             rfpIndex={rfpRecord.rfpidx}
             owner={rfpRecord.owneraddress}
+            rfpDates={[rfpRecord.openDate,rfpRecord.endReceivingDate]}
           />
         );
     case 'declare_contest': //declare_contest
@@ -170,7 +156,6 @@ const RFPTabDisplayer = () => {
             </div>
             {rfpRecord.items && rfpRecord.items.length && (
               <div className="shadow-md ">
-                { console.log('rfpRecord.items', rfpRecord.items)}
                 <DisplayItems items={rfpRecord.items} t={t} />
               </div>
             )}

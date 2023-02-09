@@ -1,5 +1,5 @@
 const Spinner = () => (
-    <div className=" mt-24 mb-4 text-center rounded-xl">
+    <div className="text-center rounded-xl">
         <div className="">
             <div className="mx-auto  inline-block w-48 h-48 
                     border-[18px] 

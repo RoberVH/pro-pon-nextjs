@@ -8,5 +8,15 @@
     "Only_admin_can_perform":"Solo cuenta adminstrador puede hacer esta operación",
     "user_rejection":"Usuario rechazó la transacción",
     "execution reverted: Insufficient_payment":"Pago Insuficiente",
-    "no_serverBundlr_funding":"No es posible ejecutar esta operación, por favor reintente mas tarde"
+    "no_serverBundlr_funding":"No es posible ejecutar esta operación, por favor reintente mas tarde",
+    "execution reverted: too_many_guests":"La operación  rebasó el límite de compañías para el RFP",
+    "execution reverted: already_participating":"Ya está registrado a este RFP",
+    "execution reverted: end_receiving_reached":"La fecha límite para recibir documentos expiró",
+    "execution reverted: max_participants_reached":"Se alcanzó ya el límite de participantes",
+    "execution reverted: can_not_register_self":"No puede registrarse a su propio RFP",
+    "execution reverted: not_participant":"No está registrado a este RFP",
+    "execution reverted: enddate_not_reached_yet":"Aún no llega la fecha de decisión",
+    "execution reverted: cannot_self_award":"No puede declararse ganador a sí mismo",
+    "execution reverted: invalid_winner":"Ganador inválido, no es participante"
+    
 }

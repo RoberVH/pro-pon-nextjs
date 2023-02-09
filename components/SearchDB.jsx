@@ -1,14 +1,15 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef,  forwardRef, useImperativeHandle } from 'react'
 import useInputForm from '../hooks/useInputForm'
 import InputCountrySel  from './InputCountrySel'
-//import { useTranslation } from "next-i18next";
+import { SearchIcon } from "@heroicons/react/outline";
 
 const errorColor = {
   true:'border-red-400 border-4',
   false:''
 }
-function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
-  const {  values, handleChange} = useInputForm();
+const  SearchDB= forwardRef(({ fields, path,  setResults, setWait, setError, t, i18n}, ref) => {
+  
+  const {  values, handleChange, handleReinitialize} = useInputForm();
   const [currInput, setCurrInput] = useState()
   
   const inputRefs = useRef([]);
@@ -23,9 +24,10 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
   const SearchBox = ({field, index}) => {
     const [faultyDates,setFaultyDates] = useState(false)
   
-    useEffect(()=>{
-      setFaultyDates ((values[`${field.fieldName}_end`] <= values[`${field.fieldName}_ini`] ))
-    },[field.fieldName]) 
+  useEffect(()=>{
+    setFaultyDates ((values[`${field.fieldName}_end`] <= values[`${field.fieldName}_ini`] ))
+  },[field.fieldName]) 
+  
 
   const InputSearchTerm = () => {
     return (
@@ -92,7 +94,7 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
   
  
 
-  const getResults = async (values) => {
+  const  getResults = async (values) =>  {
     for (const key in values) {
       if ((values[key]).trim() === '') delete values[key];
     }
@@ -101,7 +103,6 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
     if (values.country === "default") delete values.country;
     const params=new URLSearchParams(values)
     const url=path + params
-    console.log('busq con:', url)
     try {
           setWait(true)
           const response = await fetch(url);
@@ -119,12 +120,29 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
   
 
   useEffect(()=>{
-      getResults(values)
+    getResults(values)
   },[values])
   
+  useImperativeHandle(ref, ()=> ({
+    resetparams() {
+      handleReinitialize()
+      setResults([])
+    }
+  }))
+
+  const handleCleanFields=()=>{
+    handleReinitialize()
+    setResults([])
+  }
 
   return (
-    <div className="p-2 flex justify-start ">
+    <div  className="p-2 flex justify-start ">
+      <div onClick={handleCleanFields} className="-ml-6  pr-2 cursor-pointer group relative inline-block">
+        <SearchIcon className="ml-8 h-8 w-8 text-orange-400  " />
+        <span className="tooltip-span-rigth mt-2 mr-4">
+                                {t('reset_search')}
+                                </span>
+      </div>
     { 
       fields.map((field,index) => 
         <div key={field.id} className="resize">
@@ -134,7 +152,9 @@ function SearchDB({ fields, path,  setResults, setWait, setError, t, i18n}) {
       }
     </div>
   )
-}
+})
 
 
-  export default SearchDB
+SearchDB.displayName = 'SearchDB';
+
+export default SearchDB

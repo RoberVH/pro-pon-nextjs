@@ -34,7 +34,7 @@ function DisplayItems({items, t}) {
                     { items.map(item => 
                         <li 
                             key={nanoid()} 
-                            className="truncate border-b border-dashed border-b-2  border-orange-400">
+                            className="truncate border-b border-dashed  border-orange-400">
                                 <label className="px-4 w-1/6 text-orange-500 "> 
                                     <strong>{item} </strong>
                                 </label>

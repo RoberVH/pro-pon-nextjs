@@ -23,12 +23,14 @@ export const useWriteCompanyData =  (
            const Tx = await proponContract.createCompany(
                 companyId,
                 companyname, 
-                country, {value: ethers.utils.parseEther(value)})
-                setPosted(true)
-                setHash(Tx.hash)
-                setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
-                const data=await Tx.wait()
-                onSuccess(data)
+                country, 
+                {value: ethers.utils.parseEther(value)}
+                )
+          setPosted(true)
+          setHash(Tx.hash)
+          setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
+          const data=await Tx.wait()
+          onSuccess(data)
         } catch (error) {
                 onError(error);
                 }       

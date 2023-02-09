@@ -8,5 +8,14 @@
     "Only_admin_can_perform":"Only admin owner can make this operation",
     "user_rejection":"User rejected transaction",
     "execution reverted: Insufficient_payment":"Insufficient Payment",
-    "no_serverBundlr_funding":"Can not performe operation this time, please retry later"
+    "no_serverBundlr_funding":"Can not performe operation this time, please retry later",
+    "execution reverted: too_many_guests":"The operation exceeded the limit of companies for the RFP",
+    "execution reverted: exists_participating":"Already registered to this RFP",
+    "execution reverted: end_receiving_reached":"The deadline for receiving documents has expired",
+    "execution reverted: max_participants_reached":"The limit of participants has already been reached",
+    "execution reverted: can_not_register_self":"You cannot register to your own RFP",
+    "execution reverted: not_participant":"You are not registered to this RFP",
+    "execution reverted: enddate_not_reached_yet":"Decision date not yet reached",
+    "execution reverted: cannot_self_award":"You cannot declare yourself winner",
+    "execution reverted: invalid_winner":"Invalid winner, not a participant"
 }

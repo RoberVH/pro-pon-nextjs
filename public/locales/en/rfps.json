@@ -10,6 +10,7 @@
     "savingstate": " Saving...",
     "editrfp":"Edit RFP",
     "closebutton":"Close",
+    "Copied_clipboard":"Copied to Clipboard",
     "rfpform": {
         "companyId":"Company Id",
         "companyname":"Company Name",
@@ -104,5 +105,7 @@
     "uploading_metadata":"Uploading Metadata to Blockchain... wait",
     "loading_data":"Loading Data to Blockchain",
     "waiting_decision":"Waiting for declaration of RFP results",
-    "select_tab":"Select a tab"
+    "select_tab":"Select a tab",
+    "reset_search":"Reset Search",
+    "loading_out_of_period":"Out of allowed time period to load documents!"
 }

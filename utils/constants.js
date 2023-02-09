@@ -7,7 +7,26 @@ export const errorSmartContract = [
     'Only_owner_allow_withdraw',
     'Only_admin_can_perform',
     'insufficient_funds',
-    'execution reverted: Insufficient_payment'
+    'execution reverted: Insufficient_payment',
+    'execution reverted: too_many_guests',
+    'execution reverted: already_participating',
+    'execution reverted: end_receiving_reached',
+    // To Do: test and add custom error tags to locals gralerrors.json for each one
+    'execution reverted: initial_date_wrong',
+    'execution reverted: receiving_date_wrong',
+    'execution reverted: wrong_contest_type',
+    'execution reverted: not_open_tender',
+    'execution reverted: max_participants_reached',
+    'execution reverted: can_not_register_self',
+    'execution reverted: not_participant',
+    'execution reverted: issuer_bad_doctype,',
+    'execution reverted: participant_bad_doctype',
+    'execution reverted: too_many_winners',
+    'execution reverted: not_matching_winners',
+    'execution reverted: enddate_not_reached_yet',
+    'execution reverted: cannot_self_award',
+    'execution reverted: invalid_winner'
+    
 ]
 
 

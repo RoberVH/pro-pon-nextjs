@@ -4,6 +4,7 @@
  *          
  */
 
+import { ethers } from 'ethers'
 import { useState } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
@@ -48,16 +49,17 @@ export const useRegisterBidders =  (onError, onSuccess) => {
                companyId,
                guestsCompanies
                )
-            } else  
+            } else  {
              Tx = await proponContract.registertoOpenRFP(
-               rfpidx
-               )
-         setPostedHash(Tx.hash)
-         setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
-         const data=await Tx.wait()
-         setBlock(data.blockNumber)
-         setBlockchainsuccess(true)
-         onSuccess()
+               rfpidx,      
+               {value: ethers.utils.parseEther("0.0001")})
+            }
+      setPostedHash(Tx.hash)
+      setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
+      const data=await Tx.wait()
+      setBlock(data.blockNumber)
+      setBlockchainsuccess(true)
+      onSuccess()
       } catch (error) {
                onError(error);
                }       

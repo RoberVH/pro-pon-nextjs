@@ -6,7 +6,7 @@
  *  params: inviteContest - Boolean if false then is an open contest
  */
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SearchDB from "../SearchDB";
 import DisplayResults from "../DisplayResults";
 import Spinner from "../layouts/Spinner";
@@ -21,7 +21,6 @@ import { useRegisterBidders } from "../../hooks/useRegisterBidders";
 import { useBidders } from '../../hooks/useBidders'
 import ShowTXSummary from "./ShowTXSummary";
 // import { getDBGuestCompaniesAddresses } from "../../database/dbOperations";
-// import { useBidders } from "../../hooks/useFilesRFP";
 import { parseWeb3Error } from "../../utils/parseWeb3Error";
 import SpinnerBar from "../layouts/SpinnerBar";
 
@@ -42,17 +41,17 @@ const RegisterBidder = ({
   //   return element.toLowerCase() === address.toLowerCase();
   // }))
 
-  //const [allowedtoRegister, setAllowed] = useState(false);
-  const [rfpOwner, setrfpOwner] = useState(companyId === rfpRecord.companyId);
-  const [guestCompanies, setGuestCompanies] = useState([]);
-  const [results, setResults] = useState([]);
-  const [error, setError] = useState(false);
+  const [rfpOwner, setrfpOwner] = useState(companyId === rfpRecord.companyId)
+  const [guestCompanies, setGuestCompanies] = useState([])
+  const [results, setResults] = useState([])
+  const [error, setError] = useState(false)
   // Next  is for SearchDB component & make Spinner spin when searching
-  const [IsWaiting, setIsWaiting] = useState(false);
-  //const [recordingtoContract, setRecordingtoContract] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [sendingBlockchain, setsendingBlockchain] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
+  const [IsWaiting, setIsWaiting] = useState(false)
+//  const [uploading, setUploading] = useState(false)
+  const [sendingBlockchain, setsendingBlockchain] = useState(false)
+  const [showPanel, setShowPanel] = useState(false)
+  
+  const cleanSearchParams = useRef()
 
   const companyActions = [
     {
@@ -92,7 +91,7 @@ useEffect(()=>{
   function onError(error) {
     const customError = parseWeb3Error(t, error);
     errToasterBox(customError);
-    setUploading(false);
+    // setUploading(false);
     setsendingBlockchain(false);
   }
 
@@ -116,7 +115,11 @@ useEffect(()=>{
   }
 
   const handleRegisterItself = () => {
-    console.log('handleRegisterItself')
+    setShowPanel(true);
+    setsendingBlockchain(true)
+    write("registeropen", rfpRecord.rfpidx, companyId);
+
+
   };
 
   const handleRemoveCompany = (companyId) => {
@@ -126,6 +129,9 @@ useEffect(()=>{
   const handleClosePanel = () => {
     setShowPanel(false);
     setGuestCompanies([]);
+    console.log(cleanSearchParams.current)
+    if (cleanSearchParams.current) {    cleanSearchParams.current.resetparams()
+    }
   };
 
   const handleRegisterGuests = async () => {
@@ -158,10 +164,10 @@ useEffect(()=>{
   const InvitedCompanies = () => {
     return (
       <div className="h-[25em] overflow-y-auto p-2">
-        <table className="p-2 w-full h-[5em] h-full table-fixed border-2 border-orange-100 font-khula">
+        <table className="p-2 w-full h-[5em]  table-fixed border-2 border-orange-300  font-khula">
           <thead>
-            <tr className=" border-2 border-orange-500 text-stone-500 ">
-              <th className="pt-1 w-1/6 border-r-2 border-orange-500 break-words">
+            <tr className=" border-2 border-orange-500  text-stone-500 ">
+              <th className="pt-1 w-1/6 border-r-2 border-orange-500  break-words">
                 {t("remove_guest")}
               </th>
               <th className="pt-1 w-1/3 border-r-2 border-orange-500 break-words">
@@ -197,18 +203,38 @@ useEffect(()=>{
   const ButtonsRegisterGuests = (
     <div className="mt-2 mb-2 flex  pt-4 pl-4 pr-4  justify-center items-center">
       <button className="main-btn" onClick={handleRegisterGuests}>
-        {t("register_gueststo_rfp")}
+        {!sendingBlockchain ? 
+              `${t("register_gueststo_rfp")}` 
+              : 
+              <div className=" flex justify-evenly items-center">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
+                </div>
+                <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
+              </div>
+        }
       </button>
-      <button className="main-btn ml-16">{t("cancelbutton")}</button>
+      {sendingBlockchain &&
+        <button className="main-btn ml-16">{t("cancelbutton")}</button>
+      }
     </div>
   );
 
   const ButtonsRegistertoOpen = (
     <div className="mt-2 mb-4 flex  p-4 justify-center items-center">
       <button className="main-btn" onClick={handleRegisterItself}>
-        {t("registerto_rfp")}
+        {!sendingBlockchain ? 
+            `${t("registerto_rfp")}` 
+            : 
+            <div className=" flex justify-evenly items-center">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
+              </div>
+              <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
+            </div>
+        }
       </button>
-      <button className="main-btn ml-16">{t("cancelbutton")}</button>
+      {sendingBlockchain &&
+        <button className="main-btn ml-16">{t("cancelbutton")}</button>
+      }
     </div>
   );
 
@@ -235,9 +261,12 @@ useEffect(()=>{
                       setWait={setIsWaiting}
                       setError={setError}
                       t={t_companies}
+                      ref={cleanSearchParams}
                     />
                     {IsWaiting ? (
-                      <Spinner />
+                       <div className="mt-12 mb-4 scale-75">
+                          <Spinner />
+                        </div>
                     ) : (
                       <div className="mt-8 w-full">
                         {results.length > 0 ? (

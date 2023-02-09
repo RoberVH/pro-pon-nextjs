@@ -36,6 +36,7 @@ function UploadRFPForm({
   rfpIndex,
   allowedDocTypes,
   owner,
+  isInTime
 }) {
   // state var for child pickFIlesForm let us know files are pickedup
   const [pickedFiles, setPickedFiles] = useState([]);
@@ -125,7 +126,17 @@ function UploadRFPForm({
     </>
   );
 
-  const PickupComponent = (
+  const PickupComponent = () => {
+  // if (isInTime) return (    
+  //   <div className="flex justify-center ">
+  //     asdasd
+  //     <p className="py-2 px-4  border border-orange-200  text-khula text-stone-700 font-light text-lg rounded-md shadow-md">
+  //       🚫 &nbsp; {t("loading_out_of_period")}
+  //     </p>
+  //   </div>
+  // ) 
+  // else 
+  return (
     <div>
       <PickFilesForm
         t={t}
@@ -133,9 +144,11 @@ function UploadRFPForm({
         setPickedFiles={setPickedFiles}
         setTotalSize={setTotalSize}
         allowedDocTypes={allowedDocTypes}
+        isInTime={isInTime}
       />
     </div>
-  );
+  )
+  };
 
   // Hooks calls **************************
 
@@ -285,12 +298,12 @@ function UploadRFPForm({
     //signal reading files to parent component
     setNewFiles(true);
   };
-
-  //JSX returned  clock begins here    ********************************************************************
+console.log('isInTime',isInTime)
+  //JSX returned begins here    ********************************************************************
   if (!Boolean(pickedFiles.length))
     return (
-      <div className="my-8 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-md">
-        {PickupComponent}
+      <div id="pickupcomponentholder" className="my-8 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-md">
+        <PickupComponent />
       </div>
     );
   else if (uploadingSet.length > 0)

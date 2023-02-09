@@ -6,5 +6,6 @@
     "website": "Sitio web",
     "country": "País",
     "noresults":"No hay resultados",
-    "rfpWon":"Ganados"
+    "rfpWon":"Ganados",
+    "reset_search":"Restablecer Búsquedas"
 }

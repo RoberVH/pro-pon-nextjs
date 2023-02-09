@@ -30,7 +30,6 @@ export default function Home() {
           <p className="pt-2 font-khula font-semibold  text-orange-500 text-md text-xl text-center">
             {t("explanation1")}
           </p>
-          {/* PRUEBAS DE SIPINNERBAR <SpinnerBar msg={'enviando metadatos a la blackchain'} /> */}
         </div>
         {!companyData.companyname && address ? (
           <div

@@ -44,7 +44,7 @@ const ShowTXSummary = ({
               className="py-2 px-4 rounded-md font-bold bg-stone-400 text-white hover:bg-stone-700 hover:shadow-lg focus:ring-0 active:bg-stone-800
                         text-base focus:bg-stone-700 focus:shadow-lg"
               onClick={handleClosePanel} >
-                {t('accept')}
+                {t('closebutton')}
             </button>
           </div>
         </>

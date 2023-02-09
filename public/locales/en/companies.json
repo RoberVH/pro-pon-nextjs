@@ -6,5 +6,6 @@
     "website":"Web Site",
     "country":"Country",
     "noresults":"No results",
-    "rfpWon":"Won"
+    "rfpWon":"Won",
+    "reset_search":"Reset Search"
 }
