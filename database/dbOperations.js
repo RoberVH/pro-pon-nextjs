@@ -51,6 +51,7 @@ export const verifyData_Save = async (message, signature) => {
 
     // Create company RFP at  database
     export const saveRFP2DB = async (rfpParams) => {
+      console.log('Enviando a BD rfpParams', rfpParams)
       let method = "POST";
       try {
         const response = await fetch("/api/serverrfp", {
@@ -66,21 +67,21 @@ export const verifyData_Save = async (message, signature) => {
     }
 
   // getDBGuestCompaniesAddresses 
-  //    For each company address passed in array companiesAddresses param get
-  //    its DB record data
+  //    For each company address passed in array companiesAddresses param get its DB record data
   //    Create an array of promises that call the API route for each element in 
   //    the companyAddresses array
   export const getDBCompaniesbyAddress = async (companiesAddresses) => {
+    console.log('RECIBI:', companiesAddresses)
     if (companiesAddresses.length===0) return []
-    console.log('Calling DB!!')
-  const fetchPromises = companiesAddresses.map((address) => {
-    return fetch(`/api/readonecompany?${new URLSearchParams({address: address})}`)
-      .then((response) => response.json())
-      .catch((error) => {
-        // Handle the error and return a rejected promise
-        console.error(error);
-        return Promise.reject(error);
-      });
+  const fetchPromises = companiesAddresses.map(async (address) => {
+    try {
+      const response = await fetch(`/api/readonecompany?${new URLSearchParams({ address: address })}`);
+      return await response.json();
+    } catch (error) {
+      // Handle the error and return a rejected promise
+      console.error(error);
+      return await Promise.reject(error);
+    }
   });
 
   // Call Promise.allSettled on the array of promises

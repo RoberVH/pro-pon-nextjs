@@ -33,13 +33,11 @@ const  SearchDB= forwardRef(({ fields, path,  setResults, setWait, setError, t, 
     return (
         <input className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none 
                   p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8"
-          //ref={ref} // add the ref to the input field
           ref={inputRefs.current[index]}
           type='text' 
           id= {field.fieldName}
           placeholder={t(field.fieldName)}
           value={values[field.fieldName]}
-          //onChange={(e) => prehandleChange(e,ref)}
           onChange={(e) => prehandleChange(e,inputRefs.current[index])}
           />)
       }
@@ -59,7 +57,7 @@ const  SearchDB= forwardRef(({ fields, path,  setResults, setWait, setError, t, 
                     values={values}
                   />
           )
-        :
+        : // field of type Date
           (
           <div className="flex  mt-3 ml-4">
             <label className="text-stone-400 mr-2" >{t(field.fieldName)}:</label>
@@ -73,7 +71,7 @@ const  SearchDB= forwardRef(({ fields, path,  setResults, setWait, setError, t, 
                 placeholder={t('initialdate')}
                 value={values[`${field.fieldName}_ini`]}
                 onChange={handleChange}
-                onFocus={(e) => e.currentTarget.type = "date"}
+                onFocus={(e) => e.currentTarget.type = "datetime-local"}
                 onBlur={(e) => {e.currentTarget.type = "text"; e.currentTarget.placeholder=t('initialdate')}}/>
 
                 <input 
@@ -84,7 +82,7 @@ const  SearchDB= forwardRef(({ fields, path,  setResults, setWait, setError, t, 
                 placeholder={t('finaldate')}
                 value={values[`${field.fieldName}_end`]}
                 onChange={prehandleChange}//{handleChange}
-                onFocus={(e) => e.currentTarget.type = "date"}
+                onFocus={(e) => e.currentTarget.type = "datetime-local"}
                 onBlur={(e) => {e.currentTarget.type = "text"; e.currentTarget.placeholder=t('finaldate')}}/>
             </div>
           </div>

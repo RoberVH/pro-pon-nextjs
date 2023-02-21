@@ -11,18 +11,21 @@ import { toastStyle } from "../styles/toastStyle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const companyActions = [
-  { id:1,
-    iconAction:'',
-    titleAction:'review',
-    callBack:''}
-]
 
 function Companies() {
   //const { locale,pathname, query, asPath   } = useRouter();
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
   const [results, setResults] = useState([]);
+  const { t, i18n  } = useTranslation("companies")
+
+  const companyActions = [
+    
+    { id:1,
+      iconAction:'',
+      titleAction:t('review',{ns:"common"}),
+      callBack:''}
+  ]
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
@@ -35,7 +38,7 @@ function Companies() {
 
   //const router = useRouter()
 
-  const { t, i18n  } = useTranslation("companies")
+
   return (
     <div id="companies">
       <h1 className="mt-4 text-stone-500 text-2xl text-center">

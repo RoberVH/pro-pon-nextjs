@@ -53,7 +53,7 @@ function DisplayResults({fields,results, actions, t}) {
           <tbody className="">
           {
             results.map(elem => (
-              <tr key={elem._id} className="text-stone-600 font-khula font-bold even:bg-slate-200 odd:bg-slate-100">
+              <tr key={nanoid()} className="text-stone-600 font-khula font-bold even:bg-slate-200 odd:bg-slate-100">
                 { fields.map(fields => (
                   <td key={nanoid()} className="p-2 truncate">
                       {parseField(fields, elem)}

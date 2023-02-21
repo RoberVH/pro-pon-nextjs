@@ -7,9 +7,7 @@ import { useRouter } from "next/router";
 import PickFilesForm from "./pickFilesForm";
 import DisplayProgressUpload from "./displayProgressUpload";
 import { uploadBlockchainFiles } from "../../utils/uploadBlockchainFiles";
-// import BottomSignMsg from "../layouts/bottomSignMsg"
 import { getRmteBndlr } from "../../web3/getRmteBndlr";
-//import { ArweavefileTypes } from "../../utils/constants";
 import { parseWeb3Error } from "../../utils/parseWeb3Error";
 // toastify related imports
 import { toast } from "react-toastify";
@@ -32,7 +30,7 @@ import SpinnerBar from "../layouts/SpinnerBar";
 function UploadRFPForm({
   t,
   setNewFiles,
-  rfpId,
+  // rfpId,
   rfpIndex,
   allowedDocTypes,
   owner,
@@ -221,14 +219,10 @@ function UploadRFPForm({
       const bal = RmteBundlr.utils.unitConverter(funded);
 
       /*** probnado */
-      
       // setuploadingSet(Array(pickedFiles.length).fill({ status: "pending" }));
       // setShowSummaryUploads(true)
       // return
       /********* */
-
-
-
       // prepare uploading Objects Array to receive back events, errors and results of following promises called
       // todo: send more info about app state when error occurred: which account was logged, what what trying to do
       // todo: send warning when rmteBalNum is getting low, this in some other monitoring app client
@@ -251,7 +245,7 @@ function UploadRFPForm({
             file, // file object record, contains propery originalFile with value of user selected File object
             indx,
             owner,
-            rfpId,
+            // rfpId,
             RmteBundlr,
             file.docType,
             //ArweavefileTypes.requestFile,
@@ -284,7 +278,8 @@ function UploadRFPForm({
         // setUploading(false);
       }
     },
-    [totalSize, owner, rfpId, rfpIndex, t]
+    // [totalSize, owner, rfpId, rfpIndex, t]
+    [totalSize, owner,  rfpIndex, t]
   );
 
   // initialize state to start again
@@ -315,7 +310,7 @@ console.log('isInTime',isInTime)
           uploadingSet={uploadingSet}
         />
 
-        <div className=" flex flex-col my-4 p-2 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-gray-200 shadow-md">
+        <div className=" flex flex-col my-4 p-2 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-xl">
           {showSummaryUploads && <ShowSummaryUploads />}
         </div>
       </div>

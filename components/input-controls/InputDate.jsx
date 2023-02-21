@@ -20,7 +20,7 @@ export function InputDate({
     disabled = {disable}
     onChange={handleChange} 
     placeholder={placeholder}  
-    onFocus={(e) => e.currentTarget.type = "date"}
+    onFocus={(e) => e.currentTarget.type = "datetime-local"}
     onBlur={(e) => {e.currentTarget.type = "text"; e.currentTarget.placeholder=placeholder}}
     />
   </>

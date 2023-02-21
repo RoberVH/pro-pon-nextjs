@@ -18,4 +18,6 @@
     "execution reverted: enddate_not_reached_yet":"Date de décision pas encore atteinte",
     "execution reverted: not_self_award":"Vous ne pouvez pas vous déclarer vainqueur",
     "execution reverted: invalid_winner":"Gagnant invalide, pas un participant",
+    "execution reverted: rfp_already_awarded":"RFP déjà attribué",
+    "execution reverted: id_already_exists":"L'identifiant existe déjà"
 }

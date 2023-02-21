@@ -12,7 +12,6 @@ export const  useFilesRFP= (rfpidx) => {
  *  current RFP. Read from contract the list of bidders on the contract 
  */
 const updateRFPFilesArray = useCallback( async () => {
-  console.log('doneLookingFiles', doneLookingFiles)
   setdoneLookingFiles(false)
   if (!rfpidx)  {
       setdoneLookingFiles(true)
@@ -20,10 +19,8 @@ const updateRFPFilesArray = useCallback( async () => {
   }
   const result = await getArweaveFilesMetadata(rfpidx) // get RFP arweave metadata files from contract
   if (result.status) {
-      console.log(result, rfpidx)
       setRFPFiles(result.docs)
       setNewFiles(false)
-    console.log('doneLookingFiles', doneLookingFiles)
       setdoneLookingFiles(true)
       return {status:true}
   } else {

@@ -17,5 +17,7 @@
     "execution reverted: not_participant":"You are not registered to this RFP",
     "execution reverted: enddate_not_reached_yet":"Decision date not yet reached",
     "execution reverted: cannot_self_award":"You cannot declare yourself winner",
-    "execution reverted: invalid_winner":"Invalid winner, not a participant"
+    "execution reverted: invalid_winner":"Invalid winner, not a participant",
+    "execution reverted: rfp_already_awarded":"RFP already awarded",
+    "execution reverted: id_already_exists":"Id already exists"
 }

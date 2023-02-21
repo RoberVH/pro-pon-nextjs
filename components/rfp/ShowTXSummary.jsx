@@ -9,6 +9,7 @@
  * @param {function} t - translation function for the intl' language titles
  * @param {function} handleClose - function to handle the closing of the component
  */
+import  Image from "next/image"
 
 const ShowTXSummary = ({
     postedHash,
@@ -18,6 +19,11 @@ const ShowTXSummary = ({
     handleClosePanel
     }) =>   
      <>
+        <div className="flex mb-2">
+            <Image alt="Info" src="/information.svg" height={20} width={20}/>
+            <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base text-xl">
+                <strong>{t('sending_rfp_blockchain')} </strong></p>
+        </div>     
      <p>{t('savingtoblockchainmsg')}</p>
       {postedHash && <p>{t("rfpessentialdataposted")}</p>}
       {link && (
@@ -41,8 +47,7 @@ const ShowTXSummary = ({
           </div>
           <div className="flex justify-center ">
             <button 
-              className="py-2 px-4 rounded-md font-bold bg-stone-400 text-white hover:bg-stone-700 hover:shadow-lg focus:ring-0 active:bg-stone-800
-                        text-base focus:bg-stone-700 focus:shadow-lg"
+              className="py-2 px-4 rounded-md font-bold bg-stone-400 text-white  hover:shadow-lg hover:outline-1 text-base hover:bg-stone-600 my-4"
               onClick={handleClosePanel} >
                 {t('closebutton')}
             </button>

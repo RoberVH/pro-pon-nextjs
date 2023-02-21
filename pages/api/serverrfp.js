@@ -21,11 +21,22 @@ export default async function handler (req, res) {
       res.status(200).json(rfps);
       break
     case 'POST':  //  post one rfp data
+      console.log('EN server par asalvar a BD recibi en body', req.body)
       if (isEmpty(req.body)) {
         res.status(400).json({ status: false, msg:'no_data_to_save' })
         return
       }
       try {
+        // first check there is not another RFP with same Id and account issuer
+        const cursor = await db.collection("rfps").find({name:req.body.name, companyId:req.body.companyId})
+        const results = await cursor.toArray()
+        if (results.length > 0)  {
+          // there is a previous RFP already using this RFP id - companyId combination, do nothing
+          // this is to avoid duplicated RFP and desync contract and DB
+          res.status(200).json({ status: true, _id:results[0]._id.toString() })
+          return
+        }
+
         const data= await db
           .collection("rfps")
           .insertOne(req.body)

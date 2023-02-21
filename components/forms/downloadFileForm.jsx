@@ -117,9 +117,6 @@ const DownloadComponent= () => {
 
   return (
     <div className="m-auto py-2 max-w-[90%] ">
-      {console.log('downloadablefiles',downloadableFiles)}
-      {console.log('owner',owner)}
-      {console.log('doneLookingFiles',doneLookingFiles)}
       <div id="downloadIcon" className="flex">
         <DownloadIcon className="mt-1 h-8 w-8 text-orange-300 mb-2" />
         <p className="mt-2 pl-2 font-khula">{t("dowloadrequestfiles")}</p>

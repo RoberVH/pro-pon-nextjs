@@ -6,7 +6,7 @@
  *  will be paid by RFP owner. If Open, then when registering the participant will pay for it
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { useBidders } from "../../hooks/useBidders";
 import { useFilesRFP } from "../../hooks/useFilesRFP";
 
@@ -30,7 +30,13 @@ const allowedDocTypes = [
   docTypes[IdxDocTypes["documentFinancialType"]],
   docTypes[IdxDocTypes["documentAdministrativeType"]],
 ];
-const ShowBidders = ({ address, owner, rfpIndex, rfpId, t, rfpDates }) => {
+const ShowBidders = ({ 
+    address, 
+    owner, 
+    rfpIndex, 
+    t, 
+    rfpDates 
+  }) => {
   const [idxShowFilesComp, setidxShowFilesComp] = useState(null); // index of open Files Compo
   const [dateAllowed, setDateAllowed] = useState(false); // flag to indicate the period is valid to upload documents according to RFP dates
   const { bidders, getBidders, companies, doneLookingBidders } = useBidders();
@@ -47,7 +53,6 @@ const ShowBidders = ({ address, owner, rfpIndex, rfpId, t, rfpDates }) => {
 
   const isDateAllowed = () => {
     const rightNow = convUnixEpoch(new Date());
-    console.log(rfpDates[0] ,rightNow, rfpDates[1])
     return rfpDates[0] < rightNow && rightNow < rfpDates[1];
   };
 
@@ -74,7 +79,7 @@ useEffect(()=>{
 },[bidders, updateRFPFilesArray])
 
   const CellTable = ({ field, highhLigth }) => (
-    <td className={`w-1/4 p-2  font-khula ${highhLigth ? 'text-blue-800':'text-stone-800'}`}>
+    <td className={`w-1/4 p-2  font-khula ${highhLigth ? 'text-orange-700 font-bold':'text-stone-800'}`}>
             {field}
     </td>
   );
@@ -102,7 +107,6 @@ useEffect(()=>{
               <UploadRFPForm
                 t={t}
                 setNewFiles={setNewFiles}
-                rfpId={rfpId}
                 rfpIndex={rfpIndex}
                 allowedDocTypes={allowedDocTypes}
                 owner={owner}
@@ -111,39 +115,22 @@ useEffect(()=>{
             </td>
           </tr>
         );
-    //   else
-    //     return (
-    //       <tr key="out_of_period" className="border border-orange-400  font-khula font-bold text-stone-700 h-full
-    //       w-fullshadow-lg">
-    //         <td colSpan={4} className="p-8  ">
-    //           <div className="flex justify-center ">
-    //             <p className="py-2 px-4  border border-orange-200  text-khula text-stone-700 font-light text-lg rounded-md shadow-md">
-    //               🚫 &nbsp; {t("loading_out_of_period")}
-    //             </p>
-    //           </div>
-    //         </td>
-    //       </tr>
-    //     );
-    // else return null;
   };
 
   const ShowBidersComponent = () => (
     <div className="m-2">
-      {console.log("isDateAllowed()", isDateAllowed())}
       <table className="w-full text-left">
         <tbody key="bodyoftable">
           {companies?.length > 0 ? (
             companies.map((company) => (
-              <>
+              <Fragment key={nanoid()}>
                 <tr
-                  id={company._id}
                   key={nanoid()}
                   className={`${
                     company.companyId !== idxShowFilesComp
                       ? "border-b-2 border-orange-400"
                       : "text-lg font-bold"
-                  }`}
-                >
+                  }`}>
                   <CellTable field={company.companyId} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
                   <CellTable field={company.companyname} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
                   <CellTable field={company.country} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
@@ -155,17 +142,18 @@ useEffect(()=>{
                         alt="-"
                         src={"/dash.svg"}
                         width={22}
-                        height={22}
-                      ></Image>
-                    ) : (
-                      <Image
-                        className="cursor-pointer"
-                        onClick={() => toggleUploadComponent(company.companyId)}
-                        alt="V"
-                        src={"/chevrondown2.svg"}
-                        width={22}
-                        height={22}
-                      ></Image>
+                        height={22}>
+                        </Image>
+                     ) : (
+                        <Image
+                          className="cursor-pointer"
+                          onClick={() => toggleUploadComponent(company.companyId)}
+                          alt="V"
+                          src={"/chevrondown2.svg"}
+                          width={22}
+                          height={22}
+                        >
+                        </Image>
                     )}
                   </td>
                 </tr>
@@ -189,12 +177,15 @@ useEffect(()=>{
                     </tr>
                   </>
                 )}
-              </>
+              </Fragment>
             ))
           ) : (
             <tr id={`nobidders`} key="nobidders">
               <td className="text-center ">
+                <div className="mt-4 w-2/3 min-w-full h-[9rem] min-h-full border-2 border-coal-500 
+            flex shadow-lg p-4 justify-center items-center tracking-wide text-stone-500 uppercase"> 
                 <p className="mt-8 font-khula text-xl">{t("no_bidders")}</p>
+            </div>
               </td>
             </tr>
           )}

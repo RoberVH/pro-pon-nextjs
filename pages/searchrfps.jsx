@@ -3,7 +3,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Spinner from "../components/layouts/Spinner";
-import { SearchIcon } from "@heroicons/react/outline";
 import DisplayResults from "../components/DisplayResults";
 import SearchDB from "../components/SearchDB";
 import { rfpParams } from "../utils/rfpItems";
@@ -19,17 +18,37 @@ function Searchrfps() {
   const [results, setResults] = useState([]);
   const router = useRouter();
 
-  const handleShowRFP = (rfp) => {
+  const handleShowRFP = (rfpParams) => {
     setIsWaiting(true);
-    const rfphomeparams = buildRFPURL(rfp);
+
+    const urlLine={
+      companyId: rfpParams.companyId,
+      companyname: rfpParams.companyname,
+      
+      //rfpwebsite temporal*******
+      rfpwebsite: rfpParams.rfpwebsite,
+      rfpidx:rfpParams.rfpidx
+    }
+    //************************************* 
+
+    
+    // const params = buildRFPURL(urlLine)
+    // router.push('/homerfp?' + params)
+
+    // const rfphomeparams = buildRFPURL(rfp);
+    // router.push("/homerfp?" + rfphomeparams);
+    
+    const rfphomeparams = buildRFPURL(urlLine);
     router.push("/homerfp?" + rfphomeparams);
   };
 
-  const rfpActions = [
+ const { t } = useTranslation("rfps");
+  
+ const rfpActions = [
     {
       id: 1,
       iconAction: "👁️",
-      titleAction: "review", //📝
+      titleAction: t('review',{ns:"common"}), //📝
       callBack: handleShowRFP,
       width: "[15%]",
     },
@@ -43,7 +62,7 @@ function Searchrfps() {
     if (error.message) errToasterBox(error.message);
   }, [error]);
 
-  const { t } = useTranslation("rfps");
+ 
   return (
     <div id="rfps">
       <h1 className="mt-4 text-stone-500 text-2xl text-center">
@@ -54,7 +73,6 @@ function Searchrfps() {
         className="mt-4  bg-white flex 
                 rounded-lg justify-beetween py-4 border-2 border-orange-200"
       >
-        {/* <SearchIcon className="ml-8 h-8 w-8 text-orange-400  " /> */}
         <div className="w-[100%] pl-4">
           <SearchDB
             fields={rfpParams}

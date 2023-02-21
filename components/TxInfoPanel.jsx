@@ -13,7 +13,6 @@ const TxInfoPanel = ({
     }) => 
   <div className="py-1 bg-white border rounded-md border-orange-300
                   border-solid shadow-xl mb-2">
-                    
     <div className="font-khula  text-base py-4 pl-2">
         <div className="flex mb-2">
             <Image alt="Info" src="/information.svg" height={20} width={20}/>

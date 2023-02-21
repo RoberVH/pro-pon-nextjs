@@ -22,7 +22,7 @@ import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork"
 import NoMetamaskWarning from "./noMetamaskWarning"
 import NoRightNetworkWarning from "./noRightNetworkWarning"
 import { PRODUCTION, LOCAL } from '../../utils/constants'
-import { getDefaultProvider } from 'ethers'
+//import { getDefaultProvider } from 'ethers'
 
 
 // toastify related imports
@@ -83,7 +83,6 @@ const HeadBar = () => {
   useEffect(() => {
 
     const handleAccountChange = () => {
-      console.log('Change Account!')
       router.push({pathname:'/'})
       window.location.reload()
     };

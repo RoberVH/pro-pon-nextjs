@@ -18,12 +18,11 @@ export const useWriteRFP =  (
     setLink //,setPosted
    }) => {
 
-        // const  write = async (rfpname, date0, date1, date2, contestType, arrayItems, value) => {
         const  write = async (params, value) => {
-        const proponContract = await getWritingProponContract()
-        const listeners = proponContract.listeners("NewRFPCreated")
-        proponContract.once("NewRFPCreated", (address, rfpIdx, rfpName) => {
-                onEvent(address, rfpIdx, rfpName, params)
+                const proponContract = await getWritingProponContract()
+                const listeners = proponContract.listeners("NewRFPCreated")
+                proponContract.once("NewRFPCreated", (address, rfpIdx, rfpName) => {
+                        onEvent(address, rfpIdx, rfpName, params)
         })
         try {
             const Tx = await proponContract.createRFP(

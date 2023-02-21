@@ -22,9 +22,9 @@ import { setResultObject } from '../utils/setResultObject'
     {name: "App-Name", value: "pro-pon"},
     {name: "App-version", value: "0.1.0" },
     {name: "owner", value: address },
-    {name: "doc-type", value:filetype}, // the docType of file, the filetype is a number, the index property  on docTypes records Object
+    {name: "doc-type", value:filetype}, // the docType of file, the filetype is a number, 
+                                        //the index property  on docTypes records Object in utils/constant.js file
     {name: "rfpIndex", value:rfpIndex},
-    {name: "rfpId", value:rfpId}
   ]  
 
   const transaction = remoteBundlr.createTransaction(fileData, { tags })

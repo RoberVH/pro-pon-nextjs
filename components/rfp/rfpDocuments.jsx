@@ -21,6 +21,7 @@ import {  useEffect } from 'react'
 import { useFilesRFP } from "../../hooks/useFilesRFP";
 import UploadRFPForm from "../forms/uploadRFPForm"
 import DownloadFileForm from "../forms/downloadFileForm"
+import { convUnixEpoch } from "../../utils/misc";
 import { toastStyle } from "../../styles/toastStyle";
 import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,9 +37,9 @@ const allowedDocTypes = [
 const RFPDocuments = ({
   t,
   showUpload,
-  rfpId,
+  // rfpId,
   rfpIndex,
-  docType,
+  rfpDates,
   owner,
 }) => {
   const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } = useFilesRFP(rfpIndex);
@@ -49,6 +50,10 @@ const RFPDocuments = ({
       //toastId: id,
       ...toastStyle
     });
+  };
+  const isDateAllowed = () => {
+    const rightNow = convUnixEpoch(new Date());
+    return rfpDates[0] < rightNow && rightNow < rfpDates[1];
   };
 
 /** Hooks ********************************************************************** */
@@ -67,10 +72,11 @@ useEffect(()=>{
       <UploadRFPForm
         t={t}
         setNewFiles={setNewFiles}
-        rfpId={rfpId}
+        // rfpId={rfpId}
         rfpIndex={rfpIndex}
         allowedDocTypes={allowedDocTypes}
         owner={owner}
+        isInTime={isDateAllowed()}
       />
     );
 

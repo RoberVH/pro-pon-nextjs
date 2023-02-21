@@ -8,6 +8,7 @@
 import { useState, useContext, useRef, useEffect} from "react"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
+import  Image from "next/image"
 import { useWriteRFP } from "../../hooks/useWriteRFP"
 import { saveRFP2DB } from '../../database/dbOperations'
 import { proponContext } from '../../utils/pro-poncontext'
@@ -72,7 +73,6 @@ const RFPDataForm = () => {
   };
 
 
-
   const handleCheckItemsAdder = (e) => {
     if (Object.keys(items).length) {
       errToasterBox(t('remove_items_first'))
@@ -82,13 +82,15 @@ const RFPDataForm = () => {
   }
 
   const saveRFPDATA2DB = async (params) => {
+    console.log('Recibido rfpparams en rutina de BD', params)
     const resp= await saveRFP2DB (params) 
     if (resp.status) {
-      // we retrieve the address of the rfp owner from OnEvent event as we need it 
-      //but it's not in this form component. Then we set the whole RFP params to be include 
-      // on the URL that RFP button edit will trigger 
-      const { owneraddress } = params
-      setRFPParams(rfpparams => ({...rfpparams, _id: resp._id, rfpidx:params.rfpidx, owneraddress}))
+      // we retrieve the address of the rfp owner from OnEvent event as we need it but it's not in this form component. 
+      //Then we set the whole RFP params to be include on the URL that RFP button edit will trigger 
+      // const { issuer } = params
+      // setRFPParams(rfpparams => ({...rfpparams, _id: resp._id, rfpidx:params.rfpidx, issuer}))
+      //  setRFPParams(rfpparams => ({...rfpparams, rfpidx:params.rfpidx, issuer}))
+       setRFPParams(rfpparams => ({...rfpparams, rfpidx:params.rfpidx}))
       toast.success(t('rfpdatasaved',toastStyleSuccess))
       setrfpCreated(true)
     } else {
@@ -104,11 +106,12 @@ const RFPDataForm = () => {
     setWaiting(false)
   };
 
-  // Handle method passed unto useWriteRFP hook  to save RFP data to DB record 
+  // onEvent Handle method passed unto useWriteRFP hook  to save RFP data to DB record when event is received from contrat
   const onEvent = async (address, rfpIdx, rfpName, params) => {
     const rfpidx=parseInt(rfpIdx)
     if (!rfpCreated) {  
-      const rfpparams={rfpidx, owneraddress:address,...params}
+      const rfpparams={rfpidx, issuer:address,...params}
+      console.log('Params a escribir en BD:', rfpparams)
       saveRFPDATA2DB(rfpparams)
     }
   };
@@ -136,12 +139,8 @@ const RFPDataForm = () => {
     // Need to add currennt time in format hh:mm before getting Unix Epoch to have exact time
   const convertDate2UnixEpoch=(dateStr)=> {
     // add current time to date 
-    const currentTime = new Date()
-    const hh=currentTime.getHours()
-    const mm= currentTime.getMinutes()
-    const mytimeString=`${dateStr} ${hh}:${mm}`
-    const date = new Date(mytimeString)
-    const unixTimestamp = Math.floor(date.getTime() / 1000)
+    const currentDateTime = new Date(dateStr)
+    const unixTimestamp = Math.floor(currentDateTime.getTime() / 1000)
     return unixTimestamp
     }
 
@@ -162,7 +161,14 @@ const RFPDataForm = () => {
 
   // handle Edit RFP button method, Build urk with RFP params and set URL browser to that URL
   const handleEditRFP = () => {
-    const params = buildRFPURL(rfpParams)
+    // here to pass only needed params
+    const urlLine={
+      companyId: rfpParams.companyId,
+      companyname: rfpParams.companyname,
+      rfpwebsite: rfpParams.rfpwebsite,
+      rfpidx:rfpParams.rfpidx
+    }
+    const params = buildRFPURL(urlLine)
     router.push('/homerfp?' + params)    
   }
 
@@ -174,7 +180,9 @@ const RFPDataForm = () => {
     if (infoBoardDiv?.current) infoBoardDiv.current.scrollIntoView()
   },[waiting, postedHash, block])
 
+  //************************************************************
   // handleSave -  call Validate fields & if ok send Write transaction to blockchain
+  // ***********************************************************
   const handleSave = async () => {
     const arrayItems=Object.entries(items).map(item => item[1])
     const trimmedValues = {};
@@ -192,7 +200,6 @@ const RFPDataForm = () => {
     // Dates
     const dates=[]
 
-    //const initialDate=
     for (const [field, errormessage] of validatingFields) 
     {
       const [convertedDate, status ]= validateDate(
@@ -239,6 +246,7 @@ const RFPDataForm = () => {
     // so that price will be expensier. If Open, each bidder will paid for that. So, it should cost less
     const value= contestType === ContestType.OPEN ? openPriceRPF : invitationRFPPrice
     // writing essential RFP data to contract
+    console.log('Params a escribir en contrato:', params)
     await write(
       params,
       value)
@@ -397,7 +405,12 @@ const RFPDataForm = () => {
       </div>
       {/* Inferior panel to explain & display call to actions */}
       { ( waiting || postedHash) &&
-      <div ref={infoBoardDiv} className="container mt-4 mb-8 p-4 bg-white border-2 border-orange-200 w-[70%] ">
+      <div ref={infoBoardDiv} className="container mt-4 mb-8 p-4 bg-white border-2 border-orange-200 w-[70%] shadow-xl ">
+         <div className="flex mb-2">
+            <Image alt="Info" src="/information.svg" height={20} width={20}/>
+            <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base text-xl">
+                <strong>{t('sending_rfp_blockchain')} </strong></p>
+        </div>
         <div className="font-khula text-stone-700 text-base py-4 ">
           { (waiting || postedHash ) && (<p>{t('savingtoblockchainmsg')} </p> )}
           { postedHash && 

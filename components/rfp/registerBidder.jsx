@@ -129,9 +129,7 @@ useEffect(()=>{
   const handleClosePanel = () => {
     setShowPanel(false);
     setGuestCompanies([]);
-    console.log(cleanSearchParams.current)
-    if (cleanSearchParams.current) {    cleanSearchParams.current.resetparams()
-    }
+    if (cleanSearchParams.current) cleanSearchParams.current.resetparams()
   };
 
   const handleRegisterGuests = async () => {
@@ -147,16 +145,17 @@ useEffect(()=>{
       write("inviteguests", rfpRecord.rfpidx, companyId, addresses);
     }
   };
-  const InformativeMsg = (title) => (
-    <div className="p-4">
-      <div
-        className="mt-4 w-2/3 min-w-full  border-2 border-coal-500 
-            flex shadow-lg p-4 justify-center items-center"
-      >
-        <p className="text-stone-600"> {t("title")} </p>
-      </div>
-    </div>
-  );
+  
+  // const InformativeMsg = (title) => (
+  //   <div className="p-4">
+  //     <div
+  //       className="mt-4 w-2/3 min-w-full  border-2 border-coal-500 
+  //           flex shadow-lg p-4 justify-center items-center"
+  //     >
+  //       <p className="text-stone-600"> {t("title")} </p>
+  //     </div>
+  //   </div>
+  // );
 
   const checkIncluded = (id) =>
     Boolean(guestCompanies.filter((cia) => cia.companyId === id).length);
@@ -240,7 +239,7 @@ useEffect(()=>{
 
   return (
     <div className="p-1">
-      <div className="mt-4  border-2 border-coal-500 ">
+      <div className="mt-4  border-2 border-stone-300 shadow-lg ">
         <p className="text-stone-600 p-4 ">
           {rfpOwner ? t("register_guest") : t("register_open")}
         </p>
