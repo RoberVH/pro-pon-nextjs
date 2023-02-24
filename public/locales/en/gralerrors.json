@@ -2,7 +2,7 @@
     "address_already_admin":"This account is already admin of another company",
     "unknownerror":"Unkwon error, try later",
     "undetermined_blockchain_error":"Unkwon error, try later",
-    "insufficient_funds":"insufficient funds for intrinsic transaction cost",
+    "insufficient_funds":"insufficient funds for intrinsic transaction cost, get some Matic",
     "Insufficient_payment":"Insufficient payment for this transaction",
     "address_not_admin":"This account is not owner",
     "Only_admin_can_perform":"Only admin owner can make this operation",
@@ -19,5 +19,6 @@
     "execution reverted: cannot_self_award":"You cannot declare yourself winner",
     "execution reverted: invalid_winner":"Invalid winner, not a participant",
     "execution reverted: rfp_already_awarded":"RFP already awarded",
-    "execution reverted: id_already_exists":"Id already exists"
+    "execution reverted: id_already_exists":"Id already exists",
+    "execution reverted: rfpid_already_taken":"RFP Id already used for this company"
 }

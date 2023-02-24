@@ -125,5 +125,7 @@
     "companies_awarded":"Enchérisseurs retenus",
     "rfp_canceled":"Cet appel d'offres a été annulé",
     "waiting_results":"L'appel d'offres n'a pas encore été attribué",
-    "no_rfp":"Il n'y a pas d'appel d'offres"
+    "no_rfp":"Il n'y a pas d'appel d'offres",
+    "cannot_retrieve_company":"Ne peut pas récupérer Company avec l'adresse du compte:"
+
 }

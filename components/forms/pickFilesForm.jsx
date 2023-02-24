@@ -28,7 +28,6 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
   const [candidateFiles, setCandidateFiles] = useState([])
   const [localTotalSize, setLocalTotalSize] = useState(0)
   
-console.log('isInTime',isInTime)
   const inputRef = useRef(null);
 
   // Inner Components ******************************************************************************************

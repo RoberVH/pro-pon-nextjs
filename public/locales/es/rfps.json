@@ -127,5 +127,6 @@
     "companies_awarded":"Licitantes adjudicados",
     "rfp_canceled":"Este RFP ha sido cancelado",
     "waiting_results":"El RFP aun no han sido adjudicado",
-    "no_rfp":"No existe el RFP"
+    "no_rfp":"No existe el RFP",
+    "cannot_retrieve_company":"No pude recuperar datos de Compañía con dirección de cuenta:"
 }

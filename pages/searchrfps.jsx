@@ -26,7 +26,7 @@ function Searchrfps() {
       companyname: rfpParams.companyname,
       
       //rfpwebsite temporal*******
-      rfpwebsite: rfpParams.rfpwebsite,
+      //rfpwebsite: rfpParams.rfpwebsite,
       rfpidx:rfpParams.rfpidx
     }
     //************************************* 

@@ -23,14 +23,15 @@ import SpinnerBar from "../layouts/SpinnerBar";
  *  Props:
  *      t - Translator function
  *      setNewFiles - boolean flag to indicate parent component there are new RFP files
- *      rfpId - Id from RFP database record
  *      rfpIndex - Global index on Contract var array RFPs of current RFP
+ *      allowedDocTypes - array with DocTypes allowed for this uploading box,
+ *      owner       - address of owner of RFP (the issuer)
+ *      isInTime    - Boolean flagging if is on time for upload operation
  *
  */
 function UploadRFPForm({
   t,
   setNewFiles,
-  // rfpId,
   rfpIndex,
   allowedDocTypes,
   owner,
@@ -166,7 +167,7 @@ function UploadRFPForm({
    * savetoContractUploadedFiles
    *  Check if there are Files saved to Arweave and proceeed to record their metadata to Contract
    *   Save to contract a record of files uploaded to arweave:
-   *      setUploaded - record with hash, rfpid and Bundlr/arweave Id uploaded files
+   *      setUploaded - record with hash and Bundlr/arweave Id uploaded files
    *      owner - owner of file uploaded
    *  Otherwise set screen to initial state (i.e. no picked up files)
    */
@@ -194,7 +195,7 @@ function UploadRFPForm({
         }))
       );
     } catch (error) {
-      console.log(error);
+      console.log('write metadata',error);
     } finally {
       setsendingBlockchain(false);
     }
@@ -218,7 +219,7 @@ function UploadRFPForm({
       const funded = await RmteBundlr.getLoadedBalance();
       const bal = RmteBundlr.utils.unitConverter(funded);
 
-      /*** probnado */
+      /*** probando */
       // setuploadingSet(Array(pickedFiles.length).fill({ status: "pending" }));
       // setShowSummaryUploads(true)
       // return
@@ -245,7 +246,6 @@ function UploadRFPForm({
             file, // file object record, contains propery originalFile with value of user selected File object
             indx,
             owner,
-            // rfpId,
             RmteBundlr,
             file.docType,
             //ArweavefileTypes.requestFile,
@@ -278,7 +278,6 @@ function UploadRFPForm({
         // setUploading(false);
       }
     },
-    // [totalSize, owner, rfpId, rfpIndex, t]
     [totalSize, owner,  rfpIndex, t]
   );
 
@@ -293,7 +292,7 @@ function UploadRFPForm({
     //signal reading files to parent component
     setNewFiles(true);
   };
-console.log('isInTime',isInTime)
+  
   //JSX returned begins here    ********************************************************************
   if (!Boolean(pickedFiles.length))
     return (

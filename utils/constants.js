@@ -27,7 +27,8 @@ export const errorSmartContract = [
     'execution reverted: cannot_self_award',
     'execution reverted: invalid_winner',
     'execution reverted: rfp_already_awarded',
-    'execution reverted: id_already_exists'
+    'execution reverted: id_already_exists',
+    'execution reverted: rfpid_already_taken'
 ]
 
 

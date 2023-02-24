@@ -33,7 +33,7 @@ const RegisterBidder = ({
   address,
   i18n,
 }) => {
-  const { bidders, getBidders, companies } = useBidders(rfpRecord.rfpidx);
+  const { bidders, getBidders, companies } = useBidders(rfpRecord.rfpIndex);
 
    // same address could have different case but are the same address, that's why we check like this the address vs bidders array 
    const [alreadyRegistered, setAlreadyRegistered] = useState(false)
@@ -66,7 +66,7 @@ const RegisterBidder = ({
 
   // Hooks   ******************************************************************************** */
   useEffect(()=>{
-    getBidders(rfpRecord.rfpidx)
+    getBidders(rfpRecord.rfpIndex)
   },[])
 
 useEffect(()=>{
@@ -117,7 +117,7 @@ useEffect(()=>{
   const handleRegisterItself = () => {
     setShowPanel(true);
     setsendingBlockchain(true)
-    write("registeropen", rfpRecord.rfpidx, companyId);
+    write("registeropen", rfpRecord.rfpIndex, companyId);
 
 
   };
@@ -142,20 +142,10 @@ useEffect(()=>{
     if (addresses.length) {
       setShowPanel(true);
       setsendingBlockchain(true)
-      write("inviteguests", rfpRecord.rfpidx, companyId, addresses);
+      write("inviteguests", rfpRecord.rfpIndex, companyId, addresses);
     }
   };
   
-  // const InformativeMsg = (title) => (
-  //   <div className="p-4">
-  //     <div
-  //       className="mt-4 w-2/3 min-w-full  border-2 border-coal-500 
-  //           flex shadow-lg p-4 justify-center items-center"
-  //     >
-  //       <p className="text-stone-600"> {t("title")} </p>
-  //     </div>
-  //   </div>
-  // );
 
   const checkIncluded = (id) =>
     Boolean(guestCompanies.filter((cia) => cia.companyId === id).length);

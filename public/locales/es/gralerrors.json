@@ -2,7 +2,7 @@
     "address_already_admin":"Esta cuenta ya es administradora de otra empresa",
     "unknownerror":"Error desconocido, reintente mas tarde",
     "undetermined_blockchain_error":"Error desconocido, reintente mas tarde",
-    "insufficient_funds":"Fondos insuficientes para cubrir costo de transaction",
+    "insufficient_funds":"Fondos insuficientes para cubrir costo de transaction, obtenga Matic",
     "Insufficient_payment":"Pago insuficiente para pagar esta transacción",
     "address_not_admin":"Esta cuenta no es la propietaria",
     "Only_admin_can_perform":"Solo cuenta adminstrador puede hacer esta operación",
@@ -19,6 +19,6 @@
     "execution reverted: cannot_self_award":"No puede declararse ganador a sí mismo",
     "execution reverted: invalid_winner":"Ganador inválido, no es participante",
     "ejecución revertida: rfp_already_awarded":"RFP ya fue adjudicado",
-    "execution reverted: id_already_exists":"El Id ya existe"
-    
+    "execution reverted: id_already_exists":"El Id ya existe",
+    "execution reverted: rfpid_already_taken":"Id de RFP utilizado previamente para esta compañía"
 }

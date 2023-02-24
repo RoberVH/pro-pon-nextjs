@@ -21,7 +21,6 @@ export default async function handler (req, res) {
       res.status(200).json(rfps);
       break
     case 'POST':  //  post one rfp data
-      console.log('EN server par asalvar a BD recibi en body', req.body)
       if (isEmpty(req.body)) {
         res.status(400).json({ status: false, msg:'no_data_to_save' })
         return

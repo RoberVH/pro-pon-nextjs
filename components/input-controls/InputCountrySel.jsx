@@ -53,7 +53,7 @@ return (
               text-black  font-khula"
       onChange={handleChange}
       id={"country"}
-      value={profileCompleted ? companyData.country: "default"}>
+      value={profileCompleted ? companyData.country: values.country}>
         <option value={"default"} >
           {!profileCompleted
             ? `${t("companyform.country")}*`

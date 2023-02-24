@@ -12,8 +12,8 @@ const useInputForm = (initialValues={}) => {
   }
 
   const handleChange = (event) => {
-    event.persist();
-    setValues(values => ({ ...values, [event.target.id]: event.target.value }));
+    event.persist()
+    setValues(values => ({ ...values, [event.target.id]: event.target.value }))
   }; 
 
   return {

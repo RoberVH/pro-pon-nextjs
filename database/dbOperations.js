@@ -51,7 +51,6 @@ export const verifyData_Save = async (message, signature) => {
 
     // Create company RFP at  database
     export const saveRFP2DB = async (rfpParams) => {
-      console.log('Enviando a BD rfpParams', rfpParams)
       let method = "POST";
       try {
         const response = await fetch("/api/serverrfp", {
@@ -71,7 +70,6 @@ export const verifyData_Save = async (message, signature) => {
   //    Create an array of promises that call the API route for each element in 
   //    the companyAddresses array
   export const getDBCompaniesbyAddress = async (companiesAddresses) => {
-    console.log('RECIBI:', companiesAddresses)
     if (companiesAddresses.length===0) return []
   const fetchPromises = companiesAddresses.map(async (address) => {
     try {

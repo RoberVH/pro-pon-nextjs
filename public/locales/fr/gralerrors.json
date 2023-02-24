@@ -3,7 +3,7 @@
     "unknownerror":"Erreur inconnue, essayez plus tard",
     "undetermined_blockchain_error":"Erreur inconnue, essayez plus tard",
     "insufficient_funds":"Fonds insuffisants pour couvrir le coût de la transaction",
-    "Insufficient_payment":"Paiement insuffisant pour cette transaction",
+    "Insufficient_payment":"Paiement insuffisant pour cette transaction, obtenir du matic",
     "address_not_admin":"Ce compte n'est pas propriétaire",
     "Only_admin_can_perform":"Seul le propriétaire administrateur peut effectuer cette opération",
     "user_rejection":"l'utilisateur a rejeté la transaction",
@@ -19,5 +19,6 @@
     "execution reverted: not_self_award":"Vous ne pouvez pas vous déclarer vainqueur",
     "execution reverted: invalid_winner":"Gagnant invalide, pas un participant",
     "execution reverted: rfp_already_awarded":"RFP déjà attribué",
-    "execution reverted: id_already_exists":"L'identifiant existe déjà"
+    "execution reverted: id_already_exists":"L'identifiant existe déjà",
+    "execution reverted: rfpid_already_taken":"Id RFP déjà utilisé pour cette entreprise"
 }

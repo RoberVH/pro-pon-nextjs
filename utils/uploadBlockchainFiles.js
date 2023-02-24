@@ -30,7 +30,6 @@ export const uploadBlockchainFiles = (
   file,
   idx,
   ownerAddress,
-  rfpId,
   remoteBundlr,
   fileType,   // Doctype - is a numberic index property of docType record in Object docTypes in file constants.js
   rfpIndex
@@ -62,7 +61,6 @@ export const uploadBlockchainFiles = (
         file,
         result.file,
         fileType,
-        rfpId,
         idx,
         rfpIndex
         );

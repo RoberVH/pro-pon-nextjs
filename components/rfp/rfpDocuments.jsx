@@ -72,7 +72,6 @@ useEffect(()=>{
       <UploadRFPForm
         t={t}
         setNewFiles={setNewFiles}
-        // rfpId={rfpId}
         rfpIndex={rfpIndex}
         allowedDocTypes={allowedDocTypes}
         owner={owner}

@@ -71,7 +71,7 @@ function HomeRFP({ query }) {
         setNoRFP(true)
         return
       } 
-      const RFP = {companyId: query.companyId, companyname: query.companyname, rfpidx: query.rfpidx };
+      const RFP = {companyId: query.companyId, companyname: query.companyname}
       //  remove redundant numeric properties ([0]: ... [N]) from contract response & convert from Big number to 
       //  number at the same time
       for (const prop in result.RFP) {
@@ -82,10 +82,11 @@ function HomeRFP({ query }) {
             RFP[prop] = result.RFP[prop];
         }
       }
+
       
       // temporary until contract replaced ***************
-      RFP['description'] = query.description
-      RFP[  'rfpwebsite']=query.rfpwebsite
+      // RFP['description'] = query.description
+      // RFP[  'rfpwebsite']=query.rfpwebsite
       // temporary ***************
       
       //if (query.items) delete query.items
@@ -115,8 +116,7 @@ const RFPTabDisplayer = () => {
           <RFPDocuments
             t={t}
             showUpload={companyData.companyId === rfpRecord.companyId}
-            // rfpId={rfpRecord._id}
-            rfpIndex={rfpRecord.rfpidx}
+            rfpIndex={rfpRecord.rfpIndex}
             rfpDates={[rfpRecord.openDate,rfpRecord.endDate]}
             owner={rfpRecord.issuer}
           />
@@ -147,7 +147,7 @@ const RFPTabDisplayer = () => {
             t={t}
             docType={docTypes[0]}
             address={address}
-            rfpIndex={rfpRecord.rfpidx}
+            rfpIndex={rfpRecord.rfpIndex}
             owner={rfpRecord.issuer}
             rfpDates={[rfpRecord.openDate,rfpRecord.endReceivingDate]}
           />

@@ -82,7 +82,6 @@ const RFPDataForm = () => {
   }
 
   const saveRFPDATA2DB = async (params) => {
-    console.log('Recibido rfpparams en rutina de BD', params)
     const resp= await saveRFP2DB (params) 
     if (resp.status) {
       // we retrieve the address of the rfp owner from OnEvent event as we need it but it's not in this form component. 
@@ -111,7 +110,6 @@ const RFPDataForm = () => {
     const rfpidx=parseInt(rfpIdx)
     if (!rfpCreated) {  
       const rfpparams={rfpidx, issuer:address,...params}
-      console.log('Params a escribir en BD:', rfpparams)
       saveRFPDATA2DB(rfpparams)
     }
   };
@@ -165,7 +163,6 @@ const RFPDataForm = () => {
     const urlLine={
       companyId: rfpParams.companyId,
       companyname: rfpParams.companyname,
-      rfpwebsite: rfpParams.rfpwebsite,
       rfpidx:rfpParams.rfpidx
     }
     const params = buildRFPURL(urlLine)
@@ -246,7 +243,6 @@ const RFPDataForm = () => {
     // so that price will be expensier. If Open, each bidder will paid for that. So, it should cost less
     const value= contestType === ContestType.OPEN ? openPriceRPF : invitationRFPPrice
     // writing essential RFP data to contract
-    console.log('Params a escribir en contrato:', params)
     await write(
       params,
       value)
@@ -266,9 +262,10 @@ const RFPDataForm = () => {
       {/* Entry Form with buttons save & cancel */}
       <div id="dataentrypanel" 
         className={`container ${itemStyleContainer[showItemsField]} p-4 bg-white border-xl border-2 border-orange-200 rounded-md`}>
-          <p className="text-gray-600 text-extrabold text-base text-xl  font-khula">
-            ⌨ &nbsp;{t("recresrfpdata")}
-          </p>
+        <div className="flex items-center" >
+          <Image   alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
+          <p className="text-gray-600 text-extrabold text-base text-xl mt-2 ml-2 font-khula">{t("recresrfpdata")}</p>
+        </div>
           <div className="grid grid-cols-2 grid-gap-1">
             <div id="essentialdatacontainer" className="flex flex-col items-left justify-between leading-8 mt-8  pl-8 ">
               <form

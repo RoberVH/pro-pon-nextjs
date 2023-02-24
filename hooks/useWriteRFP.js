@@ -27,6 +27,8 @@ export const useWriteRFP =  (
         try {
             const Tx = await proponContract.createRFP(
                     params.name,
+                    params.description,
+                    params.rfpwebsite,
                     params.openDate, 
                     params.endReceivingDate,
                     params.endDate,

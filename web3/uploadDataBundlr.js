@@ -8,8 +8,7 @@ import { setResultObject } from '../utils/setResultObject'
 *    create a transaction and get it sign on the paying server using the remote Bundler Object
 *    passed. With the signed signature upload content and tags from client to Bundlr
 */
-
- export const uploadDataBundlr = (setuploadingSet, remoteBundlr, address, file, fileData, filetype, rfpId, idx, rfpIndex) => {
+ export const uploadDataBundlr = (setuploadingSet, remoteBundlr, address, file, fileData, filetype, idx, rfpIndex) => {
   return new Promise(async (resolve, reject) => {
 
     const MaxBundlrArweaveProgress = 80   // max percentage to show max when uploading the file to arweave on UX progress Bar
@@ -24,7 +23,7 @@ import { setResultObject } from '../utils/setResultObject'
     {name: "owner", value: address },
     {name: "doc-type", value:filetype}, // the docType of file, the filetype is a number, 
                                         //the index property  on docTypes records Object in utils/constant.js file
-    {name: "rfpIndex", value:rfpIndex},
+    {name: "rfpIndex", value:rfpIndex.toString()},
   ]  
 
   const transaction = remoteBundlr.createTransaction(fileData, { tags })

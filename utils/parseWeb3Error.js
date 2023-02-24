@@ -13,8 +13,12 @@ export const parseWeb3Error = (t,error) => {
             customError=t(error.reason, {ns:"gralerrors"})
             }
     } else {
-        if (error.data && error.data.message) customError=error.data.message
-        else if (typeof error.message!== 'undefined') customError=error.message
+        if (error.data && error.data.message) {
+            customError=error.data.message
+            if (customError.includes('err: insufficient funds for gas')) customError = t('insufficient_funds',{ns:"gralerrors"})
+
+        }
+            else if (typeof error.message!== 'undefined') customError=error.message
     }
     return customError
 }

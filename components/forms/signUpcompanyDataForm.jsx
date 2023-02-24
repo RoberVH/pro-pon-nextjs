@@ -6,6 +6,7 @@
 import React, { useState, useContext, useEffect} from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import Image  from 'next/image'
 import english from "i18n-iso-countries/langs/en.json";
 import spanish from "i18n-iso-countries/langs/es.json";
 import french from "i18n-iso-countries/langs/fr.json";
@@ -23,6 +24,7 @@ import { saveCompanyID2DB, getCompanydataDB } from '../../database/dbOperations'
 import { InputCountrySel } from '../input-controls/InputCountrySel'
 import { useWriteCompanyData } from '../../hooks/useWriteCompanyData'
 import { proponContext } from "../../utils/pro-poncontext"
+import { parseWeb3Error } from "../../utils/parseWeb3Error";
 
 
 
@@ -44,7 +46,7 @@ const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded r
  */
 const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   
   // State Variables & constants of module
-  const { t, i18n  } = useTranslation("signup");
+  const { t, i18n  } = useTranslation(["signup","gralerrors"]);
   const [posted, setPosted] = useState(false) // // begins with false
   const [companyCreated, setcompanyCreated] = useState(false)
   const [lang, setLang] = useState('')
@@ -117,20 +119,24 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
 
   const onError = (error) => {
     // default answer, now check if we can specified it
-    let customError=t('errors.undetermined_blockchain_error')  
-    if (typeof error.reason!== 'undefined') {
-      if (error.reason==='insufficient funds for intrinsic transaction cost')
-          customError=t('errors.insufficient_funds')
-      if (error.reason==='user rejected transaction')
-          customError=t('errors.user_rejection')
-          // read errors coming from Contract require statements
-      if (errorSmartContract.includes(error.reason)) customError=t(`error.${error.reason}`)
-    } else {
-        if (error.data && error.data.message) customError=error.data.message
-        else if (typeof error.message!== 'undefined') customError=error.message
-   }
+    const customError=parseWeb3Error(t,error)
     errToasterBox(customError)    
     setIsSaving(false)
+  return
+  //   let customError=t('errors.undetermined_blockchain_error')  
+  //   if (typeof error.reason!== 'undefined') {
+  //     if (error.reason==='insufficient funds for intrinsic transaction cost')
+  //         customError=t('errors.insufficient_funds')
+  //     if (error.reason==='user rejected transaction')
+  //         customError=t('errors.user_rejection')
+  //         // read errors coming from Contract require statements
+  //     if (errorSmartContract.includes(error.reason)) customError=t(`error.${error.reason}`)
+  //   } else {
+  //       if (error.data && error.data.message) customError=error.data.message
+  //       else if (typeof error.message!== 'undefined') customError=error.message
+  //  }
+  //   errToasterBox(customError)    
+  //   setIsSaving(false)
   }
 
   const write = useWriteCompanyData({onEvent, onSuccess, setHash, onError, setLink, setPosted})
@@ -216,10 +222,13 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
    <div id="generalsavearea" className="container mx-auto " >
     {/* Entry Form with buttons save & cancel */}
     <div id="dataentrypanel" className="mt-4  p-4 bg-white  border-orange-200 rounded-md
-                  container  my-8 mx-4 border-2 border-solid">
-      <p className="text-gray-600 text-extrabold text-base  mb-4 font-khula">
-        ⌨ <strong> {t("companyform.recordessentialdata")}</strong>
-      </p>
+             container  my-8 mx-4 border-2 border-solid">
+      <div className="flex items-center" >
+        <Image   alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
+        <p className="text-gray-600 text-extrabold text-base mt-2 ml-2 font-khula">
+          <strong> {t("companyform.recordessentialdata")}</strong>
+        </p>
+      </div>
       <form
         action=""
         disabled={posted || companyCreated } 

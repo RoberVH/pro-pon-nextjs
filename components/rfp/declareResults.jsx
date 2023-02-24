@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useBidders } from '../../hooks/useBidders';
 import { useDeclareResults } from '../../hooks/useDeclareResults'
 import { parseWeb3Error } from '../../utils/parseWeb3Error'
+import { getContractWinners } from '../../web3/getContractWinners';
 import ShowTXSummary from '../rfp/ShowTXSummary'
 import GralMsg from '../layouts/gralMsg'
 import Spinner from '../layouts/Spinner'
@@ -66,15 +67,13 @@ const [showPanel, setShowPanel] = useState(false)
   };
   
   const handleDeclareWinners = async () => {
-    console.log('winner array', winners)
-    console.log('rfpRecord.items.length',rfpRecord.items.length)
     if (winners.includes("not_choose")) {
       errToasterBox(t('not_choose'))
       return
     }
     setShowPanel(true);
     setsendingBlockchain(true)
-    write(rfpRecord.rfpidx, rfpRecord.companyId, winners);
+    write(rfpRecord.rfpIndex, rfpRecord.companyId, winners);
   
   };  
 
@@ -84,7 +83,7 @@ const { write, postedHash, block, link, blockchainsuccess } = useDeclareResults(
 useEffect(() => {
   async function getBiddersInfo() {
     // obtain companies information from DataBase
-    const result = await getBidders(rfpRecord.rfpidx);
+    const result = await getBidders(rfpRecord.rfpIndex);
   
     if (!result.status) {
       errToasterBox(result.message);
@@ -96,6 +95,7 @@ useEffect(() => {
 useEffect(()=>{
   setInTime(rfpRecord.endDate < convUnixEpoch(new Date()))
 },[])
+
 
 
 // Inner Components  ***************************************************************************************************************************
@@ -137,7 +137,7 @@ const WinnersTable = ({ items, competitors }) => {
                 onChange={(e)=>handleChange(e,index)}
               >
                 <option value={'not_choose'}>{t('choose')}</option>
-                <option value={NullAddress}>{t('deserted_itmes')}</option>
+                <option value={NullAddress}>{t('deserted_items')}</option>
                 {competitors.map((competitor) => (
                   <option key={competitor.companyId} value={competitor.address}>
                     {competitor.companyname}
@@ -187,7 +187,6 @@ if (!doneLookingBidders) return (
 return (
     <div className="mx-auto mt-8  p-4 w-[90%] border border-orange-100  shadow-md shadow-orange-100">
       <TitleDeclare />
-      {console.log(winners)}
         <WinnersTable
                 items={declaringItems}
                 competitors={companies}

@@ -31,7 +31,6 @@ export const useBidders = () => {
                 }
                 const results=await getDBCompaniesbyAddress(participants.bidders)
                 for (let i=0; i<results.length; i++)
-                console.log('set winners', results[i].address,results[i].companyname )
                 setCompanies(results)
                 setDoneLookingBidders(true)}       
             return {status:true}

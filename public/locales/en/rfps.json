@@ -125,5 +125,6 @@
     "companies_awarded":"Awarded Bidders",
     "rfp_canceled":"This RFP has been canceled",
     "waiting_results":"RFP has not been awarded yet",
-    "no_rfp":"No RFP"
+    "no_rfp":"No RFP",
+    "cannot_retrieve_company":"Can not retrieve Company Data with account address:"
 }
