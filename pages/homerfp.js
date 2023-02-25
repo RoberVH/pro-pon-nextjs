@@ -25,7 +25,6 @@ import NoItemsTitle from "../components/layouts/NoItemsTitle";
 import { proponContext } from "../utils/pro-poncontext";
 import HomeButtons from "../components/rfp/homeButtons";
 import Spinner from "../components/layouts/Spinner";
-// import { getArweaveFilesMetadata } from "../web3/getArweaveFilesMetadata";
 import { getContractRFP } from '../web3/getContractRFP'
 import { toastStyle, toastStyleSuccess } from "../styles/toastStyle";
 import { toast } from "react-toastify";
@@ -64,7 +63,6 @@ function HomeRFP({ query }) {
   // Get RFP record values and  files for this RFP at load component
   useEffect(() => {
     const getRFP = async () => {
-
       const result= await getContractRFP(query.rfpidx)
       if (! result.status){ 
         errToasterBox(result.message)
