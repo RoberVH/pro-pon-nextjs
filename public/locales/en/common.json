@@ -31,5 +31,6 @@
         "Create a Bidding Contest and add RFPs documents",
         "Invite your suppliers to bid through Pro-Pon App"
     ],
-    "addingnetwork":"Your wallet does not have working network configured, adding it now, please allow"
+    "addingnetwork":"Your wallet does not have working network configured, adding it now, please allow",
+    "could_not_detect_network":"Could not detect Blockchain network"
   }

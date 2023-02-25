@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { proponContext } from "../utils/pro-poncontext";
 import Spinner from "../components/layouts/Spinner";
 
-//import SpinnerBar from '../components/layouts/SpinnerBar'
 
 import Image from "next/image";
 import Link from "next/link";

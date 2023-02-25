@@ -8,11 +8,12 @@ import { PRODUCTION, LOCAL } from '../utils/constants'
 export const getProponContract = async () => {
   try {
     if (!LOCAL) {  
-      const alchemyProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL) 
+      //const alchemyProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL) 
+      const alchemyProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_BROWSER) 
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, alchemyProvider)
       return contract
     } else {
-      const provider= await new ethers.providers.Web3Provider(window.ethereum)
+      const provider=  new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, signer)
       return contract

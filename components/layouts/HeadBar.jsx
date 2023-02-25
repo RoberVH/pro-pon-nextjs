@@ -22,7 +22,6 @@ import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork"
 import NoMetamaskWarning from "./noMetamaskWarning"
 import NoRightNetworkWarning from "./noRightNetworkWarning"
 import { PRODUCTION, LOCAL } from '../../utils/constants'
-//import { getDefaultProvider } from 'ethers'
 
 
 // toastify related imports
@@ -53,12 +52,11 @@ const HeadBar = () => {
   const { t } = useTranslation(["menus", "common"]);
   const router = useRouter();
   
-  const errToasterBox =
-  
   /**
    * Error Toaster Box
    * @param {String} msj Error message to show in the toaster box
-   */ (msj) => {
+   */ 
+  const errToasterBox =    (msj) => {
     toast.error(msj, toastStyle);
   };  
   
@@ -97,7 +95,6 @@ const HeadBar = () => {
   }, []);
 
   useEffect(()=>{
-
     async function getDatafromContract() {
       // check if address is valir
         if (address) {
@@ -114,7 +111,9 @@ const HeadBar = () => {
             const result = await getContractCompanyData(address) 
             if (!result.status) {
               setShowSpinner(false)
-              errToasterBox(result.message)
+              let msg=result.message
+              if (msg.includes('could not detect network')) msg=t('could_not_detect_network', { ns: "common" })
+              errToasterBox(msg)
               return
             }
             if (result.data.id) 

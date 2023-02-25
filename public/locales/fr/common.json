@@ -1,9 +1,9 @@
 {
-    "home": "Domicile",
-    "about": "Sur",
-    "companies":"Enterprises",
-    "aptitle":"Publier des appels d'offres sur la Blockchain",
-    "explanation1":"Connectez votre portefeuille pour créer un profil pour votre entreprise et commencez à publier vos appels d'offres sur Blockchain et répondez aux appels d'offres d'autres entreprises",
+   "home": "Domicile",
+   "about": "Sur",
+   "companies":"Enterprises",
+   "aptitle":"Publier des appels d'offres sur la Blockchain",
+   "explanation1":"Connectez votre portefeuille pour créer un profil pour votre entreprise et commencez à publier vos appels d'offres sur Blockchain et répondez aux appels d'offres d'autres entreprises",
    "connect_wallet":"Se connecter",
    "signup":"S'inscrire",
    "noresults":"Aucun résultat",
@@ -31,5 +31,6 @@
         "Créer un appel d'offres et ajouter des documents d'appels d'offres",
         "Invitez vos fournisseurs à soumissionner via l'application Pro-Pon"
     ],
-    "addingnetwork":"Votre portefeuille n'a pas le réseau de travail configuré, ajoutez-le maintenant, veuillez autoriser"
+    "addingnetwork":"Votre portefeuille n'a pas le réseau de travail configuré, ajoutez-le maintenant, veuillez autoriser",
+    "could_not_detect_network":"Impossible de détecter le réseau de blockchain"
 }

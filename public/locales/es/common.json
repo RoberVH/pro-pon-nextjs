@@ -31,5 +31,6 @@
         "Crear un concurso de ofertas y agregar documentos del RFP",
         "Invite a sus proveedores a enviar sus propuestas a través de Pro-Pon"
     ],
-    "addingnetwork":"Su billetera no tiene la red de trabajo configurada, agregándola ahora, por favor autorize"
+    "addingnetwork":"Su billetera no tiene la red de trabajo configurada, agregándola ahora, por favor autorize",
+    "could_not_detect_network":"No pude detectar red de Blockchain"
   }
