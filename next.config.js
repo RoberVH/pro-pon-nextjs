@@ -12,7 +12,6 @@ const nextConfig = {
     // number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 100,
   },  
-  react: { useSuspense: false },
   // localeDetection: true,
 }
 module.exports = nextConfig

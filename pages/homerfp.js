@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect, useCallback, useContext, Fragment } from "react";
+import { useRouter } from 'next/router'
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 const { BigNumber } = require("ethers");
@@ -31,7 +32,7 @@ import { toast } from "react-toastify";
 
 import { docTypes, openContest, inviteContest } from "../utils/constants";
 
-function HomeRFP({ query }) {
+function HomeRFP() {
   const displayedPanels = [
     "rfp_bases", // show /allow owner to post requesting documents
     "bidder_register", // allow participant to register and upload bids
@@ -44,11 +45,13 @@ function HomeRFP({ query }) {
   const [selectedPanel, setSelectedPanel] = useState();
   const [loading, setloading] = useState(true)
   const [noRFP, setNoRFP] = useState(false)
-  
 
   const { companyData, address } = useContext(proponContext);
+  const router = useRouter()
   const { t } = useTranslation("rfps");
   const t_companies = useTranslation("companies").t; // tp search for companies when inviting them
+  const { companyId, companyname, rfpidx } = router.query;
+
 
   //Next line  because we'll need to be able to search for Companies when inviting them to contest
   const { i18n } = useTranslation("companies");
@@ -56,20 +59,21 @@ function HomeRFP({ query }) {
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
-
+console.log('companyId, companyname, rfpidx',companyId, companyname, rfpidx)
 
 //  Inner Components ******************************************************************
 
   // Get RFP record values and  files for this RFP at load component
   useEffect(() => {
     const getRFP = async () => {
-      const result= await getContractRFP(query.rfpidx)
+      if (!rfpidx) return
+      const result= await getContractRFP(rfpidx)
       if (! result.status){ 
         errToasterBox(result.message)
         setNoRFP(true)
         return
       } 
-      const RFP = {companyId: query.companyId, companyname: query.companyname}
+      const RFP = {companyId: companyId, companyname: companyname}
       //  remove redundant numeric properties ([0]: ... [N]) from contract response & convert from Big number to 
       //  number at the same time
       for (const prop in result.RFP) {
@@ -80,31 +84,11 @@ function HomeRFP({ query }) {
             RFP[prop] = result.RFP[prop];
         }
       }
-
-      
-      // temporary until contract replaced ***************
-      // RFP['description'] = query.description
-      // RFP[  'rfpwebsite']=query.rfpwebsite
-      // temporary ***************
-      
-      //if (query.items) delete query.items
-      //query['items']=RFP.RFP.items
-      
-      // query['canceled']=RFP.RFP.canceled
-      // query['participants']=RFP.RFP.participants
-      // query['items']=RFP.RFP.items
-      /*
-      console.log('Post')
-      console.log('query',query)
-      console.log('RFP',RFP.RFP)*/
-
-      // if (typeof query.items === 'string') query.items=[query.items] // in case there is only 1 item list
-      // setRfpRecord(query);
       setRfpRecord(RFP);
     };
     getRFP();
     setloading(false)
-  }, [query]);
+  }, [companyId, companyname, rfpidx]);
 
 
 const RFPTabDisplayer = () => {
@@ -235,13 +219,28 @@ const RFPTabDisplayer = () => {
 }
 
 // Get language translation json files  and the rfpId params at url to present it on this page
-export async function getServerSideProps({ locale, query }) {
-  //getStaticProps
-  // get documents registered to this RFP here
+// export async function getServerSideProps({ locale, query }) {
+//   //getStaticProps
+//   // get documents registered to this RFP here
 
+//   return {
+//     props: {
+//       query: query,
+//       ...(await serverSideTranslations(locale, [
+//         "rfps",
+//         "common",
+//         "gralerrors",
+//         "menus",
+//         "companies",
+//       ])),
+//       // Will be passed to the page component as props
+//     },
+//   };
+// }
+
+export async function getStaticProps({ locale }) {
   return {
     props: {
-      query: query,
       ...(await serverSideTranslations(locale, [
         "rfps",
         "common",
@@ -249,7 +248,6 @@ export async function getServerSideProps({ locale, query }) {
         "menus",
         "companies",
       ])),
-      // Will be passed to the page component as props
     },
   };
 }
