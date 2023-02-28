@@ -22,11 +22,11 @@ export default function Home() {
         </div>
       )}
       <div className="flex flex-col items-center">
-        <div className="mt-8 text-4xl font-bold font-khula text-slate-500 ">
+        <div className="mt-8 text-4xl font-semibold font-khula text-slate-500 ">
           <h1> {t("aptitle")}</h1>
         </div>
         <div className="mt-4 w-[45%] p-4  rounded-xl   h-[80px]">
-          <p className="pt-2 font-khula font-semibold  text-orange-500 text-md text-xl text-center">
+          <p className="pt-2 font-khula font-medium  text-orange-500 text-md text-xl text-center">
             {t("explanation1")}
           </p>
         </div>
@@ -131,7 +131,7 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-1">
             <div className="leading-12 pt-8 pr-8 text-start">
               <p className="text-3xl pb-8">
-                <strong>Porqué Pro-pon</strong>
+                Porqué Pro-pon
               </p>
               <Link href="/" passHref className="mt-8">
                 <p className="cursor-pointer">Legal</p>
@@ -142,7 +142,7 @@ export default function Home() {
             </div>
             <div className="leading-12 pt-8 pr-8 text-start">
               <p className="text-3xl pb-8">
-                <strong>Como usarlo </strong>
+                Como usarlo 
               </p>
               <Link href="/" passHref className="mt-8">
                 <p className="cursor-pointer">Guia</p>

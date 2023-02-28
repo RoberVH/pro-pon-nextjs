@@ -59,7 +59,6 @@ function HomeRFP() {
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
-console.log('companyId, companyname, rfpidx',companyId, companyname, rfpidx)
 
 //  Inner Components ******************************************************************
 

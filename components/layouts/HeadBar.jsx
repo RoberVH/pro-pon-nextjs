@@ -194,7 +194,7 @@ const HeadBar = () => {
         // no address yet, allow to connect
         <div>
           <button
-            className="mt-4 p-2 mr-4 font-khula font-black text-sm uppercase 
+            className="mt-4 p-2 mr-4 font-khula font-semibold text-sm uppercase 
                 text-white bg-orange-600 rounded-xl  drop-shadow-lg  
                 bg-gradient-to-r from-orange-500  to-red-500 
                 hover:outline hover:outline-2 hover:outline-orange-300
@@ -286,12 +286,6 @@ const HeadBar = () => {
                 height={80}
                 ></Image>
                 </a>
-              {/* <h1
-                className="ml-2 mt-4 mb-4 bg-gradient-to-r from-[#0ac275] to-[#eb6009] 
-                    text-transparent bg-clip-text text-3xl font-extrabold cursor-pointer"
-              >
-                ᑭᖇO-ᑭOᑎ <strong className="text-4xl">!</strong>
-              </h1> */}
             </Link>
             <Menues />
           </div>
