@@ -22,7 +22,8 @@
     "next-i18next": "^10.5.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-toastify": "^9.0.5"
+    "react-toastify": "^9.0.5",
+    "secure-random-password": "^0.2.3"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",

@@ -27,7 +27,9 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
         noRightNetwork, 
         setNoRightNetwork
       }}>
-        <div className={`${showSpinner ? 'opacity-50 cursor-not-allowed':null}`}>
+        <div className={`${showSpinner ? 'opacity-50 cursor-not-allowed':null}`}
+        // onClick={()=>console.log('heey aqui listener para toda la app')}
+        >
           <HeadBar isConnected={isConnected} />
           <Component {...pageProps} />
         </div>

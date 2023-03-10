@@ -41,7 +41,7 @@ export const verifyData_Save = async (message, signature) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(webload),
       });
-      const resp = await response.json();
+      const resp = await response.json(); 
       return;
     } catch (error) {
       console.log("Error del server:", error);
@@ -98,5 +98,41 @@ export const verifyData_Save = async (message, signature) => {
   return data;
 };
 
+  // getFileSecrets 
+  //    For a file idx find the record if exists
+  //    Receives a string Id of the file secrets record
+  
+  export const getFileSecrets  = async (idx) => {
+    if (idx.trim().length===0) return []
+    try {
+      const response = await fetch(`/api/filedata?${new URLSearchParams({ idx: idx })}`);
+      return await response.json();  // consult was ok return results( could be 0 or 1 record)
+    } catch (error) {
+      // Handle the error and return a rejected promise
+      console.error(error);
+      return { status: false, msg: error.message }; // something went wrong, return message error
+    }
+  };
+ 
 
+  // saveFileSecrets
+  //    Save to secrets DB the secrets of a file
+  //    Receives a file secrets record {idx:req.body.idx, psw:req.body.psw, iv:req.body.iv }
+  // and post it to DB
+  
+  export const saveFileSecrets  = async (secrets) => {
+    if (!secrets) return []
+    let method = "POST";
+    try {
+      const response = await fetch("/api/filedata", {
+        method: method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(secrets),
+      });
+      const resp = await response.json();
+      return {resp};
+    } catch (error) {
+      return ({status:false, msg:error.message});
+    } 
+  };
  

@@ -1,6 +1,7 @@
 import { WebBundlr } from "@bundlr-network/client"
 import { utils } from "ethers";
 import { setResultObject } from '../utils/setResultObject'
+import { saveFileSecrets } from '../database/dbOperations'
 
 /**  uploadDataBundlr
 *    Upload File to Arweave through Bundlr
@@ -8,7 +9,8 @@ import { setResultObject } from '../utils/setResultObject'
 *    create a transaction and get it sign on the paying server using the remote Bundler Object
 *    passed. With the signed signature upload content and tags from client to Bundlr
 */
- export const uploadDataBundlr = (setuploadingSet, remoteBundlr, address, file, fileData, filetype, idx, rfpIndex) => {
+ export const uploadDataBundlr = (setuploadingSet, remoteBundlr, address, file, fileData, filetype, idx, rfpIndex,ivStr,
+  password) => {
   return new Promise(async (resolve, reject) => {
 
     const MaxBundlrArweaveProgress = 80   // max percentage to show max when uploading the file to arweave on UX progress Bar
@@ -25,7 +27,10 @@ import { setResultObject } from '../utils/setResultObject'
                                         //the index property  on docTypes records Object in utils/constant.js file
     {name: "rfpIndex", value:rfpIndex.toString()},
   ]  
-
+  // console.log('FILE:', file)
+  // console.log('typeof FILE:', typeof file)
+  console.log('FILE:', fileData)
+  console.log('typeof FILE:', typeof fileData)
   const transaction = remoteBundlr.createTransaction(fileData, { tags })
   //const transaction = remoteBundlr.createTransaction(fileData, { tags: [{ tags }] })
   
@@ -70,11 +75,17 @@ import { setResultObject } from '../utils/setResultObject'
     setResultObject(setuploadingSet, idx, 'name', file.name)
     // and saved unto object the Bundlr/Arweave Id of file
     setResultObject(setuploadingSet, idx, 'fileId', res.id)
+    // save secrets to BD where index of record is the same as the bundle id 
+    console.log('por salvar a BD', res.id, password, ivStr)
+    const dbresult= await saveFileSecrets({idx:res.id, psw:password, iv:ivStr })
+   // if (!dbresult.resp.status) reject({status:false, msg:dbresult.error}) // pass up returning error from cipherFile 
     return resolve({status:true, txid:res.id})
     } catch (error) {
       setResultObject(setuploadingSet, idx, 'status', 'error')
+      setResultObject(setuploadingSet, idx, 'error',  error.message )
       reject({status:false, msg:error.message})
     }
 })
 }
+
 

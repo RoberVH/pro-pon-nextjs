@@ -126,15 +126,6 @@ function UploadRFPForm({
   );
 
   const PickupComponent = () => {
-  // if (isInTime) return (    
-  //   <div className="flex justify-center ">
-  //     asdasd
-  //     <p className="py-2 px-4  border border-orange-200  text-khula text-stone-700 font-light text-lg rounded-md shadow-md">
-  //       🚫 &nbsp; {t("loading_out_of_period")}
-  //     </p>
-  //   </div>
-  // ) 
-  // else 
   return (
     <div>
       <PickFilesForm
@@ -201,7 +192,7 @@ function UploadRFPForm({
     }
   }, [uploadingSet, rfpIndex, write]);
 
-  /**setShowSummaryUploads
+  /**                             
    * uploadArweave
    *  Create an array of promises that read file & load them to Bundlr, as reporting a displayProgress compo
    *  In display progress component show succesful/error of operations.
@@ -243,7 +234,7 @@ function UploadRFPForm({
         const processFilePromisesArray = pickedFiles.map((file, indx) =>
           uploadBlockchainFiles(
             setuploadingSet,
-            file, // file object record, contains propery originalFile with value of user selected File object
+            file, // file object record, contains property originalFile with value of user selected File object
             indx,
             owner,
             RmteBundlr,

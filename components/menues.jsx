@@ -4,8 +4,8 @@ import { useTranslation } from "next-i18next"
 import  MenuHolder  from './layouts/menuHolder'
 
 const companyOptions = [
-  {tag:'rfpsearch', link:'/companies'},
-  {tag:'my rfps', link:'/myrfps'}
+  {tag:'companiessearch', link:'/companies'},
+  {tag:'myrfps', link:'/myrfps'}
 ]
 const rfpOptions = [
   {tag:'rfpcreate', link:'/createrfps'},
@@ -26,28 +26,31 @@ function Menues() {
   }
 
   return (
-    <div 
-      onClick={()=> handleMenu('company')} 
-      className="text-white text-md font-medium font-khula flex uppercase mt-12 ml-20 ">
-        <label className="mr-8 cursor-pointer  decoration-orange-200 hover:text-slate-300
-          duration-300 hover:underline underline-offset-8 hover:transition-opacity  ">
-          &nbsp;{t('companies')}&nbsp;
-        </label>
-        {
-          menuCompany &&
-          <MenuHolder options={companyOptions} t={t} setMenuFlag={setMenuCompany}/>
-        }
-        <p>
-        <label 
-            onClick={()=> handleMenu('rfp')} 
-            className="ml-8 cursor-pointer hover:underline  hover:text-slate-300 duration-300
-            decoration-orange-200 underline-offset-8">&nbsp;{t('rfps')}&nbsp;
-        </label>
-        </p>      
-        {
-          menuRFP && 
-          <MenuHolder options={rfpOptions} t={t} setMenuFlag={setMenuRFP}/>
-        }
+    <div className='flex mt-12 ml-20' >
+      <div className="text-white text-md font-medium font-khula uppercase flex items-start mr-8">
+          <label 
+              onClick={()=> handleMenu('company')}  
+              className=" cursor-pointer  decoration-orange-200 hover:text-slate-300
+                        duration-300 hover:underline underline-offset-8 hover:transition-opacity  ">
+            &nbsp;{t('companies')}&nbsp;
+          </label>
+          {
+            menuCompany &&
+            <MenuHolder options={companyOptions} t={t} setMenuFlag={setMenuCompany} />
+          }
+      </div>
+      <div className="text-white text-md font-medium font-khula uppercase flex items-start">
+          <label 
+              onClick={()=> handleMenu('rfp')} 
+              className="cursor-pointer  decoration-orange-200 hover:text-slate-300
+              duration-300 hover:underline underline-offset-8 hover:transition-opacity">
+                &nbsp;{t('rfps')}&nbsp;
+          </label>
+          {
+            menuRFP && 
+            <MenuHolder options={rfpOptions} t={t} setMenuFlag={setMenuRFP} />
+          }
+       </div>
     </div>
   )
 }

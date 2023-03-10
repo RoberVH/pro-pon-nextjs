@@ -24,6 +24,12 @@ import { readFile } from "./filesOp";
 import { uploadDataBundlr } from "../web3/uploadDataBundlr";
 import { sha512 } from "crypto-hash";
 import { setResultObject } from "./setResultObject";
+import { privateFileTypes } from '../utils/constants'
+import { cipherFile, desCipherFile } from "./zipfiles";
+// remove next line  after testing
+import { saveFileSecrets, getFileSecrets } from '../database/dbOperations'
+
+const password = require('secure-random-password');
 
 export const uploadBlockchainFiles = (
   setuploadingSet,
@@ -43,26 +49,64 @@ export const uploadBlockchainFiles = (
         idx
       );
       if (result.status) {
-        /* !!! here, if type of file is passwordable, must be created a password and 
-        check is still legible after unencrypting it. probalbly check the hash*/
           // here we will hash the data to register the file footprint to blockchain
-          const hash = await sha512(result.file);
+          const hash = await sha512(result.file); 
           setuploadingSet((previousValue) =>
             previousValue.map((uploadObject, indx) =>
               indx === idx ? { ...uploadObject, hash: hash } : uploadObject
             )
           );
         } else reject(result); // pass up returning object from readFile (status, error.message)
-      // all right,  continue uploading file to Bundlr server-paid
+      let dataContent = result.file;
+      result=null // let's signal to garbage collector this is free to be clear right away
+      // here we encrypt the file except if they are public files, i.e. if its fileType is included in private files
+      // privateFileTypes is array of type number and fileType is type string 
+      let passCode=''
+      let iv
+      let ivStr=''
+      // check file doctype is private-type, if so, lets encrypting it
+      if (privateFileTypes.includes(parseInt(fileType))) {
+        // generate password and iv vector
+        passCode = password.randomString({length:12})
+        // get IV (uint8arry)
+        iv = window.crypto.getRandomValues(new Uint8Array(12))
+        // convert uInt8Arry  to string for later saving to DB or private contract
+        ivStr=iv.toString()
+        // encriptar archivo
+        const resultEncryp = await cipherFile(dataContent, passCode, iv)
+        if (!resultEncryp.status) reject(resultEncryp.msg) // pass up returning error from cipherFile
+        dataContent=resultEncryp.file
+        console.log('Datos Encruptados:', dataContent)
+      }
+
+      /**temporal para probar */
+     /* const tempindex= (Math.floor(Math.random() * 90000) + 10000).toString() // random between 10000 and 99999
+      const dbresult= await saveFileSecrets({idx:tempindex, psw:passCode, iv:ivStr })
+      if (!dbresult.status) reject({status:false, msg:dbresult.error}) // pass up returning error from cipherFile 
+      console.log('Getting database secrets ************')
+      // retrieve data from data base
+      // get sercrets from DB
+      const secrets= await getFileSecrets(tempindex) 	// checar secrets[0] object properties {idx:idx, psw:password, iv:newstr }
+      if (!secrets.length) {console.log('No Secrets found:', secrets)}
+      if (typeof secrets.status!=='undefined') {console.log('error getting secrets:', secrets.msg)}
+      console.log('De la BD secretes:', secrets)
+      const uint8Array = new Uint8Array(secrets[0].iv.split(',').map(c => parseInt(c, 10)))
+      const decypttion = await desCipherFile(dataContent,passCode, file, iv)
+      return*/
+
+      /************************************************************* */
+      // Save file whatever encryptet or not to Arweave
       const loadingresult = await uploadDataBundlr(
         setuploadingSet,
         remoteBundlr,
         ownerAddress,
         file,
-        result.file,
+        dataContent,
         fileType,
         idx,
-        rfpIndex
+        rfpIndex,
+        ivStr,
+        passCode
         );
       if (loadingresult.status) {
         // finally add the passed tile type to success uploadingSet array
