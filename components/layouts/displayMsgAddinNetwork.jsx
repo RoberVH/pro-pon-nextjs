@@ -1,6 +1,6 @@
 const DisplayMsgAddinNetwork = ({t}) => (
     <div className="absolute bottom-[60%] left-[20%] ">
-      <div className=" flex align-items bg-white border border-2 border-yellow-300 rounded-xl p-8">
+      <div className=" flex align-items bg-white  border-2 border-yellow-300 rounded-xl p-8">
       <div className=" m-4 text-center rounded-xl">
           <div className="">
               <div className="mx-auto  inline-block w-11 h-11

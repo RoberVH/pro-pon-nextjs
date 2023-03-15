@@ -12,7 +12,7 @@ const NoMetamaskWarning= ({t}) => (
                     target="_blank"
                     rel="noreferrer"
                     >
-                Metamask
+                Get Metamask
             </a>
         </Link>
     </div>

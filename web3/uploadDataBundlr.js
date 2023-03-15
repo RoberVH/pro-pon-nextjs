@@ -76,8 +76,9 @@ import { saveFileSecrets } from '../database/dbOperations'
     // and saved unto object the Bundlr/Arweave Id of file
     setResultObject(setuploadingSet, idx, 'fileId', res.id)
     // save secrets to BD where index of record is the same as the bundle id 
+    // we have to do this here because we need the res.id from Arweave as unique secrets record identifier
     console.log('por salvar a BD', res.id, password, ivStr)
-    const dbresult= await saveFileSecrets({idx:res.id, psw:password, iv:ivStr })
+    const dbresult= await saveFileSecrets({idx:res.id, psw:password, iv:ivStr, docType: filetype })
    // if (!dbresult.resp.status) reject({status:false, msg:dbresult.error}) // pass up returning error from cipherFile 
     return resolve({status:true, txid:res.id})
     } catch (error) {

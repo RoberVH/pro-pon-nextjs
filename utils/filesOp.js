@@ -51,22 +51,22 @@ export const readFile = (setuploadingSet, filetoRead,  readType, idx) => {
 }
 export default readFile;
 
-export const readFileArweave = (file, setProgress) => {
-    return new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        reader.onload = function(event) { // finished reading file successfully
-             return resolve({status:true, file: reader.result})
-        };
-        reader.onerror = function(event) {
-             reject(reader.error)
-        };
-        reader.onprogress= (evt) => {
-            let pctje=Math.round((evt.loaded / evt.total) * 100);
-            setProgress(pctje)
-            // codigo para probar rechazos
-            if (false && (pctje > 50)) return reject({message: 'falso error en READ FILE'}) //for testing
-        }
+// export const readFileArweave = (file, setProgress) => {
+//     return new Promise((resolve, reject) => {
+//         let reader = new FileReader();
+//         reader.onload = function(event) { // finished reading file successfully
+//              return resolve({status:true, file: reader.result})
+//         };
+//         reader.onerror = function(event) {
+//              reject(reader.error)
+//         };
+//         reader.onprogress= (evt) => {
+//             let pctje=Math.round((evt.loaded / evt.total) * 100);
+//             setProgress(pctje)
+//             // codigo para probar rechazos
+//             if (false && (pctje > 50)) return reject({message: 'falso error en READ FILE'}) //for testing
+//         }
 
-    reader.readAsArrayBuffer(file)
-    })
-}
+//     reader.readAsArrayBuffer(file)
+//     })
+// }

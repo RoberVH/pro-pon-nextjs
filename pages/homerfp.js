@@ -98,7 +98,7 @@ const RFPTabDisplayer = () => {
             t={t}
             showUpload={companyData.companyId === rfpRecord.companyId}
             rfpIndex={rfpRecord.rfpIndex}
-            rfpDates={[rfpRecord.openDate,rfpRecord.endDate]}
+            rfpDates={[rfpRecord.openDate,rfpRecord.endReceivingDate, rfpRecord.endDate]}
             owner={rfpRecord.issuer}
           />
         );
@@ -130,7 +130,7 @@ const RFPTabDisplayer = () => {
             address={address}
             rfpIndex={rfpRecord.rfpIndex}
             owner={rfpRecord.issuer}
-            rfpDates={[rfpRecord.openDate,rfpRecord.endReceivingDate]}
+            rfpDates={[rfpRecord.openDate,rfpRecord.endReceivingDate, rfpRecord.endDate]}
           />
         );
     case 'declare_contest': //declare_contest

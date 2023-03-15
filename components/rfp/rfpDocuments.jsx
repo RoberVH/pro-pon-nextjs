@@ -51,9 +51,13 @@ const RFPDocuments = ({
       ...toastStyle
     });
   };
+
+  //isDateAllowed
+  // for Request Documents, the period for RFP Issuer to upload documents is from beginning to end of contest
+  // In a future version when Issuer could be able to load RFPs follow up contracts this function should be modified or not used
   const isDateAllowed = () => {
     const rightNow = convUnixEpoch(new Date());
-    return rfpDates[0] < rightNow && rightNow < rfpDates[1];
+    return rfpDates[0] < rightNow && rightNow < rfpDates[2];
   };
 
 /** Hooks ********************************************************************** */
@@ -82,12 +86,14 @@ useEffect(()=>{
   return (
     <div className="mt-2">
       {uploadComponent}
+      {/* param rfpDate[1] is endReceivingDate, i.e. when file is available for downloading */}
       <DownloadFileForm
         rfpfiles={rfpfiles}
-        t={t}
+        dateEnd={rfpDates[1]}
         allowedDocTypes={allowedDocTypes}
         owner={owner}
         doneLookingFiles={doneLookingFiles}
+        rfpIndex={rfpIndex}
       />
     </div>
   );

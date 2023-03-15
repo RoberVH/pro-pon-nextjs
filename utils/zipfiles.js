@@ -192,20 +192,15 @@ export const cipherFile = async (file, password, iv) => {
     downloadFile(fileBlob, file.name.split('.')[0] + '.ENC')
 };
 
-export const desCipherFile = async (rawfile, password, file, iv) => {
-   console.log('Por desencriptar:')
-  // const iv = new Uint8Array(iv1.split(',').map(c => parseInt(c, 10)))
-   console.log('Recibido:', password, iv, file, rawfile)
-
-  
+export const desCipherFile = async (rawfile, password, iv) => {
+   console.log('Por desencriptar: typeof rawfile', rawfile)
+   console.log('Recibido:', password, iv, rawfile)
   const enc = new TextEncoder();
   const digest = await window.crypto.subtle.digest("SHA-256", enc.encode(password))
   //const rawFile = await cipherfile.arrayBuffer()
   //const rawFile = await rawfile.arrayBuffer()
-  const rawFile = await rawfile
-  
   const key = await getKey(digest)
-  const desCipherText = await decryptFile(key, iv, rawFile)
+  const desCipherText = await decryptFile(key, iv, rawfile)
   console.log('Descrifrado:', desCipherText)
   return desCipherText
 };

@@ -15,7 +15,7 @@ export const  getCompanydataDB = async (companyId) =>  {
 
 export const verifyData_Save = async (message, signature) => {
     let method = "PATCH";
-    const webload= {signature:signature,...JSON.parse(message) }
+    const webload= {signature:signature,...JSON.parse(message) } // destringiy message because it was stringiy for signing
     try {
       const response = await fetch("/api/servercompanies", {
         method: method,
@@ -100,16 +100,28 @@ export const verifyData_Save = async (message, signature) => {
 
   // getFileSecrets 
   //    For a file idx find the record if exists
-  //    Receives a string Id of the file secrets record
+  //    Receives and object with needing properties for the docType
+  //    Private & confidential Files: globalIndex and arweaveFileIdx 
+  //    Confidential files: additionally: message object having above properties plus a signature of requester
+  //    requester signing must be issuer of the RFP to get the secrets for decrypt the file
   
-  export const getFileSecrets  = async (idx) => {
-    if (idx.trim().length===0) return []
+  export const getFileSecrets  = async (params) => {
     try {
-      const response = await fetch(`/api/filedata?${new URLSearchParams({ idx: idx })}`);
-      return await response.json();  // consult was ok return results( could be 0 or 1 record)
+      const requestFileObject = JSON.stringify(params)
+      console.log('Sending to Server params: ', requestFileObject)
+      const queryParams = new URLSearchParams({ requestFileObject }); // Create URLSearchParams object with "requestFileObject" key and value
+      const response = await fetch(`/api/filedata?${new URLSearchParams({requestFileObject})}`);
+      const res=await response.json()
+      console.log('response',res)
+      if (!res.status) {
+          return {status:false, msg:res.message} 
+      }
+      console.log('secrets',res.secrets)
+      return {status:true, secrets:res.secrets}
+      //return await response.json();  // consult was ok return results( could be 0 or 1 record)
     } catch (error) {
       // Handle the error and return a rejected promise
-      console.error(error);
+      console.error('LOCACHE',error);
       return { status: false, msg: error.message }; // something went wrong, return message error
     }
   };

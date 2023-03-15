@@ -27,7 +27,7 @@ import { setResultObject } from "./setResultObject";
 import { privateFileTypes } from '../utils/constants'
 import { cipherFile, desCipherFile } from "./zipfiles";
 // remove next line  after testing
-import { saveFileSecrets, getFileSecrets } from '../database/dbOperations'
+//import { saveFileSecrets, getFileSecrets } from '../database/dbOperations'
 
 const password = require('secure-random-password');
 
@@ -76,26 +76,9 @@ export const uploadBlockchainFiles = (
         const resultEncryp = await cipherFile(dataContent, passCode, iv)
         if (!resultEncryp.status) reject(resultEncryp.msg) // pass up returning error from cipherFile
         dataContent=resultEncryp.file
-        console.log('Datos Encruptados:', dataContent)
       }
 
-      /**temporal para probar */
-     /* const tempindex= (Math.floor(Math.random() * 90000) + 10000).toString() // random between 10000 and 99999
-      const dbresult= await saveFileSecrets({idx:tempindex, psw:passCode, iv:ivStr })
-      if (!dbresult.status) reject({status:false, msg:dbresult.error}) // pass up returning error from cipherFile 
-      console.log('Getting database secrets ************')
-      // retrieve data from data base
-      // get sercrets from DB
-      const secrets= await getFileSecrets(tempindex) 	// checar secrets[0] object properties {idx:idx, psw:password, iv:newstr }
-      if (!secrets.length) {console.log('No Secrets found:', secrets)}
-      if (typeof secrets.status!=='undefined') {console.log('error getting secrets:', secrets.msg)}
-      console.log('De la BD secretes:', secrets)
-      const uint8Array = new Uint8Array(secrets[0].iv.split(',').map(c => parseInt(c, 10)))
-      const decypttion = await desCipherFile(dataContent,passCode, file, iv)
-      return*/
-
-      /************************************************************* */
-      // Save file whatever encryptet or not to Arweave
+      // Save file whatever encrypted or not (RFP requesting docs) to Arweave
       const loadingresult = await uploadDataBundlr(
         setuploadingSet,
         remoteBundlr,

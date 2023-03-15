@@ -51,6 +51,9 @@ const ShowBidders = ({
     });
   };
 
+  //isDateAllowed
+  // for Request Documents, the period for Bidder  to upload documents is from beginning to end of receiving date
+  // In a future version when Issuer could be able to load RFPs follow up contracts this function should be modified or not used
   const isDateAllowed = () => {
     const rightNow = convUnixEpoch(new Date());
     return rfpDates[0] < rightNow && rightNow < rfpDates[1];
@@ -167,10 +170,11 @@ useEffect(()=>{
                         <div>
                           <DownloadFileForm
                             rfpfiles={rfpfiles}
-                            t={t}
+                            dateEnd={rfpDates[1]}
                             allowedDocTypes={allowedDocTypes}
                             owner={company.address}
                             doneLookingFiles={doneLookingFiles}
+                            rfpIndex={rfpIndex}
                           />
                         </div>
                       </td>

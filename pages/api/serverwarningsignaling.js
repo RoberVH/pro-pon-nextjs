@@ -7,22 +7,7 @@ export default async function handler (req, res) {
     const { method } = req
     
     switch (method) {
-        // case 'GET':
-        // const query={}
-        // query['$and']=[]
-        // const term={}
-        // const params = req.query
-        // for (const key in params) {
-        //     term[key]=new RegExp('^'+params[key], "i")
-        //     query['$and'].push(term)
-        // }
-        // const companies = await db
-        // .collection("companies")
-        // .findOne(query)
-        // if (!companies) {res.status(200).json({}); break}
-        // res.status(200).json(companies);
-        // break
-        case 'POST':
+           case 'POST':
         try {
             const loggingDB = await db
             .collection("Logging")

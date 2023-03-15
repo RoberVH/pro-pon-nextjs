@@ -126,5 +126,11 @@
     "rfp_canceled":"This RFP has been canceled",
     "waiting_results":"RFP has not been awarded yet",
     "no_rfp":"No RFP",
-    "cannot_retrieve_company":"Can not retrieve Company Data with account address:"
+    "cannot_retrieve_company":"Can not retrieve Company Data with account address:",
+    "show_rfp_filerequest":"You will be asked to sign with your wallet account a message with requested file details, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you have the right to request this operation. Please sign the message",
+    "notimetodownload":"Documents will be available at the end of receiving documents time (opening of envelopes)",
+    "bad_signed_message":"Signed message doesn't match message",
+    "unmatched_signed_params":"Requested file params doesn't match signature",
+    "only_ownerrfp_doctpye":"Document Type restricted to owner of RFP"
+    
 }

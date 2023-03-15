@@ -126,6 +126,10 @@
     "rfp_canceled":"Cet appel d'offres a été annulé",
     "waiting_results":"L'appel d'offres n'a pas encore été attribué",
     "no_rfp":"Il n'y a pas d'appel d'offres",
-    "cannot_retrieve_company":"Ne peut pas récupérer Company avec l'adresse du compte:"
-
+    "cannot_retrieve_company":"Ne peut pas récupérer Company avec l'adresse du compte:",
+    "show_rfp_filerequest":"Il vous sera demandé de signer votre compte portefeuille à un message avec les détails du fichier solidifié, ne vous inquiétez pas car cette opération ne vous coûtera aucune crypto-monnaie, c'est juste un moyen de vous assurer que vous avez le droit de demander cette opération. Veuillez signer le message",
+    "notimetodownload":"Les documents seront disponibles jusqu'à la fin de la période de réception (ouverture des enveloppes)",
+    "bad_signed_message":"Le message signé ne correspond pas au message",
+    "unmatched_signed_params":"Les paramètres de fichier demandés ne correspondent pas à la signature",
+    "only_ownerrfp_doctpye":"Type de document restreint au propriétaire du RFP."
 }

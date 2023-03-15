@@ -6,6 +6,7 @@ import { getDBCompaniesbyAddress } from '../../database/dbOperations'
 
 const NullAddress='0x0000000000000000000000000000000000000000'
 
+
 const ShowResults = ({t,rfpRecord}) => {
   const [winnersAddress, setWinnerAddress] = useState()  // Holds the list of winers addresses (even deserted) awarded
   const [winnersData, setWinnersData] = useState()

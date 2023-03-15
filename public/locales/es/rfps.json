@@ -128,5 +128,10 @@
     "rfp_canceled":"Este RFP ha sido cancelado",
     "waiting_results":"El RFP aun no han sido adjudicado",
     "no_rfp":"No existe el RFP",
-    "cannot_retrieve_company":"No pude recuperar datos de Compañía con dirección de cuenta:"
+    "cannot_retrieve_company":"No pude recuperar datos de Compañía con dirección de cuenta:",
+    "show_rfp_filerequest":"Se le pedirá que firme con su cuenta de billetera un mensaje con los detalles del archivo soliditado, no se preocupe ya que esta operación no le costará ninguna criptomoneda, es solo una forma de asegurarse de que tiene derecho a solicitar esta operación. Por favor firme el mensaje",
+    "notimetodownload":"Los documentos estarán disponibles hasta el fin del periodo de recepción (apertura de sobres)",
+    "bad_signed_message":"Firma del mensaje no coincide con el mensaje",
+    "unmatched_signed_params":"El archivo solicitado no corresponde con la firma",
+    "only_ownerrfp_doctpye":"Tipo de documento restringido al dueño del RFP"
 }
