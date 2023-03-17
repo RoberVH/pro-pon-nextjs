@@ -14,9 +14,9 @@ import { companyFields } from "../../utils/companyFieldsonRFP";
 import { nanoid } from "nanoid";
 
 // toastify related imports
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyle } from "../../styles/toastStyle";
+import { toast } from "react-toastify";
 import { useRegisterBidders } from "../../hooks/useRegisterBidders";
 import { useBidders } from '../../hooks/useBidders'
 import ShowTXSummary from "./ShowTXSummary";

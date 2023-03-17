@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
-const NoMetamaskWarning= ({t}) => (
+const NoMetamaskWarning= ({msg, buttontitle}) => (
     <div className="font-bold text-orange-300 font-khula flex justify-center pt-2 pb-6">
-        <h1 className="text-xl mt-2">{t('metamaskwarning',{ns:"common"})}</h1>
+        <h1 className="text-xl mt-2">{msg}</h1>
         <Link href={"https://metamask.io/download/"} passHref>
             <a className="ml-8 p-2 font-khula font-black text-sm uppercase 
                     text-white bg-orange-600 rounded-xl  drop-shadow-lg  
@@ -12,7 +12,7 @@ const NoMetamaskWarning= ({t}) => (
                     target="_blank"
                     rel="noreferrer"
                     >
-                Get Metamask
+                {buttontitle}
             </a>
         </Link>
     </div>

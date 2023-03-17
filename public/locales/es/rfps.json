@@ -90,7 +90,7 @@
     "canotinvite_self":"No puede invitarse a su RFP",
     "register_open":"Puede registrar su empresa en este RFP abierta  si el limite no ha sido alcanzado, después de registrarse podrá publicar documentos de respuestas",
     "notallowed_open":"Disculpas, no puede registrar su empresa. El límite ha sido alcanzado",
-    "already_registered":"Compañia ya está registrada",
+    "already_registered":" ya ha sido agregada",
     "invitation_rfp":"Este es un Concurso por Invitación, verifique en la regleta Mostrar participantes si está invitado",
     "owner_open_rfp_recordbidders":"Este es su RFP abierto, ¡notifique a compañías candidatas a registrarse!",
     "doc_type":"Tipo Doc.",
@@ -133,5 +133,7 @@
     "notimetodownload":"Los documentos estarán disponibles hasta el fin del periodo de recepción (apertura de sobres)",
     "bad_signed_message":"Firma del mensaje no coincide con el mensaje",
     "unmatched_signed_params":"El archivo solicitado no corresponde con la firma",
-    "only_ownerrfp_doctpye":"Tipo de documento restringido al dueño del RFP"
+    "only_ownerrfp_doctpye":"Tipo de documento restringido al dueño del RFP",
+    "no_valid_docType":"Tipo de Documento no válido",
+    "no_valid_signature":"Firma inválida"
 }

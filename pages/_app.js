@@ -5,6 +5,8 @@ import clientPromise from '../database/mongodb'
 // Pro-pon components
 import { proponContext } from '../utils/pro-poncontext'
 import HeadBar from '../components/layouts/HeadBar'
+import { ToastContainer, toast } from "react-toastify"; 
+
 import '../styles/globals.css'
 
 
@@ -31,6 +33,8 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
         // onClick={()=>console.log('heey aqui listener para toda la app')}
         >
           <HeadBar isConnected={isConnected} />
+          <ToastContainer style={{ width: "600px" }} />
+
           <Component {...pageProps} />
         </div>
       </proponContext.Provider>

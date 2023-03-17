@@ -48,13 +48,15 @@ export default async function handler(req, res) {
         break;
       }
       //checks for confidential file
+      if (typeof secrets[0].docType==='undefined') {
+          res.status(200).json({ status: false, message: "no_valid_docType" });
+        break;
+      }
       if (secrets[0].docType === IdxDocTypes.documentProposalType.toString()) {
         // is confidential, check requisites
         const { signature, msg } = params;
         if (!signature || !msg) {
-          res
-            .status(200)
-            .json({ status: false, message: "no_valid_signature" });
+          res.status(200).json({ status: false, message: "no_valid_signature" });
           break;
         }
         try {

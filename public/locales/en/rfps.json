@@ -88,7 +88,7 @@
      "canotinvite_self":"Can not Invite yourself to own RFP",
     "register_open":"You can register your company to this open RFP  if limit hasn't been reached, after you are signed up you will be able to post response documents",
     "notallowed_open":"Sorry, you can not register your company. The limit has been reached",
-    "already_registered":"Company already registered",
+    "already_registered":" has already been added",
     "invitation_rfp":"This is an Invitation Contest, check on Show Bidders Tab if you are invited",
     "owner_open_rfp_recordbidders":"This is your open RFP, notify candidate companies to sign up!",
     "copied_clipboard":"Copied to Clipboard",
@@ -131,6 +131,8 @@
     "notimetodownload":"Documents will be available at the end of receiving documents time (opening of envelopes)",
     "bad_signed_message":"Signed message doesn't match message",
     "unmatched_signed_params":"Requested file params doesn't match signature",
-    "only_ownerrfp_doctpye":"Document Type restricted to owner of RFP"
+    "only_ownerrfp_doctpye":"Document Type restricted to owner of RFP",
+    "no_valid_docType":"Invalid Document type",
+    "no_valid_signature":"Invalid Signature"
     
 }

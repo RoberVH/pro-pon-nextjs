@@ -30,7 +30,12 @@ export const errorSmartContract = [
   "execution reverted: rfpid_already_taken",
 ];
 
-export const traslatedRFPErrors = ["notimetodownload", "only_ownerrfp_doctpye"];
+export const traslatedRFPErrors = [
+    "notimetodownload", 
+    "only_ownerrfp_doctpye", 
+    "no_valid_docType",
+    "no_valid_signature"
+  ];
 
 // DEPRECATED
 // Arweave File Types

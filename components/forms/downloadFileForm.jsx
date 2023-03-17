@@ -2,17 +2,14 @@ import { useState, useContext, useEffect, useRef } from "react";
 import { proponContext } from "../../utils/pro-poncontext";
 import { useTranslation } from "next-i18next";
 import { DownloadIcon } from "@heroicons/react/outline";
-import { docTypes, IdxDocTypes } from "../.././utils/constants";
+import { docTypes, IdxDocTypes, privateFileTypes, traslatedRFPErrors } from "../.././utils/constants";
 import { useSignMessage } from "../../hooks/useSignMessage";
 import { getFileSecrets } from "../../database/dbOperations";
 import { SignMsgAlert } from "./../layouts/SignMsgAlert";
-
-//import { readFileArweave } from '../../utils/filesOp'
 import Spinner from "../layouts/Spinner";
 import { desCipherFile } from "../../utils/zipfiles";
 import { toastStyle } from "../../styles/toastStyle";
 import { toast } from "react-toastify";
-import { privateFileTypes, traslatedRFPErrors } from "../../utils/constants";
 import { convUnixEpoch } from "../../utils/misc";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -203,13 +200,13 @@ const DownloadFileForm = ({
         arweaveFileIdx: file.idx,
         filename: file.name,
       };
-      //setParams({docType:file.docType.toString(), globalIndex: rfpIndex, arweaveFileIdx:file.idx, filename:file.name})
       // check if document is confidential (proposal type; only available if end of receiving date reached AND is requested by RFP issuer)
       if (
         parseInt(file.docType.toString()) === IdxDocTypes.documentProposalType
       ) {
         // a confidential file
-        if (!companyData.address) {
+        if (!companyData.address) { 
+          // there isn't even a registered company to sign message!
           errToasterBox(t("only_ownerrfp_doctpye"));
           return;
         }

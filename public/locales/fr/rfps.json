@@ -88,7 +88,7 @@
     "canotinvite_self":"Vous ne pouvez pas vous inviter à votre propre RFP",
     "register_open":"Vous pouvez inscrire votre entreprise dans cet appel d'offres ouvert si la limite de participants n'a pas été atteinte, après vous être inscrit, vous pourrez publier des documents de réponse",
     "notallowed_open":"Désolé, vous ne pouvez pas enregistrer votre entreprise. La limite a été atteinte",
-    "already_registered":"La société est déjà enregistrée",
+    "already_registered":" a déjà été ajoutée",
     "invitation_rfp":"Ceci est un concours sur invitation, cochez le curseur Afficher les enchérisseurs si vous êtes invité",
     "owner_open_rfp_recordbidders":"Ceci est votre appel d'offres ouvert, informez les entreprises candidates pour qu'elles s'inscrivent!",
     "copied_clipboard":"Copié dans le presse-papiers",
@@ -131,5 +131,8 @@
     "notimetodownload":"Les documents seront disponibles jusqu'à la fin de la période de réception (ouverture des enveloppes)",
     "bad_signed_message":"Le message signé ne correspond pas au message",
     "unmatched_signed_params":"Les paramètres de fichier demandés ne correspondent pas à la signature",
-    "only_ownerrfp_doctpye":"Type de document restreint au propriétaire du RFP."
+    "only_ownerrfp_doctpye":"Type de document restreint au propriétaire du RFP",
+    "no_valid_docType":"type de document invalide",
+    "no_valid_signature":"Signature non valide"
+    
 }

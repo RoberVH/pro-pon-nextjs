@@ -25,7 +25,7 @@ import { PRODUCTION, LOCAL } from '../../utils/constants'
 
 
 // toastify related imports
-import { ToastContainer, toast } from "react-toastify"; 
+// import { ToastContainer, toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyle } from '../../styles/toastStyle'
 
@@ -40,7 +40,7 @@ const HeadBar = () => {
   const [noMetaMask, setNoMetaMask] = useState(true);
   const [addingNetwork, setAddingNetwork]=useState(false);
 
-  // get context variables
+// get context variables
   const {   companyData, 
             setCompanyData, 
             address, 
@@ -62,11 +62,13 @@ const HeadBar = () => {
   
   /**
   * getCompany - 
-  *   Destruct data from contract results, get rest of data from DB and merge them
+  *   Destruct data from smart contract results, get rest of data from DB and merge them
   *   setCompanyData with merged data
   * 
-  * @param {Object} contractCiaData Contract Company data
+  * @param {Object} contractCiaData Smart Contract Company data
   */
+
+  // Callbacks functions  ******************************************************************************************
   const getCompany = useCallback(
     async (contractCiaData) => {
       const {id, company_RFPs,RPFsWon,RFPSent} = contractCiaData
@@ -77,9 +79,9 @@ const HeadBar = () => {
       setCompanyData({rfpWon, rfpSent, companyRFPs, ...result});
     },[setCompanyData]);
 
+  // hooks  ******************************************************************************************
   // check if there is an account already granted and set a listener to MMask change account event
   useEffect(() => {
-
     const handleAccountChange = () => {
       router.push({pathname:'/'})
       window.location.reload()
@@ -90,7 +92,12 @@ const HeadBar = () => {
         setNoMetaMask(false) // there is Metamask or provider installed at browser
         checkMMAccounts(setAddress)  //
         window.ethereum.on('accountsChanged', handleAccountChange);
-        return () => { window.ethereum.off('accountsChanged', handleAccountChange) }
+        // return () => { window.ethereum.off('accountsChanged', handleAccountChange) }
+        return () => {
+          if (window.ethereum.off) { // only if window.ethereum.off exists return it
+            window.ethereum.off('accountsChanged', handleAccountChange);
+          }
+        }
       };
   }, []);
 
@@ -106,8 +113,8 @@ const HeadBar = () => {
           }
             setShowSpinner(true)
             // get essential company data from Contract
-            // Remember that in contract some prop ids are different than db
-            // id => companyId, name => companyName 
+            // Remember that in smart contract some prop ids are different than in DB
+            // id changes to companyId, name changes to companyName 
             const result = await getContractCompanyData(address) 
             if (!result.status) {
               setShowSpinner(false)
@@ -125,8 +132,7 @@ const HeadBar = () => {
   },[address, getCompany, setShowSpinner, setNoRightNetwork])
 
 
-
-
+  // Utility functions  ****************************************************************************************
   const changeNetworks= async () => {
   const result= await switchNetwork()
   if (result.status) setNoRightNetwork(false)
@@ -161,7 +167,8 @@ const HeadBar = () => {
       }    
 }
 
-// connect to metamask
+// handlers functions  ****************************************************************************************
+  // connect to metamask
   const handleConnect = async () => {
     const result= await connectMetamask()
     if (!result.status) {
@@ -188,6 +195,7 @@ const HeadBar = () => {
     sethideMenuAccount(!hideMenuAccount);
   };
 
+// Inner Components  ******************************************************************************************
   const ShowAccount = () => {
     if (!address)
       return (
@@ -261,11 +269,29 @@ const HeadBar = () => {
     )
   };
  
- if (noMetaMask) return (
-    <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
-      <NoMetamaskWarning t={t}/>
-    </nav> 
-  );
+//  if (noMetaMask) return (
+//     <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
+//       <NoMetamaskWarning t={t}/>
+//     </nav> 
+//   );
+
+const AccountSpaceTitle = () => {
+  if (noMetaMask) return (
+      <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
+        <NoMetamaskWarning msg={t('metamaskwarning',{ns:'common'})} buttontitle={t('getmetamask',{ns:'common'})}/>
+      </nav> 
+  )
+  else return (
+      <div>
+        <label className="text-xl font-semibold font-nunito text-white">
+        { companyData.companyname ? `${companyData.companyname}`
+        :
+          address ? `${t('nocompany',{ns:'common'})}`: `${t('noaccount', {ns:'common'})}`
+        }
+        </label>
+    </div>
+  )
+}
 
  return (
      <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
@@ -274,7 +300,7 @@ const HeadBar = () => {
           <DisplayMsgAddinNetwork t={t}/> 
         </div>
       }
-      <ToastContainer style={{ width: "600px" }} />
+      {/* <ToastContainer style={{ width: "600px" }} /> */}
           <div className="flex justify-between">
           <div className="flex ml-4 ">
             <Link href="/" passHref>
@@ -290,14 +316,7 @@ const HeadBar = () => {
             <Menues />
           </div>
           <div className="mt-4">
-            <div>
-              <label className="text-xl font-semibold font-nunito text-white">
-              { companyData.companyname ? `${companyData.companyname}`
-              :
-                address ? `${t('nocompany',{ns:'common'})}`: null
-              }
-              </label>
-            </div>
+            <AccountSpaceTitle />
           </div>
           <div className="flex justify-around">
             <SelectLanguage />
