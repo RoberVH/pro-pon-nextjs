@@ -59,7 +59,7 @@
     "maxsizeerror":"Maximun file size exceeded. On each time, you can upload a combined load of: ",
     "nofiles":"No Files",
     "uploadrequestdocuments":"Upload your Request documents",
-    "dowloadrequestfiles":"Download RFP files",
+    "dowloadrequestfiles":"Download RFP/Bid Documents. Select by clicking on the name, use the checkbox to select all. Click on Hash to copy it",
     "additemstitle":"Add Items to RFP/Tender",
     "addintemsinstructions":"Click green icon to add Item to list. Clic on added Item to edit it",
     "contestType": "Type",
@@ -133,6 +133,12 @@
     "unmatched_signed_params":"Requested file params doesn't match signature",
     "only_ownerrfp_doctpye":"Document Type restricted to owner of RFP",
     "no_valid_docType":"Invalid Document type",
-    "no_valid_signature":"Invalid Signature"
+    "no_valid_signature":"Invalid Signature",
+    "nofiles_selected":"No files Selected",
+    "processing_file":"Processing file",
+    "download_button":"Download Selected Files",
+    "downloading_file":"Downloading file...",
+    "downloaded_Ok":"File Downloaded"
+
     
 }

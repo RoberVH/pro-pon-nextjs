@@ -59,7 +59,7 @@
     "maxsizeerror":"Taille maximale de téléchargement de fichier dépassée. Vous ne pouvez télécharger à la fois qu'une combinaison de jusqu'à: ",
     "nofiles":"Aucun fichier",
     "uploadrequestdocuments":"Téléchargez vos documents de demande",
-    "dowloadrequestfiles":"Télécharger les documents de l'appel d'offres",
+    "dowloadrequestfiles":"Télécharger les documents d'appel d'offres/d'appel d'offres. Sélectionnez en cliquant sur le nom, utilisez la case à cocher pour tout sélectionner. Cliquez sur le hachage pour le copier",
     "additemstitle":"Ajouter des articles à la demande de propositions/appel d'offres",
     "addintemsinstructions":"Cliquez sur l'icône verte pour ajouter un jeu à la liste. Cliquez sur un jeu dans la liste pour le modifier",
     "contestType": "Type",
@@ -133,6 +133,10 @@
     "unmatched_signed_params":"Les paramètres de fichier demandés ne correspondent pas à la signature",
     "only_ownerrfp_doctpye":"Type de document restreint au propriétaire du RFP",
     "no_valid_docType":"type de document invalide",
-    "no_valid_signature":"Signature non valide"
-    
+    "no_valid_signature":"Signature non valide",
+    "nofiles_selected":"Aucun fichier sélectionné",
+    "processing_file":"Traitement du fichier",
+    "download_button":"Télécharger les fichiers sélectionnés",
+    "downloading_file":"Téléchargement du fichier...",
+    "downloaded_Ok":"Fichier Téléchargé"
 }

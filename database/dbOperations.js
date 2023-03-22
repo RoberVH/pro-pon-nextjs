@@ -108,15 +108,12 @@ export const verifyData_Save = async (message, signature) => {
   export const getFileSecrets  = async (params) => {
     try {
       const requestFileObject = JSON.stringify(params)
-      console.log('Sending to Server params: ', requestFileObject)
       const queryParams = new URLSearchParams({ requestFileObject }); // Create URLSearchParams object with "requestFileObject" key and value
       const response = await fetch(`/api/filedata?${new URLSearchParams({requestFileObject})}`);
       const res=await response.json()
-      console.log('response',res)
       if (!res.status) {
           return {status:false, msg:res.message} 
       }
-      console.log('secrets',res.secrets)
       return {status:true, secrets:res.secrets}
       //return await response.json();  // consult was ok return results( could be 0 or 1 record)
     } catch (error) {

@@ -61,7 +61,7 @@
     "maxsizeerror":"Excedió tamaño máximo de carga de archivos. Solo puede cargar por vez una combinación de hasta: ",
     "nofiles":"No hay Archivos",
     "uploadrequestdocuments":"Cargue en la blockchain sus documentos",
-    "dowloadrequestfiles":"Descargue Documentos de RFP/Licitación",
+    "dowloadrequestfiles":"Descargue Documentos de RFP/Licitación. Seleccione haciendo clic sobre el nombre, use la casilla para seleccionar todos. Haga clic sobre hash para copiarlo",
     "additemstitle":"Agregue Partidas a RFP/Licitación",
     "addintemsinstructions":"Haga click en ícono verde para agregar partida a la lista. Haga click en partida de la lista para editarla",
     "contestType": "Tipo",
@@ -135,5 +135,10 @@
     "unmatched_signed_params":"El archivo solicitado no corresponde con la firma",
     "only_ownerrfp_doctpye":"Tipo de documento restringido al dueño del RFP",
     "no_valid_docType":"Tipo de Documento no válido",
-    "no_valid_signature":"Firma inválida"
+    "no_valid_signature":"Firma inválida",
+    "nofiles_selected":"No hay archivos selccionados",
+    "processing_file":"Procesando Archivo",
+    "download_button":"Descargar archivos seleccionados",
+    "downloading_file":"Descargando Archivo...",
+    "downloaded_Ok":"Archivo Descargado"
 }

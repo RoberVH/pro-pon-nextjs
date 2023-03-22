@@ -5,7 +5,7 @@ export const parseWeb3Error = (t,error) => {
     if (typeof error.reason!== 'undefined') {
         if (error.reason==='insufficient funds for intrinsic transaction cost'){
             customError=t('insufficient_funds',{ns:"gralerrors"})
-        }  else if (error.reason==='user rejected transaction') {
+        }  else if (error.reason.includes('user rejected')) {
             customError=t('user_rejection',{ns:"gralerrors"})
         }
         // read errors coming from Contract require statements
