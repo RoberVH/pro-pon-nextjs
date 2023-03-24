@@ -140,5 +140,7 @@
     "processing_file":"Procesando Archivo",
     "download_button":"Descargar archivos seleccionados",
     "downloading_file":"Descargando Archivo...",
-    "downloaded_Ok":"Archivo Descargado"
+    "downloaded_Ok":"Archivo Descargado",
+    "error_writing_file":"No se pudo guardar archivo a su sistema, verifique permisos, espacio o elija otro folder",
+    "couldnt_readfile":"No pude leer archivo, verificar conexión"
 }

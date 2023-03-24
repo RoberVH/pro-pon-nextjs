@@ -138,5 +138,7 @@
     "processing_file":"Traitement du fichier",
     "download_button":"Télécharger les fichiers sélectionnés",
     "downloading_file":"Téléchargement du fichier...",
-    "downloaded_Ok":"Fichier Téléchargé"
+    "downloaded_Ok":"Fichier Téléchargé",
+    "error_writing_file":"Impossible d'enregistrer le fichier sur votre système, de vérifier les autorisations, l'espace ou de choisir un autre dossier",
+    "couldnt_readfile":"Impossible de lire le fichier, vérifiez la connexion"
 }

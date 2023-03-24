@@ -1,6 +1,7 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef, Fragment } from "react";
 import { proponContext } from "../../utils/pro-poncontext";
 import { useTranslation } from "next-i18next";
+import Image from "next/image"
 import { DownloadIcon } from "@heroicons/react/outline";
 import { docTypes, IdxDocTypes, privateFileTypes, traslatedRFPErrors } from "../.././utils/constants";
 import { useSignMessage } from "../../hooks/useSignMessage";
@@ -32,6 +33,7 @@ const DownloadFileForm = ({
   const [showSignMsg, setShowSignMsg] = useState(false);
   const [selectAll, setSelectAll] = useState(false); // state to keep track of checkbox state
   const [processedFiles, setProcessedFiles] = useState([]);
+  const [acceptAgainFlag, setAcceptAgainFlag ] = useState(false)
   
   
   // There are some asynchronous functioss that reject to the main download loop at handleAllDoenloadSelectedFiles
@@ -88,12 +90,16 @@ const DownloadFileForm = ({
     });
   };
   
+  // toggle property selected on all downloadableFiles array. Notice that this property is not original in the array but 
+  // if needed is asigned here
    const toggleAllEntries = () => {
      setDownloadableFiles(prevFiles => prevFiles.map(prevFile => {return { ...prevFile, selected: !selectAll }}
       ));
       setSelectAll(!selectAll);
   };
 
+  // toggle property selected on selected downloadableFiles array. Notice that this property is not original in the array but 
+  // if needed is asigned here
   const toggleSelectedFile = (file) => {
     setDownloadableFiles(prevFiles => prevFiles.map(prevFile => {
       if (prevFile.idx === file.idx) {
@@ -106,27 +112,47 @@ const DownloadFileForm = ({
  const handleDownloadAllSelectedFiles = async () => {
   const selectedFiles = downloadableFiles.filter(file => file.selected)  
   setProcessedFiles(selectedFiles.map(file => ({...file, status: ''})));
-   if (!selectedFiles.length) {
-     errToasterBox(t('nofiles_selected'))
-     return
-    }  
+  if (!selectedFiles.length) {
+    errToasterBox(t('nofiles_selected'))
+    return
+  }  
+  // check if there are private files and the time hasn't been reached yet
+  // privateFileTypes comes from   IdxDocTypes definition so is an array of numbers whereas file.docType is a bignumber
+  const privateFiles =  selectedFiles.filter(file => privateFileTypes.includes(parseInt(file.docType.toString())))  
+  // first check if date time to download has arrive. this is a courtesy first check, when requesting documents anyway
+  // dates and privacy will be check again at server in case of posted links outside propon App
+  if (privateFiles.length > 0 && convUnixEpoch(new Date()) <= dateEnd) {
+    errToasterBox(t("notimetodownload"))
+    // clean state
+    setDownloadableFiles(prevFiles => prevFiles.map(file => ({ ...file, selected: false })));
+    setProcessedFiles([])
+    setSelectAll(false)
+    return;
+  }    
     try {
-      const folder = await window.showDirectoryPicker();
+      const folder = await window.showDirectoryPicker()
       downloadFolder.current = folder
     } catch (error ) { 
-      errToasterBox(error)
+      errToasterBox(error.message)
+      //clear selected state 
+      setDownloadableFiles(prevFiles => prevFiles.map(file => ({ ...file, selected: false })));
+      setProcessedFiles([])
+      setSelectAll(false) // and in also clean select all flag
       return 
     }
+    // Main loop to download all selected files
+    // selectedFiles var use because with var state processedFiles we will miss iterations
   for (const file of selectedFiles) {
     try {    
-        // set the current file to processing state
+        // processedFiles state var used for UI to display what's going on
         setProcessedFiles(prevFiles => 
-            prevFiles.map(elem => elem.idx === file.idx ? { ...elem, status: 'processing' } : elem))          
-        await downloadFile(file)
+            prevFiles.map(elem => elem.idx === file.idx ? { ...elem, status: 'processing' } : elem))
+        await downloadFile(file) 
         // resolved with success, change the status to true at same entry
         setProcessedFiles(prevFiles => 
           prevFiles.map(elem => elem.idx === file.idx ? { ...elem, status: 'success' } : elem))  
     } catch (error) {
+    
       setProcessedFiles(prevFiles => 
          prevFiles.map(elem => {
               if (elem.idx=== file.idx) return ({...elem, status:'failure', msg: t(error.msg)})
@@ -136,8 +162,9 @@ const DownloadFileForm = ({
       )
     }
   }
-  // we finish, set all selected attributes of files in doenload table (downloadableFiles) to false
+  // we finish, set all selected attributes of files in download table (downloadableFiles) to false
   setDownloadableFiles(prevFiles => prevFiles.map(file => ({ ...file, selected: false })));
+  setSelectAll(false) // and in also clean select all flag
 };
 
   /**DownloadDocument
@@ -147,59 +174,63 @@ const DownloadFileForm = ({
     let blob;
     if (option==='filePath') {
       try {
-      const url = filePath;
-      const response = await fetch(url)
-      blob = await response.blob();
-    } catch (error) {
-        reject({file, msg:'couldnt_readfile'})
-    }
+        const url = filePath;
+        const response = await fetch(url)
+        blob = await response.blob();
+      } catch (error) {
+        rejectDownloadLoop.current({msg:'couldnt_readfile'})
+        return
+      }
     } else blob = writableBlob
-
-    // switch (option) {
-    //   case "filePath":
-        // url = filePath;
-        // const response = await fetch(url);
-        // const blob = await response.blob();
-        // url = URL.createObjectURL(blobFilePath);
-        // link = document.createElement("a");
-        // link.href = url;
-        // link.download = filename;
-        // link.click();
-        //link.remove();
-        // URL.revokeObjectURL(url);
-        // break;
-      // case "blob":
-      //   // url = URL.createObjectURL(writableBlob);
-      //   // link = document.createElement("a");
-      //   // link.href = url;
-      //   // link.download = filename;
-      //   // link.click();
-      //   // URL.revokeObjectURL(url);
-      //   // //link.remove();
-      //   break;
-      // case "direct":
+    // whatever it got the blob from now on is the same code to write it
       try {
-      const fileHandle = await downloadFolder.current.getFileHandle(filename, { create: true, overwrite: true });
-      // if (window.FileSystemWritableFileStream && fileHandle instanceof window.FileSystemWritableFileStream) {
-      //   const writable = await fileHandle.createWritable();
-      //  console.log('soportado') // do something with writable
-      // } else {
-      //   // file system does not support createWritable
-      //   console.log('No soportado')
-      // }
-     const writableStream = await fileHandle.createWritable();
-      await writableStream.write(blob);
-      await writableStream.close();
-      // const writableStream = await fileHandle.createWritable();
-      // await writableStream.write(blob);
-      // await writableStream.close();
-      Promise.resolve(filename)
-    } catch (error){
-      console.log('error downloadDocument', error)
-      Promise.reject({file:filename, msg:'error_writing_file'})
-    }
-  };
+          const fileHandle = await downloadFolder.current.getFileHandle(filename, { create: true, overwrite: true })
+          const writableStream = await fileHandle.createWritable();
+          await writableStream.write(blob)
+          await writableStream.close()
+          resolveDownloadLoop.current()
+/****tempo           
+        downloadBlob(filename, blob)
+        resolveDownloadLoop.current()
+**************************** */
+      } catch (error){
+          console.log('errOr', error)
+          console.log('error.message',error.message)
+          if (error.message.toLowerCase().includes("user activation is required")) {
+            // Show a message to the user to request permission again
+            setAcceptAgainFlag(true)
+          }
+          // You can also use a custom UI element instead of an alert, e.g., a modal or a notification
+          rejectDownloadLoop.current({msg:'error_writing_file'})
+        }
+      };
+      
+      
+      /****************************************************************************** temporary */
+      const handlePermissionError = () =>  {
+        return new Promise(async (resolve) => {
+          setAcceptAgainFlag(false)
+          const newFolder = await window.showDirectoryPicker(); // Request the folder handle again
+          downloadFolder.current= newFolder
+          resolveDownloadLoop.current()
+      })
+  }
 
+  function downloadBlob(filename, blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename; // Sets the download attribute with the desired filename
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click(); // Triggers the download
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  }
+
+  /*********************************************************************************************** */
   /**processDownload
    *    This function is called when there is a encrypted (confidential/Private) file,
    *    Confidential file is a file only RFP issuer can download after end of receiving date reached
@@ -238,9 +269,9 @@ const DownloadFileForm = ({
         );
         const blob = new Blob([decryptedFile], {
           type: "application/octet-stream",
-        }); // here the content Type
+        }); 
+        // Let's call function in charge to download the blob, and manage the resolve if all ok
         downloadDocument("blob", null, blob, params.current.filename);
-        resolveDownloadLoop.current()  // no need to return anything
     } catch (error) {
       let msgErr = error.message;
       if (traslatedRFPErrors.includes(error.message)) {
@@ -252,16 +283,16 @@ const DownloadFileForm = ({
 
   //************************************handlers  ***********************************************************************/
 
-  /**
-   * downloadFile
-   *    Verify conditions of file.
-   *    if doctype is not private open the file link to arweave
-   *    if is ecncrypted check if:
-   *        now is greater than ending receiving date? yes -> Is this a technical proposal type? no then desencrypt and open it for user
-   *        otherwise don't decrypt and notify user reasons why
-   *
-   *
-   * */
+/**
+ * downloadFile
+ *    Verify conditions of file.
+ *    if doctype is not private open the file link to arweave
+ *    if is ecncrypted check if:
+ *        now is greater than ending receiving date? yes -> Is this a technical proposal type? no then desencrypt and open it for user
+ *        otherwise don't decrypt and notify user reasons why
+ *
+ *
+ * */
   async function downloadFile  (file) {
     return new Promise ((resolve, reject) => { 
       // store references to both resolve/reject to be albe to for use them in asynchronous code later
@@ -270,23 +301,17 @@ const DownloadFileForm = ({
       //eventually add a spinner but beware it won't interfere with displayed signing message
       // get the doctype category of the file: could be a private up to end receiving date is reached or be always public 
       try {
-        const isPrivateFile = privateFileTypes.includes(parseInt(file.docType.toString()))
-        // first check if date time to download has arrive. this is a courtesy first check, when requesting documents anyway
-        // date will be check to avoid local tampering of datetime
-        if (isPrivateFile && convUnixEpoch(new Date()) <= dateEnd) {
-          //errToasterBox(t("notimetodownload"));
-          new Error ('notimetodownload')
-        }
-        // if file is of private then is encrypted, if not, go straighforward to  download it
+         const isPrivateFile = privateFileTypes.includes(parseInt(file.docType.toString()))
+        // if file is of private then is encrypted and we first decrypt it, else, go to  download it  straighforward
         if (isPrivateFile) {
-            // we'll use this param object when asyncronus flow for decrypting and signing a message for a confidential file
+            // we'll use this param object on our asyncronus flow for decrypting and signing a message for a confidential file
             params.current = {
               docType: file.docType.toString(),
               globalIndex: rfpIndex,
               arweaveFileIdx: file.idx,
               filename: file.name,
             };
-            // check if document is confidential (proposal type; only available if end of receiving date reached 
+            // check if document is confidential (proposal type presently; only available if end of receiving date reached 
             // AND is requested by RFP issuer)
             if (parseInt(file.docType.toString()) === IdxDocTypes.documentProposalType) {
               // Is a CONFIDENTIAL  file only to be revealed to issuer of RFP after endofreceiving data has been reached
@@ -294,8 +319,8 @@ const DownloadFileForm = ({
                 // there isn't even a registered company to sign message!
                 throw new Error('only_ownerrfp_doctpye');
               }
-              // show signature message,this cause the flow will follow from another segment of the code 
-              // to get signature and download file
+              // show signature message needed to identify as issuer at server,this cause the flow will follow from
+              //  another segment of the code to get signature and download file
               setShowSignMsg(true); 
               // we're done here, flow will continue when user clicks on handleSigning button handler displayed 
               // on SignMsgAlert inner component
@@ -309,8 +334,8 @@ const DownloadFileForm = ({
         // is a PUBLIC document (RFP requesting documents). It's not encrypted and is available as soon as is downloaded
         // so go and  delivered it
         const filePath = `https://arweave.net/${file.idx}`;
+        // let downloadDocument to take care of resolving promise if all goes ok
         downloadDocument("filePath", filePath, null, file.name);
-        resolve(file)  // we use resolve because is in the scope of this function
       }
     } catch (error) {
       reject({msg:error.message}) // we use reject because is in the scope of this function
@@ -327,24 +352,29 @@ const DownloadFileForm = ({
   };
 
   const statusClass = (status) => {
-    const common = 'pl-1 pt-1'
+    const common = 'pl-2 pt-1 flex items-center'
     if (status==='') return common
     switch (status) {
       case '':
       case 'processing':
         return `${common}`
       case 'success':
-        return `${common} text-green-500 `
+        return `${common} text-green-700 `
       case 'failure':
         return `${common}  text-red-500`
     }
   }
 
+  //'⟳' //'⧲' //'⚇' //'◡' //'◜' //'◖' //'◌' //'◑' //'◔' //'◕' //'◔'
+   //✔' //'✅️'
+   //'⛔️'
   const iconStatusClass = (status) => {
     if (status === '') return null
-    if (status === 'processing') return '⧲' //'⚇' //'◡' //'◜' //'◖' //'◌' //'◑' //'◔' //'◕' //'◔'
-    if (status === 'success') return '✓' //✔' //'✅️'
-    if (status === 'failure') return 'x' //'⛔️'
+    if (status === 'processing') 
+      //return <Image alt="spinningarrow" src="/spinningarrow.svg" height={18} width={18} className="animate-spin"/> 
+      return <p className="animate-spin">🗘</p>
+    if (status === 'success') return '✓'
+    if (status === 'failure') return 'x' 
     return null
   }
 const resultAnnounce = (status, file) => {
@@ -356,6 +386,17 @@ const resultAnnounce = (status, file) => {
 }
 
   //** Inner Components *************************************************************************
+
+
+  const AlertDOwnloadUserActivation = () =>
+  <div className="absolute top-[30%] left-[45%]  border-2 boder-orange-500 shadow rounded-xl text-stone-500 bg-yellow-200
+   style={{display:'none'}}">
+    <div className="flex flex-col justify-center m-4 items-center">
+      <p className="mb-4">Se tardo mucho, vamos a pedirle que vuelva  a aceptar el folder de almacenamiento</p>
+      <button onClick={handlePermissionError} id='retryPermissionButton' className="text-white font-bold bg-orange-300 border-2 border-orange-300 m-2 px-4 py-2">
+         Aceptar </button>
+    </div>
+  </div>
 
   const DownloadFilesLogger = () => {
     if (processedFiles.length)
@@ -370,13 +411,14 @@ const resultAnnounce = (status, file) => {
               <div className={`${statusClass(file?.status)} ${index === processedFiles.length -1  ? 'border-b border-orange-500' : ''}`}>
                 <p>{resultAnnounce(file?.status, file)}</p>
               </div>
-              <div className={`${statusClass(file?.status)} text-center border-r border-l border-orange-500 
+              <div className={`${statusClass(file?.status)} text-center border-r border-l border-orange-500 justify-center text-xl font-bold pb-1
               ${index === processedFiles.length -1  ? 'border-b border-orange-500' : ''}`}>
-                <p className={` text-xl font-bold ${file?.status==='processing' ? 'text-orange-500 animate-spin'
-                : ''} ${statusClass(file?.status)}` }>{iconStatusClass(file?.status)}</p>
+                <div className={`contents ${file?.status==='processing' ? 'text-orange-500 animate-spin'
+                : ''} ${statusClass(file?.status)}` }>{iconStatusClass(file?.status)}</div>
               </div>
             </div>
           ))}
+
         </div>
       )
     else return (null)
@@ -408,6 +450,7 @@ const resultAnnounce = (status, file) => {
               {t("Copied_clipboard")}
             </p>
           )}
+          {acceptAgainFlag && <AlertDOwnloadUserActivation />}
           <table
             className="table-fixed border-collapse border border-orange-400  font-khula font-bold text-stone-700 h-full
              w-full mb-8  shadow-lg">
@@ -470,7 +513,6 @@ const resultAnnounce = (status, file) => {
 
   return (
     <div className="m-auto py-2 max-w-[90%] ">
-      {console.log('downloadFolder.current',downloadFolder.current)}
       <SignMsgAlert
         showSignMsg={showSignMsg}
         msgWarning={t("show_rfp_filerequest")}
