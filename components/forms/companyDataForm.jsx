@@ -48,6 +48,9 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   const { values, handleChange } = useInputForm(companyData);
   const [message, setMsgtoSign] = useState();
   const [lang, setLang] = useState("");
+  const [downloadFolderOption, setsDownloadFolderOption] = useState(
+    companyData && typeof companyData.downloadFolderOption !== "undefined"
+    ? companyData.downloadFolderOption : '');
 
   const router = useRouter();
   const [profileCompleted, setProfileCompleted] = useState(
@@ -123,6 +126,11 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
     await signMessage(message);
   };
 
+  // ********************** handlers *************************
+  const handleOptionChange = (event) => {
+    setsDownloadFolderOption(event.target.value);
+  }
+
   // Validate and Update data to DB
   const handleSave = async () => {
     const trimmedValues = {};
@@ -132,20 +140,16 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
       }
     }
 
-    if (
-      !validate(
+    if (!validate(
         patronobligatorio,
         trimmedValues.adminname,
         t("companyform.nameerror")
       ))
       return;
-    if (
-      !validate(patronemail, trimmedValues.email, t("companyform.emailerror"))
+    if (!validate(patronemail, trimmedValues.email, t("companyform.emailerror"))
     )
       return;
-    if (
-      trimmedValues.website &&
-      !validate(
+    if (trimmedValues.website && !validate (
         patronwebsite,
         trimmedValues.website,
         t("companyform.websiteerror")
@@ -153,7 +157,14 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
     )
       return;
 
-    // Display modal to show & ask to sign message
+    if (downloadFolderOption.trim()==='') {
+      errToasterBox(t("companyform.nodownloadfolererror"))
+      return;
+    }
+
+    // add downloadFolderOption value to the trimmedValues:
+    trimmedValues.downloadFolderOption = downloadFolderOption
+      // Display modal to show & ask to sign message
     const message = JSON.stringify(trimmedValues);
     setMsgtoSign(message);
     setSaving(true);
@@ -193,7 +204,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
         showSignMsg={showSignMsg}
         msgWarning={t("showsigningmsg")}
         signMsg={t("signmessage", { ns: "common" })}
-        proceedToSign={proceedToSign}
+        handleSigning={proceedToSign}
       />
       <div
         id="dataentrypanel"
@@ -255,7 +266,35 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
               values={values}
               placeholder={`${t("companyform.website")}`}
             />
-          </div>
+            {/* ****************************************************************** */}
+            <div className="mt-4">
+              <label className=" text-stone-500">Set how files will be download</label>
+              <div className="w-[50%] mt-4 mb-4 ml-3 border-[1px] border-orange-500 p-2 rounded-lg">
+                <label className="ml-4 inline-flex items-center">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    value="default"
+                    checked={downloadFolderOption === 'default'}
+                    onChange={handleOptionChange}
+                    />
+                  <span className="ml-2">{t('companyform.defaultdownloadfolder')}</span>
+                </label>
+
+                <label className="ml-4 inline-flex items-center">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    value="custom"
+                    checked={downloadFolderOption === 'custom'}
+                    onChange={handleOptionChange}
+                    />
+                  <span className="ml-2">{t('companyform.userchoosedfolder')}</span>
+                </label>
+              </div>
+            </div>
+          {/* **************************************************************************************** */}
+        </div>
         </form>
         <div id="footersubpanel3">
           <div className="py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md">

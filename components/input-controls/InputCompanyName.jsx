@@ -14,7 +14,8 @@ export function InputCompanyName({
       <input 
         className={inputclasses} 
         value={values.companyname || ''} 
-        type="text" id={'companyname'} 
+        type="text" 
+        id={'companyname'} 
         onChange={handleChange} 
         placeholder={placeholder}  
         disabled = {disable}

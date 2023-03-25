@@ -13,7 +13,8 @@ export function InputEmail({
     <input 
       className={inputclasses} 
       value={values.email || ''} 
-      type="text" id={'email'} 
+      type="text" 
+      id={'email'} 
       onChange={handleChange} 
       placeholder={placeholder}  
     />

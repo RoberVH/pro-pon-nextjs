@@ -20,7 +20,6 @@ function Menues() {
   const { t } = useTranslation('menus');
   
   const handleMenu = (option) => {
-    console.log(option)
     setMenuCompany(option==='company')
     setMenuRFP(option==='rfp')
   }

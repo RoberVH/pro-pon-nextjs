@@ -61,6 +61,7 @@ const DownloadFileForm = ({
       );
   }, [rfpfiles, allowedDocTypes, owner]);
 
+  
   const signMessage = useSignMessage({ onSuccess, onError });
 
   // hook callbacks **********************************************************************************
@@ -129,16 +130,19 @@ const DownloadFileForm = ({
     setSelectAll(false)
     return;
   }    
+  // ask for a user choosen folder only if is a registered company, and if in its config says a custom download files folder
+  if (typeof companyData?.downloadFolderOption !== 'undefined' && companyData.downloadFolderOption === 'custom') {
     try {
-      const folder = await window.showDirectoryPicker()
-      downloadFolder.current = folder
+        const folder = await window.showDirectoryPicker()
+        downloadFolder.current = folder
     } catch (error ) { 
-      errToasterBox(error.message)
-      //clear selected state 
-      setDownloadableFiles(prevFiles => prevFiles.map(file => ({ ...file, selected: false })));
-      setProcessedFiles([])
-      setSelectAll(false) // and in also clean select all flag
-      return 
+        errToasterBox(error.message)
+        //clear selected state 
+        setDownloadableFiles(prevFiles => prevFiles.map(file => ({ ...file, selected: false })));
+        setProcessedFiles([])
+        setSelectAll(false) // and in also clean select all flag
+        return 
+      }
     }
     // Main loop to download all selected files
     // selectedFiles var use because with var state processedFiles we will miss iterations
@@ -167,10 +171,10 @@ const DownloadFileForm = ({
   setSelectAll(false) // and in also clean select all flag
 };
 
-  /**DownloadDocument
-   *    Popo prompt for user to select where to save and download file
-   */
-  const downloadDocument = async (option, filePath, writableBlob, filename) => {
+  /**saveBlobAsFile
+   *    Save the received blob as a file according to user choosen folder option
+  */
+  const saveBlobAsFile = async (option, filePath, writableBlob, filename) => {
     let blob;
     if (option==='filePath') {
       try {
@@ -184,37 +188,55 @@ const DownloadFileForm = ({
     } else blob = writableBlob
     // whatever it got the blob from now on is the same code to write it
       try {
+        if (typeof companyData?.downloadFolderOption !== 'undefined' && companyData.downloadFolderOption === 'custom') {
           const fileHandle = await downloadFolder.current.getFileHandle(filename, { create: true, overwrite: true })
           const writableStream = await fileHandle.createWritable();
           await writableStream.write(blob)
           await writableStream.close()
           resolveDownloadLoop.current()
-/****tempo           
-        downloadBlob(filename, blob)
-        resolveDownloadLoop.current()
-**************************** */
+         } else {
+            downloadBlob(filename, blob)
+            resolveDownloadLoop.current()
+         }
       } catch (error){
-          console.log('errOr', error)
-          console.log('error.message',error.message)
           if (error.message.toLowerCase().includes("user activation is required")) {
-            // Show a message to the user to request permission again
-            setAcceptAgainFlag(true)
+            // this will only happen is user has choosen a folder (downloadFolderOption = 'custom')
+              const newFolder = await handlePermissionError(); // Handle the error and request the folder handle again
+              downloadFolder.current=newFolder
+              const fileHandle = await downloadFolder.current.getFileHandle(filename, { create: true, overwrite: true })
+              const writableStream = await fileHandle.createWritable();
+              await writableStream.write(blob)
+              await writableStream.close()
+              resolveDownloadLoop.current()
           }
-          // You can also use a custom UI element instead of an alert, e.g., a modal or a notification
           rejectDownloadLoop.current({msg:'error_writing_file'})
         }
       };
       
       
-      /****************************************************************************** temporary */
-      const handlePermissionError = () =>  {
-        return new Promise(async (resolve) => {
-          setAcceptAgainFlag(false)
+/*********************************  temporary ****************************************************************************** */
+async function handlePermissionError() {
+  return new Promise((resolve, reject) => {
+    const retryButton = document.getElementById("retryPermissionButton");
+    retryButton.style.display = "block"; // Show the button to the user
+
+    retryButton.addEventListener(
+      "click",
+      async () => {
+        try {
           const newFolder = await window.showDirectoryPicker(); // Request the folder handle again
-          downloadFolder.current= newFolder
-          resolveDownloadLoop.current()
-      })
-  }
+          retryButton.style.display = "none"; // Hide the button after the user clicks it
+          resolve(newFolder);
+        } catch (error) {
+          console.error("An error occurred while requesting the folder handle:", error);
+          rejectDownloadLoop.current(error.message);
+        }
+      },
+      { once: true }
+    );
+  });
+}
+    
 
   function downloadBlob(filename, blob) {
     const url = URL.createObjectURL(blob);
@@ -229,6 +251,7 @@ const DownloadFileForm = ({
       URL.revokeObjectURL(url);
     }, 100);
   }
+  /************************************* end of temporary*************************************************************** */
 
   /*********************************************************************************************** */
   /**processDownload
@@ -271,7 +294,7 @@ const DownloadFileForm = ({
           type: "application/octet-stream",
         }); 
         // Let's call function in charge to download the blob, and manage the resolve if all ok
-        downloadDocument("blob", null, blob, params.current.filename);
+        saveBlobAsFile("blob", null, blob, params.current.filename);
     } catch (error) {
       let msgErr = error.message;
       if (traslatedRFPErrors.includes(error.message)) {
@@ -334,8 +357,8 @@ const DownloadFileForm = ({
         // is a PUBLIC document (RFP requesting documents). It's not encrypted and is available as soon as is downloaded
         // so go and  delivered it
         const filePath = `https://arweave.net/${file.idx}`;
-        // let downloadDocument to take care of resolving promise if all goes ok
-        downloadDocument("filePath", filePath, null, file.name);
+        // let saveBlobAsFile to take care of resolving promise if all goes ok
+        saveBlobAsFile("filePath", filePath, null, file.name);
       }
     } catch (error) {
       reject({msg:error.message}) // we use reject because is in the scope of this function
@@ -388,16 +411,7 @@ const resultAnnounce = (status, file) => {
   //** Inner Components *************************************************************************
 
 
-  const AlertDOwnloadUserActivation = () =>
-  <div className="absolute top-[30%] left-[45%]  border-2 boder-orange-500 shadow rounded-xl text-stone-500 bg-yellow-200
-   style={{display:'none'}}">
-    <div className="flex flex-col justify-center m-4 items-center">
-      <p className="mb-4">Se tardo mucho, vamos a pedirle que vuelva  a aceptar el folder de almacenamiento</p>
-      <button onClick={handlePermissionError} id='retryPermissionButton' className="text-white font-bold bg-orange-300 border-2 border-orange-300 m-2 px-4 py-2">
-         Aceptar </button>
-    </div>
-  </div>
-
+ 
   const DownloadFilesLogger = () => {
     if (processedFiles.length)
       return (
@@ -450,7 +464,7 @@ const resultAnnounce = (status, file) => {
               {t("Copied_clipboard")}
             </p>
           )}
-          {acceptAgainFlag && <AlertDOwnloadUserActivation />}
+          
           <table
             className="table-fixed border-collapse border border-orange-400  font-khula font-bold text-stone-700 h-full
              w-full mb-8  shadow-lg">
@@ -519,6 +533,17 @@ const resultAnnounce = (status, file) => {
         signMsg={t("signmessage", { ns: "common" })}
         handleSigning={handleSigning}
       />
+      {/*  */}
+      <button style={{display: 'none'}}
+        onClick={handlePermissionError} id='retryPermissionButton' 
+        className="bounce-four-times absolute top-[40%] left-[40%] w-1/2 h-1/4 text-red-600 font-bold bg-yellow-300 
+        border-4 text-2xl border-orange-300 px-8 py-2 rounded-2xl background-animate
+        bg-gradient-to-l
+        from-transparent
+        via-orange-100
+        to-yellow-200">
+          Lo sentimos, el navegador solicita que confirme de nuevo el folder para salvar los archivos. Haga click sobre esta ventana para proceder
+      </button>
       <div id="downloadIcon" className="flex">
         <DownloadIcon className="mt-1 h-8 w-8 text-orange-300 mb-2" />
         <p className="mt-2 pl-2 font-khula">{t("dowloadrequestfiles")}</p>

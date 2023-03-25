@@ -37,12 +37,15 @@
         "chileCompanyId":"Rôle fiscal unique (RUT)",
         "country": "Choisissez un pays",
         "website":"Site Internet",
+        "defaultdownloadfolder":"Télécharger des fichiers dans le dossier par défaut de l'utilisateur",
+        "userchoosedfolder":"Choisir le dossier pour télécharger les fichiers",
         "nameerror":"Mauvais nom d'administrateur",
         "companynamerror":"Mauvais nom de l'entreprise",
         "companyIDerror":"Mauvais ID d'entreprise",
         "emailerror":"Mauvais e-mail",
         "websiteerror":"Mauvais site Web",
-        "countryerror":"Mauvais pays"        
+        "countryerror":"Mauvais pays",
+        "nodownloadfolererror":"Vous n'avez pas sélectionné de dossier pour télécharger les fichiers"       
     },
     "showsigningmsg":"Il vous sera demandé de signer avec votre compte portefeuille un message avec les données de votre entreprise, ne vous inquiétez pas car cette opération ne vous coûtera aucune crypto-monnaie, c'est juste un moyen de vous assurer que vous avez le droit de demander cette opération. Veuillez signer le message",
     "savebutton":"Sauvegarder",

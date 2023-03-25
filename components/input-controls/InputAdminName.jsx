@@ -13,7 +13,8 @@ export function InputAdminName({
     <input 
     className={inputclasses} 
     value={values.adminname || ''}
-    type="text" id={'adminname'} 
+    type="text" 
+    id={'adminname'} 
     onChange={handleChange} 
     placeholder={placeholder}  />
   </>

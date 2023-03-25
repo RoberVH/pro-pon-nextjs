@@ -122,21 +122,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
     const customError=parseWeb3Error(t,error)
     errToasterBox(customError)    
     setIsSaving(false)
-  return
-  //   let customError=t('errors.undetermined_blockchain_error')  
-  //   if (typeof error.reason!== 'undefined') {
-  //     if (error.reason==='insufficient funds for intrinsic transaction cost')
-  //         customError=t('errors.insufficient_funds')
-  //     if (error.reason==='user rejected transaction')
-  //         customError=t('errors.user_rejection')
-  //         // read errors coming from Contract require statements
-  //     if (errorSmartContract.includes(error.reason)) customError=t(`error.${error.reason}`)
-  //   } else {
-  //       if (error.data && error.data.message) customError=error.data.message
-  //       else if (typeof error.message!== 'undefined') customError=error.message
-  //  }
-  //   errToasterBox(customError)    
-  //   setIsSaving(false)
+    return
   }
 
   const write = useWriteCompanyData({onEvent, onSuccess, setHash, onError, setLink, setPosted})
@@ -238,13 +224,13 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
           // Company not yet registered to blockchain contract
           <React.Fragment>
             <InputCountrySel
-            t={t}
-            i18n={i18n}
-            handleChange={handleChange}
-            values={values}
-            setPlaceHolder={setTaxPayerPlaceHolder}
-            companyData={companyData}
-            profileCompleted={profileCompleted}
+              t={t}
+              i18n={i18n}
+              handleChange={handleChange}
+              values={values}
+              setPlaceHolder={setTaxPayerPlaceHolder}
+              companyData={companyData}
+              profileCompleted={profileCompleted}
             />
             <div className="relative mb-4 mt-4">
               <InputCompanyId

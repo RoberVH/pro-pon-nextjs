@@ -13,7 +13,8 @@ export function InputWebsite({
       <input 
         className={inputclasses} 
         value={values.website || ''} 
-        type="text" id={'website'} 
+        type="text" 
+        id={'website'} 
         onChange={handleChange} 
         placeholder={placeholder}  
       />

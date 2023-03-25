@@ -37,12 +37,15 @@
         "emailcompany": "Email de contacto para concursos de RFPs",
         "country": "Seleccione País",
         "website": "Sitio Web",
+        "defaultdownloadfolder":"Descargar archivos a la carpeta predeterminada del usuario",
+        "userchoosedfolder":"Elegir carpeta para descargar archivos",
         "nameerror":"Nombre de administrador erróneo",
         "companynamerror":"Nombre de Compañía erróneo",
         "companyIDerror":"Id de Compañia erróneo",
         "emailerror":"Email erróneo",
         "websiteerror":"Website erróneo",
-        "countryerror":"País erróneo"
+        "countryerror":"País erróneo",
+        "nodownloadfolererror":"No seleccionó carpeta para descargar archivos"
     },
     "showsigningmsg":"Se le pedirá que firme con su cuenta de billetera un mensaje con los datos de su empresa, no se preocupe ya que esta operación no le costará ninguna criptomoneda, es solo una forma de asegurarse de que tiene derecho a solicitar esta operación. Por favor firme el mensaje",
     "savebutton":"Guardar",
