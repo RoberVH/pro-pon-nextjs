@@ -13,13 +13,15 @@ export const  useFilesRFP= (rfpidx) => {
  */
 const updateRFPFilesArray = useCallback( async () => {
   setdoneLookingFiles(false)
-  if (!rfpidx)  {
+  // rfpidx is the global RFP index to track for documents
+  if (typeof rfpidx=== 'undefined')  {
       setdoneLookingFiles(true)
        return {status:true}
   }
   const result = await getArweaveFilesMetadata(rfpidx) // get RFP arweave metadata files from contract
   if (result.status) {
       setRFPFiles(result.docs)
+      console.log('Result Dosc:', result.docs)
       setNewFiles(false)
       setdoneLookingFiles(true)
       return {status:true}

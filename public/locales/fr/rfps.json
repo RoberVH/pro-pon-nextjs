@@ -140,5 +140,10 @@
     "downloading_file":"Téléchargement du fichier...",
     "downloaded_Ok":"Fichier Téléchargé",
     "error_writing_file":"Impossible d'enregistrer le fichier sur votre système, de vérifier les autorisations, l'espace ou de choisir un autre dossier",
-    "couldnt_readfile":"Impossible de lire le fichier, vérifiez la connexion"
+    "couldnt_readfile":"Impossible de lire le fichier, vérifiez la connexion",
+    "preparing_filesload":"Préparation du téléchargement du fichier, veuillez patienter...",
+    "end_receiving":"Recevoir jusqu'au",
+    "end":"Fin",
+    "canceled":"Annulé",
+    "go":"Aller"
 }

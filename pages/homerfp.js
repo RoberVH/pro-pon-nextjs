@@ -8,18 +8,25 @@
  *      Each Tab host a component to present the required functionality
  */
 
-import { useState, useEffect, useCallback, useContext, Fragment } from "react";
+import { useState, useEffect, lazy, Suspense , useContext } from "react";
 import { useRouter } from 'next/router'
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 const { BigNumber } = require("ethers");
+const RFPDocuments = lazy(() => import("../components/rfp/rfpDocuments"));
+const RegisterBidder = lazy(() => import("../components/rfp/registerBidder"));
+const ShowBidders = lazy(() => import("../components/rfp/showBidders"));
+const ShowResults = lazy(() => import("../components/rfp/showResults"));
+const DeclareResults = lazy(() => import("../components/rfp/declareResults"));
+//const DisplayItems = lazy(() => import("../components/rfp/displayItems"));
+
 import RFPIdentificator from "../components/rfp/rfpIdentificator";
 import RFPessentialData from "../components/rfp/RFPessentialData";
-import RFPDocuments from "../components/rfp/rfpDocuments";
-import RegisterBidder from "../components/rfp/registerBidder";
-import ShowBidders from "../components/rfp/showBidders";
-import ShowResults from "../components/rfp/showResults";
-import DeclareResults from "../components/rfp/declareResults";
+ //import RFPDocuments from "../components/rfp/rfpDocuments";
+//import RegisterBidder from "../components/rfp/registerBidder";
+//import ShowBidders from "../components/rfp/showBidders";
+//import ShowResults from "../components/rfp/showResults";
+//import DeclareResults from "../components/rfp/declareResults";
 import DisplayItems from "../components/rfp/displayItems";
 import GralMsg from "../components/layouts/gralMsg";
 import NoItemsTitle from "../components/layouts/NoItemsTitle";
@@ -92,7 +99,7 @@ function HomeRFP() {
 
 const RFPTabDisplayer = () => {
   switch (selectedPanel) {
-    case 'rfp_bases':
+    case 'rfp_bases': // rfp_bases RFP's Issuer Load/download component 
         return (
           <RFPDocuments
             t={t}
@@ -199,7 +206,9 @@ const RFPTabDisplayer = () => {
             className="bg-white border-2 border-orange-300 min-h-screen"
           >
             <div id="selected-usable-area" className="m-2">
+            <Suspense fallback={<div className="mt-24"><Spinner /></div>}>
               <RFPTabDisplayer />
+            </Suspense>
             </div>
           </div>
         </div>

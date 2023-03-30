@@ -32,7 +32,7 @@ export const getProponContract = async () => {
 */
 export const getWritingProponContract = async () => {
   try {
-    const provider= await new ethers.providers.Web3Provider(window.ethereum)
+    const provider= new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI.abi, signer)
     return contract

@@ -27,10 +27,7 @@ import { saveFileSecrets } from '../database/dbOperations'
                                         //the index property  on docTypes records Object in utils/constant.js file
     {name: "rfpIndex", value:rfpIndex.toString()},
   ]  
-  // console.log('FILE:', file)
-  // console.log('typeof FILE:', typeof file)
-  console.log('FILE:', fileData)
-  console.log('typeof FILE:', typeof fileData)
+
   const transaction = remoteBundlr.createTransaction(fileData, { tags })
   //const transaction = remoteBundlr.createTransaction(fileData, { tags: [{ tags }] })
   
@@ -77,7 +74,6 @@ import { saveFileSecrets } from '../database/dbOperations'
     setResultObject(setuploadingSet, idx, 'fileId', res.id)
     // save secrets to BD where index of record is the same as the bundle id 
     // we have to do this here because we need the res.id from Arweave as unique secrets record identifier
-    console.log('por salvar a BD', res.id, password, ivStr)
     const dbresult= await saveFileSecrets({idx:res.id, psw:password, iv:ivStr, docType: filetype })
    // if (!dbresult.resp.status) reject({status:false, msg:dbresult.error}) // pass up returning error from cipherFile 
     return resolve({status:true, txid:res.id})

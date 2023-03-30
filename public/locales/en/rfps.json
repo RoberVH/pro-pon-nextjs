@@ -140,7 +140,12 @@
     "downloading_file":"Downloading file...",
     "downloaded_Ok":"File Downloaded",
     "error_writing_file":"Could not save file to your system, check permissions, space or choose another folder",
-    "couldnt_readfile":"Could not read file, verify connection"
+    "couldnt_readfile":"Could not read file, verify connection",
+    "preparing_filesload":"Preparing uploading of files, wait ...",
+    "end_receiving":"End Receiving",
+    "end":"End",
+    "canceled":"Canceled",
+    "go":"Go"
 
     
 }

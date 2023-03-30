@@ -81,8 +81,8 @@ useEffect(()=>{
   getFilesData()
 },[bidders, updateRFPFilesArray])
 
-  const CellTable = ({ field, highhLigth }) => (
-    <td className={`w-1/4 p-2  font-khula ${highhLigth ? 'text-orange-700 font-bold':'text-stone-800'}`}>
+  const CellTable = ({ field, highhLigth, w }) => (
+    <td className={`${w} p-2  font-khula ${highhLigth ? 'text-orange-700 font-bold':'text-stone-800'}`}>
             {field}
     </td>
   );
@@ -134,10 +134,10 @@ useEffect(()=>{
                       ? "border-b-2 border-orange-400"
                       : "text-lg font-bold"
                   }`}>
-                  <CellTable field={company.companyId} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
-                  <CellTable field={company.companyname} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
-                  <CellTable field={company.country} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
-                  <td className="w-1/4 p-2 text-lg font-khula text-gray-700 text-right pr-4 ">
+                  <CellTable w={'w-1/6'} field={company.companyId} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
+                  <CellTable w={'w-3/6'} field={company.companyname} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
+                  <CellTable w={'w-1/6'} field={company.country} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
+                  <td className="w-1/6 p-2 text-lg font-khula text-gray-700 text-right pr-4 ">
                     {idxShowFilesComp === company.companyId ? (
                       <Image
                         className="cursor-pointer "

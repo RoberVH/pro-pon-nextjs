@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, useRef, Fragment } from "react";
 import { proponContext } from "../../utils/pro-poncontext";
 import { useTranslation } from "next-i18next";
-import Image from "next/image"
+//import Image from "next/image"
 import { DownloadIcon } from "@heroicons/react/outline";
 import { docTypes, IdxDocTypes, privateFileTypes, traslatedRFPErrors } from "../.././utils/constants";
 import { useSignMessage } from "../../hooks/useSignMessage";
@@ -33,7 +33,7 @@ const DownloadFileForm = ({
   const [showSignMsg, setShowSignMsg] = useState(false);
   const [selectAll, setSelectAll] = useState(false); // state to keep track of checkbox state
   const [processedFiles, setProcessedFiles] = useState([]);
-  const [acceptAgainFlag, setAcceptAgainFlag ] = useState(false)
+  //const [acceptAgainFlag, setAcceptAgainFlag ] = useState(false)
   
   
   // There are some asynchronous functioss that reject to the main download loop at handleAllDoenloadSelectedFiles
@@ -228,8 +228,8 @@ async function handlePermissionError() {
           retryButton.style.display = "none"; // Hide the button after the user clicks it
           resolve(newFolder);
         } catch (error) {
-          console.error("An error occurred while requesting the folder handle:", error);
-          rejectDownloadLoop.current(error.message);
+            console.error("An error occurred while requesting the folder handle:", error);
+            rejectDownloadLoop.current(error.message);
         }
       },
       { once: true }

@@ -106,14 +106,16 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
 
   const onEvent = async (address, companyId, CompanyName) => {
     // save company data to DB record and also to context in case DB write/read fails
-    await saveCompanyData(address) 
-    // we need to read what we just write to retreieve DB id of record and have it on the context
-    const company= await getCompanydataDB(values.companyId.trim()) // read from DB company data
-     setCompanyData(company) // write db record to context with id that we'll use to update it
-    setcompanyCreated(true)
+    // code moved to onSuccess from here to make sure it won't retain companyId erroneous when is already taken and save record with bad
+    // ID, (a weird error, maybe because of developing environment?)
   };
-
-  const onSuccess = (data) => {
+  
+  const onSuccess = async (data) => {
+    await saveCompanyData(address) 
+    // we need to read what we just write to retrieve DB id of record and have it on the context
+    const company= await getCompanydataDB(values.companyId.trim()) // read from DB company data
+    setCompanyData(company) // write db record to context with id that we'll use to update it
+    setcompanyCreated(true)
     setBlock(data.blockNumber)
   }
 
@@ -175,7 +177,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
         t("companyform.countryerror")
       ))return;
 
-    
+  
     // validation passed ok, 
     // create entry on smart contract
     setIsSaving(true)
@@ -186,8 +188,6 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
          trimmedValues.companyname, 
          trimmedValues.country,
          "0.0001")
-         // debug
-         //onEvent('33340000034443434','no','no')
    };
 
   

@@ -1,0 +1,77 @@
+/**
+ * This code defines two components: RfpCard and RfpCards. RfpCard is a simple card component that displays the name and description 
+ * of an RFP. RfpCards is the main component that displays a grid of RFP cards in a masonry-type layout with four columns.
+ * In RfpCards, we first calculate the number of columns and the width of each column. We then create an array of columns and assign 
+ * each RFP to a column based on its index. Finally, we render the columns as a grid using the grid and grid-cols classes from 
+ * Tailwind CSS. The gap class sets the gap between the columns, and we use media queries to adjust the number of columns based
+ *  on the screen size.
+ */
+
+import { Fragment } from 'react';
+import { convDate } from '../../utils/misc'
+import { buildRFPURL } from "../../utils/buildRFPURL";
+import { useRouter } from "next/router"
+
+
+function RfpCards({ rfps, setIsWaiting, companyData, t }) {
+  const router = useRouter()
+
+
+  // ******************** Inner compoenents ***********************************
+const  RfpCard = ({ rfp }) => {
+  const handleShowRFP = (rfpParams) => {
+      setIsWaiting(true);
+      const urlLine={
+          companyId: companyData.companyId,
+          companyname: companyData.companyname,
+          rfpidx:rfpParams.rfpIndex
+      }
+      const rfphomeparams = buildRFPURL(urlLine);
+      router.push("/homerfp?" + rfphomeparams);
+      };
+      const canceled = rfp.canceled
+      let bg = 'bg-white'
+      if (canceled) bg='bg-red-100'
+      if (rfp.winners.length) bg='bg-green-100'
+      return (
+      <div className={`${bg} rounded-lg shadow-lg px-6 py-4`}>
+          <p className="text-md ">Id: {rfp.name}</p>
+          <p className="mt-2 text-gray-500 text-sm"><strong>{t('description')}: </strong> {rfp.description}</p>
+          <p className="mt-2 text-gray-500 text-sm"><strong>{t('open')}: </strong> {convDate(rfp.endReceivingDate)}</p>
+          <p className="mt-2 text-gray-500 text-sm"><strong>{t('end_receiving')}: </strong>{convDate(rfp.openDate)}</p>
+          <p className="mt-2 text-gray-500 text-sm"><strong>{t('end')}: </strong>{convDate(rfp.endDate)}</p>
+          { canceled  &&   <p className="text-red-500 text-sm">{t('canceled')}</p>}
+          <div className="text-blue-500 flex justify-end mb-2 mr-2">
+          <button className="text-orange-500" onClick={() => handleShowRFP(rfp)}>
+              {t('go')}
+          </button>
+          </div>
+      </div>
+    )
+  };
+
+
+   
+  const columnCount = 4;
+  const columnWidth = 100 / columnCount;
+ 
+  const columns = new Array(columnCount).fill().map(() => []);
+ 
+  rfps.forEach((rfp, index) => {
+     const column = index % columnCount;
+     columns[column].push(rfp);
+  });
+ 
+  return (
+     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+       {columns.map((column, index) => (
+         <Fragment key={index}>
+           {column.map((rfp, index) => (
+             <RfpCard key={index} rfp={rfp} />
+           ))}
+         </Fragment>
+       ))}
+     </div>
+  );
+}
+export default RfpCards;

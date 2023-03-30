@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toastStyle } from "../../styles/toastStyle";
 import { sendWarningServer } from "../../utils/misc";
 import { useWriteFileMetadata } from "../../hooks/useWriteFileMetadata";
+import Spinner from '../layouts/Spinner'
 import SpinnerBar from "../layouts/SpinnerBar";
 
 /**
@@ -247,7 +248,8 @@ function UploadRFPForm({
           processFilePromisesArray
         );
         // const dataFileContent = await resultFilesPromises;
-        await resultFilesPromises;
+        //await resultFilesPromises;
+        //resultFilesPromises;
         const fullfilled = resultFilesPromises.filter(
           (result) => result.status === "fulfilled"
         );
@@ -285,6 +287,7 @@ function UploadRFPForm({
   };
   
   //JSX returned begins here    ********************************************************************
+  
   if (!Boolean(pickedFiles.length))
     return (
       <div id="pickupcomponentholder" className="my-8 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-md">
@@ -292,19 +295,26 @@ function UploadRFPForm({
       </div>
     );
   else if (uploadingSet.length > 0)
-    return (
-      <div className="my-8 mx-4 font-khula bg-white leading-8 ">
-        <DisplayProgressUpload
-          t={t}
-          files={pickedFiles}
-          uploadingSet={uploadingSet}
-        />
-
-        <div className=" flex flex-col my-4 p-2 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-xl">
-          {showSummaryUploads && <ShowSummaryUploads />}
+      return (
+        <div className="my-8 mx-4 font-khula bg-white leading-8 ">
+          <DisplayProgressUpload
+            t={t}
+            files={pickedFiles}
+            uploadingSet={uploadingSet}
+          />
+          <div className=" flex flex-col my-8 p-2 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-xl">
+            {showSummaryUploads && <ShowSummaryUploads />}
+          </div>
         </div>
-      </div>
-    );
+      );
+       else return (
+          <div className="border-[1px] border-orange-200 pt-8 flex flex-col justify-center">
+            <p className="mx-auto text-stone-500 text-xl">{t('preparing_filesload')}</p>
+            <div className="scale-50">
+              <Spinner />
+            </div>
+          </div>
+      )
   return null;
 }
 

@@ -28,19 +28,19 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { docTypes, IdxDocTypes } from "../../utils/constants";
 
-
+// In this component, only RFP Issuer doctypes allowed to upload
 const allowedDocTypes = [
     docTypes[IdxDocTypes['documentRequestType']],
     docTypes[IdxDocTypes['documentQandAType']],
 ]
 
 const RFPDocuments = ({
-  t,
-  showUpload,
-  // rfpId,
-  rfpIndex,
-  rfpDates,
-  owner,
+    t,
+    showUpload,
+    // rfpId,
+    rfpIndex,
+    rfpDates,
+    owner
 }) => {
   const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } = useFilesRFP(rfpIndex);
 

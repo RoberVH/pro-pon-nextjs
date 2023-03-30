@@ -142,5 +142,10 @@
     "downloading_file":"Descargando Archivo...",
     "downloaded_Ok":"Archivo Descargado",
     "error_writing_file":"No se pudo guardar archivo a su sistema, verifique permisos, espacio o elija otro folder",
-    "couldnt_readfile":"No pude leer archivo, verificar conexión"
+    "couldnt_readfile":"No pude leer archivo, verificar conexión",
+    "preparing_filesload":"Preparando carga de archivos, espere ...",
+    "end_receiving":"Recibir hasta",
+    "end":"Fin",
+    "canceled":"Cancelada",
+    "go":"Ir"
 }

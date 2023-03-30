@@ -4,7 +4,7 @@
  
  // Mumbai
 
- export const CONTRACT_ADDRESS = '0x666C17E29De3b8364234460eEE8Ee166a5F2796B' // feb 22, 2023 for testing
+ export const CONTRACT_ADDRESS = '0x1bD78C554Da8765222502c2bFE248a2C5b15238d'   // marzo 27, 2023 
 
 //export const CONTRACT_ADDRESS ='0x748d6fF15466D4e870F9a209A2777520D445d18f' // pre enero 31
 // Dic 13 HAve this other contract '0x4d912bA1b6778d5419Fe30C4f17E19f35D0Ca68e' 
@@ -16,6 +16,7 @@
 
   
  // Historic Mumbai contracts deployed from last to first deployed 
+ // 0x666C17E29De3b8364234460eEE8Ee166a5F2796B  changed on March 27, 2023
  //'0xD6AB47CAd8770F49AbfDa3569b02085423eACbAa' changed on Feb 22, 2023
  //'0x748d6fF15466D4e870F9a209A2777520D445d18f'  changed on January 31
  //'0x985Ce141c5a13941Da5FB084b015bfb33f157bD0'  changed on january 27th, 2023

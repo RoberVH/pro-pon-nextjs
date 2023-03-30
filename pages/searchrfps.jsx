@@ -20,24 +20,11 @@ function Searchrfps() {
 
   const handleShowRFP = (rfpParams) => {
     setIsWaiting(true);
-
     const urlLine={
       companyId: rfpParams.companyId,
       companyname: rfpParams.companyname,
-      
-      //rfpwebsite temporal*******
-      //rfpwebsite: rfpParams.rfpwebsite,
       rfpidx:rfpParams.rfpidx
     }
-    //************************************* 
-
-    
-    // const params = buildRFPURL(urlLine)
-    // router.push('/homerfp?' + params)
-
-    // const rfphomeparams = buildRFPURL(rfp);
-    // router.push("/homerfp?" + rfphomeparams);
-    
     const rfphomeparams = buildRFPURL(urlLine);
     router.push("/homerfp?" + rfphomeparams);
   };
