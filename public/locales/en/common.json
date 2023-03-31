@@ -34,5 +34,6 @@
         "Invite your suppliers to bid through Pro-Pon App"
     ],
     "addingnetwork":"Your wallet does not have working network configured, adding it now, please allow",
-    "could_not_detect_network":"Could not detect Blockchain network"
+    "could_not_detect_network":"Could not detect Blockchain network",
+    "notsupportedbrowser":"This Browser does not support this operation, use last versions of Google Chrome or Winodws Edge"
   }

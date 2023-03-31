@@ -36,7 +36,7 @@ const DownloadFileForm = ({
   //const [acceptAgainFlag, setAcceptAgainFlag ] = useState(false)
   
   
-  // There are some asynchronous functioss that reject to the main download loop at handleAllDoenloadSelectedFiles
+  // There are some asynchronous functioss that reject to the main download loop at handleAllDownloadSelectedFiles
   // because they are activated after displaying message windows and called in other sections of code we need to memorize what
   // is the reject/resolve promise so it's catched at the right point, That's why we use an useRef to store the functions
   // notice that a useState var won't work
@@ -133,6 +133,10 @@ const DownloadFileForm = ({
   // ask for a user choosen folder only if is a registered company, and if in its config says a custom download files folder
   if (typeof companyData?.downloadFolderOption !== 'undefined' && companyData.downloadFolderOption === 'custom') {
     try {
+      if (!('showDirectoryPicker' in window)) {
+        errToasterBox(t('notsupportedbrowser', {ns:"common"}))
+        return
+      } 
         const folder = await window.showDirectoryPicker()
         downloadFolder.current = folder
     } catch (error ) { 
@@ -533,7 +537,7 @@ const resultAnnounce = (status, file) => {
         signMsg={t("signmessage", { ns: "common" })}
         handleSigning={handleSigning}
       />
-      {/*  */}
+
       <button style={{display: 'none'}}
         onClick={handlePermissionError} id='retryPermissionButton' 
         className="bounce-four-times absolute top-[40%] left-[40%] w-1/2 h-1/4 text-red-600 font-bold bg-yellow-300 

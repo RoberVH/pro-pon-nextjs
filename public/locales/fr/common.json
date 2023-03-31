@@ -34,5 +34,6 @@
         "Invitez vos fournisseurs à soumissionner via l'application Pro-Pon"
     ],
     "addingnetwork":"Votre portefeuille n'a pas le réseau de travail configuré, ajoutez-le maintenant, veuillez autoriser",
-    "could_not_detect_network":"Impossible de détecter le réseau de blockchain"
+    "could_not_detect_network":"Impossible de détecter le réseau de blockchain",
+    "notsupportedbrowser":"Ce navigateur ne prend pas en charge cette opération, utilisez les dernières versions de Google Chrome ou Winodws Edge"
 }
