@@ -28,6 +28,11 @@
         "datesnosequencial":"Las fechas no están en orden secuencial",
         "beginingdaterror":"Fecha inicial solo puede empezar a partir de este momento"
     },
+    "transactions": {
+        "transaction_type":"Tipo de Tx",
+        "inviteguests":"Invitar Compañía a RFP",
+        "registeropen":"Registrar Compañía al RFP abierto"
+    },
     "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red",
     "rfpessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación. Espere por favor... ",
     "uploadrequestsigning":"Se le pedirá que firme con su cuenta de billetera un mensaje con los datos de los archivos, no se preocupe ya que esta operación no le costará ninguna criptomoneda, es solo una forma de asegurarse de que tiene derecho a solicitar esta operación. Por favor firme el mensaje",
@@ -147,5 +152,6 @@
     "end_receiving":"Recibir hasta",
     "end":"Fin",
     "canceled":"Cancelada",
-    "go":"Ir"
+    "go":"Ir",
+    "dropped_tx_notice":"Su transacción aún está pendiente de ser minada y podría resolverse. Intente consultar más tarde, ya sea en el explorador de Blockchain y en la Aplicación, y envíela de nuevo si es necesario"
 }

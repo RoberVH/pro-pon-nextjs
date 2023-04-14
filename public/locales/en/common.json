@@ -35,5 +35,14 @@
     ],
     "addingnetwork":"Your wallet does not have working network configured, adding it now, please allow",
     "could_not_detect_network":"Could not detect Blockchain network",
-    "notsupportedbrowser":"This Browser does not support this operation, use last versions of Google Chrome or Winodws Edge"
+    "notsupportedbrowser":"This Browser does not support this operation, use last versions of Google Chrome or Winodws Edge",
+    "mypending_transactions":"My Pending Transactions",
+    "nopending_txs":"No pending Transactions",
+    "clean_all":"Clean All",
+    "clean_tx":"Clear",
+    "issued_on":"Broadcast date",
+    "transaction_hash":"Tx Hash",
+    "status":"Status",
+    "pending":"PENDING",
+    "success":"MINED"
   }

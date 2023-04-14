@@ -28,6 +28,8 @@ import { PRODUCTION, LOCAL } from '../../utils/constants'
 // import { ToastContainer, toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyle } from '../../styles/toastStyle'
+import { toast } from "react-toastify";
+
 
 /**
  * This function displays the HeadBar for the application. It contains the company logo, menus, 

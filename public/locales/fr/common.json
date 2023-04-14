@@ -35,5 +35,14 @@
     ],
     "addingnetwork":"Votre portefeuille n'a pas le réseau de travail configuré, ajoutez-le maintenant, veuillez autoriser",
     "could_not_detect_network":"Impossible de détecter le réseau de blockchain",
-    "notsupportedbrowser":"Ce navigateur ne prend pas en charge cette opération, utilisez les dernières versions de Google Chrome ou Winodws Edge"
+    "notsupportedbrowser":"Ce navigateur ne prend pas en charge cette opération, utilisez les dernières versions de Google Chrome ou Winodws Edge",
+    "mypending_transactions":"Mes transactions en attente",
+    "nopending_txs":"Il n'y a aucune transaction en attente",
+    "clean_all":"Tout supprimer",
+    "clean_tx":"Supprimer",
+    "issued_on":"Date de diffusion",
+    "transaction_hash":"Tx Hash",
+    "status":"Status",
+    "pending":"EN ATTENTE",
+    "success":"MINÉ"
 }

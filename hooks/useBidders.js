@@ -37,7 +37,7 @@ export const useBidders = () => {
         }
             else {
                 setDoneLookingBidders(true)
-                return ({status:false, message: message})
+                return ({status:false, message: participants.message})
             }
     }
 

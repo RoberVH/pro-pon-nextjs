@@ -1,3 +1,5 @@
+//import { ObjectId } from 'mongodb';
+//import { serializeArray } from '../utils/serialArrays'
 
 // retrieve from DB companyData record with passed companyId identifier
 export const  getCompanydataDB = async (companyId) =>  {
@@ -145,4 +147,52 @@ export const verifyData_Save = async (message, signature) => {
     } 
   };
  
+  export const savePendingTx = async (objTx) => {
+    let method = "POST";
+    try {
+        //const pendingTx = serializeArray(objTx.params)
+        console.log('en client still recibi:' , objTx)
+      const response = await fetch("/api/pendingtx", {
+        method: method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(objTx),
+      });
+      const resp = await response.json();
+      return {resp};
+    } catch (error) {
+      return ({status:false, msg:error.message});
+    }
+  }
+
+  export const getPendingTxs = async (issuer) => {
+    try {
+        const response = await fetch(`/api/pendingtx?${new URLSearchParams(issuer)}`);
+        const resp = await response.json()
+        return {status:true, res:resp}
+    } catch (error) {
+      return ({status:false, msg:error.message});
+    }
+  } 
+
+  export const removePendingTx = async (removeObj) => {
+  let method = "DELETE";
+  try {
+    const response = await fetch("/api/pendingtx", {
+      method: method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(removeObj),
+    });
   
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.log('Error detected:', errorData.error);
+      return { status: false, msg: errorData.error };
+    }
+    const resp = await response.json();
+    return {status: true, response: resp };
+  } catch (error) {
+    console.log('Error caught:', error.message);
+    return { status: false, msg: error.message };
+  }
+  
+  }

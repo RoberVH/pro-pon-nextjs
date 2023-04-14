@@ -5,15 +5,29 @@
  */
 
 import { ethers } from 'ethers'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
-export const useRegisterBidders =  (onError, onSuccess) => {
-   const [postedHash, setPostedHash] = useState()
-   const [block, setBlock] = useState()
-   const [link, setLink] = useState()
+export const useRegisterBidders =  (onError, onSuccess, isCancelled) => {
+   const [postedHash, setPostedHash] = useState('')
+   const [block, setBlock] = useState('')
+   const [link, setLink] = useState('')
    const [blockchainsuccess, setBlockchainsuccess] = useState(false)
+   const isMounted = useRef(true)
    
+   useEffect(() => {
+      if (isCancelled) {
+        isMounted.current = false;
+      } else {
+        isMounted.current = true;
+      }
+  
+      return () => {
+        isMounted.current = false;
+      };
+    }, [isCancelled]);
+
+
    // const debugstyleprop= 'background-color:yellow; color:red'
 
    /**
@@ -38,9 +52,9 @@ export const useRegisterBidders =  (onError, onSuccess) => {
          const proponContract = await getWritingProponContract()
       // make sure a clean state in case this is consecutive second time called
       setBlockchainsuccess(false) 
-      setBlock(false)
-      setLink(false)
-      setPostedHash(false)
+      setBlock('')
+      setLink('')
+      setPostedHash('')
       let Tx;
       try {
          if (registerType==='inviteguests'){
@@ -57,12 +71,17 @@ export const useRegisterBidders =  (onError, onSuccess) => {
       setPostedHash(Tx.hash)
       setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
       const data=await Tx.wait()
-      setBlock(data.blockNumber)
-      setBlockchainsuccess(true)
-      onSuccess()
+      if (isMounted.current) {
+         setBlock(data.blockNumber)
+         setBlockchainsuccess(true)
+         onSuccess()
+   }
       } catch (error) {
+         console.log('error registrering',error)
+         if (isMounted.current) {
                onError(error);
                }       
+         }
    };
    return {write, postedHash, block, link, blockchainsuccess}
 };

@@ -21,6 +21,7 @@ function RfpCards({ rfps, setIsWaiting, companyData, t }) {
 const  RfpCard = ({ rfp }) => {
   const handleShowRFP = (rfpParams) => {
       setIsWaiting(true);
+  
       const urlLine={
           companyId: companyData.companyId,
           companyname: companyData.companyname,
@@ -35,7 +36,11 @@ const  RfpCard = ({ rfp }) => {
       if (rfp.winners.length) bg='bg-green-100'
       return (
       <div className={`${bg} rounded-lg shadow-lg px-6 py-4`}>
-          <p className="text-md ">Id: {rfp.name}</p>
+          <div className="text-md flex justify-between">
+            <p className=" ">Id: {rfp.name}</p>
+            <p className="">{rfp.contestType===0 ? t('open') : t('invitation') }</p>
+          </div>
+          
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('description')}: </strong> {rfp.description}</p>
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('open')}: </strong> {convDate(rfp.endReceivingDate)}</p>
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('end_receiving')}: </strong>{convDate(rfp.openDate)}</p>
@@ -57,6 +62,7 @@ const  RfpCard = ({ rfp }) => {
  
   const columns = new Array(columnCount).fill().map(() => []);
  
+      console.log('rfp',rfps)
   rfps.forEach((rfp, index) => {
      const column = index % columnCount;
      columns[column].push(rfp);

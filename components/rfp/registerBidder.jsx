@@ -20,9 +20,10 @@ import { toast } from "react-toastify";
 import { useRegisterBidders } from "../../hooks/useRegisterBidders";
 import { useBidders } from '../../hooks/useBidders'
 import ShowTXSummary from "./ShowTXSummary";
-// import { getDBGuestCompaniesAddresses } from "../../database/dbOperations";
 import { parseWeb3Error } from "../../utils/parseWeb3Error";
-import SpinnerBar from "../layouts/SpinnerBar";
+import SpinnerBar from "../layouts/SpinnerBar"
+import { serializeArray } from '../../utils/serialArrays'
+import { todayUnixEpoch } from "../../utils/misc";
 
 const RegisterBidder = ({
   t,
@@ -32,25 +33,22 @@ const RegisterBidder = ({
   inviteContest,
   address,
   i18n,
+  setNoticeOff
 }) => {
   const { bidders, getBidders, companies } = useBidders(rfpRecord.rfpIndex);
 
    // same address could have different case but are the same address, that's why we check like this the address vs bidders array 
    const [alreadyRegistered, setAlreadyRegistered] = useState(false)
-  //const [alreadyRegistered, setAlreadyRegistered] = useState(-1!==bidders.findIndex(element => {
-  //   return element.toLowerCase() === address.toLowerCase();
-  // }))
-
   const [rfpOwner, setrfpOwner] = useState(companyId === rfpRecord.companyId)
   const [guestCompanies, setGuestCompanies] = useState([])
   const [results, setResults] = useState([])
   const [error, setError] = useState(false)
   // Next  is for SearchDB component & make Spinner spin when searching
   const [IsWaiting, setIsWaiting] = useState(false)
-//  const [uploading, setUploading] = useState(false)
   const [sendingBlockchain, setsendingBlockchain] = useState(false)
   const [showPanel, setShowPanel] = useState(false)
-  
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [droppedTx, setDroppedTx] = useState()  
   const cleanSearchParams = useRef()
 
   const companyActions = [
@@ -85,7 +83,7 @@ useEffect(()=>{
     setsendingBlockchain(false);
   };
 
-  const { write, postedHash, block, link, blockchainsuccess } = useRegisterBidders(onError, onSuccess);
+  const { write, postedHash, block, link, blockchainsuccess } = useRegisterBidders(onError, onSuccess, isCancelled);
   
   // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
@@ -94,6 +92,8 @@ useEffect(()=>{
     // setUploading(false);
     setsendingBlockchain(false);
   }
+
+  //**************************************  Handlers ************************ */
 
   function handleAddGuestCompanytoList(company) {
     if (company.address.toLowerCase() === address) {
@@ -114,25 +114,44 @@ useEffect(()=>{
     ]);
   }
 
-  const handleRegisterItself = () => {
-    setShowPanel(true);
-    setsendingBlockchain(true)
-    write("registeropen", rfpRecord.rfpIndex, companyId);
-
-
-  };
-
+  
   const handleRemoveCompany = (companyId) => {
     setGuestCompanies(guestCompanies.filter((company) => companyId !== company.companyId));
   };
-
+  
+  
   const handleClosePanel = () => {
     setShowPanel(false);
     setGuestCompanies([]);
     if (cleanSearchParams.current) cleanSearchParams.current.resetparams()
   };
+  
+  
+  //  handleCancelTx -  TX is taking long, user has click cancel to abort waiting
+  // Tx still can go through but we won't wait for it
+  const handleCancelTx = () => {
+    setIsCancelled(true);
+    // create a copy of droppedTx object
+    const updatedTxObj = { ...droppedTx };
+    // update txLink property with the link value
+    updatedTxObj.txHash = postedHash;
+    // pass updatedTxObj to setNoticeOff function
+    setNoticeOff({ fired: true, txObj: updatedTxObj });
+    setsendingBlockchain(false)
+    setShowPanel(false)
+  }
+
+  const handleRegisterItself = () => {
+    setShowPanel(true);
+    setsendingBlockchain(true)
+    const today = todayUnixEpoch(new Date())
+    const Tx = {type: 'registeropen', date: today, params: [rfpRecord.rfpIndex, companyId]}
+    setDroppedTx(Tx)
+    write("registeropen", rfpRecord.rfpIndex, companyId);
+  };
 
   const handleRegisterGuests = async () => {
+    setIsCancelled(false)
     const addresses = guestCompanies
       .filter((obj) => obj.status !== "fulfilled")
       .map((obj) => obj.address);
@@ -142,6 +161,9 @@ useEffect(()=>{
     if (addresses.length) {
       setShowPanel(true);
       setsendingBlockchain(true)
+      const today = todayUnixEpoch(new Date())
+      const Tx = {type: 'inviteguests', date: today, params: [rfpRecord.rfpIndex, companyId, addresses]}
+      setDroppedTx(Tx)
       write("inviteguests", rfpRecord.rfpIndex, companyId, addresses);
     }
   };
@@ -202,8 +224,8 @@ useEffect(()=>{
               </div>
         }
       </button>
-      {sendingBlockchain &&
-        <button className="main-btn ml-16">{t("cancelbutton")}</button>
+      {(link && !blockchainsuccess) &&
+        <button onClick={handleCancelTx} className="main-btn ml-16">{t("cancelbutton")}</button>
       }
     </div>
   );
@@ -221,14 +243,15 @@ useEffect(()=>{
             </div>
         }
       </button>
-      {sendingBlockchain &&
-        <button className="main-btn ml-16">{t("cancelbutton")}</button>
+      {(link && !blockchainsuccess) &&
+        <button onClick={handleCancelTx}  className="main-btn ml-16">{t("cancelbutton")}</button>
       }
     </div>
   );
 
   return (
     <div className="p-1">
+
       <div className="mt-4  border-2 border-stone-300 shadow-lg ">
         <p className="text-stone-600 p-4 ">
           {rfpOwner ? t("register_guest") : t("register_open")}

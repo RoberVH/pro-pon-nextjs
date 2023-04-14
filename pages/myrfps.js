@@ -10,32 +10,15 @@
  */
 
 import { useState, useEffect, useCallback, useContext, Fragment } from "react";
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { getRFPsbyCompanyAddress } from '../web3/getRFPsbyCompanyAddress'
 import RfpCards from "../components/layouts/RfpCards";
 import { proponContext } from "../utils/pro-poncontext"
 import Spinner from "../components/layouts/Spinner"
-
-// import GralMsg from "../components/layouts/gralMsg";
+import { Warning } from '../components/layouts/warning'
 import { errorSmartContract } from "../utils/constants";
-// import NoItemsTitle from "../components/layouts/NoItemsTitle";
-
-// import { getContractRFP } from '../web3/getContractRFP'
-// import { toastStyle, toastStyleSuccess } from "../styles/toastStyle";
-// import { toast } from "react-toastify";
-
-// import { docTypes, openContest, inviteContest } from "../utils/constants";
-
-
-// import { createZipArchive, zippasswFile, encryptFile, readData, cipherFile, desCipherFile,
-//   cvrtUInt8AtoStr, cvrtStrtoUint8 } from '../utils/zipfiles'
-
-
-// import { getFileSecrets, saveFileSecrets } from "../database/dbOperations";
-
-
 
 function MyRFPs() {
   const [loading, setloading] = useState(true)
@@ -63,10 +46,10 @@ function MyRFPs() {
 
 
  // ****************************** Inner components
-const Warning = ({title}) => <div className="text-red-600 mt-4 w-2/3 min-w-full h-[9rem] min-h-full border-2 border-coal-500 
-flex shadow-lg p-4 justify-center items-center tracking-wide uppercase font-khula text-xl font-bold"> 
-  {title}  
-</div>
+// const Warning = ({title}) => <div className="text-red-600 mt-4 w-2/3 min-w-full h-[9rem] min-h-full border-2 border-coal-500 
+// flex shadow-lg p-4 justify-center items-center tracking-wide uppercase font-khula text-xl font-bold"> 
+//   {title}  
+// </div>
 
 
  if (!address) return ( <Warning title = {t("notconnected", { ns: "common" })} />)

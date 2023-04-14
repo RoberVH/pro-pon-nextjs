@@ -15,6 +15,12 @@ export const convUnixEpoch = (date) => {
     return unixEpoch
 }
 
+//return today in Unix Epoch 
+export const todayUnixEpoch = (date) => {
+    const unixEpoch = Math.floor(new Date().getTime()/1000) 
+    return unixEpoch
+}
+
 
 // Check if object is empty
 export const isEmpty = obj => Reflect.ownKeys(obj).length === 0 && obj.constructor === Object  

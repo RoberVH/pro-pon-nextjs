@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useBidders } from '../../hooks/useBidders';
 import { useDeclareResults } from '../../hooks/useDeclareResults'
 import { parseWeb3Error } from '../../utils/parseWeb3Error'
-import { getContractWinners } from '../../web3/getContractWinners';
+//import { getContractWinners } from '../../web3/getContractWinners';
 import ShowTXSummary from '../rfp/ShowTXSummary'
 import GralMsg from '../layouts/gralMsg'
 import Spinner from '../layouts/Spinner'
@@ -41,6 +41,8 @@ const [error, setError] = useState(false)
 const [sendingBlockchain, setsendingBlockchain] = useState(false)
 const [showPanel, setShowPanel] = useState(false)  
 
+const controller = new AbortController();
+
   /** UTILITY FUNCTIONS ************************************************************************ */
     
   const onSuccess = () => {
@@ -61,24 +63,11 @@ const [showPanel, setShowPanel] = useState(false)
     });
   };
 
-  /** Handling methods ************************************************************************* */
-  const handleClosePanel = () => {
-    setShowPanel(false);
-  };
-  
-  const handleDeclareWinners = async () => {
-    if (winners.includes("not_choose")) {
-      errToasterBox(t('not_choose'))
-      return
-    }
-    setShowPanel(true);
-    setsendingBlockchain(true)
-    write(rfpRecord.rfpIndex, rfpRecord.companyId, winners);
-  
-  };  
+
 
 /*  Hooks ************************************************************************************** */
 const { write, postedHash, block, link, blockchainsuccess } = useDeclareResults(onError, onSuccess);
+
 
 useEffect(() => {
   async function getBiddersInfo() {
@@ -96,7 +85,23 @@ useEffect(()=>{
   setInTime(rfpRecord.endDate < convUnixEpoch(new Date()))
 },[])
 
-
+  /** Handling methods ************************************************************************* */
+  const handleClosePanel = () => {
+    console.log('Aborting...')
+      controller.abort();
+      setShowPanel(false);
+    };
+  
+  const handleDeclareWinners = async () => {
+    if (winners.includes("not_choose")) {
+      errToasterBox(t('not_choose'))
+      return
+    }
+    setShowPanel(true);
+    setsendingBlockchain(true)
+    write(rfpRecord.rfpIndex, rfpRecord.companyId, winners);
+  
+  };  
 
 // Inner Components  ***************************************************************************************************************************
 const  TitleDeclare= () => 
@@ -166,7 +171,7 @@ const ButtonDeclareWinners = (
       }
     </button>
     {sendingBlockchain &&
-      <button className="main-btn ml-16">{t("cancelbutton")}</button>
+      <button onClick={handleClosePanel} className="main-btn ml-16">{t("cancelbutton")}</button>
     }
   </div>
 );

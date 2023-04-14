@@ -30,6 +30,8 @@ export const errorSmartContract = [
   "execution reverted: rfpid_already_taken",
 ];
 
+export const App_Name = 'Pro-pon'
+
 export const traslatedRFPErrors = [
     "notimetodownload", 
     "only_ownerrfp_doctpye", 

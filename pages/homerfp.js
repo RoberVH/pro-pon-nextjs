@@ -8,8 +8,8 @@
  *      Each Tab host a component to present the required functionality
  */
 
-import { useState, useEffect, lazy, Suspense , useContext } from "react";
-import { useRouter } from 'next/router'
+import { useState, useEffect, lazy, Suspense, useContext } from "react";
+import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 const { BigNumber } = require("ethers");
@@ -18,11 +18,12 @@ const RegisterBidder = lazy(() => import("../components/rfp/registerBidder"));
 const ShowBidders = lazy(() => import("../components/rfp/showBidders"));
 const ShowResults = lazy(() => import("../components/rfp/showResults"));
 const DeclareResults = lazy(() => import("../components/rfp/declareResults"));
+import DismissedTxNotice from "../components/layouts/dismissedTxNotice";
 //const DisplayItems = lazy(() => import("../components/rfp/displayItems"));
 
 import RFPIdentificator from "../components/rfp/rfpIdentificator";
 import RFPessentialData from "../components/rfp/RFPessentialData";
- //import RFPDocuments from "../components/rfp/rfpDocuments";
+//import RFPDocuments from "../components/rfp/rfpDocuments";
 //import RegisterBidder from "../components/rfp/registerBidder";
 //import ShowBidders from "../components/rfp/showBidders";
 //import ShowResults from "../components/rfp/showResults";
@@ -33,7 +34,8 @@ import NoItemsTitle from "../components/layouts/NoItemsTitle";
 import { proponContext } from "../utils/pro-poncontext";
 import HomeButtons from "../components/rfp/homeButtons";
 import Spinner from "../components/layouts/Spinner";
-import { getContractRFP } from '../web3/getContractRFP'
+import { getContractRFP } from "../web3/getContractRFP";
+import { savePendingTx } from "../database/dbOperations";
 import { toastStyle, toastStyleSuccess } from "../styles/toastStyle";
 import { toast } from "react-toastify";
 
@@ -50,15 +52,14 @@ function HomeRFP() {
 
   const [rfpRecord, setRfpRecord] = useState(undefined);
   const [selectedPanel, setSelectedPanel] = useState();
-  const [loading, setloading] = useState(true)
-  const [noRFP, setNoRFP] = useState(false)
-
+  const [loading, setloading] = useState(true);
+  const [noRFP, setNoRFP] = useState(false);
+  const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null });
   const { companyData, address } = useContext(proponContext);
-  const router = useRouter()
+  const router = useRouter();
   const { t } = useTranslation("rfps");
   const t_companies = useTranslation("companies").t; // tp search for companies when inviting them
   const { companyId, companyname, rfpidx } = router.query;
-
 
   //Next line  because we'll need to be able to search for Companies when inviting them to contest
   const { i18n } = useTranslation("companies");
@@ -67,69 +68,91 @@ function HomeRFP() {
     toast.error(msj, toastStyle);
   };
 
-//  Inner Components ******************************************************************
+  //  Hooks ******************************************************************
+
+  //save to DB pending Transactions
+  useEffect(() => {
+    const saveDBPendingTx = async () => {
+      if (noticeOff.fired) {
+        console.log("noticeOff.tx despues", noticeOff.txObj);
+        await savePendingTx({...noticeOff.txObj, sender:companyData.address})   // Pass the object and add who issued Tx
+      }
+    };
+    saveDBPendingTx();
+  }, [noticeOff.fired]);
 
   // Get RFP record values and  files for this RFP at load component
   useEffect(() => {
     const getRFP = async () => {
-      if (!rfpidx) return
-      const result= await getContractRFP(rfpidx)
-      if (! result.status){ 
-        errToasterBox(result.message)
-        setNoRFP(true)
-        return
-      } 
-      const RFP = {companyId: companyId, companyname: companyname}
-      //  remove redundant numeric properties ([0]: ... [N]) from contract response & convert from Big number to 
+      if (!rfpidx) return;
+      const result = await getContractRFP(rfpidx);
+      if (!result.status) {
+        errToasterBox(result.message);
+        setNoRFP(true);
+        return;
+      }
+      const RFP = { companyId: companyId, companyname: companyname };
+      //  remove redundant numeric properties ([0]: ... [N]) from contract response & convert from Big number to
       //  number at the same time
       for (const prop in result.RFP) {
         if (isNaN(parseInt(prop))) {
-          if ((result.RFP[prop] instanceof BigNumber))
-            RFP[prop] = result.RFP[prop].toNumber()
-          else
-            RFP[prop] = result.RFP[prop];
+          if (result.RFP[prop] instanceof BigNumber)
+            RFP[prop] = result.RFP[prop].toNumber();
+          else RFP[prop] = result.RFP[prop];
         }
       }
       setRfpRecord(RFP);
     };
     getRFP();
-    setloading(false)
+    setloading(false);
   }, [companyId, companyname, rfpidx]);
 
+  //  Inner Components ******************************************************************
 
-const RFPTabDisplayer = () => {
-  switch (selectedPanel) {
-    case 'rfp_bases': // rfp_bases RFP's Issuer Load/download component 
+  const RFPTabDisplayer = () => {
+    switch (selectedPanel) {
+      case "rfp_bases": // rfp_bases RFP's Issuer Load/download component
         return (
           <RFPDocuments
             t={t}
             showUpload={companyData.companyId === rfpRecord.companyId}
             rfpIndex={rfpRecord.rfpIndex}
-            rfpDates={[rfpRecord.openDate,rfpRecord.endReceivingDate, rfpRecord.endDate]}
+            rfpDates={[
+              rfpRecord.openDate,
+              rfpRecord.endReceivingDate,
+              rfpRecord.endDate,
+            ]}
             owner={rfpRecord.issuer}
           />
         );
-    case 'bidder_register': //bidder_register  only for Open Contests
+      case "bidder_register": //bidder_register  only for Open Contests
         if (!address || !Boolean(companyData.companyId))
           return <GralMsg title={t("not_registered")} />;
-        if (Number(rfpRecord.contestType) === inviteContest &&companyData.companyId !== rfpRecord.companyId)
-            return <GralMsg title={t("invitation_rfp")} />;
-        if (Number(rfpRecord.contestType) === openContest &&companyData.companyId === rfpRecord.companyId)
-            // Open contest and address it's owner's
-            return <GralMsg title={t("owner_open_rfp_recordbidders")} />;
+        if (
+          Number(rfpRecord.contestType) === inviteContest &&
+          companyData.companyId !== rfpRecord.companyId
+        )
+          return <GralMsg title={t("invitation_rfp")} />;
+        if (
+          Number(rfpRecord.contestType) === openContest &&
+          companyData.companyId === rfpRecord.companyId
+        )
+          // Open contest and address it's owner's
+          return <GralMsg title={t("owner_open_rfp_recordbidders")} />;
         // all ok, show Register component
         return (
           <RegisterBidder
-              t={t}
-              t_companies={t_companies}
-              rfpRecord={rfpRecord}
-              companyId={companyData.companyId}
-              inviteContest={Number(rfpRecord.contestType) === inviteContest}
-              address={address}
-              i18n={i18n} // This is because SearchDB needs it to be able to search for Companies
+            t={t}
+            t_companies={t_companies}
+            rfpRecord={rfpRecord}
+            companyId={companyData.companyId}
+            inviteContest={Number(rfpRecord.contestType) === inviteContest}
+            address={address}
+            i18n={i18n} // This is because SearchDB needs it to be able to search for Companies
+            setNoticeOff={setNoticeOff}
           />
-          );
-    case 'bidders_showcase': //bidders_showcase
+        );
+      case "bidders_showcase": //bidders_showcase
         return (
           <ShowBidders
             t={t}
@@ -137,93 +160,99 @@ const RFPTabDisplayer = () => {
             address={address}
             rfpIndex={rfpRecord.rfpIndex}
             owner={rfpRecord.issuer}
-            rfpDates={[rfpRecord.openDate,rfpRecord.endReceivingDate, rfpRecord.endDate]}
+            rfpDates={[
+              rfpRecord.openDate,
+              rfpRecord.endReceivingDate,
+              rfpRecord.endDate,
+            ]}
           />
         );
-    case 'declare_contest': //declare_contest
-    if (!Boolean(companyData?.address) || (companyData.address.toLowerCase() !== rfpRecord.issuer.toLowerCase())) 
-        return ( <GralMsg title={t('no_issuer_rfp')}/>)     // not owner of RFP
-    return (
-            <DeclareResults 
-              t={t}
-              rfpRecord={rfpRecord}
-              />
-           )
+      case "declare_contest": //declare_contest
+        if (
+          !Boolean(companyData?.address) ||
+          companyData.address.toLowerCase() !== rfpRecord.issuer.toLowerCase()
+        )
+          return <GralMsg title={t("no_issuer_rfp")} />; // not owner of RFP
+        return <DeclareResults t={t} rfpRecord={rfpRecord} />;
         break;
-    case 'rfp_results': //rfp_results
-        return (
-            <ShowResults 
-              t={t}
-              rfpRecord={rfpRecord}
-            />
-          )
-    default:
-        return <GralMsg title={t('select_tab')}/>;
-  }
-};
+      case "rfp_results": //rfp_results
+        return <ShowResults t={t} rfpRecord={rfpRecord} />;
+      default:
+        return <GralMsg title={t("select_tab")} />;
+    }
+  };
 
-        
-  if (!loading && noRFP) return <NoItemsTitle msg={t('no_rfp').toUpperCase()} />  
-  
-  if (!noRFP && rfpRecord)  return (
-    <div>
-      <div className="outline outline-1 outline-orange-200 bg-white border-b-8 border-orange-200 border-double">
-        <RFPIdentificator 
-          t={t} 
-          rfpRecord={rfpRecord} 
-      />
-      </div>
-      <div id="homerfp-subpanel" className="grid grid-cols-[25%_74%] gap-1 ">
-        <div
-          id="homeref-lateral-panel"
-          className=" border-r-8 border-double border-orange-200 "
-        >
-          <div id="left-subpanel" className="mt-2">
-            <div className="shadow-md">
-              <RFPessentialData
+  if (!loading && noRFP)
+    return <NoItemsTitle msg={t("no_rfp").toUpperCase()} />;
+  if (!noRFP && rfpRecord)
+    return (
+      <div>
+        {noticeOff.fired && (
+          <DismissedTxNotice
+            notification={t("dropped_tx_notice")}
+            buttonText={"accept"}
+            setNoticeOff={setNoticeOff}
+            dropTx={noticeOff.txObj}
+            typeTx = {t(`transactions.${noticeOff.txObj.type}`)}
+          />
+        )}
+        <div className="outline outline-1 outline-orange-200 bg-white border-b-8 border-orange-200 border-double">
+          <RFPIdentificator t={t} rfpRecord={rfpRecord} />
+        </div>
+        <div id="homerfp-subpanel" className="grid grid-cols-[25%_74%] gap-1 ">
+          <div
+            id="homeref-lateral-panel"
+            className=" border-r-8 border-double border-orange-200 "
+          >
+            <div id="left-subpanel" className="mt-2">
+              <div className="shadow-md">
+                <RFPessentialData t={t} rfpRecord={rfpRecord} />
+              </div>
+              {rfpRecord?.items && Boolean(rfpRecord.items.length) && (
+                <div className="shadow-md ">
+                  <DisplayItems items={rfpRecord.items} t={t} />
+                </div>
+              )}
+            </div>
+          </div>
+          <div id="right-subpanel" className="mt-2 ml-1 ">
+            <div
+              id="homeref-buttons-panels"
+              className="font-khula text-center "
+            >
+              <HomeButtons
                 t={t}
-                rfpRecord={rfpRecord}
+                displayedPanels={displayedPanels}
+                selectedPanel={selectedPanel}
+                setSelectedPanel={setSelectedPanel}
               />
             </div>
-            {rfpRecord?.items && Boolean(rfpRecord.items.length) && (
-              <div className="shadow-md ">
-                <DisplayItems items={rfpRecord.items} t={t} />
+            <div
+              id="selected-tab-area"
+              className="bg-white border-2 border-orange-300 min-h-screen"
+            >
+              <div id="selected-usable-area" className="m-2">
+                <Suspense
+                  fallback={
+                    <div className="mt-24">
+                      <Spinner />
+                    </div>
+                  }
+                >
+                  <RFPTabDisplayer />
+                </Suspense>
               </div>
-            )}
-          </div>
-        </div>
-        <div id="right-subpanel" className="mt-2 ml-1 ">
-          <div id="homeref-buttons-panels" className="font-khula text-center ">
-            <HomeButtons
-              t={t}
-              displayedPanels={displayedPanels}
-              selectedPanel={selectedPanel}
-              setSelectedPanel={setSelectedPanel}
-            />
-          </div>
-          <div
-            id="selected-tab-area"
-            className="bg-white border-2 border-orange-300 min-h-screen"
-          >
-            <div id="selected-usable-area" className="m-2">
-            <Suspense fallback={<div className="mt-24"><Spinner /></div>}>
-              <RFPTabDisplayer />
-            </Suspense>
             </div>
           </div>
         </div>
-        <div></div>
-
-        <div></div>
       </div>
+    );
+  // Conditions aren't settled, meanwhile return Spinner
+  return (
+    <div className="mt-24">
+      <Spinner />
     </div>
   );
-  // Conditions aren't settled, meanwhile return Spinner
-  return ( 
-  <div className="mt-24">
-    <Spinner />
-  </div>
-);
 }
 
 // Get language translation json files  and the rfpId params at url to present it on this page

@@ -28,6 +28,11 @@
         "datesnosequencial":"Wrong. Dates are not in sequencial order",
         "beginingdaterror":"Beginning date can only start as of now"
     },
+    "transactions": {
+        "transaction_type":"Type of Tx",
+        "inviteguests":"Invite Company to RFP",
+        "registeropen":"Registration of your Company to open RFC"
+    },
     "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network",
     "rfpessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Please wait...",
     "uploadrequestsigning":"You will be asked to sign with your wallet account a message with file names, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you have the right to request this operation. Please sign the message",
@@ -145,7 +150,6 @@
     "end_receiving":"End Receiving",
     "end":"End",
     "canceled":"Canceled",
-    "go":"Go"
-
-    
+    "go":"Go",
+    "dropped_tx_notice":"Your transaction is still pending to be mined and could be resolved. Please try checking later, either in the Blockchain explorer and in the App, and submit it again if necessary"
 }

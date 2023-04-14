@@ -35,6 +35,14 @@
     ],
     "addingnetwork":"Su billetera no tiene la red de trabajo configurada, agregándola ahora, por favor autorize",
     "could_not_detect_network":"No pude detectar red de Blockchain",
-    "notsupportedbrowser":"Este navgador no soporta esta operación, use última vrsión de  Google Chrome o Winodws Edge"
-
+    "notsupportedbrowser":"Este navgador no soporta esta operación, use última versión de  Google Chrome o Winodws Edge",
+    "mypending_transactions":"Mis Transacciones Pendientes",
+    "nopending_txs":"No hay Transacciones pendientes",
+    "clean_all":"Remover todas",
+    "clean_tx":"Remover",
+    "issued_on":"Fecha emisión",
+    "transaction_hash":"Tx Hash",
+    "status":"Status",
+    "pending":"PENDIENTE",
+    "success":"MINADA"
   }

@@ -28,6 +28,11 @@
         "datesnosequencial":"Les dates ne sont pas dans l'ordre séquentiel",
         "beginingdarterror":"La date de début ne peut commencer qu'à partir de maintenant"
     },
+    "transactions": {
+        "transaction_type":"Type de Tx",
+        "inviteguests":"Inviter Entreprise à l'appel d'offres",
+        "registeropen":"Enregistrement de votre société au ouvert RFQ"
+    },
     "savingtoblockchainmsg":"Confirmez la transaction. Vos données seront envoyées à la Blockchain, en attente de confirmation. Cela peut prendre du temps selon les conditions d'utilisation du réseau",
     "rfpessentialdataposted":"La transaction a été reçue sur la Blockchain, en attente de confirmation. Attendez s'il vous plaît...",
     "uploadrequestsigning":"Il vous sera demandé de signer avec votre compte wallet un message avec les noms de fichiers, ne vous inquiétez pas car cette opération ne vous coûtera aucune crypto-monnaie, c'est seulement un moyen de vous assurer que vous avez le droit de demander cette opération. Veuillez signer le message",
@@ -145,5 +150,7 @@
     "end_receiving":"Recevoir jusqu'au",
     "end":"Fin",
     "canceled":"Annulé",
-    "go":"Aller"
+    "go":"Aller",
+    "dropped_tx_notice":"Votre transaction est toujours en attente d'extraction et pourrait être résolue. Veuillez essayer de vérifier plus tard, soit dans l'explorateur Blockchain et dans l'application, et soumettez-la à nouveau si nécessaire",
+    "nopending_txs":""
 }

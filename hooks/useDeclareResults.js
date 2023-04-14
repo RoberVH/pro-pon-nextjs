@@ -14,14 +14,6 @@ export const useDeclareResults =  (onError, onSuccess) => {
    const [link, setLink] = useState()
    const [blockchainsuccess, setBlockchainsuccess] = useState(false)
    
-   // const debugstyleprop= 'background-color:yellow; color:red'
-
- 
-   // write
-   //    Receives rfpidx - global Id of RFP
-   //    winners - array with minimum length of 1 with address of companis winning each item
-   //    companyId - Id of the issuer company
-   //    if winners[i] is address(0) it means item[i] is deserted
    const  write = async (
       rfpidx,
       companyId,
