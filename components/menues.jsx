@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { forwardRef } from 'react' 
 import { useState } from 'react'
 import { useTranslation } from "next-i18next"
 import  MenuHolder  from './layouts/menuHolder'
@@ -14,7 +15,7 @@ const rfpOptions = [
   ]          
 
 
-function Menues() {
+const Menues = forwardRef (({isVisible}, ref) =>  {
   const [menuRFP, setMenuRFP] = useState(false)
   const [menuCompany, setMenuCompany] = useState(false)
 
@@ -26,7 +27,7 @@ function Menues() {
   }
 
   return (
-    <div className='flex mt-12 ml-20' >
+    <div ref={ref} className='flex mt-12 ml-20' >
       <div className="text-white text-md font-medium font-khula uppercase flex items-start mr-8">
           <label 
               onClick={()=> handleMenu('company')}  
@@ -35,7 +36,7 @@ function Menues() {
             &nbsp;{t('companies')}&nbsp;
           </label>
           {
-            menuCompany &&
+            menuCompany && isVisible &&
             <MenuHolder options={companyOptions} t={t} setMenuFlag={setMenuCompany} />
           }
       </div>
@@ -47,13 +48,14 @@ function Menues() {
                 &nbsp;{t('rfps')}&nbsp;
           </label>
           {
-            menuRFP && 
+            menuRFP && isVisible &&
             <MenuHolder options={rfpOptions} t={t} setMenuFlag={setMenuRFP} />
           }
        </div>
     </div>
   )
-}
-
+})
+Menues.displayName = 'Menues';
 export default Menues
+
 

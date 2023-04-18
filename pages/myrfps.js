@@ -46,11 +46,6 @@ function MyRFPs() {
 
 
  // ****************************** Inner components
-// const Warning = ({title}) => <div className="text-red-600 mt-4 w-2/3 min-w-full h-[9rem] min-h-full border-2 border-coal-500 
-// flex shadow-lg p-4 justify-center items-center tracking-wide uppercase font-khula text-xl font-bold"> 
-//   {title}  
-// </div>
-
 
  if (!address) return ( <Warning title = {t("notconnected", { ns: "common" })} />)
  if (searching) return (<div className="mt-4 border-orange-500 p-8"><Spinner /></div>)
@@ -62,7 +57,6 @@ function MyRFPs() {
     </div>
     )
  }  else {
-    console.log('No hay', RFPs?.length, RFPs, Boolean(RFPs?.length) )
     return (<Warning title = {t("noresults", { ns: "common" })} />)}
 }
 

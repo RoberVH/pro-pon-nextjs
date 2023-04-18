@@ -3,7 +3,7 @@
  * @description This module is used for to display the headbar for the application 
  */
 
-import { useState, useContext, useEffect, useCallback } from "react";
+import { useState, useContext, useEffect, useCallback, useRef } from "react";
 import { getContractCompanyData } from "../../web3/getContractCompanyData"
 import { checkMMAccounts } from "../../web3/getMetaMaskAccounts"
 import { getCompanydataDB } from "../../database/dbOperations"
@@ -37,10 +37,19 @@ import { toast } from "react-toastify";
  * 
  * @returns {JSX.Element}
  */
+
+const droppableItemEnum = {
+  menu: 1,
+  account:2,
+  language:3,
+  elsewhere:4
+}
+
 const HeadBar = () => {
-  const [hideMenuAccount, sethideMenuAccount] = useState(false);
-  const [noMetaMask, setNoMetaMask] = useState(true);
-  const [addingNetwork, setAddingNetwork]=useState(false);
+  const [hideMenuAccount, sethideMenuAccount] = useState(false)
+  const [noMetaMask, setNoMetaMask] = useState(true)
+  const [addingNetwork, setAddingNetwork]=useState(false)
+  const [droppletVisible, setdroppletVisible] = useState(false)
 
 // get context variables
   const {   companyData, 
@@ -134,6 +143,21 @@ const HeadBar = () => {
   },[address, getCompany, setShowSpinner, setNoRightNetwork])
 
 
+
+  useEffect(() => {
+    if (window) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, []);
+
+  const menusRef = useRef(null)
+  const accountRef = useRef(null)
+  const languageRef = useRef(null)
+
+
   // Utility functions  ****************************************************************************************
   const changeNetworks= async () => {
   const result= await switchNetwork()
@@ -178,7 +202,6 @@ const HeadBar = () => {
     } else {
         setAddress(result.address)    // now address in in the context
     }
-
   };
 
   // Reset application context vars
@@ -197,8 +220,20 @@ const HeadBar = () => {
     sethideMenuAccount(!hideMenuAccount);
   };
 
+  const handleClickOutside = (event) => {
+     if (menusRef.current && menusRef.current.contains(event.target)) {
+         setdroppletVisible(droppableItemEnum.menu)
+      } else if (accountRef.current && accountRef.current.contains(event.target)) {
+        setdroppletVisible(droppableItemEnum.account)
+      } else if (languageRef.current && languageRef.current.contains(event.target)) {
+        setdroppletVisible(droppableItemEnum.language)
+      }  else {
+                setdroppletVisible(droppableItemEnum.elsewhere)
+      }
+    };
+
 // Inner Components  ******************************************************************************************
-  const ShowAccount = () => {
+  const ShowAccount = ({isVisible}) => {
     if (!address)
       return (
         // no address yet, allow to connect
@@ -217,8 +252,7 @@ const HeadBar = () => {
       );
     // there is Address, return account menu functionality
     return (
-      <div id="show-account" className="flex  mr-8 mb-2">
-
+      <div ref={accountRef} id="show-account" className="flex  mr-8 mb-2" >
         <button
           className="text-orange-400  rounded-xl px-2 my-4 
                     bg-white border-solid border-2 border-orange-200
@@ -240,7 +274,7 @@ const HeadBar = () => {
             height={22}
           ></Image>
         </div>
-        {hideMenuAccount && (
+        {hideMenuAccount && isVisible && (
           <div
             id="menuAccount"
             className="absolute mt-16 ml-8  
@@ -271,11 +305,6 @@ const HeadBar = () => {
     )
   };
  
-//  if (noMetaMask) return (
-//     <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
-//       <NoMetamaskWarning t={t}/>
-//     </nav> 
-//   );
 
 const AccountSpaceTitle = () => {
   if (noMetaMask) return (
@@ -303,7 +332,7 @@ const AccountSpaceTitle = () => {
         </div>
       }
       {/* <ToastContainer style={{ width: "600px" }} /> */}
-          <div className="flex justify-between">
+      <div className="flex justify-between">
           <div className="flex ml-4 ">
             <Link href="/" passHref>
                 <a>
@@ -315,16 +344,16 @@ const AccountSpaceTitle = () => {
                 ></Image>
                 </a>
             </Link>
-            <Menues />
+            <Menues ref={menusRef} isVisible={droppletVisible=== droppableItemEnum.menu}/>
           </div>
           <div className="mt-4">
             <AccountSpaceTitle />
           </div>
           <div className="flex justify-around">
-            <SelectLanguage />
-            <ShowAccount />
+            <SelectLanguage ref={languageRef} isVisible={droppletVisible=== droppableItemEnum.language}/>
+            <ShowAccount isVisible={droppletVisible=== droppableItemEnum.account} />
           </div>
-         </div>
+      </div>
           {(address && noRightNetwork) &&<NoRightNetworkWarning t={t} changeNetworks ={changeNetworks }/> }
     </nav>
   );

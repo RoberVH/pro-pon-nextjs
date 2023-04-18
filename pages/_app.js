@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   const [showSpinner, setShowSpinner] = useState(false)
   const [noRightNetwork, setNoRightNetwork] = useState(false);
   
+  
   return (
    <>
     <proponContext.Provider value={{

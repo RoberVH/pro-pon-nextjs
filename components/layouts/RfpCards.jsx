@@ -61,8 +61,6 @@ const  RfpCard = ({ rfp }) => {
   const columnWidth = 100 / columnCount;
  
   const columns = new Array(columnCount).fill().map(() => []);
- 
-      console.log('rfp',rfps)
   rfps.forEach((rfp, index) => {
      const column = index % columnCount;
      columns[column].push(rfp);
