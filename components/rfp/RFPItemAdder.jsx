@@ -51,7 +51,7 @@ const handleKeyPress= (e) => {
  if (!showItemsField) return null
   return (
     <div className="">
-          <div>
+          <div className="">
             <p className="text-stone-500">{t('additemstitle')}  </p>
             <p className="text-stone-500">{t('addintemsinstructions')}</p>
             <div className=" flex mt-10">
@@ -82,7 +82,7 @@ const handleKeyPress= (e) => {
                       </span>
               </button>
             </div>
-            <div className="mt-4 border border-1 border-orange-400  h-[36vh] w-[36vw]  overflow-y-auto">
+            <div className="mt-4  border border-1 border-orange-400  h-[36vh] w-[34vw]  overflow-y-auto">
               <ul className="pt-6 pl-2 text-stone-500 list-disc">
                       { Object.keys(items).map((itemKey) =>
                           <li key={itemKey} className="flex p-2">

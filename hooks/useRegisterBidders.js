@@ -21,7 +21,6 @@ export const useRegisterBidders =  (onError, onSuccess, isCancelled) => {
       } else {
         isMounted.current = true;
       }
-  
       return () => {
         isMounted.current = false;
       };
@@ -75,12 +74,11 @@ export const useRegisterBidders =  (onError, onSuccess, isCancelled) => {
          setBlock(data.blockNumber)
          setBlockchainsuccess(true)
          onSuccess()
-   }
+      }
       } catch (error) {
-         console.log('error registrering',error)
          if (isMounted.current) {
                onError(error);
-               }       
+            }       
          }
    };
    return {write, postedHash, block, link, blockchainsuccess}

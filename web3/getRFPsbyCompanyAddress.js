@@ -32,7 +32,6 @@ export const getRFPsbyCompanyAddress = async (companyAddress) => {
         }))
         return { status: true, RFPs:RFPsArray }
   } catch (error) {
-        console.log('getRFPsbyCompanyAddress error', error)
         return({ status: false, message: error.reason });
   }
 };

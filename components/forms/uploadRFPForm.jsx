@@ -2,7 +2,7 @@
  * UploadRFP
  *  Component to allow the owner of RFP to upload requesting RFP documents
  */
-import { useState, useEffect, useCallback, useContext } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import PickFilesForm from "./pickFilesForm";
 import DisplayProgressUpload from "./displayProgressUpload";
@@ -225,12 +225,13 @@ function UploadRFPForm({
         sendWarningServer(
           "Bundler_Server_Funding_low",
           `has: ${rmteBalNum}, requested: ${price}`
-        );
-        return;
-      }
+          );
+          return;
+        }
       // resize  uploadingSet var as object array  with a length of picked files and add status prop to each object
       // so we'll be adding properties as upload progress (hash, error, etc.)setShowSummaryUploads
       setuploadingSet(Array(pickedFiles.length).fill({ status: "pending" }));
+   
       try {
         const processFilePromisesArray = pickedFiles.map((file, indx) =>
           uploadBlockchainFiles(

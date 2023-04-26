@@ -8,6 +8,7 @@
  *          possible dependent old code
  */
 import { ethers } from 'ethers'
+import {  useEffect, useRef } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
 export const useWriteRFP =  (
@@ -15,8 +16,22 @@ export const useWriteRFP =  (
     onSuccess,
     onEvent,
     setPostedHash,
-    setLink //,setPosted
+    setLink,
+    isCancelled
    }) => {
+
+        const isMounted = useRef(true)
+   
+        useEffect(() => {
+           if (isCancelled) {
+             isMounted.current = false;
+           } else {
+             isMounted.current = true;
+           }
+           return () => {
+             isMounted.current = false;
+           };
+         }, [isCancelled]);
 
         const  write = async (params, value) => {
                 const proponContract = await getWritingProponContract()
@@ -39,10 +54,12 @@ export const useWriteRFP =  (
             setPostedHash(Tx.hash)
             setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
             const data=await Tx.wait()
-            onSuccess(data)
+            if (isMounted.current) {
+                    onSuccess(data)
+             }
         } catch (error) {
-                onError(error);
-                }       
+                if (isMounted.current) onError(error);
+        }       
     };
    return write
 };

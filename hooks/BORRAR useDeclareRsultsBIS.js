@@ -42,8 +42,7 @@ export const useDeclareResultsBIS = (onError, onSuccess) => {
       setBlockchainsuccess(true);
       onSuccess();
     } catch (error) {
-        console.log('BIS:', error)
-      onError(error);
+       onError(error);
     }
   };
   return { write, postedHash, block, link, blockchainsuccess };

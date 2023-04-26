@@ -19,7 +19,6 @@ export const getContractRFP = async (RFPIndex) => {
     if (RFP.issuer  === NullAddress) return { status: false, message:'NO RFP' }
     return { status: true, RFP:RFP }
   } catch (error) {
-    console.log('getContractRFP error', error)
     return({ status: false, message: error.reason });
   }
 };

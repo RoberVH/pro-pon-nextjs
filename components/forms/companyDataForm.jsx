@@ -1,6 +1,7 @@
 /**
- * CompanyDataForm
- *    Present form to register rest of company data to DB form (adminname, email and website)
+ * CompanyDataForm - Edit Profile Form
+ *    When user clicks on Profile Menu at Account display, is presented with this  form to register rest of company data 
+ *    to DB form (adminname, email and website). 
  *    This form can only acept data if and only if the context has already the company ID &
  *    company name. This value could have been set in the immidiate step 2 prior to this or if
  *    Tx took too much time, later, when user navigate to this screen and have read the data
@@ -54,10 +55,10 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
 
   const router = useRouter();
   const [profileCompleted, setProfileCompleted] = useState(
-    companyData && typeof companyData.profileCompleted !== "undefined"
-      ? companyData.profileCompleted
-      : false
-  );
+      companyData && typeof companyData.profileCompleted !== "undefined"
+        ? companyData.profileCompleted
+        : false
+    );
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
@@ -323,16 +324,12 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
                 type="button"
                 disabled={saving}
                 onClick={() => router.push({ pathname: "/" })}
-                className={`bg-stone-400 font-xl font-bold font-khula   px-4 py-2.5  
-                    text-white leading-tight uppercase rounded shadow-md focus:outline-none  
+                className={`secondary-btn font-xl font-bold font-khula   px-4 py-2.5  
+                    text-white leading-tight uppercase rounded shadow-md focus:outline-none
                     active:shadow-lg transition duration-150 ease-in-out
-                    ${
-                      saving
-                        ? "cursor-not-allowed bg-stone-400"
-                        : "hover:bg-stone-700 hover:shadow-lg focus:ring-0 active:bg-stone-800 focus:bg-stone-700 focus:shadow-lg"
-                    }`}
+                    ${saving && "cursor-not-allowed bg-stone-400"}`}
               >
-                {t("cancelbutton")}
+                {t("closebutton")}
               </button>
             </div>
           </div>

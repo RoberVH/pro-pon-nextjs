@@ -17,7 +17,8 @@ export const useDeclareResults =  (onError, onSuccess) => {
    const  write = async (
       rfpidx,
       companyId,
-      winners
+      winners,
+      cancel
       ) => {
          const proponContract = await getWritingProponContract()
       // make sure a clean state in case this is consecutive second time called
@@ -25,12 +26,18 @@ export const useDeclareResults =  (onError, onSuccess) => {
       setBlock(false)
       setLink(false)
       setPostedHash(false)
+      let Tx;
       try {
-         const Tx = await proponContract.declareWinners(
-            rfpidx,
-            companyId,
-            winners
-            )
+         if (cancel) 
+            Tx = await proponContract.cancelRFP(
+               companyId,
+               rfpidx)
+          else
+            Tx =  await proponContract.declareWinners(
+               rfpidx,
+               companyId,
+               winners)
+
          setPostedHash(Tx.hash)
          setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
          const data=await Tx.wait()

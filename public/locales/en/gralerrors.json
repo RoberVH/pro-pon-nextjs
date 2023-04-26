@@ -1,4 +1,5 @@
  {
+    "no_blockchain_access":"Currently there is not access to Blockchain, verify and try later",
     "address_already_admin":"This account is already admin of another company",
     "unknownerror":"Unkwon error, try later",
     "undetermined_blockchain_error":"Unkwon error, try later",
@@ -20,5 +21,6 @@
     "execution reverted: invalid_winner":"Invalid winner, not a participant",
     "execution reverted: rfp_already_awarded":"RFP already awarded",
     "execution reverted: id_already_exists":"Id already exists",
-    "execution reverted: rfpid_already_taken":"RFP Id already used for this company"
+    "execution reverted: rfpid_already_taken":"RFP Id already used for this company",
+    "execution reverted: not_matching_winners":"Not Matching winners to items"
 }

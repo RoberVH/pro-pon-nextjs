@@ -9,7 +9,6 @@ export const useDeclareResults2 = (onError, onSuccess, controller) => {
   const [blockchainsuccess, setBlockchainsuccess] = useState(false);
 
   const write = async (rfpidx, companyId, winners) => {
-    console.log('write called')
     const proponContract = await getWritingProponContract();
     // make sure a clean state in case this is consecutive second time called
     setBlockchainsuccess(false);
@@ -30,7 +29,6 @@ export const useDeclareResults2 = (onError, onSuccess, controller) => {
       setBlockchainsuccess(true);
       onSuccess();
     } catch (error) {
-      console.log('ERRRIROR', error)
       if (error.name === 'AbortError') {
           console.log('User cancelled transaction!!!. Controller.signal',controller.signal);
       } else {

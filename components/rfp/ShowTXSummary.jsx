@@ -47,7 +47,7 @@ const ShowTXSummary = ({
           </div>
           <div className="flex justify-center ">
             <button 
-              className="py-2 px-4 rounded-md font-bold bg-stone-400 text-white  hover:shadow-lg hover:outline-1 text-base hover:bg-stone-600 my-4"
+              className="secondary-btn"
               onClick={handleClosePanel} >
                 {t('closebutton')}
             </button>

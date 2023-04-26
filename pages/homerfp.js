@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect, lazy, Suspense, useContext } from "react";
+import ReactDOM from 'react-dom';
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -50,14 +51,14 @@ function HomeRFP() {
     "rfp_results", // if contest closed, only this is valid showing results
   ];
 
-  const [rfpRecord, setRfpRecord] = useState(undefined);
-  const [selectedPanel, setSelectedPanel] = useState();
-  const [loading, setloading] = useState(true);
-  const [noRFP, setNoRFP] = useState(false);
-  const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null });
-  const { companyData, address } = useContext(proponContext);
-  const router = useRouter();
-  const { t } = useTranslation("rfps");
+  const [rfpRecord, setRfpRecord] = useState(undefined)
+  const [selectedPanel, setSelectedPanel] = useState()
+  const [loading, setloading] = useState(true)
+  const [noRFP, setNoRFP] = useState(false)
+  const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null })
+  const { companyData, address } = useContext(proponContext)
+  const router = useRouter()
+  const { t } = useTranslation("rfps")
   const t_companies = useTranslation("companies").t; // tp search for companies when inviting them
   const { companyId, companyname, rfpidx } = router.query;
 
@@ -74,8 +75,7 @@ function HomeRFP() {
   useEffect(() => {
     const saveDBPendingTx = async () => {
       if (noticeOff.fired) {
-        console.log("noticeOff.tx despues", noticeOff.txObj);
-        await savePendingTx({...noticeOff.txObj, sender:companyData.address})   // Pass the object and add who issued Tx
+        await savePendingTx({...noticeOff.txObj, sender:companyData.address})   // Pass the object and add who issued the Tx
       }
     };
     saveDBPendingTx();
@@ -109,6 +109,7 @@ function HomeRFP() {
 
   //  Inner Components ******************************************************************
 
+  
   const RFPTabDisplayer = () => {
     switch (selectedPanel) {
       case "rfp_bases": // rfp_bases RFP's Issuer Load/download component
@@ -171,9 +172,9 @@ function HomeRFP() {
         if (
           !Boolean(companyData?.address) ||
           companyData.address.toLowerCase() !== rfpRecord.issuer.toLowerCase()
-        )
-          return <GralMsg title={t("no_issuer_rfp")} />; // not owner of RFP
-        return <DeclareResults t={t} rfpRecord={rfpRecord} />;
+            )
+            return <GralMsg title={t("no_issuer_rfp")} />; // not owner of RFP
+        return <DeclareResults t={t} rfpRecord={rfpRecord} setNoticeOff={setNoticeOff}/>;
         break;
       case "rfp_results": //rfp_results
         return <ShowResults t={t} rfpRecord={rfpRecord} />;
@@ -188,13 +189,18 @@ function HomeRFP() {
     return (
       <div>
         {noticeOff.fired && (
-          <DismissedTxNotice
-            notification={t("dropped_tx_notice")}
-            buttonText={"accept"}
-            setNoticeOff={setNoticeOff}
-            dropTx={noticeOff.txObj}
-            typeTx = {t(`transactions.${noticeOff.txObj.type}`)}
-          />
+          <div className="fixed inset-0 bg-transparent z-50">
+            <div  className="fixed top-[30%] left-[40%] ">
+              <DismissedTxNotice
+                notification={t("dropped_tx_notice")}
+                buttonText={"accept"}
+                setNoticeOff={setNoticeOff}
+                dropTx={noticeOff.txObj}
+                //typeTx={'mtransact'}
+                typeTx = {t(`transactions.${noticeOff.txObj.type}`)}
+              />
+              </div>
+            </div>
         )}
         <div className="outline outline-1 outline-orange-200 bg-white border-b-8 border-orange-200 border-double">
           <RFPIdentificator t={t} rfpRecord={rfpRecord} />

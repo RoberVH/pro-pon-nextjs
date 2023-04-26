@@ -7,25 +7,24 @@
  */
 
 import { useState, useEffect } from 'react'
-import Image from "next/image";
-import { useBidders } from '../../hooks/useBidders';
+import Image from "next/image"
+import { useBidders } from '../../hooks/useBidders'
 import { useDeclareResults } from '../../hooks/useDeclareResults'
 import { parseWeb3Error } from '../../utils/parseWeb3Error'
-//import { getContractWinners } from '../../web3/getContractWinners';
 import ShowTXSummary from '../rfp/ShowTXSummary'
 import GralMsg from '../layouts/gralMsg'
 import Spinner from '../layouts/Spinner'
 import SpinnerBar from '../layouts/SpinnerBar'
-import { convUnixEpoch } from '../../utils/misc';
+import { convUnixEpoch } from '../../utils/misc'
 import { nanoid } from 'nanoid'
 // toastify related imports
-import { toastStyle } from "../../styles/toastStyle";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toastStyle } from "../../styles/toastStyle"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const NullAddress='0x0000000000000000000000000000000000000000'
 
-const DeclareResults = ({t,rfpRecord}) => {
+const DeclareResults = ({t,rfpRecord, setNoticeOff}) => {
  const [inTime, setInTime]= useState(false)
  // if not items, make array of winners of just 1 element, otherwise make it as big as items there are
  const [winners, setWinners] = useState(Array(
@@ -37,11 +36,10 @@ const DeclareResults = ({t,rfpRecord}) => {
   )
  const { bidders, getBidders, companies, doneLookingBidders } = useBidders();
 // Flags & vars  to manage/show blockchain uploading data
-const [error, setError] = useState(false)
+//const [error, setError] = useState(false)
 const [sendingBlockchain, setsendingBlockchain] = useState(false)
 const [showPanel, setShowPanel] = useState(false)  
-
-const controller = new AbortController();
+const [isCollapsed, setIsCollapsed] = useState(true);
 
   /** UTILITY FUNCTIONS ************************************************************************ */
     
@@ -86,12 +84,24 @@ useEffect(()=>{
 },[])
 
   /** Handling methods ************************************************************************* */
+  // close showing information panel
   const handleClosePanel = () => {
-    console.log('Aborting...')
-      controller.abort();
-      setShowPanel(false);
+      setShowPanel(false)
     };
   
+  // close showing information panel
+  // cancel Tx. Record it to PendingTx DB Collection 
+  const handleCancelTx = () => {
+    setShowPanel(false)
+  };
+
+// save to pending transaction    
+  const handleCancelRFP = () => {
+    setsendingBlockchain(true)
+    write(rfpRecord.rfpIndex, rfpRecord.companyId, [], true);
+    setShowPanel(true);
+  } 
+
   const handleDeclareWinners = async () => {
     if (winners.includes("not_choose")) {
       errToasterBox(t('not_choose'))
@@ -99,8 +109,7 @@ useEffect(()=>{
     }
     setShowPanel(true);
     setsendingBlockchain(true)
-    write(rfpRecord.rfpIndex, rfpRecord.companyId, winners);
-  
+    write(rfpRecord.rfpIndex, rfpRecord.companyId, winners, false)
   };  
 
 // Inner Components  ***************************************************************************************************************************
@@ -112,6 +121,40 @@ const  TitleDeclare= () =>
   </p>
 </div>
 
+const CancelRFPComponent = () => {
+  const toggleCollapsibleSection = () => {
+    setIsCollapsed(!isCollapsed);
+  }
+
+  return (
+    <div id="declarecanceled-section" className="m-8 mx-auto w-[40%]">
+      <div className="border border-orange-300  rounded-md shadow p-4">
+        <div className="flex justify-between items-center">
+          <p className="font-khula text-red-500 text-xl font-bold mb-4">
+            {t('cancel_rfp_title')}
+          </p>
+          <div className="cursor-pointer" onClick={toggleCollapsibleSection}>
+            {isCollapsed ? (
+              <Image
+                alt="V"
+                src="/chevrondown2.svg"
+                width={22}
+                height={22}
+              />
+            ) : (
+              <Image alt="-" src="/dash.svg" width={22} height={22} />
+            )}
+          </div>
+        </div>
+        {!isCollapsed && (
+          <div className="flex justify-center">
+            <button className="main-btn py-2 px-4 mb-2" onClick={handleCancelRFP}>{t('cancelbutton')}</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 
 const WinnersTable = ({ items, competitors }) => {
@@ -171,7 +214,7 @@ const ButtonDeclareWinners = (
       }
     </button>
     {sendingBlockchain &&
-      <button onClick={handleClosePanel} className="main-btn ml-16">{t("cancelbutton")}</button>
+      <button onClick={handleCancelTx} className="secondary-btn ml-16">{t("cancelbutton")}</button>
     }
   </div>
 );
@@ -180,43 +223,57 @@ const ButtonDeclareWinners = (
 
 if (rfpRecord.canceled) return <GralMsg title={t('cancel_notice')} />
 if (rfpRecord.winners.length > 0) return <GralMsg title={t('already_declared')} />
-//depurando, descomentar linea
-//if (!inTime) return <GralMsg title={`⛔ ${t('declaring_out_of_period')}`} />
+
+// depurando, descomentar lineas
+if (!inTime) return (
+  <div className="mx-auto mt-8  p-4 w-[90%] border border-orange-100  shadow-md shadow-orange-100">
+    <TitleDeclare />
+    <CancelRFPComponent />
+    <GralMsg title={`⛔ ${t('declaring_out_of_period')}`} />
+  </div>
+  )
+
 if (rfpRecord.participants.length === 0) return <GralMsg title={t('no_participants')} />
 if (!doneLookingBidders) return (
       <div className="mt-24">
         <Spinner />
       </div>
     )
+
 // everything clear out, so lets proceed to declare winners
 return (
     <div className="mx-auto mt-8  p-4 w-[90%] border border-orange-100  shadow-md shadow-orange-100">
       <TitleDeclare />
+      <CancelRFPComponent />
+      {isCollapsed &&
+      <>
         <WinnersTable
-                items={declaringItems}
-                competitors={companies}
-        />
+                  items={declaringItems}
+                  competitors={companies}
+                  />
         <div className="flex justify-center  mt-12 mb-8  ">
         {ButtonDeclareWinners}
         </div>
-        {showPanel && (
-            <div className="mx-auto mt-4 mb-8 py-1 w-[90%] bg-white border rounded-md border-orange-300 border-solid shadow-xl  ">
-              <div className=" font-khula text-base py-4 pl-2">
-                <ShowTXSummary
-                  postedHash={postedHash}
-                  link={link}
-                  block={block}
-                  t={t}
-                  handleClosePanel={handleClosePanel}
-                />
-              </div>
-              { sendingBlockchain &&
-              <div className="mb-4 ">
-                <SpinnerBar msg={t('loading_data')} />
-                </div>
-              }
+      </>
+      }
+      {showPanel && (
+          <div className="mx-auto mt-4 mb-8 py-1 w-[90%] bg-white border rounded-md border-orange-300 border-solid shadow-xl  ">
+            <div className=" font-khula text-base py-4 pl-2">
+              <ShowTXSummary
+                postedHash={postedHash}
+                link={link}
+                block={block}
+                t={t}
+                handleClosePanel={handleClosePanel}
+              />
             </div>
-          )}
+            { sendingBlockchain &&
+            <div className="mb-4 ">
+              <SpinnerBar msg={t('loading_data')} />
+              </div>
+            }
+          </div>
+        )}
     </div>
     )
 };

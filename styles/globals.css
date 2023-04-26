@@ -17,12 +17,18 @@ html {
       ease-in-out disabled:bg-orange-400 focus:outline-none 
     }
     .secondary-btn {
-      @apply bg-stone-400 text-sm font-bold font-khula text-white leading-tight uppercase 
+      /* @apply bg-stone-400 text-sm font-bold font-khula text-white leading-tight uppercase 
       px-4 py-2.5 rounded shadow-md hover:bg-stone-700 active:hover:shadow-lg 
       active:focus:bg-stone-700 focus:shadow-lg focus:outline-none focus:ring-0 
       active:bg-stone-800 active:focus:shadow-lg transition duration-150 
       ease-in-out disabled:bg-stone-400 
-    }
+    } */
+      @apply bg-blue-400 text-sm font-bold font-khula text-white leading-tight uppercase 
+      px-4 py-2.5 rounded shadow-md hover:bg-blue-700 active:hover:shadow-lg 
+      active:focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 
+      active:bg-blue-800 active:focus:shadow-lg transition duration-150 
+      ease-in-out disabled:bg-blue-400;
+  }
     .btn-add-circular {
       @apply bg-green-400 text-2xl text-white  w-8 h-8  rounded-lg
       hover:bg-green-300 

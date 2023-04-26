@@ -5,7 +5,7 @@ import clientPromise from '../database/mongodb'
 // Pro-pon components
 import { proponContext } from '../utils/pro-poncontext'
 import HeadBar from '../components/layouts/HeadBar'
-import { ToastContainer, toast } from "react-toastify"; 
+import { ToastContainer } from "react-toastify"; 
 
 import '../styles/globals.css'
 
@@ -30,9 +30,7 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
         noRightNetwork, 
         setNoRightNetwork
       }}>
-        <div className={`${showSpinner ? 'opacity-50 cursor-not-allowed':null}`}
-        // onClick={()=>console.log('heey aqui listener para toda la app')}
-        >
+        <div className={`${showSpinner ? 'opacity-50 cursor-not-allowed':null}`}>
           <HeadBar isConnected={isConnected} />
           <ToastContainer style={{ width: "600px" }} />
 

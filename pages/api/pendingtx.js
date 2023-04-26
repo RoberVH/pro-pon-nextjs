@@ -4,7 +4,6 @@ import {  ObjectId } from 'mongodb';
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();
   const { method } = req
-
   switch (method) {
     case 'GET':
        const query={}
@@ -30,10 +29,12 @@ export default async function handler (req, res) {
           .collection("pendingTxs")
           .insertOne(req.body)
           res.status(201).json({ status: true })
+          return
         } catch (error) {
           console.log('error pendingTx creation', error)
           res.status(400).json({ status: false, msg:'Internal server Error' })
         }
+        break
     case 'DELETE':
       const removeObj = req.body;
       let filter = {};
@@ -54,7 +55,6 @@ export default async function handler (req, res) {
         }
         res.status(200).json({ deletedCount });
       } catch (error) {
-        console.log('error pendingTx deletion', error);
         res.status(500).json({ error: 'Internal server error' });
       }
   }

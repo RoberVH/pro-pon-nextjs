@@ -1,6 +1,8 @@
 /**
  * SignUpCompanyDataForm
- *    Manage posting essential (name, id and country) company data to contract 
+ *    When user has authorized Pro-pon to access Metamask account , a button to register is presented if hasn't yet done it
+ *    When clicking register button at main screen is presented with this form to record company essential Data
+ *    Essential Data:  company Id, name, and country 
 */
 
 import React, { useState, useContext, useEffect} from "react";
@@ -20,19 +22,20 @@ import useInputForm from "../../hooks/useInputForm";
 import "react-toastify/dist/ReactToastify.css";
 import { InputCompanyId } from "../input-controls/InputCompanyId";
 import { InputCompanyName } from "../input-controls/InputCompanyName";
-import { saveCompanyID2DB, getCompanydataDB } from '../../database/dbOperations'
+import { saveCompanyID2DB, getCompanydataDB, savePendingTx } from '../../database/dbOperations'
 import { InputCountrySel } from '../input-controls/InputCountrySel'
 import { useWriteCompanyData } from '../../hooks/useWriteCompanyData'
 import { proponContext } from "../../utils/pro-poncontext"
-import { parseWeb3Error } from "../../utils/parseWeb3Error";
-
+import { getCurrentRecordCompanyPrice } from '../../web3/getCurrentContractConst'
+import { parseWeb3Error } from "../../utils/parseWeb3Error"
+import DismissedTxNotice from "../layouts/dismissedTxNotice"
+import { todayUnixEpoch } from "../../utils/misc"
 
 
 
 countries.registerLocale(english);
 countries.registerLocale(spanish);
 countries.registerLocale(french);
-
 
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
                     "font-roboto  outline-none pl-10 w-full focus:bg-blue-100 bg-stone-100"                    
@@ -46,7 +49,7 @@ const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded r
  */
 const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {   
   // State Variables & constants of module
-  const { t, i18n  } = useTranslation(["signup","gralerrors"]);
+  const { t, i18n  } = useTranslation(["signup","rfps","gralerrors"]);
   const [posted, setPosted] = useState(false) // // begins with false
   const [companyCreated, setcompanyCreated] = useState(false)
   const [lang, setLang] = useState('')
@@ -55,7 +58,12 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
   const [hash, setHash] = useState('') // begins with ''
   const [link, setLink] = useState('') // begins with ''
   const [isSaving, setIsSaving] = useState(false) //begins with false
-  const[taxPayerPlaceHolder,setTaxPayerPlaceHolder]=useState('companyId')
+  const [isCancelled, setIsCancelled] = useState(false);
+  const[taxPayerPlaceHolder,setTaxPayerPlaceHolder]= useState('companyId')
+  const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null })
+  const [droppedTx, setDroppedTx] = useState()  
+
+
   const { values, handleChange } = useInputForm()
   const [profileCompleted, setProfileCompleted] = useState(
     (companyData && typeof companyData.profileCompleted!=='undefined')
@@ -127,7 +135,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
     return
   }
 
-  const write = useWriteCompanyData({onEvent, onSuccess, setHash, onError, setLink, setPosted})
+  const write = useWriteCompanyData({onEvent, onSuccess, setHash, onError, setLink, setPosted, isCancelled})
   const router = useRouter()
  
   const patronobligatorio = new RegExp("^(?!s*$).+");
@@ -151,12 +159,23 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
 
         
   // handleCacel Drop form and go back to root url
-  const handleCancel = () => {
-    router.push({pathname: '/'})
+  const handleCancelTx = async () => {
+    setIsCancelled(true);
+    // create a copy of droppedTx object
+    const updatedTxObj = { ...droppedTx }
+    // update txLink property with the link value
+    updatedTxObj.txHash = hash
+    // pass updatedTxObj to setNoticeOff function
+    setNoticeOff({ fired: true, txObj: updatedTxObj });
+    setIsSaving(false)
+    await savePendingTx({...updatedTxObj, sender: address})   // Pass the object and add who issued the Tx
+    setHash('')
+    //router.push({pathname: '/'})
   }
 
   // handleSave -  call Validate fields & if ok send transaction to blockchain
   const handleSave = async () => {
+    setIsCancelled(false); // reset state in case user is retrying operation
     const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
       trimmedValues[key] = (typeof value !== "undefined" ? value : "").trim();
@@ -180,14 +199,25 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
   
     // validation passed ok, 
     // create entry on smart contract
+    const result= await getCurrentRecordCompanyPrice()
+    if (!result.status) {
+      errToasterBox(t('no_blockchain_access',{ns:"gralerrors"}))
+      return
+    }
+    const price= result.createCoPrice
     setIsSaving(true)
-    
-
+    const today = todayUnixEpoch(new Date())
+    const Tx = {
+        type: 'registercompany', 
+        date: today, params: 
+        [trimmedValues.companyId,trimmedValues.companyname,trimmedValues.country]
+      }
+    setDroppedTx(Tx)
       await write(
          trimmedValues.companyId,
          trimmedValues.companyname, 
          trimmedValues.country,
-         "0.0001")
+         price) //"0.0001")
    };
 
   
@@ -200,15 +230,30 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
     // and save the data we already have. Set profileCompleted DB field to false
     // so user will have to fill that later
     // Dic 2022 added address to save time when inviting companies to RFP and need to recover it
-    await  saveCompanyID2DB(companyID, companyName, country, address, errToasterBox)
+    const result = await  saveCompanyID2DB(companyID, companyName, country, address)
+    if (!result.status)
+      errToasterBox(result.msg)
   }
 
 // render of Component
   return (
    <div id="generalsavearea" className="container mx-auto " >
+     {noticeOff.fired && (
+          <div className="fixed inset-0 bg-transparent z-50">
+            <div  className="fixed top-[30%] left-[30%] ">
+              <DismissedTxNotice
+                notification={t("dropped_tx_notice",{ns:"rfps"})}
+                buttonText={t("accept",{ns:"rfps"})}
+                setNoticeOff={setNoticeOff}
+                dropTx={noticeOff.txObj}
+                typeTx = {t(`transactions.${noticeOff.txObj.type}`,{ns:"rfps"})}
+              />
+              </div>
+            </div>
+        )}    
     {/* Entry Form with buttons save & cancel */}
-    <div id="dataentrypanel" className="mt-4  p-4 bg-white  border-orange-200 rounded-md
-             container  my-8 mx-4 border-2 border-solid">
+    <div id="dataentrypanel" className="mx-auto w-2/3 mt-4 mb-8 p-4 bg-white border  border-orange-300 rounded-md
+             container   shadow-md">
       <div className="flex items-center" >
         <Image   alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
         <p className="text-gray-600 text-extrabold text-base mt-2 ml-2 font-khula">
@@ -219,7 +264,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
         action=""
         disabled={posted || companyCreated } 
         className="flex flex-col items-center justify-between leading-8 my-6">
-        <div className="w-[50%] relative mb-2">
+        <div className="w-[70%] relative mb-2">
         { typeof companyData.profileCompleted === 'undefined' ?
           // Company not yet registered to blockchain contract
           <React.Fragment>
@@ -288,28 +333,29 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
                 <button
                   type="button"
                   onClick={handleSave}
-                  // isSaving || posted || companyCreated
-                  disabled={ posted || companyCreated}
+                  disabled={ isSaving || posted || companyCreated}
                   className="main-btn"
                 >
-                  {(!isSaving && !companyCreated) ? `${t("savebutton")}` : ""}
-                  {(isSaving || companyCreated) && (
+                  {(!companyCreated) ? `${t("savebutton")}` : ""}
+                  {/* {(isSaving || companyCreated) && (
                     <div className=" flex justify-evenly items-center">
                       <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900"></div>
                       <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
-                    </div>
-                  )}
+                    </div> 
+                  )} */}
                 </button>
               </div>
-              <div className="mt-2">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  disabled={ posted || companyCreated}
-                  className="secondary-btn">
-                  {t("cancelbutton")}
-                </button>
-              </div>
+              {hash && !isCancelled &&
+                <div className="mt-2">
+                  <button
+                    type="button"
+                    onClick={handleCancelTx}
+                    //disabled={ posted || companyCreated}
+                    className="secondary-btn">
+                    {t("cancelbutton")}
+                  </button>
+                </div>
+              }
             </div>
           </div>
          :

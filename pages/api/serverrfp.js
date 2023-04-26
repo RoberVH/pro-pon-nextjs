@@ -42,7 +42,6 @@ export default async function handler (req, res) {
         res.status(200).json({status:true, _id:data.insertedId.toString()})
         break
       } catch (error) {
-          console.log('Error serverrfp', error)
           res.status(400).json({ status: false, msg:error })
           break
       }
@@ -64,7 +63,6 @@ export default async function handler (req, res) {
           res.status(201).json({ status: true })
           break
         } catch (error) {
-          console.log('Error servercompanies', error)
           res.status(400).json({ status: false, msg:'Mi errorsotote' })
           break
         }

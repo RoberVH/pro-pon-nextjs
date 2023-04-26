@@ -16,7 +16,6 @@ export default async function handler (req, res) {
         term[key]=new RegExp('^'+params[key], "i")
         query['$and'].push(term)
       }
-      console.log('terms', query)
       const companies = await db
       .collection("companies")
       .findOne(query)

@@ -21,7 +21,6 @@ const updateRFPFilesArray = useCallback( async () => {
   const result = await getArweaveFilesMetadata(rfpidx) // get RFP arweave metadata files from contract
   if (result.status) {
       setRFPFiles(result.docs)
-      console.log('Result Dosc:', result.docs)
       setNewFiles(false)
       setdoneLookingFiles(true)
       return {status:true}

@@ -15,7 +15,6 @@ export const useSignMessage = ({onSuccess,onError}) => {
        // throw new Error('')
         onSuccess(message, signature)
     } catch (error) {
-      console.log('pase por onerror')
         onError(error);
     }       
   };

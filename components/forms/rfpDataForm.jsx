@@ -21,6 +21,8 @@ import { InputRFPName }  from "../input-controls/InputRFPName"
 import { InputRFPDescription }  from "../input-controls/InputRFPDescription"
 import { InputRFPwebsite }  from "../input-controls/InputRFPwebsite"
 import { buildRFPURL } from "../../utils/buildRFPURL"
+import { todayUnixEpoch } from "../../utils/misc"
+
 
 
 import "react-toastify/dist/ReactToastify.css";
@@ -44,7 +46,7 @@ const  openContest = ContestType.OPEN
 const  invitationContest = ContestType.INVITATION_ONLY
 
 
-const RFPDataForm = () => {
+const RFPDataForm = ({setNoticeOff}) => {
   // State Variables & constants of module
   const { t } = useTranslation("rfps");
   const infoBoardDiv = useRef()
@@ -59,6 +61,9 @@ const RFPDataForm = () => {
   const [items, setItems] = useState({})
   const [showItemsField, setShowItemsField] = useState(false)
   const [contestType, setContestType] = useState(openContest)
+  const [droppedTx, setDroppedTx] = useState()  
+  const [isCancelled, setIsCancelled] = useState(false);
+
 
   const { values, handleChange } = useInputForm()
   const router = useRouter()
@@ -85,16 +90,13 @@ const RFPDataForm = () => {
     const resp= await saveRFP2DB (params) 
     if (resp.status) {
       // we retrieve the address of the rfp owner from OnEvent event as we need it but it's not in this form component. 
-      //Then we set the whole RFP params to be include on the URL that RFP button edit will trigger 
-      // const { issuer } = params
-      // setRFPParams(rfpparams => ({...rfpparams, _id: resp._id, rfpidx:params.rfpidx, issuer}))
-      //  setRFPParams(rfpparams => ({...rfpparams, rfpidx:params.rfpidx, issuer}))
+      // then we set the whole RFP params to be include on the URL that RFP button edit will trigger 
        setRFPParams(rfpparams => ({...rfpparams, rfpidx:params.rfpidx}))
-      toast.success(t('rfpdatasaved',toastStyleSuccess))
-      setrfpCreated(true)
-    } else {
-      errToasterBox(resp.msg)
-      setWaiting(false)
+       toast.success(t('rfpdatasaved',toastStyleSuccess))
+       setrfpCreated(true)
+    }  else {
+        errToasterBox(resp.msg)
+        setWaiting(false)
     }
   }
   
@@ -107,8 +109,13 @@ const RFPDataForm = () => {
 
   // onEvent Handle method passed unto useWriteRFP hook  to save RFP data to DB record when event is received from contrat
   const onEvent = async (address, rfpIdx, rfpName, params) => {
+    if (isCancelled) {
+       // if user cancelled but Tx still pass through, don't save to DB as it could try to display msg on no UI
+      setIsCancelled(false)  // reset state
+      return
+    }
     const rfpidx=parseInt(rfpIdx)
-    if (!rfpCreated) {  
+    if (!rfpCreated) {  // this is if RFP hasn't been saved to DataBase yet
       const rfpparams={rfpidx, issuer:address,...params}
       saveRFPDATA2DB(rfpparams)
     }
@@ -119,7 +126,7 @@ const RFPDataForm = () => {
   }
   
   // Set our writing hook
-  const write = useWriteRFP({ onSuccess, onError, onEvent, setPostedHash, setLink})
+  const write = useWriteRFP({ onSuccess, onError, onEvent, setPostedHash, setLink, isCancelled})
 
   // Validate using regexp input fields of rfp essential data form
   const validate = (pattern, value, msj) => {
@@ -152,9 +159,25 @@ const RFPDataForm = () => {
       }
     }
         
-  // handleCancel Drop form and go back to root address
-  const handleCancel = () => {
+  // handleClose. Go back to root address
+  const handleClose = () => {
     router.push({pathname: '/'})
+  }
+
+  // handleCancelTx. Cancel Tx. Save Tx data to DB for it to appear on My Pending Tx menu option
+  //      TX is taking long, user has click cancel to abort waiting
+  //      Tx still can go through but we won't wait for it
+  const handleCancelTx = () => {
+    // hide info panel
+    setIsCancelled(true);
+    setPostedHash('')
+    setWaiting(false)
+    // create a copy of droppedTx object
+    const updatedTxObj = { ...droppedTx };
+    // update txLink property with the link value
+    updatedTxObj.txHash = postedHash;
+    // pass updatedTxObj to setNoticeOff function
+    setNoticeOff({ fired: true, txObj: updatedTxObj });
   }
 
   // handle Edit RFP button method, Build urk with RFP params and set URL browser to that URL
@@ -242,10 +265,12 @@ const RFPDataForm = () => {
     // Different prices for RFP Type. If Open, Issuer will be paying for document uploads
     // so that price will be expensier. If Open, each bidder will paid for that. So, it should cost less
     const value= contestType === ContestType.OPEN ? openPriceRPF : invitationRFPPrice
+    //save to droppedTX the params in case user cancel in the middle
+    const today = todayUnixEpoch(new Date())
+    const Tx = {type: 'createrfp', date: today, params}
+    setDroppedTx(Tx)
     // writing essential RFP data to contract
-    await write(
-      params,
-      value)
+    await write(params, value)
   };
   
   // Some objects to style UX
@@ -264,7 +289,7 @@ const RFPDataForm = () => {
         className={`container ${itemStyleContainer[showItemsField]} p-4 bg-white border-xl border-2 border-orange-200 rounded-md`}>
         <div className="flex items-center" >
           <Image   alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
-          <p className="text-gray-600 text-extrabold text-base text-xl mt-2 ml-2 font-khula">{t("recresrfpdata")}</p>
+          <p className="text-gray-600 text-extrabold text-base  mt-2 ml-2 font-khula">{t("recresrfpdata")}</p>
         </div>
           <div className="grid grid-cols-2 grid-gap-1">
             <div id="essentialdatacontainer" className="flex flex-col items-left justify-between leading-8 mt-8  pl-8 ">
@@ -336,7 +361,7 @@ const RFPDataForm = () => {
                     <label 
                       id="open"
                       className={`mr-4 mt-1 cursor-pointer 
-                        ${contestType===openContest  ? 'bg-blue-200 px-2 py-1 rounded rounded-3xl' : 'py-1'}
+                        ${contestType===openContest  ? 'bg-blue-200 px-2 py-1  rounded-3xl' : 'py-1'}
                         ${waiting || postedHash ? 'pointer-events-none':''}`} 
                       onClick={handleClickContestType}
                       disable={(waiting ||postedHash).toString()} >
@@ -344,7 +369,7 @@ const RFPDataForm = () => {
                     </label>
                     <label 
                       className={`mx-4 mt-1 cursor-pointer 
-                        ${contestType=== invitationContest ?'bg-blue-200 px-2 py-1 rounded rounded-3xl' : 'py-1'}
+                        ${contestType=== invitationContest ?'bg-blue-200 px-2 py-1  rounded-3xl' : 'py-1'}
                         ${waiting || postedHash ? 'pointer-events-none':''}`} type="radio" id="invitation"
                       onClick={handleClickContestType}>
                         {t('invitation').toUpperCase()}
@@ -363,7 +388,7 @@ const RFPDataForm = () => {
               </div>
               </form>
             </div>
-            <div id="ItemsForm" >
+            <div id="ItemsForm"  >
                   <RFPItemAdder items={items} setItems={setItems} showItemsField={showItemsField} disable={(waiting ||postedHash)} />
             </div>
 
@@ -375,28 +400,32 @@ const RFPDataForm = () => {
                     <button
                       type="button"
                       onClick={handleSave}
-                      disabled={waiting ||postedHash}
+                      disabled={waiting || postedHash}
                       className="main-btn"
                     >
-                      {!waiting ? `${t("savebutton")}` : ""}
+                      {t("savebutton")}
+                      {/* {!waiting ? `${t("savebutton")}` : ""}
                       {waiting && (
                         <div className=" flex justify-evenly items-center">
                           <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
                           </div>
                           <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
                         </div>
-                      )}
+                      )} */}
                     </button>
                   </div>
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      onClick={handleCancel}
-                      disabled={ false}
-                      className="secondary-btn">
-                      {t("cancelbutton")}
-                    </button>
-                  </div>
+
+                  {link && 
+                    <div className="mt-4">
+                      <button
+                        type="button"
+                        onClick={handleCancelTx}
+                        disabled={ false}
+                        className="secondary-btn">
+                        {t("cancelbutton")}
+                      </button>
+                  </div>}
+
                 </div>
             </div>
       </div>
@@ -405,7 +434,7 @@ const RFPDataForm = () => {
       <div ref={infoBoardDiv} className="container mt-4 mb-8 p-4 bg-white border-2 border-orange-200 w-[70%] shadow-xl ">
          <div className="flex mb-2">
             <Image alt="Info" src="/information.svg" height={20} width={20}/>
-            <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base text-xl">
+            <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base ">
                 <strong>{t('sending_rfp_blockchain')} </strong></p>
         </div>
         <div className="font-khula text-stone-700 text-base py-4 ">
@@ -441,8 +470,8 @@ const RFPDataForm = () => {
                             {t('editrfp')}
                           </button>
                           <button 
-                          className="main-btn ml-8 mt-8"
-                          onClick={handleCancel}>
+                          className="main-btn ml-8 mt-8 secondary-btn"
+                          onClick={handleClose}>
                             {t('closebutton')}
                           </button>                          
                         </div>

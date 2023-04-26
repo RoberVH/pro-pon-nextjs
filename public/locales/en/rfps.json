@@ -31,7 +31,9 @@
     "transactions": {
         "transaction_type":"Type of Tx",
         "inviteguests":"Invite Company to RFP",
-        "registeropen":"Registration of your Company to open RFC"
+        "registeropen":"Registration of your Company to open RFC",
+        "createrfp":"Create RFP",
+        "registercompany":"Register Company"
     },
     "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network",
     "rfpessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Please wait...",
@@ -151,5 +153,9 @@
     "end":"End",
     "canceled":"Canceled",
     "go":"Go",
-    "dropped_tx_notice":"Your transaction is still pending to be mined and could be resolved. Please try checking later, either in the Blockchain explorer and in the App, and submit it again if necessary"
+    "dropped_tx_notice":"Your transaction is still pending to be mined and still could be resolved. Please try checking later, either in the Blockchain explorer and in the App, and submit it again if necessary",
+    "statuscontest":"RFP Status",
+    "pending":"Pending",
+    "declared":"Declared",
+    "cancel_rfp_title":"Cancel the RFP"
 }

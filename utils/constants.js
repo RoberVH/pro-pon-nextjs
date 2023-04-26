@@ -39,14 +39,6 @@ export const traslatedRFPErrors = [
     "no_valid_signature"
   ];
 
-// DEPRECATED
-// Arweave File Types
-// this types used for Arweave metadata when uploading files there
-// export const ArweavefileTypes = {
-//     requestFile : 'Request',        // RFP (Bases) Document
-//     responseFile : 'Response',      // RFP response Document
-//     companyLegalFile : 'companyLegal'   // A document certifying company legal status (constitutive act, financial statement etc)
-// }
 
 // Only  5 files each loading
 export const MAX_FILES = process.env.NEXT_PUBLIC_MAX_FILES; //15

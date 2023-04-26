@@ -21,6 +21,7 @@ import { StatusOfflineIcon } from "@heroicons/react/outline"
 import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork"
 import NoMetamaskWarning from "./noMetamaskWarning"
 import NoRightNetworkWarning from "./noRightNetworkWarning"
+import { saveCompanyID2DB } from "../../database/dbOperations"
 import { PRODUCTION, LOCAL } from '../../utils/constants'
 
 
@@ -38,6 +39,7 @@ import { toast } from "react-toastify";
  * @returns {JSX.Element}
  */
 
+// enumeration to account what droppable menu item was clicked upon
 const droppableItemEnum = {
   menu: 1,
   account:2,
@@ -80,15 +82,29 @@ const HeadBar = () => {
   */
 
   // Callbacks functions  ******************************************************************************************
+  // it gets called when loading the component and the an an a wallet account is connected and it found a Company ID registered to that
+  // account in the contract. It must get the rest of the data from Database record 
   const getCompany = useCallback(
     async (contractCiaData) => {
-      const {id, company_RFPs,RPFsWon,RFPSent} = contractCiaData
-      const rfpWon = parseInt(RPFsWon)
+      const {id, company_RFPs,RFPsWins ,RFPSent} = contractCiaData
+      const rfpWon = parseInt(RFPsWins.length)
       const rfpSent = parseInt(RFPSent)
       const companyRFPs= company_RFPs.map(rfp => parseInt(rfp))
       const result = await getCompanydataDB(id); // get complementary company data from DB
-      setCompanyData({rfpWon, rfpSent, companyRFPs, ...result});
-    },[setCompanyData]);
+      if (result. companyId)
+          setCompanyData({rfpWon, rfpSent, companyRFPs, ...result})
+          else {
+            const {name, country}= contractCiaData
+            const result = await  saveCompanyID2DB(id, name, country, address)
+            if (!result.status)
+                errToasterBox(result.msg)
+                else {
+               const company= await getCompanydataDB(id) // read from DB company data
+               setCompanyData({rfpWon, rfpSent, companyRFPs, ...company}) // write db record to context with id that we'll use to update it                
+              }
+            // Error, there is not a Company  DB record corresponding to found Company Id on Contract, record it to DB to sync them
+          }
+    },[setCompanyData, address]);
 
   // hooks  ******************************************************************************************
   // check if there is an account already granted and set a listener to MMask change account event

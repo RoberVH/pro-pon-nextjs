@@ -43,7 +43,7 @@ function Signup() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["signup", "menus", "common","gralerrors"])),
+      ...(await serverSideTranslations(locale, ["signup", "menus", "common","rfps","gralerrors"])),
     },
   };
 }

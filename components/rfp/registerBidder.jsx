@@ -6,24 +6,24 @@
  *  params: inviteContest - Boolean if false then is an open contest
  */
 
-import { useState, useEffect, useRef } from "react";
-import SearchDB from "../SearchDB";
-import DisplayResults from "../DisplayResults";
-import Spinner from "../layouts/Spinner";
-import { companyFields } from "../../utils/companyFieldsonRFP";
-import { nanoid } from "nanoid";
+import { useState, useEffect, useRef } from "react"
+import SearchDB from "../SearchDB"
+import DisplayResults from "../DisplayResults"
+import Spinner from "../layouts/Spinner"
+import { companyFields } from "../../utils/companyFieldsonRFP"
+import { nanoid } from "nanoid"
 
 // toastify related imports
-import "react-toastify/dist/ReactToastify.css";
-import { toastStyle } from "../../styles/toastStyle";
-import { toast } from "react-toastify";
-import { useRegisterBidders } from "../../hooks/useRegisterBidders";
+import "react-toastify/dist/ReactToastify.css"
+import { toastStyle } from "../../styles/toastStyle"
+import { toast } from "react-toastify"
+import { useRegisterBidders } from "../../hooks/useRegisterBidders"
 import { useBidders } from '../../hooks/useBidders'
-import ShowTXSummary from "./ShowTXSummary";
-import { parseWeb3Error } from "../../utils/parseWeb3Error";
+import ShowTXSummary from "./ShowTXSummary"
+import { parseWeb3Error } from "../../utils/parseWeb3Error"
 import SpinnerBar from "../layouts/SpinnerBar"
-import { serializeArray } from '../../utils/serialArrays'
-import { todayUnixEpoch } from "../../utils/misc";
+//import { serializeArray } from '../../utils/serialArrays'
+import { todayUnixEpoch } from "../../utils/misc"
 
 const RegisterBidder = ({
   t,
@@ -225,7 +225,7 @@ useEffect(()=>{
         }
       </button>
       {(link && !blockchainsuccess) &&
-        <button onClick={handleCancelTx} className="main-btn ml-16">{t("cancelbutton")}</button>
+        <button onClick={handleCancelTx} className="main-btn ml-16 secondary-btn">{t("cancelbutton")}</button>
       }
     </div>
   );
@@ -244,7 +244,7 @@ useEffect(()=>{
         }
       </button>
       {(link && !blockchainsuccess) &&
-        <button onClick={handleCancelTx}  className="main-btn ml-16">{t("cancelbutton")}</button>
+        <button onClick={handleCancelTx}  className="main-btn ml-16 secondary-btn">{t("cancelbutton")}</button>
       }
     </div>
   );

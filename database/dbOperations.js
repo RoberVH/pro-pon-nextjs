@@ -34,7 +34,7 @@ export const verifyData_Save = async (message, signature) => {
   };
 
   // Create initial record for company at database, set profileCompleted to false
-  export const saveCompanyID2DB = async (companyId, companyname, country, address, errToasterBox) => {
+  export const saveCompanyID2DB = async (companyId, companyname, country, address) => {
     let method = "POST";
     const webload= {profileCompleted:false, companyId, companyname, country, address}
     try {
@@ -44,10 +44,10 @@ export const verifyData_Save = async (message, signature) => {
         body: JSON.stringify(webload),
       });
       const resp = await response.json(); 
-      return;
+      return {status:true, msg: resp};
     } catch (error) {
       console.log("Error del server:", error);
-      errToasterBox(error, toastStyle);
+      return {status: false, msg: error.message}
     } 
   }
 
@@ -148,9 +148,9 @@ export const verifyData_Save = async (message, signature) => {
   };
  
   export const savePendingTx = async (objTx) => {
+    console.log('BD objTx',objTx)
     let method = "POST";
     try {
-        //const pendingTx = serializeArray(objTx.params)
         console.log('en client still recibi:' , objTx)
       const response = await fetch("/api/pendingtx", {
         method: method,
@@ -158,7 +158,7 @@ export const verifyData_Save = async (message, signature) => {
         body: JSON.stringify(objTx),
       });
       const resp = await response.json();
-      return {resp};
+      return resp
     } catch (error) {
       return ({status:false, msg:error.message});
     }
@@ -185,7 +185,6 @@ export const verifyData_Save = async (message, signature) => {
   
     if (!response.ok) {
       const errorData = await response.json();
-      console.log('Error detected:', errorData.error);
       return { status: false, msg: errorData.error };
     }
     const resp = await response.json();

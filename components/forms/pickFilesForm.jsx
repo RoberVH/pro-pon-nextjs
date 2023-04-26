@@ -205,7 +205,7 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
     setCandidateFiles([])
   }
 
-// PickFilesForm returned JSX: ----------------------------------
+// PickFilesForm returned JSX: ******************************************************
     return (
         <div>
           <TitleUploader />
@@ -259,10 +259,11 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
                       {t('accept')}
                   </button>
                   <button 
-                  onClick={handleCancelUploadFiles}
-                    className="bg-stone-400 font-xl font-bold font-khula   px-4 py-2.5 text-white leading-tight uppercase rounded shadow-md 
-                      focus:outline-none  active:shadow-lg transition duration-150 ease-in-out hover:shadow-lg focus:ring-0 active:bg-stone-800 
-                      focus:bg-stone-700 focus:shadow-lg text-sm">
+                    onClick={handleCancelUploadFiles}
+                    className="secondary-btn">
+                    {/* // className="bg-stone-400 font-xl font-bold font-khula   px-4 py-2.5 text-white leading-tight uppercase rounded shadow-md 
+                    //   focus:outline-none  active:shadow-lg transition duration-150 ease-in-out hover:shadow-lg focus:ring-0 active:bg-stone-800 
+                    //   focus:bg-stone-700 focus:shadow-lg text-sm"> */}
                       {t('cancelbutton')}
                   </button>
               </div>

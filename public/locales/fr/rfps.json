@@ -31,7 +31,9 @@
     "transactions": {
         "transaction_type":"Type de Tx",
         "inviteguests":"Inviter Entreprise à l'appel d'offres",
-        "registeropen":"Enregistrement de votre société au ouvert RFQ"
+        "registeropen":"Enregistrement de votre société au ouvert RFQ",
+        "createrfp":"Créer un appel d'offres",
+        "registercompany":"Enregistrer la Entreprise"
     },
     "savingtoblockchainmsg":"Confirmez la transaction. Vos données seront envoyées à la Blockchain, en attente de confirmation. Cela peut prendre du temps selon les conditions d'utilisation du réseau",
     "rfpessentialdataposted":"La transaction a été reçue sur la Blockchain, en attente de confirmation. Attendez s'il vous plaît...",
@@ -151,6 +153,9 @@
     "end":"Fin",
     "canceled":"Annulé",
     "go":"Aller",
-    "dropped_tx_notice":"Votre transaction est toujours en attente d'extraction et pourrait être résolue. Veuillez essayer de vérifier plus tard, soit dans l'explorateur Blockchain et dans l'application, et soumettez-la à nouveau si nécessaire",
-    "nopending_txs":""
+    "dropped_tx_notice":"Votre transaction est toujours en attente d'extraction et pourrait toujours être résolue. Veuillez essayer de vérifier plus tard, soit dans l'explorateur Blockchain et dans l'application, et soumettez-la à nouveau si nécessaire",
+    "statuscontest":"Statut de l'appel d'offres",
+    "pending":"En attente",
+    "declared":"Déclaré",
+    "cancel_rfp_title":"Annuler l'appel d'offres"
 }

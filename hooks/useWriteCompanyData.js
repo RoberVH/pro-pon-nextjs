@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { useEffect, useRef } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
 // Have to change WAGMI to ethereum provider on browser and Ethers as
@@ -12,7 +13,20 @@ export const useWriteCompanyData =  (
     onEvent,
     setHash,
     setLink,
-    setPosted}) => {
+    setPosted,
+    isCancelled}) => {
+    
+    const isMounted = useRef(true)
+    useEffect(() => {
+      if (isCancelled) {
+        isMounted.current = false;
+      } else {
+        isMounted.current = true;
+      }
+      return () => {
+        isMounted.current = false;
+      };
+    }, [isCancelled]);
 
     const write = async (companyId,companyname, country,value) => {
         const proponContract = await getWritingProponContract()
@@ -30,10 +44,14 @@ export const useWriteCompanyData =  (
           setHash(Tx.hash)
           setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
           const data=await Tx.wait()
+          if (isMounted.current) {
           onSuccess(data)
+          }
         } catch (error) {
-                onError(error);
-                }       
+            if (isMounted.current) {          
+                  onError(error);
+                  }       
+            }
     };
 
    return write

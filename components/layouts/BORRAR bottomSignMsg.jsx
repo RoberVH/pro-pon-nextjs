@@ -14,7 +14,7 @@ setTimeout(()=>{showMsg(true)}, 1000)
 return (
 <Fragment>
   <div className="fixed bg-zinc-100 inset-0 opacity-80 z-50" >
-    <div className={`fixed bottom-0 right-0 -mt-32 text-center bg-white h-[25%] w-[40%] border border-2
+    <div className={`fixed bottom-0 right-0 -mt-32 text-center bg-white h-[25%] w-[40%]  border-2
                      border-orange-600  
                     ${showMsg ? 'translate-y-0': 'translate-y-full'} ease-in-out duration-1000`} >
       <div className="pt-4 pl-4 text-left">

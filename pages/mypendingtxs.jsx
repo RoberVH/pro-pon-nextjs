@@ -68,7 +68,6 @@ const handleClearAllTxs  = async () => {
 };
 
 const handleClearTx = async (id) => {
-    console.log('por borrar: ', id)
     const result = await removePendingTx({_id: id})
     if (result.status) {
       const updatedPendingTxs = pendingTxs.filter((tx) => tx._id !== id)

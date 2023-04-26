@@ -31,7 +31,9 @@
     "transactions": {
         "transaction_type":"Tipo de Tx",
         "inviteguests":"Invitar Compañía a RFP",
-        "registeropen":"Registrar Compañía al RFP abierto"
+        "registeropen":"Registrar Compañía al RFP abierto",
+        "createrfp":"Crear RFP",
+        "registercompany":"Registrar Compañia"
     },
     "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red",
     "rfpessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación. Espere por favor... ",
@@ -153,5 +155,11 @@
     "end":"Fin",
     "canceled":"Cancelada",
     "go":"Ir",
-    "dropped_tx_notice":"Su transacción aún está pendiente de ser minada y podría resolverse. Intente consultar más tarde, ya sea en el explorador de Blockchain y en la Aplicación, y envíela de nuevo si es necesario"
+    "dropped_tx_notice":"Su transacción aún está pendiente de ser minada y aún podría resolverse. Intente consultar más tarde, ya sea en el explorador de Blockchain y en la Aplicación, y envíela de nuevo si es necesario",
+    "statuscontest":"Estado del RFP",
+    "pending":"Pendiente",
+    "declared":"Declarada",
+    "cancel_rfp_title":"Cancelar el RFP"
+
+
 }

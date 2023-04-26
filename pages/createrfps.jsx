@@ -3,6 +3,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { proponContext } from '../utils/pro-poncontext'
 import NoConnectedWarning from "../components/layouts/NoConnectedWarning"
+import DismissedTxNotice from "../components/layouts/dismissedTxNotice";
+import { savePendingTx } from "../database/dbOperations";
 import  RFPDataForm  from '../components/forms/rfpDataForm'
 import { toastStyle } from "../styles/toastStyle";
 import { toast } from "react-toastify";
@@ -11,13 +13,29 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Createrfps() {
   const { companyData, address } = useContext(proponContext)
+  const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null })
 
+  
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
  
+  // hooks **************************************
+  //save to DB pending Transactions
+  useEffect(() => {
+    const saveDBPendingTx = async () => {
+      if (noticeOff.fired) {
+        await savePendingTx({...noticeOff.txObj, sender:companyData.address})   // Pass the object and add who issued the Tx
+      }
+    };
+    saveDBPendingTx();
+  }, [noticeOff.fired]);
+
+  
   const { t } = useTranslation(["rfps", "common"]);
 
+  //* Inner components
+  
   // If not Logged In display warning sign
   if (!address) 
     return (
@@ -35,7 +53,21 @@ function Createrfps() {
   return (
     // Logged In, display create RFP screen
     <div id="createrfps" className="md:mt-4 sm:mt-4">
-      <RFPDataForm  />
+        {noticeOff.fired && (
+          <div className="fixed inset-0 bg-transparent z-50">
+            <div className=" absolute top-[30%] left-[30%] ">
+              <DismissedTxNotice
+                notification={t("dropped_tx_notice")}
+                buttonText={"accept"}
+                setNoticeOff={setNoticeOff}
+                dropTx={noticeOff.txObj}
+                //typeTx={'mi transaccion'}
+                typeTx = {t(`transactions.${noticeOff.txObj.type}`)}
+              />
+            </div>
+          </div>
+        )}      
+      <RFPDataForm  setNoticeOff={setNoticeOff}/>
     </div>
   );
 }

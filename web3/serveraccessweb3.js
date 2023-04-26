@@ -31,7 +31,6 @@ export const getRFP= async (rfpIdx) => {
       const contractRFPArray = await proponContract.getCompany(accountAddress).company_RFPs
       //*************************************************************************** end of workaround */
       const companyRFPs = contractRFPArray.map(elem => parseInt(elem.toString()))
-      console.log('contractRFPArray,companyRFPs',contractRFPArray,companyRFPs)
       return { status: true, RFP:companyRFPs }
     } catch (error) {
       console.log('getCompanyRFPs error', error)

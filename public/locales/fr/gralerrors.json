@@ -1,4 +1,5 @@
 {
+    "no_blockchain_access": "Actuellement, il n'y a pas d'accès à la Blockchain, veuillez vérifier et réessayer plus tard",
     "address_already_admin":"Ce compte est déjà administrateur d'une autre entreprise",
     "unknownerror":"Erreur inconnue, essayez plus tard",
     "undetermined_blockchain_error":"Erreur inconnue, essayez plus tard",
@@ -20,5 +21,6 @@
     "execution reverted: invalid_winner":"Gagnant invalide, pas un participant",
     "execution reverted: rfp_already_awarded":"RFP déjà attribué",
     "execution reverted: id_already_exists":"L'identifiant existe déjà",
-    "execution reverted: rfpid_already_taken":"Id RFP déjà utilisé pour cette entreprise"
+    "execution reverted: rfpid_already_taken":"Id RFP déjà utilisé pour cette entreprise",
+    "execution reverted: not_matching_winners":"Les gagnants ne correspondent pas aux éléments"
 }
