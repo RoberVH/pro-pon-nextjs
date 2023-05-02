@@ -8,6 +8,7 @@
 import { useState, useContext, useRef, useEffect} from "react"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
+import ShowTXSummary from '../rfp/ShowTXSummary'
 import  Image from "next/image"
 import { useWriteRFP } from "../../hooks/useWriteRFP"
 import { saveRFP2DB } from '../../database/dbOperations'
@@ -49,13 +50,13 @@ const  invitationContest = ContestType.INVITATION_ONLY
 const RFPDataForm = ({setNoticeOff}) => {
   // State Variables & constants of module
   const { t } = useTranslation("rfps");
-  const infoBoardDiv = useRef()
+  //const infoBoardDiv = useRef()
 
-  const [waiting, setWaiting] = useState(false); 
-  const [postedHash, setPostedHash] = useState('')
+  //const [waiting, setWaiting] = useState(false); 
+  //const [postedHash, setPostedHash] = useState('')
   //const [posted, setPosted] = useState('')
-  const [link, setLink] = useState('')
-  const [block, setBlock] = useState('')
+  // const [link, setLink] = useState('')
+  //const [block, setBlock] = useState('')
   const [rfpParams, setRFPParams] = useState({})
   const [rfpCreated, setrfpCreated] = useState(false)
   const [items, setItems] = useState({})
@@ -63,7 +64,13 @@ const RFPDataForm = ({setNoticeOff}) => {
   const [contestType, setContestType] = useState(openContest)
   const [droppedTx, setDroppedTx] = useState()  
   const [isCancelled, setIsCancelled] = useState(false);
-
+  
+  //**************************
+  // processingTxBlockchain flag to control when TX was send: it shows cancel transaction button on ShowTxSummary
+  const [processingTxBlockchain, setProTxBlockchain] = useState(false)
+  // signals a button that will trigger a metamask confirm and hence a write has been clicked to disable such buttons
+  // disabling them, they are 
+  const [actionButtonClicked, setButtonClicked] = useState(false)
 
   const { values, handleChange } = useInputForm()
   const router = useRouter()
@@ -74,6 +81,7 @@ const RFPDataForm = ({setNoticeOff}) => {
   
   // Function to display error msg
   const errToasterBox = (msj) => {errToasterBox
+    setButtonClicked(false)// there was an error not matter where, so turn back saving RFP button clicked
     toast.error(msj, toastStyle);
   };
 
@@ -96,15 +104,16 @@ const RFPDataForm = ({setNoticeOff}) => {
        setrfpCreated(true)
     }  else {
         errToasterBox(resp.msg)
-        setWaiting(false)
     }
   }
   
   // Handle Error method passed unto useWriteRFP hook 
   const onError = (error) => {
+    setButtonClicked(false)
+    setProTxBlockchain(false);
     const customError = parseWeb3Error(t,error)
     errToasterBox(customError)    
-    setWaiting(false)
+    // setWaiting(false)
   };
 
   // onEvent Handle method passed unto useWriteRFP hook  to save RFP data to DB record when event is received from contrat
@@ -122,11 +131,12 @@ const RFPDataForm = ({setNoticeOff}) => {
   };
 
   const onSuccess = (data) => {
-    setBlock(data.blockNumber)
+    setButtonClicked(false)
   }
   
   // Set our writing hook
-  const write = useWriteRFP({ onSuccess, onError, onEvent, setPostedHash, setLink, isCancelled})
+  //const { write, postedHash, block, blockchainsuccess} = useWriteRFP({ onSuccess, onError, onEvent,  setLink, isCancelled, setProTxBlockchain})
+  const { write, postedHash, block, blockchainsuccess} = useWriteRFP({ onSuccess, onError, onEvent, isCancelled, setProTxBlockchain})
 
   // Validate using regexp input fields of rfp essential data form
   const validate = (pattern, value, msj) => {
@@ -164,20 +174,27 @@ const RFPDataForm = ({setNoticeOff}) => {
     router.push({pathname: '/'})
   }
 
+  // handleClose. Go back to root address
+  const handleClosePanel = () => {
+    setProTxBlockchain(false)
+  }
+
   // handleCancelTx. Cancel Tx. Save Tx data to DB for it to appear on My Pending Tx menu option
   //      TX is taking long, user has click cancel to abort waiting
   //      Tx still can go through but we won't wait for it
   const handleCancelTx = () => {
     // hide info panel
     setIsCancelled(true);
-    setPostedHash('')
-    setWaiting(false)
+    //setPostedHash('')
+    // setWaiting(false)
     // create a copy of droppedTx object
     const updatedTxObj = { ...droppedTx };
     // update txLink property with the link value
     updatedTxObj.txHash = postedHash;
     // pass updatedTxObj to setNoticeOff function
     setNoticeOff({ fired: true, txObj: updatedTxObj });
+    setProTxBlockchain(false)
+    setButtonClicked(false) // give user a chance to resubmit when form still have its intended data
   }
 
   // handle Edit RFP button method, Build urk with RFP params and set URL browser to that URL
@@ -196,14 +213,12 @@ const RFPDataForm = ({setNoticeOff}) => {
     setContestType(e.target.id ==='open' ? openContest : invitationContest)
   }
 
-  useEffect(()=>{
-    if (infoBoardDiv?.current) infoBoardDiv.current.scrollIntoView()
-  },[waiting, postedHash, block])
 
   //************************************************************
-  // handleSave -  call Validate fields & if ok send Write transaction to blockchain
+  // handleSaveRFP -  call Validate fields & if ok send Write transaction to blockchain
   // ***********************************************************
-  const handleSave = async () => {
+  const handleSaveRFP = async () => {
+    setButtonClicked(true)
     const arrayItems=Object.entries(items).map(item => item[1])
     const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
@@ -240,7 +255,7 @@ const RFPDataForm = ({setNoticeOff}) => {
        return
     }
     // validation passed ok 
-    setWaiting(true)
+    // setWaiting(true)
     // create entry on smart contract
 
 
@@ -296,14 +311,14 @@ const RFPDataForm = ({setNoticeOff}) => {
               <form
                 action=""
                 className="mb-8"
-                disabled={waiting || postedHash || rfpCreated}>
+                disabled={ rfpCreated || actionButtonClicked}>
                 <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
                   <InputRFPName
                     handleChange={handleChange}
                     inputclasses={inputclasses}
                     values={values}
                     placeholder={`${t("rfpform.name")}*`}
-                    disable={waiting ||postedHash}
+                    disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
                 <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
@@ -312,7 +327,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     inputclasses={inputclasses}
                     values={values}
                     placeholder={`${t("rfpform.description")}`}
-                    disable={waiting ||postedHash}
+                    disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
                 <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
@@ -321,7 +336,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     inputclasses={inputclasses}
                     values={values}
                     placeholder={`${t("rfpform.rfpwebsite")}`}
-                    disable={waiting ||postedHash}
+                    disable={rfpCreated || actionButtonClicked}
                   />                  
                 </div>                
                 <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
@@ -331,7 +346,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     values={values}
                     dateId={'openDate'}
                     placeholder={`${t("rfpform.openDate")}*`}
-                    disable={waiting ||postedHash}
+                    disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
                 <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
@@ -341,7 +356,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     values={values}
                     dateId={'endReceivingDate'}
                     placeholder={`${t("rfpform.endReceivingDate")}*`}
-                    disable={waiting ||postedHash}
+                    disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
                 <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
@@ -351,7 +366,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     values={values}
                     dateId={'endDate'}
                     placeholder={`${t("rfpform.endDate")}*`}
-                    disable={waiting ||postedHash}
+                    disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
                 <div className={`bg-stone-100 p-2 flex ${itemStyleDate[showItemsField]}`}>
@@ -360,17 +375,18 @@ const RFPDataForm = ({setNoticeOff}) => {
                   <div className=" ml-12 flex justify-start text-sm" >
                     <label 
                       id="open"
+                      // type="radio" 
                       className={`mr-4 mt-1 cursor-pointer 
                         ${contestType===openContest  ? 'bg-blue-200 px-2 py-1  rounded-3xl' : 'py-1'}
-                        ${waiting || postedHash ? 'pointer-events-none':''}`} 
-                      onClick={handleClickContestType}
-                      disable={(waiting ||postedHash).toString()} >
+                        ${rfpCreated || actionButtonClicked ? 'pointer-events-none':''}`} 
+                      onClick={handleClickContestType} >
                         {t('open').toUpperCase()} 
                     </label>
                     <label 
+                      id="invitation"
                       className={`mx-4 mt-1 cursor-pointer 
                         ${contestType=== invitationContest ?'bg-blue-200 px-2 py-1  rounded-3xl' : 'py-1'}
-                        ${waiting || postedHash ? 'pointer-events-none':''}`} type="radio" id="invitation"
+                        ${rfpCreated || actionButtonClicked ? 'pointer-events-none':''}`} 
                       onClick={handleClickContestType}>
                         {t('invitation').toUpperCase()}
                     </label>
@@ -379,7 +395,7 @@ const RFPDataForm = ({setNoticeOff}) => {
               <div id="optionalCheckmark" className="flex mt-8">
                 <input 
                     onClick={handleCheckItemsAdder} 
-                    disabled={waiting ||postedHash}
+                    disabled={rfpCreated || actionButtonClicked}
                     className="mr-4" type="checkbox" value={showItemsField}/>
                 <div className={`${itemStyleCheckboxText[showItemsField]}`}>
                 <p className={`text-stone-600 font-khula`}> 
@@ -389,7 +405,7 @@ const RFPDataForm = ({setNoticeOff}) => {
               </form>
             </div>
             <div id="ItemsForm"  >
-                  <RFPItemAdder items={items} setItems={setItems} showItemsField={showItemsField} disable={(waiting ||postedHash)} />
+                  <RFPItemAdder items={items} setItems={setItems} showItemsField={showItemsField} disable={rfpCreated || actionButtonClicked} />
             </div>
 
           </div>
@@ -399,22 +415,14 @@ const RFPDataForm = ({setNoticeOff}) => {
                   <div className="mt-4 mr-10" >
                     <button
                       type="button"
-                      onClick={handleSave}
-                      disabled={waiting || postedHash}
+                      onClick={handleSaveRFP}
+                      disabled={actionButtonClicked}
                       className="main-btn"
                     >
                       {t("savebutton")}
-                      {/* {!waiting ? `${t("savebutton")}` : ""}
-                      {waiting && (
-                        <div className=" flex justify-evenly items-center">
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
-                          </div>
-                          <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
-                        </div>
-                      )} */}
                     </button>
                   </div>
-
+{/* 
                   {link && 
                     <div className="mt-4">
                       <button
@@ -424,19 +432,37 @@ const RFPDataForm = ({setNoticeOff}) => {
                         className="secondary-btn">
                         {t("cancelbutton")}
                       </button>
-                  </div>}
+                  </div>} */}
 
                 </div>
             </div>
       </div>
+
+      { processingTxBlockchain &&
+              <div className="fixed inset-0  bg-zinc-100 bg-opacity-80  z-50">
+                <div className="fixed top-[25%] left-1/2 transform -translate-x-1/2">
+                      <ShowTXSummary
+                        postedHash={postedHash}
+                        block={block}
+                        t={t}
+                        handleClosePanel={handleClosePanel}
+                        blockchainsuccess={blockchainsuccess}
+                        handleCancelTx={handleCancelTx}
+                      />
+
+                </div>
+              </div>
+        }
+
       {/* Inferior panel to explain & display call to actions */}
-      { ( waiting || postedHash) &&
+      {/* { ( waiting || postedHash) &&
       <div ref={infoBoardDiv} className="container mt-4 mb-8 p-4 bg-white border-2 border-orange-200 w-[70%] shadow-xl ">
          <div className="flex mb-2">
             <Image alt="Info" src="/information.svg" height={20} width={20}/>
             <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base ">
                 <strong>{t('sending_rfp_blockchain')} </strong></p>
         </div>
+
         <div className="font-khula text-stone-700 text-base py-4 ">
           { (waiting || postedHash ) && (<p>{t('savingtoblockchainmsg')} </p> )}
           { postedHash && 
@@ -460,8 +486,10 @@ const RFPDataForm = ({setNoticeOff}) => {
                 <p className="text-blue-600">&nbsp;{block}</p> 
             </div>
           }
-          {  rfpCreated &&
-              <div>
+          */}
+          {  rfpCreated && 
+              <div className="mx-auto mt-4 bg-white border-2 border-orange-200 shadow-xl p-4 font-khula text-stone-700 text-base 
+                              rounded-md w-[60%] ">
                     <p>{t('rfpessentialdatasaved')} </p> 
                       <div className="flex justify-center">
                           <button 
@@ -477,11 +505,23 @@ const RFPDataForm = ({setNoticeOff}) => {
                         </div>
               </div>
           }
-        </div>
-        { !rfpCreated &&
-        <SpinnerBar msg={t('loading_data')} />
-        }
-      </div>}
+          {/* { isCancelled &&
+              <div className="mx-auto mt-4 bg-white border-2 border-orange-200 shadow-xl p-4 font-khula text-stone-700 text-base 
+                              rounded-md w-[60%] ">
+                <p>{t('rfpessentialdatasaved')} </p> 
+                <div className="flex justify-center">
+                  <button 
+                  className="main-btn mr-8 mt-8"
+                  onClick={handleClose}>
+                  {t('closebutton')}
+                  </button>
+                </div>
+              </div>
+          } */}
+        {/* </div>
+        { !rfpCreated &&  <SpinnerBar msg={t('loading_data')} />  }
+          </div>
+        } */}
   </div>
   );
 };

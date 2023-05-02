@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 
 export const  getPendingTxStatuses  = async (pendingTxs) => {
   try {
+    console.log('parametro pendingTxs',pendingTxs)
     const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_BROWSER);
     const statuses = await Promise.all(
       pendingTxs.map(async (tx) => {

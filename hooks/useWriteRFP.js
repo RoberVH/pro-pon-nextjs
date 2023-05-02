@@ -8,18 +8,22 @@
  *          possible dependent old code
  */
 import { ethers } from 'ethers'
-import {  useEffect, useRef } from 'react'
+import {  useState, useEffect, useRef } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
 export const useWriteRFP =  (
   { onError,
     onSuccess,
     onEvent,
-    setPostedHash,
-    setLink,
-    isCancelled
+    //setPostedHash,
+    //setLink,
+    isCancelled,
+    setProTxBlockchain
    }) => {
 
+        const [postedHash, setPostedHash] = useState('')
+        const [block, setBlock] = useState('')
+        const [blockchainsuccess, setBlockchainsuccess] = useState(false)
         const isMounted = useRef(true)
    
         useEffect(() => {
@@ -51,15 +55,19 @@ export const useWriteRFP =  (
                     params.items,    
                     {value: ethers.utils.parseEther(value)})
             //setPosted(true)
+            setProTxBlockchain(true)
             setPostedHash(Tx.hash)
-            setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
+            //setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
             const data=await Tx.wait()
             if (isMounted.current) {
+                    setBlock(data.blockNumber)
+                    setBlockchainsuccess(true)
                     onSuccess(data)
              }
         } catch (error) {
                 if (isMounted.current) onError(error);
         }       
     };
-   return write
+  //  return write
+  return {write, postedHash, block,  blockchainsuccess}
 };

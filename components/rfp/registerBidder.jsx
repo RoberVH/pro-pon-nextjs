@@ -25,6 +25,7 @@ import SpinnerBar from "../layouts/SpinnerBar"
 //import { serializeArray } from '../../utils/serialArrays'
 import { todayUnixEpoch } from "../../utils/misc"
 
+
 const RegisterBidder = ({
   t,
   t_companies,
@@ -35,21 +36,30 @@ const RegisterBidder = ({
   i18n,
   setNoticeOff
 }) => {
-  const { bidders, getBidders, companies } = useBidders(rfpRecord.rfpIndex);
+  //const { bidders, getBidders, companies } = useBidders(rfpRecord.rfpIndex);
+  const { bidders, getBidders, companies } = useBidders();
 
-   // same address could have different case but are the same address, that's why we check like this the address vs bidders array 
-   const [alreadyRegistered, setAlreadyRegistered] = useState(false)
+  // same address could have different case but are the same address, that's why we check like this the address vs bidders array 
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false)
   const [rfpOwner, setrfpOwner] = useState(companyId === rfpRecord.companyId)
   const [guestCompanies, setGuestCompanies] = useState([])
   const [results, setResults] = useState([])
   const [error, setError] = useState(false)
   // Next  is for SearchDB component & make Spinner spin when searching
   const [IsWaiting, setIsWaiting] = useState(false)
-  const [sendingBlockchain, setsendingBlockchain] = useState(false)
-  const [showPanel, setShowPanel] = useState(false)
+  //const [sendingBlockchain, setsendingBlockchain] = useState(false)
+  //const [showPanel, setShowPanel] = useState(false)
   const [isCancelled, setIsCancelled] = useState(false);
   const [droppedTx, setDroppedTx] = useState()  
   const cleanSearchParams = useRef()
+
+
+  //********************** nueva estructura/ 
+  // processingTxBlockchain flag to control when TX was send: it shows cancel transaction button on ShowTxSummary
+  const [processingTxBlockchain, setProTxBlockchain] = useState(false)
+  const [actionButtonClicked, setButtonClicked] = useState(false)
+
+//****************************** */  
 
   const companyActions = [
     {
@@ -76,21 +86,22 @@ useEffect(()=>{
 
   /** UTILITY FUNCTIONS ********************************************************************** */
   const errToasterBox = (msj) => {
+    setButtonClicked(false)
     toast.error(msj, toastStyle);
   };
   
   const onSuccess = () => {
-    setsendingBlockchain(false);
+    setButtonClicked(false)
   };
 
-  const { write, postedHash, block, link, blockchainsuccess } = useRegisterBidders(onError, onSuccess, isCancelled);
+  const { write, postedHash, block, link, blockchainsuccess } = useRegisterBidders(onError, onSuccess, isCancelled, setProTxBlockchain);
   
   // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
+    setButtonClicked(false)
+    setProTxBlockchain(false);
     const customError = parseWeb3Error(t, error);
     errToasterBox(customError);
-    // setUploading(false);
-    setsendingBlockchain(false);
   }
 
   //**************************************  Handlers ************************ */
@@ -121,7 +132,9 @@ useEffect(()=>{
   
   
   const handleClosePanel = () => {
-    setShowPanel(false);
+    setProTxBlockchain(false)
+    
+    // setShowPanel(false);
     setGuestCompanies([]);
     if (cleanSearchParams.current) cleanSearchParams.current.resetparams()
   };
@@ -137,13 +150,12 @@ useEffect(()=>{
     updatedTxObj.txHash = postedHash;
     // pass updatedTxObj to setNoticeOff function
     setNoticeOff({ fired: true, txObj: updatedTxObj });
-    setsendingBlockchain(false)
-    setShowPanel(false)
+    setProTxBlockchain(false)
   }
 
   const handleRegisterItself = () => {
-    setShowPanel(true);
-    setsendingBlockchain(true)
+    setButtonClicked(true)
+    setIsCancelled(false)   // in case user is retrying
     const today = todayUnixEpoch(new Date())
     const Tx = {type: 'registeropen', date: today, params: [rfpRecord.rfpIndex, companyId]}
     setDroppedTx(Tx)
@@ -151,20 +163,21 @@ useEffect(()=>{
   };
 
   const handleRegisterGuests = async () => {
-    setIsCancelled(false)
+    setButtonClicked(true)
+    setIsCancelled(false) // in case user is retrying
     const addresses = guestCompanies
       .filter((obj) => obj.status !== "fulfilled")
       .map((obj) => obj.address);
-    const notRetrieved = guestCompanies
-      .filter((obj) => obj.status === "fulfilled")
-      .map((obj) => obj.name);
-    if (addresses.length) {
-      setShowPanel(true);
-      setsendingBlockchain(true)
+     if (addresses.length) {
+      //setShowPanel(true);
+      //setsendingBlockchain(true)
       const today = todayUnixEpoch(new Date())
       const Tx = {type: 'inviteguests', date: today, params: [rfpRecord.rfpIndex, companyId, addresses]}
       setDroppedTx(Tx)
       write("inviteguests", rfpRecord.rfpIndex, companyId, addresses);
+    } else {
+        setProTxBlockchain(false)
+        errToasterBox(t('no_companies_invite'))
     }
   };
   
@@ -175,6 +188,9 @@ useEffect(()=>{
   const InvitedCompanies = () => {
     return (
       <div className="h-[25em] overflow-y-auto p-2">
+        <div className="pb-2 flex justify-center font-khula text-stone-900">
+          <p>{t('inviting_companies_title')}</p>
+        </div>
         <table className="p-2 w-full h-[5em]  table-fixed border-2 border-orange-300  font-khula">
           <thead>
             <tr className=" border-2 border-orange-500  text-stone-500 ">
@@ -213,45 +229,34 @@ useEffect(()=>{
 
   const ButtonsRegisterGuests = (
     <div className="mt-2 mb-2 flex  pt-4 pl-4 pr-4  justify-center items-center">
-      <button className="main-btn" onClick={handleRegisterGuests}>
-        {!sendingBlockchain ? 
-              `${t("register_gueststo_rfp")}` 
-              : 
-              <div className=" flex justify-evenly items-center">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
-                </div>
-                <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
-              </div>
-        }
+      <button 
+          className="main-btn" 
+          onClick={handleRegisterGuests}
+          disabled={processingTxBlockchain | actionButtonClicked} >
+              {t("register_gueststo_rfp")}
       </button>
-      {(link && !blockchainsuccess) &&
+      {/* {(link && !blockchainsuccess) &&
         <button onClick={handleCancelTx} className="main-btn ml-16 secondary-btn">{t("cancelbutton")}</button>
-      }
+      } */}
     </div>
   );
 
   const ButtonsRegistertoOpen = (
     <div className="mt-2 mb-4 flex  p-4 justify-center items-center">
-      <button className="main-btn" onClick={handleRegisterItself}>
-        {!sendingBlockchain ? 
-            `${t("registerto_rfp")}` 
-            : 
-            <div className=" flex justify-evenly items-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
-              </div>
-              <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
-            </div>
-        }
+      <button 
+          className="main-btn" 
+          onClick={handleRegisterItself}
+          disabled={processingTxBlockchain | actionButtonClicked}>
+            {t("registerto_rfp")}
       </button>
-      {(link && !blockchainsuccess) &&
+      {/* {(link && !blockchainsuccess) &&
         <button onClick={handleCancelTx}  className="main-btn ml-16 secondary-btn">{t("cancelbutton")}</button>
-      }
+      } */}
     </div>
   );
 
   return (
     <div className="p-1">
-
       <div className="mt-4  border-2 border-stone-300 shadow-lg ">
         <p className="text-stone-600 p-4 ">
           {rfpOwner ? t("register_guest") : t("register_open")}
@@ -296,7 +301,7 @@ useEffect(()=>{
                       </div>
                     )}
                   </div>
-                  <div className="ml-2 w-2/5  ">
+                  <div id="companiestoinvite" className="ml-2 w-2/5  ">
                     <div className="shadow outline-1 border border-orange-500 rounded-lg">
                       <InvitedCompanies />
                     </div>
@@ -312,24 +317,21 @@ useEffect(()=>{
               <div>{ButtonsRegistertoOpen}</div>
             </>
           )}
-          {showPanel && (
-            <div className="mt-4 py-1 bg-white border rounded-md border-orange-300 border-solid shadow-xl  mb-2">
-              <div className="font-khula text-base py-4 pl-2">
-                <ShowTXSummary
-                  postedHash={postedHash}
-                  link={link}
-                  block={block}
-                  t={t}
-                  handleClosePanel={handleClosePanel}
-                />
-              </div>
-              { sendingBlockchain &&
-              <div className="mb-4 ">
-                <SpinnerBar msg={t('loading_data')} />
+          { processingTxBlockchain &&
+              <div id="showsummary" className="fixed inset-0  bg-zinc-100 bg-opacity-80  z-50">
+                <div className="fixed top-[25%] left-1/2 transform -translate-x-1/2">
+                      <ShowTXSummary
+                        postedHash={postedHash}
+                        block={block}
+                        t={t}
+                        handleClosePanel={handleClosePanel}
+                        blockchainsuccess={blockchainsuccess}
+                        handleCancelTx={handleCancelTx}
+                      />
+
                 </div>
-              }
-            </div>
-          )}
+              </div>
+          }
         </div>
       </div>
     </div>

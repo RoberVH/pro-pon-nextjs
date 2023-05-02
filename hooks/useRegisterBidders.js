@@ -7,8 +7,9 @@
 import { ethers } from 'ethers'
 import { useState, useEffect, useRef } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
+import { getCurrentParticipantToOpenRFPPrice } from '../web3/getCurrentContractConst.js'
 
-export const useRegisterBidders =  (onError, onSuccess, isCancelled) => {
+export const useRegisterBidders =  (onError, onSuccess, isCancelled, setProTxBlockchain) => {
    const [postedHash, setPostedHash] = useState('')
    const [block, setBlock] = useState('')
    const [link, setLink] = useState('')
@@ -63,18 +64,22 @@ export const useRegisterBidders =  (onError, onSuccess, isCancelled) => {
                guestsCompanies
                )
             } else  {
+            const result = await getCurrentParticipantToOpenRFPPrice()
+            if (!result.status) throw new Error(result.message)
              Tx = await proponContract.registertoOpenRFP(
                rfpidx,      
-               {value: ethers.utils.parseEther("0.0001")})
+               // {value: ethers.utils.parseEther("0.0001")})
+                {value: ethers.utils.parseEther(result.partOpenRFPPrice)})
             }
-      setPostedHash(Tx.hash)
-      setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
-      const data=await Tx.wait()
-      if (isMounted.current) {
-         setBlock(data.blockNumber)
-         setBlockchainsuccess(true)
-         onSuccess()
-      }
+         setProTxBlockchain(true)
+         setPostedHash(Tx.hash)
+         setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
+         const data=await Tx.wait()
+         if (isMounted.current) {
+            setBlock(data.blockNumber)
+            setBlockchainsuccess(true)
+            onSuccess()
+         }
       } catch (error) {
          if (isMounted.current) {
                onError(error);

@@ -47,7 +47,7 @@ export const getCurrentParticipantToOpenRFPPrice = async () => {
     const openRFPPrice = await proponContract.REGISTER_OPEN_RFP_PRICE();
     const participateOpenRFPPrice = utils.formatEther(openRFPPrice.toNumber())
     return { 
-      status: true, partOpenRFP: participateOpenRFPPrice.toString()
+      status: true, partOpenRFPPrice: participateOpenRFPPrice.toString()
     }
   } catch (error) {
     return({ status: false, message: error.reason });

@@ -10,109 +10,190 @@ import { useState, useEffect } from 'react'
 import Image from "next/image"
 import { useBidders } from '../../hooks/useBidders'
 import { useDeclareResults } from '../../hooks/useDeclareResults'
+import { getContractRFP }from '../../web3/getContractRFP'
 import { parseWeb3Error } from '../../utils/parseWeb3Error'
 import ShowTXSummary from '../rfp/ShowTXSummary'
 import GralMsg from '../layouts/gralMsg'
 import Spinner from '../layouts/Spinner'
-import SpinnerBar from '../layouts/SpinnerBar'
+const { BigNumber } = require("ethers");
 import { convUnixEpoch } from '../../utils/misc'
 import { nanoid } from 'nanoid'
 // toastify related imports
 import { toastStyle } from "../../styles/toastStyle"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { todayUnixEpoch } from "../../utils/misc"
+
+//import SpinnerBar from '../layouts/SpinnerBar'
+
 
 const NullAddress='0x0000000000000000000000000000000000000000'
 
-const DeclareResults = ({t,rfpRecord, setNoticeOff}) => {
+const DeclareResults = ({t,rfpIndex, setNoticeOff, companyId}) => {
+ const [rfpRecord, setRFPRecord] = useState()
  const [inTime, setInTime]= useState(false)
+ const [winners, setWinners] = useState()
+ const [declaringItems, setDeclareingItems] = useState()
+ // signals a button that will trigger a metamask confirm and hence a write has been clicked to disable such buttons
+ // disabling them, they are 
+const [actionButtonClicked, setButtonClicked] = useState(false)
+
  // if not items, make array of winners of just 1 element, otherwise make it as big as items there are
- const [winners, setWinners] = useState(Array(
-    rfpRecord.items.length!=0 ? rfpRecord.items.length: 1).fill('not_choose')
-  )
-  // declaringItems is used to display all items, in case there is no Items use name and description of RFP
- const [declaringItems] = useState(
-    rfpRecord.items.length!=0 ? rfpRecord.items : [`${rfpRecord.name} - ${rfpRecord.description}`]
-  )
+//  const [winners, setWinners] = useState(Array(
+//     rfpRecord.items.length!=0 ? rfpRecord.items.length: 1).fill('not_choose')
+//   )
+ // declaringItems is used to display all items, in case there is no Items use name and description of RFP
+//  const [declaringItems] = useState(
+//     rfpRecord.items.length!=0 ? rfpRecord.items : [`${rfpRecord.name} - ${rfpRecord.description}`]
+//   )
+
+  // cancel the Tx, this will save it to pending transactions DB collection
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [droppedTx, setDroppedTx] = useState()  
+  const [gettingRFP, setGettingRFP] = useState(false)
+  // const [updatedRFP, setUpdatedRFP] = useState(null)
+  
  const { bidders, getBidders, companies, doneLookingBidders } = useBidders();
-// Flags & vars  to manage/show blockchain uploading data
-//const [error, setError] = useState(false)
-const [sendingBlockchain, setsendingBlockchain] = useState(false)
-const [showPanel, setShowPanel] = useState(false)  
-const [isCollapsed, setIsCollapsed] = useState(true);
+  // Flags & vars  to manage/show blockchain uploading data
+  
+  // processingTxBlockchain flag to control when TX was send: it shows cancel transaction button on ShowTxSummary
+ const [processingTxBlockchain, setProTxBlockchain] = useState(false)
+  // showPanel flag controls when to show ShowTxSummary. User set this to false when clicks on close button  on ShowTxSummary
+  //const [showPanel, setShowPanel] = useState(false)  
+  // isCollapsed flag controls displaying Declare Canceled RFP button
+ const [isCollapsed, setIsCollapsed] = useState(true);
 
   /** UTILITY FUNCTIONS ************************************************************************ */
     
   const onSuccess = () => {
-    setsendingBlockchain(false);
+ //   setUpdatedRFP(true)
   };
 
   // Handle Error method passed unto useDeclareRsults hook
   function onError(error) {
+    setButtonClicked(false)
+    setProTxBlockchain(false);
     const customError = parseWeb3Error(t, error);
     errToasterBox(customError);
-    setsendingBlockchain(false);
   }  
 
   const errToasterBox = (msj) => {
-    toast.error(msj, {
-      //toastId: id,
-      ...toastStyle,
-    });
+    setButtonClicked(false)
+    toast.error(msj, toastStyle);
   };
 
-
-
 /*  Hooks ************************************************************************************** */
-const { write, postedHash, block, link, blockchainsuccess } = useDeclareResults(onError, onSuccess);
-
+const { write, postedHash, block, blockchainsuccess } = useDeclareResults(onError, onSuccess, isCancelled, setProTxBlockchain);
 
 useEffect(() => {
-  async function getBiddersInfo() {
-    // obtain companies information from DataBase
-    const result = await getBidders(rfpRecord.rfpIndex);
-  
+  async function getRFP() {
+    // get info of RFP
+    setGettingRFP(true)
+    if (!rfpIndex) return;
+    const result = await getContractRFP(rfpIndex);
     if (!result.status) {
       errToasterBox(result.message);
-    } // trigger document metadata search on useFilesRFP
-  }
+      return;
+    }
+    const RFP = { companyId: companyId};
+    //  remove redundant numeric properties ([0]: ... [N]) from contract response & convert from Big number to
+    //  number at the same time
+    for (const prop in result.RFP) {
+      if (isNaN(parseInt(prop))) {
+        if (result.RFP[prop] instanceof BigNumber)
+          RFP[prop] = result.RFP[prop].toNumber();
+        else RFP[prop] = result.RFP[prop];
+      }
+    }
+    setRFPRecord(RFP)
+    setWinners(Array( RFP.items.length!=0 ? RFP.items.length: 1).fill('not_choose'))
+    setDeclareingItems(RFP.items.length!=0 ? RFP.items : [`${RFP.name} - ${RFP.description}`])
+    setInTime(RFP.endDate < convUnixEpoch(new Date()))
+    setGettingRFP(false)
+    };
+    async function getBiddersInfo() {
+      // obtain companies information from DataBase
+      const result = await getBidders(rfpIndex);
+    
+      if (!result.status) {
+        errToasterBox(result.message);
+      } 
+    }
+  getRFP();
   getBiddersInfo();
 }, []);
 
-useEffect(()=>{
-  setInTime(rfpRecord.endDate < convUnixEpoch(new Date()))
-},[])
 
   /** Handling methods ************************************************************************* */
   // close showing information panel
   const handleClosePanel = () => {
-      setShowPanel(false)
+      //setShowPanel(false)
+      setProTxBlockchain(false)
     };
   
-  // close showing information panel
-  // cancel Tx. Record it to PendingTx DB Collection 
-  const handleCancelTx = () => {
-    setShowPanel(false)
-  };
+  /**
+  *   handleCancelTx -  Record TX to PendingTx DB Collection 
+  *        If TX is taking long, user can click cancel to abort waiting
+  *        Tx still can go through but we won't wait for it
+  */
+    const handleCancelTx = () => {
+    setIsCancelled(true);
+    // create a copy of droppedTx object
+    const updatedTxObj = { ...droppedTx };
+    // update txLink property with the link value
+    updatedTxObj.txHash = postedHash;
+    // pass updatedTxObj to setNoticeOff function
+    setNoticeOff({ fired: true, txObj: updatedTxObj });
+    setProTxBlockchain(false)
+  }
 
 // save to pending transaction    
-  const handleCancelRFP = () => {
-    setsendingBlockchain(true)
+  const handleDeclareRFPCanceled = () => {
+    setButtonClicked(true)
+    const today = todayUnixEpoch(new Date())
+    const Tx = {type: 'cancelRFP', date: today, params: [rfpRecord.rfpIndex, rfpRecord.companyId, [], true]}
+    setDroppedTx(Tx)
     write(rfpRecord.rfpIndex, rfpRecord.companyId, [], true);
-    setShowPanel(true);
   } 
 
-  const handleDeclareWinners = async () => {
+  // HandleDeclareRFPWinners - Record to blockchain the list of winners its position at the array corresponds with the item in RFP
+  // if no items - only one winner
+  // if one item . only one winner
+  const handleDeclareRFPWinners = async () => {
+    setButtonClicked(true)
     if (winners.includes("not_choose")) {
       errToasterBox(t('not_choose'))
       return
     }
-    setShowPanel(true);
-    setsendingBlockchain(true)
+    const today = todayUnixEpoch(new Date())
+    const Tx = {type: 'declareRFP', date: today, params: [rfpRecord.rfpIndex, rfpRecord.companyId, winners, false]}
+    setDroppedTx(Tx)
     write(rfpRecord.rfpIndex, rfpRecord.companyId, winners, false)
   };  
 
 // Inner Components  ***************************************************************************************************************************
+//ShowTxSummary - 
+  const DespSummary = () => {
+    if (processingTxBlockchain) 
+      return (
+          <div className="fixed inset-0  bg-zinc-100 bg-opacity-80  z-50">
+            <div className="fixed top-[25%] left-1/2 transform -translate-x-1/2">
+                  <ShowTXSummary
+                    postedHash={postedHash}
+                    block={block}
+                    t={t}
+                    handleClosePanel={handleClosePanel}
+                    blockchainsuccess={blockchainsuccess}
+                    handleCancelTx={handleCancelTx}
+                  />
+            </div>
+          </div>
+          )
+      else 
+      return null
+  }
+
+// show header title of Declaring Winners
 const  TitleDeclare= () => 
 <div className="flex  pl-2 py-1 px-4 mb-8">
   <Image className="text-orange-400 mt-1 ml-2" alt="Proposal" src="/winnersIcon.svg" height={20} width={20} />
@@ -121,11 +202,9 @@ const  TitleDeclare= () =>
   </p>
 </div>
 
+// show/hide button to cancel the RFP frame
 const CancelRFPComponent = () => {
-  const toggleCollapsibleSection = () => {
-    setIsCollapsed(!isCollapsed);
-  }
-
+  const handleToggleCollapsibleSection = () => { setIsCollapsed(!isCollapsed)  }
   return (
     <div id="declarecanceled-section" className="m-8 mx-auto w-[40%]">
       <div className="border border-orange-300  rounded-md shadow p-4">
@@ -133,7 +212,7 @@ const CancelRFPComponent = () => {
           <p className="font-khula text-red-500 text-xl font-bold mb-4">
             {t('cancel_rfp_title')}
           </p>
-          <div className="cursor-pointer" onClick={toggleCollapsibleSection}>
+          <div className="cursor-pointer" onClick={handleToggleCollapsibleSection}>
             {isCollapsed ? (
               <Image
                 alt="V"
@@ -148,7 +227,13 @@ const CancelRFPComponent = () => {
         </div>
         {!isCollapsed && (
           <div className="flex justify-center">
-            <button className="main-btn py-2 px-4 mb-2" onClick={handleCancelRFP}>{t('cancelbutton')}</button>
+            <button 
+              title={t('caution_cancel_rfp')} 
+              onClick={handleDeclareRFPCanceled}
+              disabled= {actionButtonClicked || isCancelled} // once clicked no need to click again
+              className="main-btn py-2 px-4 mb-2">
+              {t('cancelbutton')}
+            </button>
           </div>
         )}
       </div>
@@ -156,16 +241,14 @@ const CancelRFPComponent = () => {
   );
 };
 
-
+// Display table with items and adjacent checkboxes to choose winner or declare empty (deserted) item
 const WinnersTable = ({ items, competitors }) => {
-
   // mutate the user selected value 
     const handleChange = (e, index) => {
       const newWinners = [...winners];
       newWinners[index] = e.target.value;
       setWinners(newWinners);
     };
-
   return (
     <table className="mb-4 table-fixed font-khula mx-auto ">
       <thead>
@@ -197,83 +280,67 @@ const WinnersTable = ({ items, competitors }) => {
         ))}
       </tbody>
     </table>
+
   );
 };
 
 const ButtonDeclareWinners = (
   <div className="mt-2 mb-2 flex  pt-4 pl-4 pr-4  justify-center items-center">
-    <button className="main-btn" onClick={handleDeclareWinners}>
-      {!sendingBlockchain ? 
-            `${t("record_declaration")}` 
-            : 
-            <div className=" flex justify-evenly items-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900">
-              </div>
-              <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
-            </div>
-      }
+    <button 
+      className="main-btn" 
+      disabled={actionButtonClicked || isCancelled}
+      onClick={handleDeclareRFPWinners}>
+        {t("record_declaration")}
     </button>
-    {sendingBlockchain &&
-      <button onClick={handleCancelTx} className="secondary-btn ml-16">{t("cancelbutton")}</button>
-    }
   </div>
 );
 
-/* Main Module. Check pre-conditions and react accordingly *******************************************************************  */
+/* Main JSX Module. Check pre-conditions and react accordingly *******************************************************************  */
 
-if (rfpRecord.canceled) return <GralMsg title={t('cancel_notice')} />
-if (rfpRecord.winners.length > 0) return <GralMsg title={t('already_declared')} />
+  if (!doneLookingBidders || gettingRFP) return (
+        <div className="mt-24">
+          <Spinner />
+        </div>
+      )
 
-// depurando, descomentar lineas
+if (blockchainsuccess)  return (
+    <div>
+      <GralMsg title = {t('transaction_succesful')} />
+      <DespSummary />
+    </div>
+    )
+
+if (rfpRecord.winners.length > 0 || rfpRecord.canceled ) return <GralMsg title={t('already_declared')} />
+
 if (!inTime) return (
   <div className="mx-auto mt-8  p-4 w-[90%] border border-orange-100  shadow-md shadow-orange-100">
     <TitleDeclare />
     <CancelRFPComponent />
     <GralMsg title={`⛔ ${t('declaring_out_of_period')}`} />
+    <DespSummary />
   </div>
   )
 
-if (rfpRecord.participants.length === 0) return <GralMsg title={t('no_participants')} />
-if (!doneLookingBidders) return (
-      <div className="mt-24">
-        <Spinner />
-      </div>
-    )
 
-// everything clear out, so lets proceed to declare winners
+  if (bidders.length === 0) return <GralMsg title={t('no_participants')} />
+
+// everything clear out, so lets proceed to present components to declare winners
 return (
     <div className="mx-auto mt-8  p-4 w-[90%] border border-orange-100  shadow-md shadow-orange-100">
       <TitleDeclare />
       <CancelRFPComponent />
       {isCollapsed &&
-      <>
-        <WinnersTable
-                  items={declaringItems}
-                  competitors={companies}
-                  />
-        <div className="flex justify-center  mt-12 mb-8  ">
-        {ButtonDeclareWinners}
-        </div>
-      </>
-      }
-      {showPanel && (
-          <div className="mx-auto mt-4 mb-8 py-1 w-[90%] bg-white border rounded-md border-orange-300 border-solid shadow-xl  ">
-            <div className=" font-khula text-base py-4 pl-2">
-              <ShowTXSummary
-                postedHash={postedHash}
-                link={link}
-                block={block}
-                t={t}
-                handleClosePanel={handleClosePanel}
-              />
-            </div>
-            { sendingBlockchain &&
-            <div className="mb-4 ">
-              <SpinnerBar msg={t('loading_data')} />
-              </div>
-            }
+        <>
+          <WinnersTable
+            items={declaringItems}
+            competitors={companies}
+          />
+          <div className="flex justify-center  mt-12 mb-8  ">
+          {ButtonDeclareWinners}
           </div>
-        )}
+       </>
+      }
+      <DespSummary />
     </div>
     )
 };

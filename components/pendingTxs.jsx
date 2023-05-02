@@ -15,6 +15,7 @@ const PendingTxs = ({ pendingTxs, handleClearAllTxs, handleClearTx}) => {
     const getTxStatuses = async () => {
       setIsLoading(true)
       const statuses = await getPendingTxStatuses(pendingTxs)
+      console.log('status', statuses)
       setTxStatuses(statuses);
       setIsLoading(false)
     };

@@ -174,10 +174,16 @@ function HomeRFP() {
           companyData.address.toLowerCase() !== rfpRecord.issuer.toLowerCase()
             )
             return <GralMsg title={t("no_issuer_rfp")} />; // not owner of RFP
-        return <DeclareResults t={t} rfpRecord={rfpRecord} setNoticeOff={setNoticeOff}/>;
+        return <DeclareResults 
+                    t={t} 
+                    rfpIndex={rfpRecord.rfpIndex} 
+                    setNoticeOff={setNoticeOff}
+                    companyId={companyData.companyId}/>;
         break;
       case "rfp_results": //rfp_results
-        return <ShowResults t={t} rfpRecord={rfpRecord} />;
+        return <ShowResults 
+                    t={t} 
+                    rfpIndex={rfpRecord.rfpIndex} />;
       default:
         return <GralMsg title={t("select_tab")} />;
     }

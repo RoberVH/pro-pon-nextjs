@@ -56,21 +56,20 @@ const  RfpCard = ({ rfp }) => {
       if (rfp.winners.length) bg='bg-green-100'
       return (
       <div className={`${bg} rounded-lg shadow-lg px-6 py-4`}>
-          <div className="text-md flex justify-between">
+          <div className="text-md flex justify-between mb-4">
             <p className=" ">Id: {rfp.name}</p>
+            { canceled  &&   <p className="text-red-500 text-sm">{t('canceled').toUpperCase()}</p>}
+            {Boolean(rfp.winners.length) && <p className="text-green-800 text-sm">{t('declared').toUpperCase()}</p>}
             <p className="">{rfp.contestType===0 ? t('open') : t('invitation') }</p>
+              <button className=" text-orange-500 font-khula text-xl font-semibold" onClick={() => handleShowRFP(rfp)}>
+                 <p className="underline"> {t('go')}</p>
+            </button>
           </div>
-          
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('description')}: </strong> {rfp.description}</p>
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('open')}: </strong> {convDate(rfp.endReceivingDate)}</p>
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('end_receiving')}: </strong>{convDate(rfp.openDate)}</p>
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('end')}: </strong>{convDate(rfp.endDate)}</p>
-          { canceled  &&   <p className="text-red-500 text-sm">{t('canceled')}</p>}
           <div className="text-blue-500 flex justify-end mb-2 mr-2">
-          <button className="text-white font-khula text-xl font-semibold rounded-full py-2 px-4 bg-orange-300 hover:bg-orange-500
-           " onClick={() => handleShowRFP(rfp)}>
-              {t('go')}
-          </button>
           </div>
       </div>
     )
