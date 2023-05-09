@@ -15,8 +15,6 @@ export const useWriteRFP =  (
   { onError,
     onSuccess,
     onEvent,
-    //setPostedHash,
-    //setLink,
     isCancelled,
     setProTxBlockchain
    }) => {

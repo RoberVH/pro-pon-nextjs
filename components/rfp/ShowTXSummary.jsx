@@ -43,7 +43,7 @@ const ShowTXSummary = ({
                               target="_blank"
                               rel="noreferrer"
                             >
-                              {`${postedHash.slice(0, 10)}...${postedHash.slice(-11)}`}
+                             <strong> {`${postedHash.slice(0, 10)}...${postedHash.slice(-11)}`}</strong>
                             </a>
                     </div>
                 }
@@ -51,7 +51,7 @@ const ShowTXSummary = ({
                   <>
                     <div>
                       <label>{t("block")} </label>
-                      <label className=" text-orange-700">&nbsp;{block}</label>
+                      <label className=" text-orange-700"><strong>&nbsp;{block}</strong></label>
                     </div>
                   </>
                 )}

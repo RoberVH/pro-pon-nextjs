@@ -12,34 +12,35 @@
  *            rfpSent and companyRFPs array
 *
 */
-import { useState, useEffect } from "react";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { GlobeIcon } from "@heroicons/react/outline";
-import countries from "i18n-iso-countries";
-import english from "i18n-iso-countries/langs/en.json";
-import spanish from "i18n-iso-countries/langs/es.json";
-import french from "i18n-iso-countries/langs/fr.json";
-import { SignMsgAlert } from "./../layouts/SignMsgAlert";
-import { errorSmartContract } from "../../utils/constants";
-import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
-import { verifyData_Save } from "../../database/dbOperations";
+import { useState, useEffect } from "react"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { GlobeIcon } from "@heroicons/react/outline"
+import Image from 'next/image'
+import countries from "i18n-iso-countries"
+import english from "i18n-iso-countries/langs/en.json"
+import spanish from "i18n-iso-countries/langs/es.json"
+import french from "i18n-iso-countries/langs/fr.json"
+import { SignMsgAlert } from "./../layouts/SignMsgAlert"
+import { errorSmartContract } from "../../utils/constants"
+import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle"
+import { verifyData_Save } from "../../database/dbOperations"
 
-import { toast } from "react-toastify";
-import useInputForm from "../../hooks/useInputForm";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify"
+import useInputForm from "../../hooks/useInputForm"
+import "react-toastify/dist/ReactToastify.css"
 
-import { InputWebsite } from "../input-controls/InputWebsite";
-import { InputCompanyId } from "../input-controls/InputCompanyId";
-import { InputCompanyName } from "../input-controls/InputCompanyName";
-import { InputEmail } from "../input-controls/InputEmail";
-import { InputAdminName } from "../input-controls/InputAdminName";
+import { InputWebsite } from "../input-controls/InputWebsite"
+import { InputCompanyId } from "../input-controls/InputCompanyId"
+import { InputCompanyName } from "../input-controls/InputCompanyName"
+import { InputEmail } from "../input-controls/InputEmail"
+import { InputAdminName } from "../input-controls/InputAdminName"
 
-import { useSignMessage } from "../../hooks/useSignMessage";
+import { useSignMessage } from "../../hooks/useSignMessage"
 
-countries.registerLocale(english);
-countries.registerLocale(spanish);
-countries.registerLocale(french);
+countries.registerLocale(english)
+countries.registerLocale(spanish)
+countries.registerLocale(french)
 
 const CompanyDataForm = ({ companyData, setCompanyData }) => {
   const { t, i18n } = useTranslation(["signup", "common"]);
@@ -200,7 +201,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   };
 
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto w-[80%] ">
       <SignMsgAlert
         showSignMsg={showSignMsg}
         msgWarning={t("showsigningmsg")}
@@ -209,12 +210,15 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
       />
       <div
         id="dataentrypanel"
-        className="mt-4  p-4 bg-white  border-orange-200 rounded-md
-                  container  my-8 mx-4 border-2 border-solid"
+        className="mt-2  p-4 bg-white  border-orange-200 rounded-md container  my-8 mx-4 border-2 border-solid"
       >
-        <p className="text-gray-600 text-extrabold text-xl mb-10 font-khula">
-          {t("companyform.recordcompanytitle")}
-        </p>
+        <div className="flex items-center mt-2 mb-4" >
+          <Image alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
+            <p className="text-stone-500 text-bold text-lg mt-2 ml-2 font-khula">
+            {/* <p className="text-stone-500 text-lg mb-4 font-khula"> */}
+            {t("companyform.recordcompanytitle")}
+            </p>
+        </div>
         <form
           action=""
           className={`flex flex-col items-center justify-between leading-8 mb-8`}
@@ -267,11 +271,11 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
               values={values}
               placeholder={`${t("companyform.website")}`}
             />
-            {/* ****************************************************************** */}
-            <div className="mt-4">
-              <label className=" text-stone-500">Set how files will be download</label>
-              <div className="w-[50%] mt-4 mb-4 ml-3 border-[1px] border-orange-500 p-2 rounded-lg">
-                <label className="ml-4 inline-flex items-center">
+            {/* ******* File Downloading settings      ********************** */}
+            <div id="downloadsettingsframe" className="mt-4 ">
+              <label className=" text-stone-500">{t('downloadsettings')}</label>
+              <div className="flex flex-col w-[80%] mt-2 mb-4 border-[1px] border-orange-500 p-2 rounded-lg text-sm text-stone-500">
+                <label className="inline-flex items-center mb-2">
                   <input
                     type="radio"
                     className="form-radio"
@@ -282,7 +286,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
                   <span className="ml-2">{t('companyform.defaultdownloadfolder')}</span>
                 </label>
 
-                <label className="ml-4 inline-flex items-center">
+                <label className="inline-flex items-center">
                   <input
                     type="radio"
                     className="form-radio"
@@ -297,18 +301,13 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
           {/* **************************************************************************************** */}
         </div>
         </form>
-        <div id="footersubpanel3">
-          <div className="py-4 flex flex-row justify-center border-t border-gray-300 rounded-b-md">
-            <div className=" mt-4">
+        <div id="footersubpanel3 ">
+          <div className="py-4 flex flex-row justify-end border-t border-gray-300 rounded-b-md">
               <button
                 type="button"
                 onClick={handleSave}
                 disabled={saving}
-                className={`bg-orange-400 font-xl font-bold font-khula  mr-10 px-4 py-2.5  
-                    text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 active:hover:shadow-lg 
-                    active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none active:focus:ring-0 active:bg-orange-800 
-                    active:shadow-lg transition duration-150 ease-in-out disabled:bg-orange-400
-                    ${saving ? "cursor-not-allowed" : ""}`}
+                className={`main-btn ${saving ? "cursor-not-allowed" : ""}`}
               >
                 {!saving ? `${t("savebutton")}` : ""}
                 {saving && (
@@ -318,20 +317,14 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
                   </div>
                 )}
               </button>
-            </div>
-            <div className="mt-4">
               <button
                 type="button"
                 disabled={saving}
                 onClick={() => router.push({ pathname: "/" })}
-                className={`secondary-btn font-xl font-bold font-khula   px-4 py-2.5  
-                    text-white leading-tight uppercase rounded shadow-md focus:outline-none
-                    active:shadow-lg transition duration-150 ease-in-out
-                    ${saving && "cursor-not-allowed bg-stone-400"}`}
-              >
+                className={`ml-4 secondary-btn ${saving && "cursor-not-allowed bg-stone-400"}`}
+                >
                 {t("closebutton")}
               </button>
-            </div>
           </div>
         </div>
       </div>

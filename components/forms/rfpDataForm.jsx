@@ -30,7 +30,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { InputDate } from "../input-controls/InputDate";
 import RFPItemAdder from '../rfp/RFPItemAdder'
-import SpinnerBar from "../layouts/SpinnerBar"
+//import SpinnerBar from "../layouts/SpinnerBar"
 
 
 const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
@@ -422,25 +422,13 @@ const RFPDataForm = ({setNoticeOff}) => {
                       {t("savebutton")}
                     </button>
                   </div>
-{/* 
-                  {link && 
-                    <div className="mt-4">
-                      <button
-                        type="button"
-                        onClick={handleCancelTx}
-                        disabled={ false}
-                        className="secondary-btn">
-                        {t("cancelbutton")}
-                      </button>
-                  </div>} */}
-
                 </div>
             </div>
       </div>
 
       { processingTxBlockchain &&
               <div className="fixed inset-0  bg-zinc-100 bg-opacity-80  z-50">
-                <div className="fixed top-[25%] left-1/2 transform -translate-x-1/2">
+                <div className="fixed  left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
                       <ShowTXSummary
                         postedHash={postedHash}
                         block={block}
@@ -454,74 +442,24 @@ const RFPDataForm = ({setNoticeOff}) => {
               </div>
         }
 
-      {/* Inferior panel to explain & display call to actions */}
-      {/* { ( waiting || postedHash) &&
-      <div ref={infoBoardDiv} className="container mt-4 mb-8 p-4 bg-white border-2 border-orange-200 w-[70%] shadow-xl ">
-         <div className="flex mb-2">
-            <Image alt="Info" src="/information.svg" height={20} width={20}/>
-            <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base ">
-                <strong>{t('sending_rfp_blockchain')} </strong></p>
-        </div>
-
-        <div className="font-khula text-stone-700 text-base py-4 ">
-          { (waiting || postedHash ) && (<p>{t('savingtoblockchainmsg')} </p> )}
-          { postedHash && 
-            <div>
-              <p> {t('rfpessentialdataposted')} </p> 
-              <div className="flex">
-                <p>{t('chekhash')}</p>
-                  <a
-                    className=" text-blue-600 ml-3"
-                    href={link}
-                    target="_blank"
-                    rel="noreferrer">
-                    { (`${postedHash.slice(0,10)}...${postedHash.slice(-11)}`)}
-                  </a>
-              </div>
+        {  rfpCreated && 
+            <div className="mx-auto mt-4 bg-white border-2 border-orange-200 shadow-xl p-4 font-khula text-stone-700 text-base 
+                            rounded-md w-[60%] ">
+                  <p>{t('rfpessentialdatasaved')} </p> 
+                    <div className="flex justify-center">
+                        <button 
+                        className="main-btn mr-8 mt-8"
+                        onClick={handleEditRFP}>
+                          {t('editrfp')}
+                        </button>
+                        <button 
+                        className="main-btn ml-8 mt-8 secondary-btn"
+                        onClick={handleClose}>
+                          {t('closebutton')}
+                        </button>                          
+                      </div>
             </div>
-          }
-          {  block &&
-            <div className="flex" >
-                <p>{t('block')} </p>
-                <p className="text-blue-600">&nbsp;{block}</p> 
-            </div>
-          }
-          */}
-          {  rfpCreated && 
-              <div className="mx-auto mt-4 bg-white border-2 border-orange-200 shadow-xl p-4 font-khula text-stone-700 text-base 
-                              rounded-md w-[60%] ">
-                    <p>{t('rfpessentialdatasaved')} </p> 
-                      <div className="flex justify-center">
-                          <button 
-                          className="main-btn mr-8 mt-8"
-                          onClick={handleEditRFP}>
-                            {t('editrfp')}
-                          </button>
-                          <button 
-                          className="main-btn ml-8 mt-8 secondary-btn"
-                          onClick={handleClose}>
-                            {t('closebutton')}
-                          </button>                          
-                        </div>
-              </div>
-          }
-          {/* { isCancelled &&
-              <div className="mx-auto mt-4 bg-white border-2 border-orange-200 shadow-xl p-4 font-khula text-stone-700 text-base 
-                              rounded-md w-[60%] ">
-                <p>{t('rfpessentialdatasaved')} </p> 
-                <div className="flex justify-center">
-                  <button 
-                  className="main-btn mr-8 mt-8"
-                  onClick={handleClose}>
-                  {t('closebutton')}
-                  </button>
-                </div>
-              </div>
-          } */}
-        {/* </div>
-        { !rfpCreated &&  <SpinnerBar msg={t('loading_data')} />  }
-          </div>
-        } */}
+        }
   </div>
   );
 };

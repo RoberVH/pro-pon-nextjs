@@ -67,7 +67,7 @@ export const docTypes = {
     public: true,
   }, // RFP doc  from Owner
   1: { id: "1", type: "documentQandAType", desc: "q_a_doc", public: true }, // Clarification Questions and answers from Owner
-  2: { id: "2", type: "documentContract", desc: "cto_doc", public: true }, // Contract, adenda, guaranties etc documents created between owner and winners
+  2: { id: "2", type: "documentAmendment", desc: "amend_doc", public: true }, // Contract, adenda, guaranties etc documents created between owner and winners
   // Doctypes for RFP Participant
   3: { id: "3", type: "documentProposalType", desc: "prop_doc", public: false }, // Technical offering, RFPs answers from participant
   4: {
@@ -94,7 +94,7 @@ export const docTypes = {
 export const IdxDocTypes = {
   documentRequestType: 0,
   documentQandAType: 1,
-  documentContract: 2,
+  documentAmendment: 2,
   documentProposalType: 3,
   documentPricingOfferingType: 4,
   documentLegalType: 5,

@@ -7,13 +7,13 @@
     "connectdescription2": "Sólo necesitamos que nos dé permiso de conectarnos con la billetera.",
     "connectdescription3":"Mientras no se desconecte, siempre lo reconoceremos en este equipo.",
     "closebutton":"Cerrar",
-    "completeprofile":"Completar Perfil",
-    "companyessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación. Espere por favor... ",
+    "completeprofile":"Ir a Perfil",
+    "companyessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación de inclusión en un bloque",
     "companyessentialdatasaved":"Los datos de identification de la compañía han sido publicados en la Blockchain",    
     "signupsuccess":"Los datos esenciales de la empresa han sido guardados en blockchain",
-    "chekhash":"Procesando, puede consultar estado de la  transaccion en esta liga del explorador de la Blockchain:",
+    "chekhash":"Puede consultar el estado de la transacción aqui: ",
     "nocompanyIdyet":"Su cuenta de blockchain aun no tiene registrada una empresa",
-    "block":"Terminó exitosamente. La Transacción fue incluida en el bloque: ",
+    "block":"¡Transacción minada! fue incluida en el bloque: ",
     "loading_to_blockchain":"Cargando datos a la Blockchain",
     "errors": {
         "address_already_admin":"Esta cuenta ya es administradora de otra empresa",
@@ -26,7 +26,9 @@
         "user_rejection":"Usuario rechazó la transacción"
     },
     "companyform": {
-        "recordessentialdata":"Registra datos básicos de la empresa",
+        "recordessentialdata":"Registre los datos básicos de la empresa",
+        "essentialfilldata":"Llene la información esencial sobre su compañía para registrarla en la Blockchain",
+        "dataofaccount":"La cuenta actual de la billetera está registrada con los datos de esta empresa",
         "recordcompanytitle": "Edite su nombre y los datos de su compañia",
         "adminname": "Su nombre (Se otorgarán derechos de administrador)",
         "companyname":"Nombre de Compañía",
@@ -53,6 +55,8 @@
     "savingstate": " Guardando...",
     "successsaving": "Datos de Compañía salvados",
     "recordingcompanylegend":"Se creará un registro de su compañia asociada a su cuenta de Blockchain, a la que se asignarán privilegios de adminstrador",
-    "savingtoblockchainmsg":"Confirme transacción. Sus datos serán enviados a la Blockchain, esperando confirmacion. Puede tomar tiempo de acuerdo a las condiciones de uso de la red",
-    "companydataadded":"Datos registrados con éxito"
+    "savingtoblockchainmsg":"La transacción fue enviada, puede tomar tiempo de acuerdo a las condiciones de uso de la red",
+    "companydataadded":"Datos registrados con éxito",
+    "waiting_transaction":"Esperando Transacción",
+    "downloadsettings":"Seleccione modalidad de descarga de archivos"
 }

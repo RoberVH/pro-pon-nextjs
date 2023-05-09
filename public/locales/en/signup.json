@@ -7,13 +7,13 @@
     "connectdescription2": "We just need you to give us permission to connect to the wallet.",
     "connectdescription3":"As long as you don't disconnect, we'll always recognize you on this device.",
     "closebutton":"Close",
-    "completeprofile":"Complete Profile",
-    "companyessentialdataposted":"The transaction has been received on the Blockchain, awaiting confirmation. Wait please...",
+    "completeprofile":"Go to Profile",
+    "companyessentialdataposted":"The transaction has been received in the Blockhain, waiting for confirmation of inclusion in a block",
     "companyessentialdatasaved":"Company Identification data has been posted to Blockchain",
     "signupsuccess":"Essential Company Data has been saved to blockchain",
-    "chekhash":"Processing, you can check the status of the transaction in this link of Blockchain explorer:",
+    "chekhash":"You can consult transaction status here:",
     "nocompanyIdyet":"Your blockchain account does not have a company registered yet",
-    "block":"Finish succesfully. This transaction has been included into Block: ",
+    "block":"Transaction mined! was included in block: ",
     "loading_to_blockchain":"Loading data to Blockchain",
     "errors": {
         "address_already_admin":"This account is already admin of another company",
@@ -27,6 +27,8 @@
     },
     "companyform": {
         "recordessentialdata":"Register basic company data",
+        "essentialfilldata":"Fill in the essential information about your company to register it on the Blockchain",
+        "dataofaccount":"The current wallet account is registered with this company data",
         "recordcompanytitle": "Edit your name and the company details",
         "adminname": "Your name (admin rights will be granted)",
         "companyname":"Company Name",
@@ -53,6 +55,8 @@
     "savingstate": " Saving...",
     "successsaving": "Company Data saved",
     "recordingcompanylegend":"A record of your company will be created associated with your Blockchain account, which will be assigned administrator privileges",
-    "savingtoblockchainmsg":"Confirm transaction. Your data will be sent to the Blockchain, awaiting confirmation. It may take time according to the conditions of use of the network",
-    "companydataadded":"Data succesfully recorded"
+    "savingtoblockchainmsg":"The transaction was sent, it may take time according to the conditions of use of the network",
+    "companydataadded":"Data succesfully recorded",
+    "waiting_transaction":"Waiting Transaction",
+    "downloadsettings":"Set how files will be download"
 }

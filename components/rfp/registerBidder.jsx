@@ -319,7 +319,7 @@ useEffect(()=>{
           )}
           { processingTxBlockchain &&
               <div id="showsummary" className="fixed inset-0  bg-zinc-100 bg-opacity-80  z-50">
-                <div className="fixed top-[25%] left-1/2 transform -translate-x-1/2">
+                <div className="fixed left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
                       <ShowTXSummary
                         postedHash={postedHash}
                         block={block}

@@ -24,7 +24,6 @@ import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { todayUnixEpoch } from "../../utils/misc"
 
-//import SpinnerBar from '../layouts/SpinnerBar'
 
 
 const NullAddress='0x0000000000000000000000000000000000000000'
@@ -51,17 +50,12 @@ const [actionButtonClicked, setButtonClicked] = useState(false)
   const [isCancelled, setIsCancelled] = useState(false);
   const [droppedTx, setDroppedTx] = useState()  
   const [gettingRFP, setGettingRFP] = useState(false)
-  // const [updatedRFP, setUpdatedRFP] = useState(null)
+  // processingTxBlockchain flag to control when TX was send: it shows cancel transaction button on ShowTxSummary
+  const [processingTxBlockchain, setProTxBlockchain] = useState(false)
+  // isCollapsed flag controls displaying Declare Canceled RFP button
+  const [isCollapsed, setIsCollapsed] = useState(true);
   
  const { bidders, getBidders, companies, doneLookingBidders } = useBidders();
-  // Flags & vars  to manage/show blockchain uploading data
-  
-  // processingTxBlockchain flag to control when TX was send: it shows cancel transaction button on ShowTxSummary
- const [processingTxBlockchain, setProTxBlockchain] = useState(false)
-  // showPanel flag controls when to show ShowTxSummary. User set this to false when clicks on close button  on ShowTxSummary
-  //const [showPanel, setShowPanel] = useState(false)  
-  // isCollapsed flag controls displaying Declare Canceled RFP button
- const [isCollapsed, setIsCollapsed] = useState(true);
 
   /** UTILITY FUNCTIONS ************************************************************************ */
     
@@ -177,7 +171,7 @@ useEffect(() => {
     if (processingTxBlockchain) 
       return (
           <div className="fixed inset-0  bg-zinc-100 bg-opacity-80  z-50">
-            <div className="fixed top-[25%] left-1/2 transform -translate-x-1/2">
+            <div className="fixed  left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
                   <ShowTXSummary
                     postedHash={postedHash}
                     block={block}

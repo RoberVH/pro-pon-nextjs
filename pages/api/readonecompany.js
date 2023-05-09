@@ -24,6 +24,7 @@ export default async function handler (req, res) {
       break
     case 'POST':
       try {
+        console.log('en server voy a insertar:', req.body)
         const companies = await db
         .collection("companies")
         .insertOne(req.body)

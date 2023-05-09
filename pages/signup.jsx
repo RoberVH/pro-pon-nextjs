@@ -31,7 +31,7 @@ function Signup() {
   )
          return (
           <div id="signup-screen" className="h-screen flex flex-col items-center ">
-            <div id="activities-of-signup"   className="h-[80%] w-[75%]">
+            <div id="activities-of-signup"   className="h-[80%] w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/3 ">
               <div id ="signupcompanydatadadhost" className="flex justify-center">
                   <SignUpcompanyDataForm setCompanyData={setCompanyData} companyData={companyData}  />
               </div>

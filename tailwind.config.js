@@ -11,7 +11,8 @@ module.exports = {
     extend: {},
     fontFamily:{
       nunito:['Nunito', 'sans-serif'],
-      khula:['Khula','sans-serif']
+      khula:['Khula','sans-serif'],
+      'inter': ['Inter', 'sans-serif'],
     }
   },
   plugins: [],

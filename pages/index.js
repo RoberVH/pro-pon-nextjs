@@ -22,26 +22,29 @@ export default function Home() {
         </div>
       )}
       <div className="flex flex-col items-center">
-        <div className="mt-8 text-4xl font-semibold font-khula text-slate-500 ">
+        <div className="mt-8 text-4xl font-semibold font-nunito text-slate-500 ">
           <h1> {t("aptitle")}</h1>
         </div>
-        <div className="mt-4 w-[45%] p-4  rounded-xl   h-[80px]">
-          <p className="pt-2 font-khula font-medium  text-orange-500 text-md text-xl text-center">
+        <div className="mt-4  p-4  ">
+          <p className="pt-2 font-nunito   text-slate-800 text-md text-xl text-center">
             {t("explanation1")}
+          </p>
+          <p className="pt-2 font-nunito   text-slate-800 text-md text-xl text-center">
+            {t("explanation2")}
           </p>
         </div>
         {!companyData.companyname && address ? (
           <div
             id="signupframe"
-            className=" w-full  flex justify-center bg-slate-200  py-8 "
+            className=" w-full  flex justify-center  py-8 "
           >
             <div
               id="calltosignupsubframe"
-              className="p-8 w-[55%] bg-orange-200 flex flex-row justify-center 
-          rounded-xl  border-2 border-red-600"
+              className="p-8 w-[55%]  flex flex-row justify-center 
+          rounded-xl  "
             >
               <div>
-                <p className="uppercase text-center font-nunito text-md font-bold text-orange-800 leading-8">
+                <p className="uppercase text-center font-inter text-md font-bold text-orange-500 leading-8">
                   {t("instructions_title")}
                 </p>
                 <ul className="list-decimal ml-4 mt-8 font-nunito text-md font-bold text-orange-800 leading-8">

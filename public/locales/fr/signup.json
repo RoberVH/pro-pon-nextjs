@@ -7,13 +7,13 @@
     "connectdescription2": "Nous avons juste besoin que vous nous donniez la permission de nous connecter au portefeuille.",
     "connectdescription3":"Tant que vous ne vous déconnectez pas, nous vous reconnaîtrons toujours sur cet appareil.",
     "closebutton":"Fermer",
-    "completeprofile":"compléter profil",
-    "companyessentialdataposted":"La transaction a été reçue sur la Blockchain, en attente de confirmation. Attendez s'il vous plaît...",
+    "completeprofile":"Aller au profil",
+    "companyessentialdataposted":"La transaction a été reçue dans le Blockhain, en attente de confirmation d'inclusion dans un bloc",
     "companyessentialdatasaved":"Les données d'identification de l'entreprise ont été publiées sur la Blockchain",    
     "signupsuccess":"Les données essentielles de l'entreprise ont été enregistrées dans la blockchai", 
-    "chekhash":"Traitement, vous pouvez vérifier l'état de la transaction dans ce lien de l'explorateur Blockchain.",
+    "chekhash":"Vous pouvez consulter l'état de la transaction ici:",
     "nocompanyIdyet":"Votre compte blockchain n'a pas encore d'entreprise enregistrée",
-    "block":"Terminé avec succès. La transaction a été incluse dans le bloc: ",
+    "block":"La transaction minée! a été incluse dans le bloc : ",
     "loading_to_blockchain":"Charger des données dans la Blockchain",
     "errors": {
         "address_already_admin":"Ce compte est déjà administrateur d'une autre entreprise",
@@ -27,6 +27,8 @@
     },    
     "companyform": {
         "recordessentialdata":"Enregistrer les données de base de l'entreprise",
+        "essentialfilldata":"Renseignez les informations essentielles sur votre entreprise pour l'inscrire sur la Blockchain",
+        "dataofaccount":"Le compte courant du portefeuille est enregistré avec les données de cette entreprise",
         "recordcompanytitle": "Éditer votre nom et les détails de l'entreprise",
         "adminname": "Votre nom (les droits d'administrateur seront accordés)",
         "companyname":"Nom de l'entreprise",
@@ -53,11 +55,13 @@
     "savingstate": " Enregistrement...",
     "successsaving": "Données de l'entreprise enregistrées",
     "recordingcompanylegend":"Un enregistrement de votre entreprise sera créé associé à votre compte Blockchain, qui se verra attribuer des privilèges d'administrateur",
-    "savingtoblockchainmsg":"Confirmez la transaction. Vos données seront envoyées à la Blockchain, en attente de confirmation. Cela peut prendre du temps selon les conditions d'utilisation du réseau",
+    "savingtoblockchainmsg":"La transaction a été envoyée, cela peut prendre du temps selon les conditions d'utilisation du réseau",
     "companydataadded":"Données enregistrées avec succès",
     "rfp_bases":"Documents de base",
     "bidder_register":"enregistrer l'enchérisseur",
     "bidders_showcase":"Afficher les enchérisseurs",
     "declare_contest":"Déclarer les résultats",
-    "rfp_results":"Afficher les résultats"
+    "rfp_results":"Afficher les résultats",
+    "waiting_transaction":"En attente de transaction",
+    "downloadsettings":"Sélectionner le mode de téléchargement du fichier"
 }

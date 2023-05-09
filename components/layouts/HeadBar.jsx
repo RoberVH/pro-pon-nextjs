@@ -93,17 +93,17 @@ const HeadBar = () => {
       const result = await getCompanydataDB(id); // get complementary company data from DB
       if (result. companyId)
           setCompanyData({rfpWon, rfpSent, companyRFPs, ...result})
-          else {
-            const {name, country}= contractCiaData
-            const result = await  saveCompanyID2DB(id, name, country, address)
-            if (!result.status)
-                errToasterBox(result.msg)
-                else {
-               const company= await getCompanydataDB(id) // read from DB company data
-               setCompanyData({rfpWon, rfpSent, companyRFPs, ...company}) // write db record to context with id that we'll use to update it                
-              }
-            // Error, there is not a Company  DB record corresponding to found Company Id on Contract, record it to DB to sync them
-          }
+      else {
+        // Error, there is not a Company  DB record corresponding to found Company Id on Contract, record it to DB to sync them
+          const {name, country}= contractCiaData
+          const result = await  saveCompanyID2DB(id, name, country, address)
+          if (!result.status)
+              errToasterBox(result.msg)
+              else {
+              const company= await getCompanydataDB(id) // read from DB company data
+              setCompanyData({rfpWon, rfpSent, companyRFPs, ...company}) // write db record to context with id that we'll use to update it                
+            }
+      }
     },[setCompanyData, address]);
 
   // hooks  ******************************************************************************************

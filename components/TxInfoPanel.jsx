@@ -1,68 +1,90 @@
 import Image from 'next/image'
 import SpinnerBar from './layouts/SpinnerBar';
 
-const TxInfoPanel = ({
-    itemPosted,
-    itemCreated,
-    hash,
-    link,
+/**
+    postedHash,
     block,
-    handleDataEdition,
     t,
-    txPosted
+    handleClosePanel,
+    blockchainsuccess,
+    handleCancelTx 
+ */
+const TxInfoPanel = ({
+    hash,
+    block,
+    handleCancelTx,
+    handleClosePanel,
+    t,
+    blockchainsuccess
     }) => 
-  <div className="py-1 bg-white border rounded-md border-orange-300
-                  border-solid shadow-xl mb-2">
-    <div className="font-khula  text-base py-4 pl-2">
+  <div className="mx-auto mt-4 mb-8 p-4 border rounded-md border-orange-300 border-solid shadow-xl bg-white bg-opacity-100
+                  font-khula py-4 pl-2 ">
+    <div className="text-base py-4 pl-2">
         <div className="flex mb-2">
             <Image alt="Info" src="/information.svg" height={20} width={20}/>
-            <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base text-xl">
-                <strong>{t('recordingcompanylegend')} </strong></p>
+            <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base pr-4">
+            <strong>{t('recordingcompanylegend')} </strong></p>
         </div>
-        <div className="mt-4 pl-4">
-           <p>{t('savingtoblockchainmsg')} </p> 
-           <div className="bg-white  scroll-auto">
-            {txPosted && <p>{t('companyessentialdataposted')} </p> }
-            {hash && 
-                 <div>
-                    <label className="mt-4"> {t('chekhash')}</label>
-                    <a
-                        className=" text-blue-600 ml-3"
-                        href={link}
-                        target="_blank"
-                        rel="noreferrer">
-                        &nbsp;
-                        <strong>{hash && (`${hash.slice(0,10)}...${hash.slice(-11)}`)}</strong>
-                    </a>
-                 </div>
-            }
-            {block && 
-                <div className="flex">
-                      <p> {t('block')}</p>
-                      <p className="text-blue-700 "> <strong>&nbsp; {block}</strong></p>
-                </div>
-            }
-            {itemCreated && 
-              <div>
-                <p className="mt-2 mb-4">
-                <strong>{t('companyessentialdatasaved')} </strong></p>
-                <div className="flex justify-center">
-                    <button 
-                        className="main-btn my-4"
-                        onClick={handleDataEdition}>
-                        {t('completeprofile')
-                        }
-                    </button>
-                </div>
+    </div>
+    <div className="mb-2 ml-8 h-64 flex flex-col justify-between">
+      <div>
+      <p>{t('savingtoblockchainmsg')} </p> 
+      {hash && 
+          <div>
+            <p>{t('companyessentialdataposted')}</p>
+            <label className="mt-4"> {t('chekhash')}</label>
+            <a
+                className=" text-blue-600 ml-3"
+                href={`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${hash}`}
+                target="_blank"
+                rel="noreferrer">
+                &nbsp;
+                <strong>{hash && (`${hash.slice(0,10)}...${hash.slice(-11)}`)}</strong>
+            </a>
+          </div>
+      }
+      {block && 
+          <div className="flex">
+                <p> {t('block')}</p>
+                <p className="text-orange-700"> <strong>&nbsp; {block}5345</strong></p>
+          </div>
+      }
+      {blockchainsuccess && 
+          <div className="flex justify-center mt-20">
+              <button 
+                className=" secondary-btn"
+                onClick={handleClosePanel}
+              >
+                {t('closebutton')}
+              </button>
+          </div>
+      }
+      </div>
+      <div>
+        {!blockchainsuccess && 
+            <>
+              <div className="mt-4 mb-2">
+                  <SpinnerBar msg={t('loading_to_blockchain')}/>
               </div>
-            }
-
-            { !itemCreated && 
-            <div className="mt-6 mb-2">
-                <SpinnerBar msg={t('loading_to_blockchain')}/>
-              </div>}
+              <div className="flex justify-center mt-2">
+                <p className=" text-orange-400 font-bold pl-12">
+                  {t('waiting_transaction')}
+                </p>
+              </div>                    
+            </>                
+        }
+        {hash && !blockchainsuccess &&
+          <div className="flex justify-center mt-4">
+              <button 
+                title={t('cancel_tx')}
+                onClick={handleCancelTx} 
+                className="txCancel-btn"
+                >
+                  {t("cancelbutton")}
+              </button>
             </div>
-        </div>
+          }
+      </div>
     </div>
   </div>;
 

@@ -17,7 +17,7 @@ export const  getCompanydataDB = async (companyId) =>  {
 
 export const verifyData_Save = async (message, signature) => {
     let method = "PATCH";
-    const webload= {signature:signature,...JSON.parse(message) } // destringiy message because it was stringiy for signing
+    const webload= {signature:signature,...JSON.parse(message) } // destringify message because it was stringiy for signing
     try {
       const response = await fetch("/api/servercompanies", {
         method: method,
@@ -37,7 +37,7 @@ export const verifyData_Save = async (message, signature) => {
   export const saveCompanyID2DB = async (companyId, companyname, country, address) => {
     let method = "POST";
     const webload= {profileCompleted:false, companyId, companyname, country, address}
-    try {
+    try { 
       const response = await fetch("/api/companycreation", {
         method: method,
         headers: { "Content-Type": "application/json" },

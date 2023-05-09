@@ -12,7 +12,7 @@ countries.registerLocale(french);
 
 
 export const InputCountrySel = ({t, handleChange, values, i18n, setPlaceHolder,
-   companyData, profileCompleted}) => {
+   companyData, profileCompleted, disable}) => {
     const [countryList, setCountryList] = useState([]);
 
 useEffect(() => {
@@ -53,6 +53,7 @@ return (
               text-black  font-khula"
       onChange={handleChange}
       id={"country"}
+      disabled={disable}
       value={profileCompleted ? companyData.country: values.country}>
         <option value={"default"} >
           {!profileCompleted

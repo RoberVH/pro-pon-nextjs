@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
 // Have to change WAGMI to ethereum provider on browser and Ethers as
@@ -7,14 +7,15 @@ import { getWritingProponContract } from "../web3/contractsettings";
 // possible dependent old code
 
 // Write Company Data (essential) to  pro-pon contract 
+
 export const useWriteCompanyData =  (
   { onError,
     onSuccess,
-    onEvent,
-    setHash,
-    setLink,
-    setPosted,
-    isCancelled}) => {
+    isCancelled,
+    setProTxBlockchain}) => {
+    const [postedHash, setPostedHash] = useState('')
+    const [block, setBlock] = useState('')
+    const [blockchainsuccess, setBlockchainsuccess] = useState(false)
     
     const isMounted = useRef(true)
     useEffect(() => {
@@ -30,9 +31,11 @@ export const useWriteCompanyData =  (
 
     const write = async (companyId,companyname, country,value) => {
         const proponContract = await getWritingProponContract()
-        proponContract.on("NewCompanyCreated", (address, companyId, CompanyName) => {
-                onEvent(address, companyId, CompanyName)
-        })
+        
+        // proponContract.on("NewCompanyCreated", (address, companyId, CompanyName) => {
+        //         onEvent(address, companyId, CompanyName)
+        // })
+
         try {
            const Tx = await proponContract.createCompany(
                 companyId,
@@ -40,12 +43,13 @@ export const useWriteCompanyData =  (
                 country, 
                 {value: ethers.utils.parseEther(value)}
                 )
-          setPosted(true)
-          setHash(Tx.hash)
-          setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
+          setProTxBlockchain(true)
+          setPostedHash(Tx.hash)
           const data=await Tx.wait()
           if (isMounted.current) {
-          onSuccess(data)
+            setBlock(data.blockNumber)
+            setBlockchainsuccess(true)
+            onSuccess(data)
           }
         } catch (error) {
             if (isMounted.current) {          
@@ -54,5 +58,5 @@ export const useWriteCompanyData =  (
             }
     };
 
-   return write
+   return {write, postedHash, block, blockchainsuccess}
 };
