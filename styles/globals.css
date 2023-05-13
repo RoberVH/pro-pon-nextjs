@@ -68,11 +68,7 @@ html {
       after:border-l-transparent  after:border-l-red-500
     }
 
-    /* .animate-blue-div {
-      animation: animate-blue-dot;
-      transform:translateX(-100%);
-    } */
-    
+        
     .animate-dot {
       animation: animate-blue-dot 1.5s ease-in-out infinite alternate;
       position:absolute;

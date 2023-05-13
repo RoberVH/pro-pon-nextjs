@@ -124,6 +124,7 @@ function HomeRFP() {
               rfpRecord.endDate,
             ]}
             owner={rfpRecord.issuer}
+            setNoticeOff={setNoticeOff}
           />
         );
       case "bidder_register": //bidder_register  only for Open Contests
@@ -166,6 +167,7 @@ function HomeRFP() {
               rfpRecord.endReceivingDate,
               rfpRecord.endDate,
             ]}
+            setNoticeOff={setNoticeOff}
           />
         );
       case "declare_contest": //declare_contest

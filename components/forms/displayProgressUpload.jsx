@@ -9,6 +9,7 @@ import Image from "next/image"
 import  ProgressBr  from "../layouts/progressBar"
 
 const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
+  
   const checkProperty = (index,property) => {
     return (
       Boolean (uploadingSet[index]) &&

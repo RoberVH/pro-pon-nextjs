@@ -35,7 +35,8 @@ const ShowBidders = ({
     owner, 
     rfpIndex, 
     t, 
-    rfpDates 
+    rfpDates,
+    setNoticeOff
   }) => {
   const [idxShowFilesComp, setidxShowFilesComp] = useState(null); // index of open Files Compo
   const [dateAllowed, setDateAllowed] = useState(false); // flag to indicate the period is valid to upload documents according to RFP dates
@@ -114,6 +115,7 @@ useEffect(()=>{
                 allowedDocTypes={allowedDocTypes}
                 owner={owner}
                 isInTime={isDateAllowed()}
+                setNoticeOff={setNoticeOff}
               />
             </td>
           </tr>

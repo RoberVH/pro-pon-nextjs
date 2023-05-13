@@ -30,6 +30,7 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
   
   const inputRef = useRef(null);
 
+  {console.log('allowedDocTypes',allowedDocTypes)}
   // Inner Components ******************************************************************************************
   const  TitleUploader= () => 
     <div className="flex  pl-2 py-1 px-4">
@@ -46,7 +47,7 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
                       border-grey-light hover:cursor-pointer  "
         onChange={(e)=>handleChangeDocType(e,fileName)}
         value={candidateFiles.filter(file=> file.name===fileName)[0].docType}
-      >
+        >
         { allowedDocTypes.map (docType =>
           <option key= {docType.id} value={docType.id} label={t(docType.desc)} />
         )}
@@ -261,9 +262,6 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
                   <button 
                     onClick={handleCancelUploadFiles}
                     className="secondary-btn">
-                    {/* // className="bg-stone-400 font-xl font-bold font-khula   px-4 py-2.5 text-white leading-tight uppercase rounded shadow-md 
-                    //   focus:outline-none  active:shadow-lg transition duration-150 ease-in-out hover:shadow-lg focus:ring-0 active:bg-stone-800 
-                    //   focus:bg-stone-700 focus:shadow-lg text-sm"> */}
                       {t('cancelbutton')}
                   </button>
               </div>

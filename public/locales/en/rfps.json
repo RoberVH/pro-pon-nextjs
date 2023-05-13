@@ -35,7 +35,8 @@
         "createrfp":"Create RFP",
         "registercompany":"Register Company",
         "cancelRFP":"Cancel RFP",
-        "declareRFP":"Declare RFP winners"
+        "declareRFP":"Declare RFP winners",
+        "filesuploadm":"Save document metadata"
     },
     "savingtoblockchainmsg":"The transaction was sent, it may take time according to the conditions of use of the network",
     "rfpessentialdataposted":"The transaction has been received in the Blockhain, waiting for confirmation of inclusion in a block",
@@ -155,7 +156,7 @@
     "end":"End",
     "canceled":"Canceled",
     "go":"Go",
-    "dropped_tx_notice":"Your transaction is still pending to be mined and still could be resolved. Please try checking later, either in the Blockchain explorer and in the App, and submit it again if necessary",
+    "dropped_tx_notice":"Your transaction is still pending to be mined and still could be resolved. Please try checking later, either in the Blockchain explorer or in the App, and submit it again if necessary",
     "statuscontest":"RFP Status",
     "pending":"Pending",
     "declared":"Declared",
@@ -165,5 +166,6 @@
     "transaction_succesful":"Transaction processed succesfully",
     "waiting_transaction":"Waiting Transaction",
     "inviting_companies_title":"Companies to invite",
-    "no_companies_invite":"No companies to invite"
+    "no_companies_invite":"No companies to invite",
+    "download_rights_expired":"Browser asks you to confirm the folder again to save the files. Click on this window to proceed"
 }

@@ -392,9 +392,7 @@ async function handlePermissionError() {
     }
   }
 
-  //'⟳' //'⧲' //'⚇' //'◡' //'◜' //'◖' //'◌' //'◑' //'◔' //'◕' //'◔'
-   //✔' //'✅️'
-   //'⛔️'
+
   const iconStatusClass = (status) => {
     if (status === '') return null
     if (status === 'processing') 
@@ -462,7 +460,7 @@ const resultAnnounce = (status, file) => {
   const DownloadComponent = () => {
     if (downloadableFiles.length)
       return (
-        <div className=" max-h-[44rem] overflow-y-auto ">
+        <div className=" max-h-[44rem] overflow-y-auto">
           {timerWarning && (
             <p className="absolute p-2  left-[50%] text-center w-[15em] bg-orange-500 text-white">
               {t("Copied_clipboard")}
@@ -494,8 +492,7 @@ const resultAnnounce = (status, file) => {
                   <td className="flex p-2 truncate ml-7  cursor-pointer"
                     onClick={() => toggleSelectedFile(file) }
                   >
-                    <div
-                      className="">
+                    <div className="">
                      <p className="whitespace-pre text-sm"> {file.name}</p>
                     </div>
                   </td>
@@ -506,7 +503,7 @@ const resultAnnounce = (status, file) => {
                     {file.documentHash}
                   </td>
                   <td className=" truncate   p-2 text-sm ">
-                    {t(docTypes[file.docType.toNumber()].desc)}
+                    {t(docTypes[file.docType.toNumber()].desc)} 
                   </td>
                 </tr>
               ))}
@@ -530,7 +527,7 @@ const resultAnnounce = (status, file) => {
   };
 
   return (
-    <div className="m-auto py-2 max-w-[90%] ">
+    <div className="m-auto py-2 max-w-[90%]  border-[1px] border-orange-200 shadow-md p-4">
       <SignMsgAlert
         showSignMsg={showSignMsg}
         msgWarning={t("show_rfp_filerequest")}
@@ -540,20 +537,17 @@ const resultAnnounce = (status, file) => {
 
       <button style={{display: 'none'}}
         onClick={handlePermissionError} id='retryPermissionButton' 
-        className="bounce-four-times absolute top-[40%] left-[40%] w-1/2 h-1/4 text-red-600 font-bold bg-yellow-300 
-        border-4 text-2xl border-orange-300 px-8 py-2 rounded-2xl background-animate
-        bg-gradient-to-l
-        from-transparent
-        via-orange-100
-        to-yellow-200">
-          Lo sentimos, el navegador solicita que confirme de nuevo el folder para salvar los archivos. Haga click sobre esta ventana para proceder
+        className="bounce-four-times absolute top-[40%] left-[40%] w-1/2 h-1/4 text-red-600 font-bold bg-yellow-300 border-4 text-2xl 
+        border-orange-300 px-8 py-2 rounded-2xl background-animate bg-gradient-to-l from-transparent via-orange-100 to-yellow-200"
+      >
+          {t('download_rights_expired')}
       </button>
       <div id="downloadIcon" className="flex">
         <DownloadIcon className="mt-1 h-8 w-8 text-orange-300 mb-2" />
         <p className="mt-2 pl-2 font-khula">{t("dowloadrequestfiles")}</p>
       </div>
       <ComponentLauncher />
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-8">
         <button
           className="bg-orange-500 text-white font-bold py-2 px-4 rounded mt-4 "
           onClick={handleDownloadAllSelectedFiles}

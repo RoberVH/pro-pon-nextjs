@@ -36,7 +36,6 @@ export const useDeclareResults =  (onError, onSuccess, isCancelled, setProTxBloc
       // make sure a clean state in case this is consecutive second time called
       setBlockchainsuccess(false) 
       setBlock('')
-      //setLink('')
       setPostedHash('')
       let Tx;
       try {
@@ -51,7 +50,6 @@ export const useDeclareResults =  (onError, onSuccess, isCancelled, setProTxBloc
                winners)
             setProTxBlockchain(true)
             setPostedHash(Tx.hash)
-            //setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
             const data=await Tx.wait()
             if (isMounted.current) {
                setBlock(data.blockNumber)
@@ -60,8 +58,6 @@ export const useDeclareResults =  (onError, onSuccess, isCancelled, setProTxBloc
             }
       } catch (error) {
          if (isMounted.current) {
-            console.log('En hook error:', error)
-            console.log('En hook TX:', Tx)
             onError(error);
          }   
       }       

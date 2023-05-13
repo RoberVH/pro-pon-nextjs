@@ -41,6 +41,7 @@
     "nopending_txs":"No pending Transactions",
     "clean_all":"Clean All",
     "clean_tx":"Clear",
+    "retry":"Retry",
     "issued_on":"Broadcast date",
     "transaction_hash":"Tx Hash",
     "status":"Status",

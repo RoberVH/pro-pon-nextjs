@@ -66,29 +66,14 @@ export const docTypes = {
     desc: "request_doc",
     public: true,
   }, // RFP doc  from Owner
-  1: { id: "1", type: "documentQandAType", desc: "q_a_doc", public: true }, // Clarification Questions and answers from Owner
-  2: { id: "2", type: "documentAmendment", desc: "amend_doc", public: true }, // Contract, adenda, guaranties etc documents created between owner and winners
+  1: { id: "1", type: "documentQandAType", desc: "q_a_doc", public: true}, // Clarification Questions and answers from Owner
+  2: { id: "2", type: "documentAmendment", desc: "amend_doc", public: true}, // Contract, adenda, guaranties etc documents created between owner and winners
   // Doctypes for RFP Participant
-  3: { id: "3", type: "documentProposalType", desc: "prop_doc", public: false }, // Technical offering, RFPs answers from participant
-  4: {
-    id: "4",
-    type: "documentPricingOfferingType",
-    desc: "pricing_doc",
-    public: true,
-  }, // Economic Proposal from participant. It's password protected
+  3: { id: "3", type: "documentProposalType", desc: "prop_doc", public: false}, // Technical offering, RFPs answers from participant
+  4: {id: "4",type: "documentPricingOfferingType",desc: "pricing_doc",public: true}, // Economic Proposal from participant. It's password protected
   5: { id: "5", type: "documentLegalType", desc: "legal_doc", public: true }, // Legal documents from participants
-  6: {
-    id: "6",
-    type: "documentFinancialType",
-    desc: "financial_doc",
-    public: true,
-  }, // Financial statements and documents from participants
-  7: {
-    id: "7",
-    type: "documentAdministrativeType",
-    desc: "admin_doc",
-    public: true,
-  }, // Administrative documents from participants
+  6: {id: "6",type: "documentFinancialType",desc: "financial_doc",public: true}, // Financial statements and documents from participants
+  7: {id: "7",type: "documentAdministrativeType",desc: "admin_doc",public: true}, // Administrative documents from participants
 };
 // Also a IdxDocTypes is defined to better reference index of docTypes record
 export const IdxDocTypes = {

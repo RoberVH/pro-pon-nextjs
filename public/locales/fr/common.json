@@ -40,6 +40,7 @@
     "nopending_txs":"Il n'y a aucune transaction en attente",
     "clean_all":"Tout supprimer",
     "clean_tx":"Supprimer",
+    "retry":"Réessayer",
     "issued_on":"Date de diffusion",
     "transaction_hash":"Tx Hash",
     "status":"Status",

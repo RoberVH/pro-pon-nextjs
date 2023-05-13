@@ -41,6 +41,7 @@
     "nopending_txs":"No hay Transacciones pendientes",
     "clean_all":"Remover todas",
     "clean_tx":"Remover",
+    "retry":"Reenviar",
     "issued_on":"Fecha emisión",
     "transaction_hash":"Tx Hash",
     "status":"Status",

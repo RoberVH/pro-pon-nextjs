@@ -41,7 +41,8 @@ const RFPDocuments = ({
     // rfpId,
     rfpIndex,
     rfpDates,
-    owner
+    owner,
+    setNoticeOff
 }) => {
   const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } = useFilesRFP(rfpIndex);
 
@@ -81,6 +82,7 @@ useEffect(()=>{
         allowedDocTypes={allowedDocTypes}
         owner={owner}
         isInTime={isDateAllowed()}
+        setNoticeOff={setNoticeOff}
       />
     );
 

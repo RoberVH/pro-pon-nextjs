@@ -35,7 +35,8 @@
         "createrfp":"Crear RFP",
         "registercompany":"Registrar Compañia",
         "cancelRFP":"Cancelar el RFP",
-        "declareRFP":"Declarar ganador(es) del RFP"
+        "declareRFP":"Declarar ganador(es) del RFP",
+        "filesuploadm":"Guardar metadatos de Documentos"
     },
     "savingtoblockchainmsg":"La transacción fue enviada, puede tomar tiempo de acuerdo a las condiciones de uso de la red",
     "rfpessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación de inclusión en un bloque",
@@ -105,8 +106,8 @@
     "doc_type":"Tipo Doc.",
     "copied_clipboard":"Copiado al portapapeles",
     "request_doc":"Solicitud",  
-    "amend_doc":"Aclaraciones",
-    "q_a_doc":"Aclaraciones",  
+    "amend_doc":"Rectificaciones",
+    "q_a_doc":"Preguntas y respuestas",  
     "prop_doc":"Propuesta",  
     "pricing_doc":"Oferta",
     "legal_doc":"Legal",  
@@ -157,7 +158,7 @@
     "end":"Fin",
     "canceled":"Cancelada",
     "go":"Ir",
-    "dropped_tx_notice":"Su transacción aún está pendiente de ser minada y aún podría resolverse. Intente consultar más tarde, ya sea en el explorador de Blockchain y en la Aplicación, y envíela de nuevo si es necesario",
+    "dropped_tx_notice":"Su transacción aún está pendiente de ser minada y aún podría resolverse. Intente consultar más tarde, ya sea en el explorador de Blockchain o en la Aplicación, y envíela de nuevo si es necesario",
     "statuscontest":"Estado del RFP",
     "pending":"Pendiente",
     "declared":"Declarada",
@@ -167,5 +168,6 @@
     "transaction_succesful":"Transacción procesada con éxito",
     "waiting_transaction":"Esperando Transacción",
     "inviting_companies_title":"Compañias a invitar",
-    "no_companies_invite":"No hay compañias que invitar"
+    "no_companies_invite":"No hay compañias que invitar",
+    "download_rights_expired":"El navegador solicita que confirme de nuevo el folder para salvar los archivos. Haga click sobre esta ventana para proceder"
 }

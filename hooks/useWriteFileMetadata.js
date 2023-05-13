@@ -5,14 +5,25 @@
  *          Also, it provides a reference of what files belong to the contest
  */
 
- import { useState } from 'react'
+ import { useState, useEffect, useRef } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
-export const useWriteFileMetadata =  (onError) => {
-   const [postedHash, setPostedHash] = useState()
+export const useWriteFileMetadata =  (onError, isCancelled, setProTxBlockchain, onSuccess) => {
+   const [postedHash, setPostedHash] = useState('')
    const [block, setBlock] = useState()
-   const [link, setLink] = useState()
    const [blockchainsuccess, setBlockchainsuccess] = useState(false)
+   const isMounted = useRef(true)
+
+   useEffect(() => {
+      if (isCancelled) {
+        isMounted.current = false;
+      } else {
+        isMounted.current = true;
+      }
+      return () => {
+        isMounted.current = false;
+      };
+    }, [isCancelled]);
    
    const debugstyleprop= 'background-color:yellow; color:red'
 
@@ -26,9 +37,8 @@ export const useWriteFileMetadata =  (onError) => {
       const proponContract = await getWritingProponContract()
       // make sure a clean state in case this is second time called
       setBlockchainsuccess(false) 
-      setBlock(false)
-      setLink(false)
-      setPostedHash(false)
+      setBlock('')
+      setPostedHash('')
       try {
          const Tx = await proponContract.addDocuments(
                rfpId,
@@ -37,15 +47,19 @@ export const useWriteFileMetadata =  (onError) => {
                DocumentHashes,
                DocumentIdxs 
             )
+         setProTxBlockchain(true)
          setPostedHash(Tx.hash)
-         for (let i=0; i<1000000000; i++);
-         setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
          const data=await Tx.wait()
-         setBlock(data.blockNumber)
-         setBlockchainsuccess(true)
+         if (isMounted.current) {         
+            setBlock(data.blockNumber)
+            setBlockchainsuccess(true)
+            onSuccess(postedHash)
+         }
       } catch (error) {
+         if (isMounted.current) {         
                onError(error);
                }       
+         }
     };
-   return {write, postedHash, block, link, blockchainsuccess}
+   return {write, postedHash, block,  blockchainsuccess}
 };

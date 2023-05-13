@@ -9,12 +9,14 @@ import DisplayProgressUpload from "./displayProgressUpload";
 import { uploadBlockchainFiles } from "../../utils/uploadBlockchainFiles";
 import { getRmteBndlr } from "../../web3/getRmteBndlr";
 import { parseWeb3Error } from "../../utils/parseWeb3Error";
+import DismissedTxNotice from "../layouts/dismissedTxNotice"
 // toastify related imports
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyle } from "../../styles/toastStyle";
 import { sendWarningServer } from "../../utils/misc";
 import { useWriteFileMetadata } from "../../hooks/useWriteFileMetadata";
+import { todayUnixEpoch } from "../../utils/misc"
 import Spinner from '../layouts/Spinner'
 import SpinnerBar from "../layouts/SpinnerBar";
 
@@ -36,7 +38,8 @@ function UploadRFPForm({
   rfpIndex,
   allowedDocTypes,
   owner,
-  isInTime
+  isInTime,
+  setNoticeOff
 }) {
   // state var for child pickFIlesForm let us know files are pickedup
   const [pickedFiles, setPickedFiles] = useState([]);
@@ -45,8 +48,13 @@ function UploadRFPForm({
   const [successFiles, setSuccessFiles] = useState([]);
   const [showSummaryUploads, setShowSummaryUploads] = useState(false);
   const [filesWithErrors, setfilesWithErrors] = useState(false);
-  //const [uploading, setUploading] = useState(false);
   const [sendingBlockchain, setsendingBlockchain] = useState(false);
+  const [droppedTx, setDroppedTx] = useState()  
+  const [processingTxBlockchain, setProTxBlockchain] = useState(false)
+  const [isCancelled, setIsCancelled] = useState(false);
+
+  
+  
 
   const router = useRouter();
 
@@ -54,9 +62,9 @@ function UploadRFPForm({
     toast.error(msj, toastStyle);
   };
 
-  const { write, postedHash, block, link, blockchainsuccess } =
-    useWriteFileMetadata(onError);
+  const { write, postedHash, block,  blockchainsuccess } = useWriteFileMetadata(onError, isCancelled, setProTxBlockchain);
 
+  
   // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
     const customError = parseWeb3Error(t, error);
@@ -83,20 +91,23 @@ function UploadRFPForm({
 
   // Inner components   *********************************************************************************************
   const ShowSummaryUploads = () => (
-    <>
-      <p>
-        {" "}
-        <strong>{`${successFiles.length}`} </strong> {t("files_uploaded")}{" "}
-      </p>
+    <div className="p-4">
+      <div className="flex">
+      <p className="pr-1"> 
+        <strong>{`${successFiles.length}`} </strong> 
+      </p> 
+      <p className="text-red-600"> <strong> {t("files_uploaded")}</strong></p>
+      </div>
+
       {filesWithErrors && <p>{t("tell_hover_errors")}</p>}
-      {successFiles.length > 0 && <p>{t("call_to_record_files")}</p>}
+      {(successFiles.length > 0) && <p>{t("call_to_record_files")}</p>}
       {postedHash && <p>{t("rfpessentialdataposted")}</p>}
-      {link && (
+      {postedHash && (
         <div>
           <label>{t("chekhash")}</label>
           <a
             className=" text-blue-600 "
-            href={link}
+            href={`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${postedHash}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -109,21 +120,36 @@ function UploadRFPForm({
           <label>{t("block")} </label>
           <label className="text-blue-600">&nbsp;{block}</label>
         </div>
-      )}
-
-      <div className="flex mt-4 mb-2 mx-auto ">
-        <button onClick={handleClose} className="secondary-btn ml-4">
-          {t("closebutton")}
-        </button>
-      </div>
-      {sendingBlockchain && 
+      )}  
+      {!blockchainsuccess && 
           <div className="mt-4  ">
             <div className="p-6 mx-auto">
               <SpinnerBar msg={t('uploading_metadata')}/>
+              <div className="flex justify-center mt-2">
+                            <p className=" text-orange-400 font-bold pl-12">{t('waiting_transaction')}</p>
+              </div>   
             </div>
           </div>
         }
-    </>
+
+      <div className="flex mt-8 mb-2 justify-center ">
+      { blockchainsuccess &&
+        <button onClick={handleClose} 
+          className="secondary-btn">
+          {t("closebutton")}
+        </button>
+      }
+      {(postedHash && !blockchainsuccess) &&
+          <button 
+            title={t('cancel_tx')}
+            onClick={handleCancelTx} 
+            className="txCancel-btn">
+            {t("cancelbutton")}
+          </button>
+      }        
+      </div>
+
+    </div>
   );
 
   const PickupComponent = () => {
@@ -164,12 +190,12 @@ function UploadRFPForm({
    *  Otherwise set screen to initial state (i.e. no picked up files)
    */
   const recordRFPMetadatatoContract = useCallback(async () => {
-    // si successFiles es cero, no debes poner setPickFiles a cero, hay que esperar que usuario revise errores
-    // y en boton de cerrar si poner a [] par avolver a inicio Tambien otros arreglso habria que reinicializarlos
+    // if SuccessFiles length is 0, do not set SetPickFiles to empty, wait for user to review errors on ShowSummaryUploads
+    // and on handleClose set arrays to [] to initialize everything and start fresh 
 
     const { nameArray, hashArray, fileIdArray, docTypeArray } =
       getMetadataVectors(uploadingSet);
-
+   // for progress set to 90 percentage of advance as we consider writing metadata to contract the last 10%
     setuploadingSet((prev) =>
       prev.map((item) => ({
         ...item,
@@ -179,6 +205,24 @@ function UploadRFPForm({
 
     try {
       // write metadata files to contract
+      console.log('metadata por escribir:', rfpIndex, docTypeArray, nameArray, hashArray, fileIdArray)
+      const today = todayUnixEpoch(new Date())
+      //save params in case user cancel op and we need to write to Pending Transactions (PendingTx) collection for later reference
+      //save to droppedTX the params in case user cancel in the middle
+      // Params to be sent to pro-pon contract:
+      // type	String	The type of record. In this case, the type is "filesuploadm".
+      // date	Number	The date the record was created (right now) .
+      // rfpIndex	Number	The index of the RFP in the contract.      
+      // docTypeArray	Array	An array of the document types for the files being uploaded.
+      // nameArray	Array	An array of the names of the files being uploaded.
+      // hashArray	Array	An array of the hashes of the files being uploaded.
+      // fileIdArray	Array	An array of the file IDs in arweave of the files being uploaded.consultable at www.arweave.net/fileId
+      // txHash	String	The hash of the transaction that uploaded the files.
+      // sender	String	The address of the sender who uploaded the files.
+      const Tx = {type: 'filesuploadm', date: today, rfpIndex, docTypeArray, nameArray, hashArray, fileIdArray}
+      setDroppedTx(Tx)
+      // writing essential RFP data to contract
+
       await write(rfpIndex, docTypeArray, nameArray, hashArray, fileIdArray);
       setuploadingSet((prev) =>
         prev.map((item) => ({
@@ -233,6 +277,7 @@ function UploadRFPForm({
       setuploadingSet(Array(pickedFiles.length).fill({ status: "pending" }));
    
       try {
+        //create an array of promises for each file to upload
         const processFilePromisesArray = pickedFiles.map((file, indx) =>
           uploadBlockchainFiles(
             setuploadingSet,
@@ -241,22 +286,16 @@ function UploadRFPForm({
             owner,
             RmteBundlr,
             file.docType,
-            //ArweavefileTypes.requestFile,
             rfpIndex
           )
         );
-        const resultFilesPromises = await Promise.allSettled(
-          processFilePromisesArray
-        );
+        //wait for all the promises to be completed
+        const resultFilesPromises = await Promise.allSettled(processFilePromisesArray);
         // const dataFileContent = await resultFilesPromises;
         //await resultFilesPromises;
         //resultFilesPromises;
-        const fullfilled = resultFilesPromises.filter(
-          (result) => result.status === "fulfilled"
-        );
-        setfilesWithErrors(
-          Boolean(resultFilesPromises.length - fullfilled.length)
-        );
+        const fullfilled = resultFilesPromises.filter((result) => result.status === "fulfilled");
+        setfilesWithErrors(Boolean(resultFilesPromises.length - fullfilled.length));
         setSuccessFiles(fullfilled);
         /******************************* Save metadata of succesfully-loaded files to arweave */
         if (fullfilled.length === 0) return; // nothing to upload end work here
@@ -275,6 +314,7 @@ function UploadRFPForm({
     [totalSize, owner,  rfpIndex, t]
   );
 
+  // ****************  handlers **********************************************************************************
   // initialize state to start again
   const handleClose = () => {
     setuploadingSet([]);
@@ -287,8 +327,28 @@ function UploadRFPForm({
     setNewFiles(true);
   };
   
+    
+  /**
+  *   handleCancelTx -  Record TX to PendingTx DB Collection 
+  *        If TX is taking long, user can click cancel to abort waiting
+  *        Tx still can go through but we won't wait for it
+  */
+  const handleCancelTx = () => {
+    setIsCancelled(true);
+    // create a copy of droppedTx object
+    const updatedTxObj = { ...droppedTx };
+    // update txLink property with the link value
+    updatedTxObj.txHash = postedHash;
+    // pass updatedTxObj to setNoticeOff function
+    setNoticeOff({ fired: true, txObj: updatedTxObj });
+    setProTxBlockchain(false)
+  }
+
+
   //JSX returned begins here    ********************************************************************
   
+
+/* comienza debug  */
   if (!Boolean(pickedFiles.length))
     return (
       <div id="pickupcomponentholder" className="my-8 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-md">
@@ -296,6 +356,8 @@ function UploadRFPForm({
       </div>
     );
   else if (uploadingSet.length > 0)
+ /*termina debug 
+   if (true)*/
       return (
         <div className="my-8 mx-4 font-khula bg-white leading-8 ">
           <DisplayProgressUpload
@@ -303,9 +365,14 @@ function UploadRFPForm({
             files={pickedFiles}
             uploadingSet={uploadingSet}
           />
-          <div className=" flex flex-col my-8 p-2 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-xl">
-            {showSummaryUploads && <ShowSummaryUploads />}
-          </div>
+            {showSummaryUploads &&  
+              <div className="fixed inset-0 bg-zinc-100 bg-opacity-80 z-50 flex justify-center ">
+                  <div className="fixed inset-0 bg-white border border-solid border-orange-300 left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 
+                                  w-[30%] md:w-[50%] lg:w-[60%] xl:w-[40%] shadow-md h-[35%] overflow-auto text-base font-khula">
+                    <ShowSummaryUploads />
+                  </div>
+              </div>
+            }
         </div>
       );
        else return (
