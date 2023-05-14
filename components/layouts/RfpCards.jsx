@@ -17,23 +17,12 @@ import { ethers } from 'ethers'
 
 
 function RfpCards({ rfps, setIsWaiting, companyData, t }) {
-  const [declared, setDeclared] = useState(false);
-  const [typeRFP, setTypeRFP] = useState(0);
-  const [statusContest, setstatusContest] = useState(0);
+
   const router = useRouter()
 
   
 
-const handleStatusChange = (event) => {
-  setDeclared(event.target.checked);
-};
 
-const handleTpyeChange = (event) => {
-  setTypeRFP(event.target.value);
-};
-
-const typeOfContest = ['open', 'invitation']
-const contestStatus = ['pending', 'declared', 'canceled']
 
 
   // ******************** Inner components ***********************************
@@ -75,19 +64,7 @@ const  RfpCard = ({ rfp }) => {
     )
   };
 
-  const RadioInput = ({ value, typeRFP, handleRadioChange }) => (
-    <label  htmlFor={value}>
-      <input
-        type="radio"
-        id={value}
-        name="typeRFP"
-        value={t(`${value}`)}
-        checked={typeRFP === t(`${value}`)}
-        onChange={handleRadioChange}
-      />
-      <span className="ml-2">{value}</span>
-    </label>
-  );
+
 
 
    
@@ -107,39 +84,7 @@ const  RfpCard = ({ rfp }) => {
  
   return (
     <div className="m-2">
-           
-      <div className="bg-white rounded-lg my-4 flex p-4 shadow-lg">
-          <div id="tpyecontest" className="ml-8 flex items-center border border-orange-400 rounded-lg p-4">
-              <div className="mr-4">{t('statuscontest')}</div>
-                <div className="flex flex-col space-y-2 ">
-                  {contestStatus.map((option) => (
-                    <input
-                      id={option}
-                      name="statusRFP"
-                      type="checkbox"
-                      key={option}
-                      value={t(`${option}`)}
-                      checked={typeRFP === t(`${option}`)}
-                      typeRFP={typeRFP}
-                      handleRadioChange={handleStatusChange}
-                    />
-                    ))} 
-          </div>          
-        </div>  
-        <div id="tpyecontest" className="ml-8 flex items-center border border-orange-400 rounded-lg p-4">
-            <div className="mr-4">{t('contestType')}</div>
-              <div className="flex flex-col space-y-2 ">
-                {typeOfContest.map((option) => (
-                  <RadioInput
-                    key={option}
-                    value={t(`${option}`)}
-                    typeRFP={typeRFP}
-                    handleRadioChange={handleTpyeChange}
-                  />
-                  ))} 
-        </div>          
-        </div>  
-      </div>
+ 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {columns.map((column, index) => (
           <Fragment key={index}>

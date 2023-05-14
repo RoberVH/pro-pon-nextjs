@@ -75,6 +75,7 @@
     "additemstitle":"Agregue Partidas a RFP/Licitación",
     "addintemsinstructions":"Haga click en ícono verde para agregar partida a la lista. Haga click en partida de la lista para editarla",
     "contestType": "Tipo",
+    "status":"Situación",
     "open": "Abierta",
     "invitation":"Invitación",
     "showItems":"Partidas",

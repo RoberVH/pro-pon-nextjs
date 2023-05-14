@@ -73,6 +73,7 @@
     "additemstitle":"Ajouter des articles à la demande de propositions/appel d'offres",
     "addintemsinstructions":"Cliquez sur l'icône verte pour ajouter un jeu à la liste. Cliquez sur un jeu dans la liste pour le modifier",
     "contestType": "Type",
+    "status":"Situation",
     "open": "Ouvert",
     "invitation":"Invitation",
     "showItems":"Lots/Categories",

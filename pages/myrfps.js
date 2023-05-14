@@ -21,44 +21,152 @@ import { Warning } from '../components/layouts/warning'
 import { errorSmartContract } from "../utils/constants";
 
 function MyRFPs() {
-  const [loading, setloading] = useState(true)
+  const [declared, setDeclared] = useState(false);
+  const [typeRFP, setTypeRFP] = useState('open');
+  const [isOpen, setIsOpen] = useState(false);
+  const [isInvitation, setIsInvitation] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+  const [isDeclared, setIsDeclared] = useState(false);
+  const [isCanceled, setIsCanceled] = useState(false);
+
+  const [filtering, setFiltering] = useState(false)
+  const [contractRFP, setContractRFP] = useState([])
   const [RFPs, setRFPs] = useState([])
   const [noRFP, setNoRFP] = useState(false)
   const [searching, setSearching] = useState(true)
   const [isWaiting, setIsWaiting] = useState(false)
-  
+
+  const typeOfContest = ['open', 'invitation']
+  const contestStatus = ['declared', 'canceled']
 
   const { companyData, address } = useContext(proponContext);
   const { t } = useTranslation("rfps");
+
+useEffect(()=>{
+  setFiltering(true)
+  let filteredRFPs=[]
+  filteredRFPs = contractRFP.filter(rfp=> rfp.contestType===(typeRFP==='open' ? 0 : 1))   // filter if open
+  filteredRFPs = filteredRFPs.filter(rfp => rfp.canceled === isCanceled)
+  console.log('canceled',filteredRFPs)
+  if (isDeclared)   filteredRFPs = filteredRFPs.filter(rfp => rfp.winners.length > 0)
+  console.log('isDeclared',filteredRFPs)
+  setRFPs(filteredRFPs)
+  setFiltering(false)
+},[contractRFP,typeRFP, isCanceled, isDeclared, isPending])
 
  useEffect(()=>{
   async  function getCompanyRFPs()  {
     if (address) {
       const result = await getRFPsbyCompanyAddress(address)
-      if (result.status) setRFPs(result.RFPs)
+      console.log('Results', result)
+      if (result.status) {
+        setContractRFP(result.RFPs)
+      }
       else if (result.msg) errorSmartContract(result.msg)
     }
     setSearching(false)
   }
   getCompanyRFPs()
- },[address])
+ },[address, typeRFP])
 
+// ******************************* handlers ******************************************** */
 
+    const handleStatusChange = (option) => {
+      switch (option) {
+        case 'pending':
+          setIsPending(previous => !previous)
+          break
+        case 'declared':
+          setIsDeclared(previous => !previous)
+          break
+        case 'canceled':
+          setIsCanceled(previous => !previous);
+          break
+      }
+    };
 
- // ****************************** Inner components
+    const handleTypeChange = ( id) => {
+      setTypeRFP(id)
+    };
+
+// ******************************* Utility functions *********************** */    
+    const statusSelector = (option) => {
+      if (option === 'pending') {
+        return isPending
+      } else if (option === 'canceled') {
+        return isCanceled
+      } 
+      return isDeclared
+      }
+
+ // ****************************** Inner components ********************************   */ 
+
+// ******************************** Main JSX ********************************   */ 
 
  if (!address) return ( <Warning title = {t("notconnected", { ns: "common" })} />)
  if (searching) return (<div className="mt-4 border-orange-500 p-8"><Spinner /></div>)
  if (!companyData?.companyname) return ( <Warning title = {t("nocompany", { ns: "common" })} />)
- if (Boolean(RFPs?.length)) {
+ 
   return (
-    <div className="p-2">
-      <RfpCards rfps={RFPs} setIsWaiting={setIsWaiting} companyData={companyData} t={t}/>
+    <div className=" mx-8 p-2">
+      <div className=" bg-white mx-auto mt-2 mb-4  p-4 rounded-lg font-khula text-stone-900" 
+          style={{ boxShadow: 'inset 0 0 30px   #fdba74' }}
+      >
+        <div id="tpyecontest" className=" items-center">
+          <div className="flex">
+            <div id="tpyecontest" className="ml-8 flex items-center  pl-4 p-2 border-2 border-stone-300 rounded-md">
+              <p className="ml-2 mr-8 font-bold">{t('contestType')}: </p>
+              <div className="flex flex-col">
+                {typeOfContest.map((option) => (
+                      <label  key={option} htmlFor={option}>
+                      <input
+                        //key={option}
+                        type="radio"
+                        id={option}
+                        name="typeRFP"
+                        value={t(option)}
+                        checked={typeRFP === option}
+                        onChange={()=>handleTypeChange(option)}
+                      />
+                      <span className="ml-2">{t(option)}</span>
+                    </label>                  
+                  ))
+                } 
+              </div>   
+            </div>  
+            <div className=""></div>
+            <div id="statusContest" className="ml-8 flex items-center  pl-4 p-2 border-2 border-stone-300 rounded-md">
+                <p className="ml-2 mr-8 font-bold">{t('status')}:</p>
+                <div className="flex flex-col">
+                  {contestStatus.map((option) => (
+                    <span  key={option}>
+                      <input
+                        id={option}
+                        name="statusRFP"
+                        type="checkbox"
+                        key={option}
+                        value={t(`${option}`)}
+                        checked={statusSelector(option)}
+                        onChange={ () => handleStatusChange(option) }
+                      />
+                      <label className="ml-4" htmlFor={option}>{t(option)}</label>
+                    </span>
+                    ))} 
+                </div>
+            </div>       
+          </div>
+        </div>  
+      </div>
+      {filtering && <Spinner />}
+      {RFPs.length > 0 ?
+        <RfpCards rfps={RFPs} setIsWaiting={setIsWaiting} companyData={companyData} t={t}/>
+        :
+        <Warning title = {t("noresults", { ns: "common" })} />
+      }      
     </div>
-    )
- }  else {
-    return (<Warning title = {t("noresults", { ns: "common" })} />)}
-}
+  )
+ }  
+
 
 export async function getStaticProps({ locale }) {
   return {

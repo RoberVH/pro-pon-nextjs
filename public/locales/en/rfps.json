@@ -73,6 +73,7 @@
     "additemstitle":"Add Items to RFP/Tender",
     "addintemsinstructions":"Click green icon to add Item to list. Clic on added Item to edit it",
     "contestType": "Type",
+    "status":"Status",
     "open": "Open",
     "invitation":"Invitation",
     "showItems":"Items",
