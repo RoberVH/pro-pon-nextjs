@@ -160,7 +160,7 @@
     "dropped_tx_notice":"Your transaction is still pending to be mined and still could be resolved. Please try checking later, either in the Blockchain explorer or in the App, and submit it again if necessary",
     "statuscontest":"RFP Status",
     "pending":"Pending",
-    "declared":"Declared",
+    "declared":"Awarded",
     "cancel_rfp_title":"Cancel the RFP",
     "caution_cancel_rfp":"Beware this close the RFP!",
     "cancel_tx":"Stop waiting for the Blockchain to confirm Transaction. It will be added to pending Transactions",

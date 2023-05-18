@@ -16,20 +16,17 @@ import { rfpParams } from '../../utils/rfpItems';
 import { ethers } from 'ethers'
 
 
-function RfpCards({ rfps, setIsWaiting, companyData, t }) {
+function RfpCards({ rfps, 
+  //setIsWaiting, 
+  companyData, t }) {
 
   const router = useRouter()
-
-  
-
-
-
 
   // ******************** Inner components ***********************************
 
 const  RfpCard = ({ rfp }) => {
   const handleShowRFP = (rfpParams) => {
-      setIsWaiting(true);
+      // setIsWaiting(true);
   
       const urlLine={
           companyId: companyData.companyId,
@@ -44,7 +41,7 @@ const  RfpCard = ({ rfp }) => {
       if (canceled) bg='bg-red-100'
       if (rfp.winners.length) bg='bg-green-100'
       return (
-      <div className={`${bg} rounded-lg shadow-lg px-6 py-4`}>
+      <div className={`${bg} rounded-lg shadow-lg px-6 py-4 border border-orange-300`}>
           <div className="text-md flex justify-between mb-4">
             <p className=" ">Id: {rfp.name}</p>
             { canceled  &&   <p className="text-red-500 text-sm">{t('canceled').toUpperCase()}</p>}

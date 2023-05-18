@@ -21,18 +21,18 @@ import { Warning } from '../components/layouts/warning'
 import { errorSmartContract } from "../utils/constants";
 
 function MyRFPs() {
-  const [declared, setDeclared] = useState(false);
+  //const [declared, setDeclared] = useState(false);
   const [typeRFP, setTypeRFP] = useState('open');
-  const [isOpen, setIsOpen] = useState(false);
-  const [isInvitation, setIsInvitation] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isInvitation, setIsInvitation] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [isDeclared, setIsDeclared] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
 
   const [filtering, setFiltering] = useState(false)
-  const [contractRFP, setContractRFP] = useState([])
+  const [contractRFPs, setContractRFPs] = useState([])
   const [RFPs, setRFPs] = useState([])
-  const [noRFP, setNoRFP] = useState(false)
+  // const [noRFP, setNoRFP] = useState(false)
   const [searching, setSearching] = useState(true)
   const [isWaiting, setIsWaiting] = useState(false)
 
@@ -45,22 +45,19 @@ function MyRFPs() {
 useEffect(()=>{
   setFiltering(true)
   let filteredRFPs=[]
-  filteredRFPs = contractRFP.filter(rfp=> rfp.contestType===(typeRFP==='open' ? 0 : 1))   // filter if open
-  filteredRFPs = filteredRFPs.filter(rfp => rfp.canceled === isCanceled)
-  console.log('canceled',filteredRFPs)
-  if (isDeclared)   filteredRFPs = filteredRFPs.filter(rfp => rfp.winners.length > 0)
-  console.log('isDeclared',filteredRFPs)
+  filteredRFPs = contractRFPs.filter(rfp=> rfp.contestType===(typeRFP==='open' ? 0 : 1))   // filter if open
+  if (isCanceled)  filteredRFPs = filteredRFPs.filter(rfp => rfp.canceled )
+  if (isDeclared) filteredRFPs = filteredRFPs.filter(rfp => rfp.winners.length > 0)
   setRFPs(filteredRFPs)
   setFiltering(false)
-},[contractRFP,typeRFP, isCanceled, isDeclared, isPending])
+},[contractRFPs,typeRFP, isCanceled, isDeclared, isPending])
 
  useEffect(()=>{
   async  function getCompanyRFPs()  {
     if (address) {
       const result = await getRFPsbyCompanyAddress(address)
-      console.log('Results', result)
       if (result.status) {
-        setContractRFP(result.RFPs)
+        setContractRFPs(result.RFPs)
       }
       else if (result.msg) errorSmartContract(result.msg)
     }
@@ -109,12 +106,12 @@ useEffect(()=>{
  
   return (
     <div className=" mx-8 p-2">
-      <div className=" bg-white mx-auto mt-2 mb-4  p-4 rounded-lg font-khula text-stone-900" 
-          style={{ boxShadow: 'inset 0 0 30px   #fdba74' }}
+      <div className="bg-orange-200   mx-auto mt-2 mb-4  p-4 rounded-lg font-khula text-stone-900 shadow-md " 
+          //style={{ boxShadow: 'inset 0 0 30px   #fdba74' }}
       >
         <div id="tpyecontest" className=" items-center">
           <div className="flex">
-            <div id="tpyecontest" className="ml-8 flex items-center  pl-4 p-2 border-2 border-stone-300 rounded-md">
+            <div id="tpyecontest" className="ml-8 flex items-center  pl-4 p-2 border-2 border-stone-100 rounded-md">
               <p className="ml-2 mr-8 font-bold">{t('contestType')}: </p>
               <div className="flex flex-col">
                 {typeOfContest.map((option) => (
@@ -135,7 +132,7 @@ useEffect(()=>{
               </div>   
             </div>  
             <div className=""></div>
-            <div id="statusContest" className="ml-8 flex items-center  pl-4 p-2 border-2 border-stone-300 rounded-md">
+            <div id="statusContest" className="ml-8 flex items-center  pl-4 p-2 border-2 border-stone-100  rounded-md">
                 <p className="ml-2 mr-8 font-bold">{t('status')}:</p>
                 <div className="flex flex-col">
                   {contestStatus.map((option) => (
@@ -159,7 +156,8 @@ useEffect(()=>{
       </div>
       {filtering && <Spinner />}
       {RFPs.length > 0 ?
-        <RfpCards rfps={RFPs} setIsWaiting={setIsWaiting} companyData={companyData} t={t}/>
+        // <RfpCards rfps={RFPs} setIsWaiting={setIsWaiting} companyData={companyData} t={t}/>
+        <RfpCards rfps={RFPs} companyData={companyData} t={t}/>
         :
         <Warning title = {t("noresults", { ns: "common" })} />
       }      

@@ -166,7 +166,6 @@ useEffect(() => {
   };  
 
 // Inner Components  ***************************************************************************************************************************
-//ShowTxSummary - 
   const DespSummary = () => {
     if (processingTxBlockchain) 
       return (
@@ -316,7 +315,14 @@ if (!inTime) return (
   )
 
 
-  if (bidders.length === 0) return <GralMsg title={t('no_participants')} />
+if (bidders.length === 0) return (
+<div>
+  <TitleDeclare />
+  <CancelRFPComponent />
+  <GralMsg title={t('no_participants')} />
+  <DespSummary />
+</div>
+)
 
 // everything clear out, so lets proceed to present components to declare winners
 return (

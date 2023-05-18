@@ -160,7 +160,7 @@
     "dropped_tx_notice":"Votre transaction est toujours en attente d'extraction et pourrait toujours être résolue. Veuillez essayer de vérifier plus tard, soit dans l'explorateur Blockchain, soit dans l'application, et soumettez-la à nouveau si nécessaire",
     "statuscontest":"Statut de l'appel d'offres",
     "pending":"En attente",
-    "declared":"Déclaré",
+    "declared":"Attribuée",
     "cancel_rfp_title":"Annuler l'appel d'offres",
     "caution_cancel_rfp":"Attention, ceci ferme l'appel d'offres!",
     "cancel_tx":"Arrêtez d'attendre que la Blockchain confirme la transaction. Elle sera ajoutée aux transactions en attente",
