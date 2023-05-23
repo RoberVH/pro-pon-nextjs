@@ -6,13 +6,12 @@ import  MenuHolder  from './layouts/menuHolder'
 
 const companyOptions = [
   {tag:'companiessearch', link:'/companies'},
-  {tag:'myrfps', link:'/myrfps'},
   {tag:'mypendingtxs', link: '/mypendingtxs'},
-  {tag:'Testlandigs', link: '/testlanding'}
 ]
 const rfpOptions = [
   {tag:'rfpcreate', link:'/createrfps'},
-  {tag:'rfpsearch', link:'/searchrfps'}
+  {tag:'rfpsearch', link:'/searchrfps'},
+  {tag:'myrfps', link:'/myrfps'},
   ]          
 
 

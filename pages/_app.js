@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   const [ address, setAddress] = useState('')
   const [showSpinner, setShowSpinner] = useState(false)
   const [noRightNetwork, setNoRightNetwork] = useState(false);
+  const [noWallet, setnoWallet] = useState(true);
   
   
   return (
@@ -28,7 +29,9 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
         showSpinner, 
         setShowSpinner,
         noRightNetwork, 
-        setNoRightNetwork
+        setNoRightNetwork,
+        noWallet, 
+        setnoWallet
       }}>
         <div className={`${showSpinner ? 'opacity-50 cursor-not-allowed':null}`}>
           <HeadBar isConnected={isConnected} />

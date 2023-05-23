@@ -3,6 +3,7 @@
  * @description This module is used for to display the headbar for the application 
  */
 
+import styles from '../../styles/Home.module.css'
 import { useState, useContext, useEffect, useCallback, useRef } from "react";
 import { getContractCompanyData } from "../../web3/getContractCompanyData"
 import { checkMMAccounts } from "../../web3/getMetaMaskAccounts"
@@ -49,7 +50,7 @@ const droppableItemEnum = {
 
 const HeadBar = () => {
   const [hideMenuAccount, sethideMenuAccount] = useState(false)
-  const [noMetaMask, setNoMetaMask] = useState(true)
+  //const [noWallet, setnoWallet] = useState(true)
   const [addingNetwork, setAddingNetwork]=useState(false)
   const [droppletVisible, setdroppletVisible] = useState(false)
 
@@ -60,7 +61,9 @@ const HeadBar = () => {
             setAddress,
             setShowSpinner,
             noRightNetwork,
-            setNoRightNetwork } = useContext(proponContext);
+            setNoRightNetwork,
+            noWallet, 
+            setnoWallet } = useContext(proponContext);
 
   const { t } = useTranslation(["menus", "common"]);
   const router = useRouter();
@@ -116,7 +119,7 @@ const HeadBar = () => {
 
     if (typeof window === "undefined") return;
     if (window.ethereum) {
-        setNoMetaMask(false) // there is Metamask or provider installed at browser
+        setnoWallet(false) // there is Metamask or provider installed at browser
         checkMMAccounts(setAddress)  //
         window.ethereum.on('accountsChanged', handleAccountChange);
         // return () => { window.ethereum.off('accountsChanged', handleAccountChange) }
@@ -250,6 +253,7 @@ const HeadBar = () => {
 
 // Inner Components  ******************************************************************************************
   const ShowAccount = ({isVisible}) => {
+    if (noWallet) return null
     if (!address)
       return (
         // no address yet, allow to connect
@@ -323,7 +327,7 @@ const HeadBar = () => {
  
 
 const AccountSpaceTitle = () => {
-  if (noMetaMask) return (
+  if (noWallet) return (
       <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
         <NoMetamaskWarning msg={t('metamaskwarning',{ns:'common'})} buttontitle={t('getmetamask',{ns:'common'})}/>
       </nav> 
@@ -341,7 +345,7 @@ const AccountSpaceTitle = () => {
 }
 
  return (
-     <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
+     <nav id="navigation" className={`${styles.header_bg_color} antialiased  pl-2 pt-4 pb-4 `}>
       { addingNetwork && 
         <div className="flex justify-center">
           <DisplayMsgAddinNetwork t={t}/> 
