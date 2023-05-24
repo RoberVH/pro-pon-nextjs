@@ -25,8 +25,8 @@ import { App_Name } from '../utils/constants'
 
 function LandingPage() {
   const [warningFlag, setWarningFlag] = useState(false)
-  
-  const { companyData, address, showSpinner, noWallet  } = useContext(proponContext);
+    const { companyData, address, showSpinner, noWallet  } = useContext(proponContext);
+
   
   //********************************** hooks ****************************************** /
   const router = useRouter()
@@ -62,9 +62,10 @@ function LandingPage() {
   const InfoCard = ({ title, image, info }) => (
     <li>
       <div className="space-y-4 p-4 rounded-md  h-full">
-        <div className=" flex items-center aspect-w-3 aspect-h-2 text-2xl text-orange-500">
+        <div className=" flex items-center aspect-w-3 aspect-h-2 ">
           <Image height={32} width={32} className="" src={image} alt="Info" />
-          <p className="ml-4 sm:text-lg md:mt-5 md:text-xl lg:text-2xl font-bold">
+          <p className="ml-4 sm:text-lg md:mt-5 md:text-xl lg:text-2xl text-2xl text-stone-500"
+          style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
             {title}
           </p>
         </div>
@@ -88,19 +89,18 @@ function LandingPage() {
         rel="noopener noreferrer"
       >
         <span >
-           <div className="shadow-blue-400 shadow-2xl">
+           <div className=" border-b-4 border-blue-900 rounded-xl"
+           style={{boxShadow:'10px 10px 15px 0 rgba(0, 0, 255, 0.5)'}} >
                 <Image
                     width={400}
                     height={500}
                     className="object-aspect mx-auto rounded-xl " 
-                    
                     src={image}
                     alt={title}
                 />
             </div>         
         </span>
-
-        <h2 className="pt-8 text-blue-700 text-3xl font-bold my-2 tracking-wider">
+        <h2 className="pt-8 text-blue-700 text-3xl font-bold my-2 tracking-wider  transform transition  hover:scale-105 hover:text-blue-900" >
           {title}
         </h2>
       </a>
@@ -315,7 +315,8 @@ function LandingPage() {
           className="flex items-center  justify-end mt-12 space-y-12 lg:space-y-0 lg:gap-x-4 lg:gap-y-10  "
         >
           <div className="w-[50%] mr-32">
-            <p className=" mb-6 sm:text-lg  md:text-xl lg:text-3xl xl:text-4xl font-bold text-orange-500 ">
+            <p className=" mb-8 sm:text-lg  md:text-xl lg:text-3xl xl:text-4xl font-bold text-orange-400"
+            style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
               {t("features_label")}
             </p>
             <ul className="ml-8 sm:text-md md:text-lg lg:text-xl xl:text-xl text-stone-800 pl-4 list-none leading-[1.2rem] mb-8">
@@ -361,7 +362,8 @@ function LandingPage() {
         </div>
       </div>
       <div ref={resourceSectionRef}  id="resources-section" className="px-16 pt-16 sm:pb-32 md:pb-32 lg:pb-48 xl:pb-48 bg-gradient-to-bl from-blue-100 via-slate-200 to-orange-100">
-        <p className="mt-12 text-center lg:text-3xl xl:text-4xl md:text-2xl sm:text-xl text-orange-500 font-bold">
+        <p className="mt-12 text-center lg:text-3xl xl:text-4xl md:text-2xl sm:text-xl text-orange-500 font-bold"
+        style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
           {t("learn_more")}
         </p>
         <div

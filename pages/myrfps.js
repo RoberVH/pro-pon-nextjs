@@ -102,16 +102,17 @@ useEffect(()=>{
 
  if (!address) return ( <Warning title = {t("notconnected", { ns: "common" })} />)
  if (searching) return (<div className="mt-4 border-orange-500 p-8"><Spinner /></div>)
+ if (isWaiting) return (<div className="mt-4 border-orange-500 p-8"><Spinner /></div>)
  if (!companyData?.companyname) return ( <Warning title = {t("nocompany", { ns: "common" })} />)
  
   return (
     <div className=" mx-8 p-2">
       <div className="bg-orange-200   mx-auto mt-2 mb-4  p-4 rounded-lg font-khula text-stone-900 shadow-md " 
-          //style={{ boxShadow: 'inset 0 0 30px   #fdba74' }}
+          style={{boxShadow: '3px 3px 6px rgba(0, 0, 0, 0.2)'}}
       >
         <div id="tpyecontest" className=" items-center">
           <div className="flex">
-            <div id="tpyecontest" className="ml-8 flex items-center  pl-4 p-2 border-2 border-stone-100 rounded-md">
+            <div id="tpyecontest" className="ml-8 flex items-center pl-4 p-2 border-2 border-stone-100 rounded-md">
               <p className="ml-2 mr-8 font-bold">{t('contestType')}: </p>
               <div className="flex flex-col">
                 {typeOfContest.map((option) => (
@@ -157,7 +158,7 @@ useEffect(()=>{
       {filtering && <Spinner />}
       {RFPs.length > 0 ?
         // <RfpCards rfps={RFPs} setIsWaiting={setIsWaiting} companyData={companyData} t={t}/>
-        <RfpCards rfps={RFPs} companyData={companyData} t={t}/>
+        <RfpCards rfps={RFPs} setIsWaiting={setIsWaiting} companyData={companyData} t={t}/>
         :
         <Warning title = {t("noresults", { ns: "common" })} />
       }      

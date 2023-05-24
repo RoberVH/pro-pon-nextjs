@@ -17,7 +17,7 @@ import { ethers } from 'ethers'
 
 
 function RfpCards({ rfps, 
-  //setIsWaiting, 
+  setIsWaiting, 
   companyData, t }) {
 
   const router = useRouter()
@@ -26,7 +26,7 @@ function RfpCards({ rfps,
 
 const  RfpCard = ({ rfp }) => {
   const handleShowRFP = (rfpParams) => {
-      // setIsWaiting(true);
+       setIsWaiting(true);
   
       const urlLine={
           companyId: companyData.companyId,
@@ -41,7 +41,8 @@ const  RfpCard = ({ rfp }) => {
       if (canceled) bg='bg-red-100'
       if (rfp.winners.length) bg='bg-green-100'
       return (
-      <div className={`${bg} rounded-lg shadow-lg px-6 py-4 border border-orange-300`}>
+      <div className={`${bg} rounded-lg  px-6 py-4 border border-orange-300`}
+      style={{boxShadow: '6px 6px 12px rgba(0, 0, 0, 0.3)'}}>
           <div className="text-md flex justify-between mb-4">
             <p className=" ">Id: {rfp.name}</p>
             { canceled  &&   <p className="text-red-500 text-sm">{t('canceled').toUpperCase()}</p>}
@@ -51,7 +52,7 @@ const  RfpCard = ({ rfp }) => {
                  <p className="underline"> {t('go')}</p>
             </button>
           </div>
-          <p className="mt-2 text-gray-500 text-sm"><strong>{t('description')}: </strong> {rfp.description}</p>
+          <p className="mt-2 text-gray-500 text-sm truncate" title={rfp.description}><strong>{t('description')}: </strong> {rfp.description}</p>
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('open')}: </strong> {convDate(rfp.endReceivingDate)}</p>
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('end_receiving')}: </strong>{convDate(rfp.openDate)}</p>
           <p className="mt-2 text-gray-500 text-sm"><strong>{t('end')}: </strong>{convDate(rfp.endDate)}</p>
