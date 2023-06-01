@@ -39,7 +39,14 @@ function LandingPage() {
     router.push('/createrfps')
   }
 
+  const handleSearchRFP = () => {
+    router.push('/searchrfps')
+  }
 
+  const handleSearchCompanies = () => {
+    router.push('/companies')
+  }
+  
   const handlesignIn = () => {
     if (noWallet) {
       setWarningFlag(true)
@@ -273,8 +280,32 @@ function LandingPage() {
               <p className="italic">{t("subtitle2")}</p>
             </div>
           </div>
-        <div id="CTA-subsection" className="sm:my-16 md:my-18 lg:my-24 xl:my-48">
+        <div id="CTA-subsection" className="sm:my-16 md:my-18 lg:my-24 xl:my-48"
+         style={{boxShadow: '0px 5px 15px 0 rgba(0, 0, 0, 0.9), 0px -5px 25px 0 rgba(0, 0, 0, 0.9)'}}
+        > 
             <CTA_Card />
+        </div>
+        <div className="w-[80%] mx-auto">
+          <div id="no-signup-notice" className=" text-center p-4 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500
+            rounded-tl-full rounded-tr-full rounded-br-full rounded-bl-full"
+            style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 0.9)'}}>
+            <p className="font-bold text-white sm:text-xl md:text-xl lg:text-3xl">
+              {t('no_signup')}
+            </p>
+            <p className="font-inter text-white text-base sm:text-lg md:text-xl lg:text-2xl mt-2">
+              {t('browse_rfp')}
+            </p>
+            <div className="pt-8 pb-4 text-center">
+              <button className="mx-4 blueblack-btn"
+                onClick={handleSearchCompanies}>
+                {t('search_companies')}
+              </button>
+              <button className="mx-4 blueblack-btn"
+                onClick={handleSearchRFP}>
+                {t('search_rfps')}
+              </button>
+            </div>
+          </div>
         </div>
         <div id="informative-intro-cards" className="sm:my-16 md:my-18 lg:my-24 xl:my-48 mx-12 pb-16">
           <div className="w-3/4 mx-auto divide-y-2 divide-gray-200">
@@ -305,6 +336,7 @@ function LandingPage() {
           </div>
         </div>
       </div>
+     
       <div
         id="second-section"
         className="mx-auto sm:my-24 md:my-32 lg:my-48 xl:my-64  font-inter sm:w-4/6 md:w-4/6 lg:w-5/6 xl:w-5/6 bg-stone-300
@@ -362,7 +394,7 @@ function LandingPage() {
         </div>
       </div>
       <div ref={resourceSectionRef}  id="resources-section" className="px-16 pt-16 sm:pb-32 md:pb-32 lg:pb-48 xl:pb-48 bg-gradient-to-bl from-blue-100 via-slate-200 to-orange-100">
-        <p className="mt-12 text-center lg:text-3xl xl:text-4xl md:text-2xl sm:text-xl text-orange-500 font-bold"
+        <p className="mt-12 text-center lg:text-3xl xl:text-4xl md:text-2xl sm:text-xl text-orange-500 font-bold tracking-wider"
         style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
           {t("learn_more")}
         </p>

@@ -41,7 +41,12 @@ html {
     active:focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 
     active:bg-red-800 active:focus:shadow-lg transition duration-150 
     ease-in-out disabled:bg-red-400;
-}
+  }
+
+  .blueblack-btn {
+    @apply bg-gradient-to-r from-blue-600 to-black hover:from-blue-400 hover:to-gray-500 text-white md:text-base sm:text-base 
+    xl:text-xl lg:text-xl font-bold py-2 px-4 rounded-xl
+  }
 
 
     .btn-add-circular {

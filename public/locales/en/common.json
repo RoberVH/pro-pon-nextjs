@@ -90,6 +90,9 @@
   "install_metamask": "Install Metamask and create an account on the Polygon Blockchain network",
   "get_matic": "Get MATIC cryptocurrencies to use this application",
   "backup_keys": "It is important that you back up your Metamask keys as your wallet is the only means to access your registration on ",
-  "lose_access": "If you lose access to your Wallet there is no other way to recover it"
-
+  "lose_access": "If you lose access to your Wallet there is no other way to recover it",
+  "no_signup": "Just want to review RFPs? No problem!",
+  "browse_rfp": "No need to sign up for that. Go ahead and browse through Companies and RFPs from the menu",
+  "search_companies": "Search Companies",
+  "search_rfps": "Search RFPs"
 }

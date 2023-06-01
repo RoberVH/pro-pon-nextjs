@@ -44,7 +44,6 @@
   "confidentiality_description": "Sus documentos sensibles permanecerán confidenciales hasta el cierre de la RFP, asegurando un campo de juego nivelado para todos los concursantes.",
   "traceability_label": "Trazabilidad",
   "traceability_description": "Todo el historial se almacena en la cadena de bloques, no en un silo",
-
   "benefits": [
     "Vendedores de todo el mundo",
     "Los documentos de la propuesta son electrónicos y están firmados criptográficamente",
@@ -91,6 +90,9 @@
     "install_metamask": "Instale Metamask y cree una cuenta en la red de Blockchain Polygon",
     "get_matic": "Consiga crypto monedas MATIC para utilizar esta aplicación",
     "backup_keys": "Es importante que respalde sus claves de Metamask pues su billetera es el único medio para acceder a su registro en ",
-    "lose_access": "Si pierde acceso a su Billetera no existe otra forma de recuperarlo"
-    
+    "lose_access": "Si pierde acceso a su Billetera no existe otra forma de recuperarlo",
+    "no_signup": "¿Solo quiere revisar RFPs? ¡No hay problema!",
+    "browse_rfp": "No necesita registrarse para eso. Adelante, navegue por las Empresas y RFPs desde el menú",
+    "search_companies": "Buscar Empresas",
+    "search_rfps": "Buscar RFPs"
 }

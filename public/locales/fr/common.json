@@ -91,5 +91,9 @@
   "install_metamask": "Installez Metamask et créez un compte sur le réseau Blockchain Polygon",
   "get_matic": "Obtenez des cryptomonnaies MATIC pour utiliser cette application",
   "backup_keys": "Il est important que vous sauvegardiez vos clés Metamask car votre portefeuille est le seul moyen d'accéder à votre inscription sur ",
-  "lose_access": "Si vous perdez l'accès à votre portefeuille, il n'y a pas d'autre moyen de le récupérer"
+  "lose_access": "Si vous perdez l'accès à votre portefeuille, il n'y a pas d'autre moyen de le récupérer",
+  "no_signup": "Vous voulez juste passer en revue les RFPs? Pas de problème!",
+  "browse_rfp": "Pas besoin de vous inscrire pour cela. Allez-y et parcourez les Entreprises et les RFPs à partir du menu.",
+  "search_companies": "Recherche Entreprises",
+  "search_rfps": "Recherche RFPs"
 }
