@@ -97,7 +97,7 @@ function HomeRFP() {
       for (const prop in result.RFP) {
         if (isNaN(parseInt(prop))) {
           if (result.RFP[prop] instanceof BigNumber)
-            RFP[prop] = result.RFP[prop].toNumber();
+            RFP[prop] = result.RFP[prop].toNumber()
           else RFP[prop] = result.RFP[prop];
         }
       }

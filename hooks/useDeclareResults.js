@@ -16,15 +16,15 @@ export const useDeclareResults =  (onError, onSuccess, isCancelled, setProTxBloc
    const isMounted = useRef(true)
 
    useEffect(() => {
-      if (isCancelled) {
-        isMounted.current = false;
-      } else {
-        isMounted.current = true;
-      }
-      return () => {
-        isMounted.current = false;
-      };
-    }, [isCancelled]);
+         if (isCancelled) {
+         isMounted.current = false;
+         } else {
+         isMounted.current = true;
+         }
+         return () => {
+         isMounted.current = false;
+         };
+   }, [isCancelled]);
    
    const  write = async (
       rfpidx,

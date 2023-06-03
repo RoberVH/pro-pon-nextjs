@@ -100,7 +100,7 @@ export const privateFileTypes = [
 export const openContest = 0;
 export const inviteContest = 1;
 
-export const PRODUCTION = false;
-export const LOCAL = false;
+//export const PRODUCTION = false;
+//export const LOCAL = false;
 
 export const NullAddress = "0x0000000000000000000000000000000000000000";

@@ -31,11 +31,6 @@ export const useWriteCompanyData =  (
 
     const write = async (companyId,companyname, country,value) => {
         const proponContract = await getWritingProponContract()
-        
-        // proponContract.on("NewCompanyCreated", (address, companyId, CompanyName) => {
-        //         onEvent(address, companyId, CompanyName)
-        // })
-
         try {
            const Tx = await proponContract.createCompany(
                 companyId,

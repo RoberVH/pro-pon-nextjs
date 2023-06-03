@@ -237,11 +237,7 @@ const RFPDataForm = ({setNoticeOff}) => {
 
     for (const [field, errormessage] of validatingFields) 
     {
-      const [convertedDate, status ]= validateDate(
-          patronobligatorio,
-          trimmedValues[field],
-          t(errormessage)
-        )
+      const [convertedDate, status ]= validateDate(patronobligatorio, trimmedValues[field], t(errormessage))
         if (!status) return
           else dates.push(convertedDate)
     }
@@ -255,11 +251,10 @@ const RFPDataForm = ({setNoticeOff}) => {
        return
     }
     // validation passed ok 
-    // setWaiting(true)
     // create entry on smart contract
 
 
-    // setting rfpparams for when saveing to DB time comes!
+    // setting rfpparams for when the time comes to save to the database!
     const params =  {
       companyId: companyData.companyId,
       companyname:companyData.companyname,

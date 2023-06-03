@@ -30,7 +30,6 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
   
   const inputRef = useRef(null);
 
-  {console.log('allowedDocTypes',allowedDocTypes)}
   // Inner Components ******************************************************************************************
   const  TitleUploader= () => 
     <div className="flex  pl-2 py-1 px-4">

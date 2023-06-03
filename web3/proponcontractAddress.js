@@ -2,8 +2,15 @@
 
  // Polygon Pro-pon smart contract address
  
- // Mumbai
- export const CONTRACT_ADDRESS = '0x2F9A4aDCc776019cd3A510E79827c118e420d74c'   // may 6
+ // Mumbai 
+ 
+ // Jun 1, 2023
+ export const CONTRACT_ADDRESS_DATA='0x8703edb194E2584404ddd6231Ab5c3615F92211E'
+ export const CONTRACT_ADDRESS_LOGIC='0x191D8544BbC67863aCA5ca8145866dBB4Ab108dB'
+
+
+ 
+ //export const CONTRACT_ADDRESS = '0x2F9A4aDCc776019cd3A510E79827c118e420d74c'   // may 6
  //export const CONTRACT_ADDRESS = 
 
 //export const CONTRACT_ADDRESS ='0x748d6fF15466D4e870F9a209A2777520D445d18f' // pre enero 31

@@ -8,7 +8,7 @@
  import { useState, useEffect, useRef } from 'react'
 import { getWritingProponContract } from "../web3/contractsettings";
 
-export const useWriteFileMetadata =  (onError, isCancelled, setProTxBlockchain, onSuccess) => {
+export const useWriteFileMetadata =  (onError, isCancelled, setProTxBlockchain) => {
    const [postedHash, setPostedHash] = useState('')
    const [block, setBlock] = useState()
    const [blockchainsuccess, setBlockchainsuccess] = useState(false)
@@ -53,7 +53,6 @@ export const useWriteFileMetadata =  (onError, isCancelled, setProTxBlockchain, 
          if (isMounted.current) {         
             setBlock(data.blockNumber)
             setBlockchainsuccess(true)
-            onSuccess(postedHash)
          }
       } catch (error) {
          if (isMounted.current) {         

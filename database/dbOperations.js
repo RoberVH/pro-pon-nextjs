@@ -148,10 +148,8 @@ export const verifyData_Save = async (message, signature) => {
   };
  
   export const savePendingTx = async (objTx) => {
-    console.log('BD objTx',objTx)
     let method = "POST";
     try {
-        console.log('en client still recibi:' , objTx)
       const response = await fetch("/api/pendingtx", {
         method: method,
         headers: { "Content-Type": "application/json" },

@@ -205,7 +205,6 @@ function UploadRFPForm({
 
     try {
       // write metadata files to contract
-      console.log('metadata por escribir:', rfpIndex, docTypeArray, nameArray, hashArray, fileIdArray)
       const today = todayUnixEpoch(new Date())
       //save params in case user cancel op and we need to write to Pending Transactions (PendingTx) collection for later reference
       //save to droppedTX the params in case user cancel in the middle

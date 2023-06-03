@@ -69,7 +69,10 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
     if (result.status) {
       toast.success(t("companydataadded", toastStyleSuccess));
       // Update Context with all data of updated company:
-      setCompanyData(JSON.parse(message));
+      // everything ok, we need to refresh companyData and from DataBase set it again, but we need to recover values of contract :
+      const newCompanyProps=JSON.parse(message)
+      const updatedCompanyData = { ...companyData, ...newCompanyProps, profileCompleted:true };
+      setCompanyData(updatedCompanyData);
     } else errToasterBox(result.message);
     setSaving(false);
   };
@@ -137,6 +140,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   const handleSave = async () => {
     const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
+      // strips these keys as we don't want to overwrite their values, only editable fields allowable
       if (!["rfpWon", "rfpSent", "companyRFPs", "profileCompleted"].includes(key)) {
         trimmedValues[key] = typeof value !== "undefined" ? value.trim() : "";
       }
@@ -215,7 +219,6 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
         <div className="flex items-center mt-2 mb-4" >
           <Image alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
             <p className="text-stone-500 text-bold text-lg mt-2 ml-2 font-khula">
-            {/* <p className="text-stone-500 text-lg mb-4 font-khula"> */}
             {t("companyform.recordcompanytitle")}
             </p>
         </div>
@@ -225,12 +228,12 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
         >
           <div className="w-[80%] relative mb-4 flex bg-stone-100">
             <GlobeIcon className="h-5 w-5 text-orange-400 mt-1 ml-2" />
-            <p className="pl-4">{getCountryName(companyData.country)}</p>
+            <p className="pl-4 text-stone-500 font-khula font-extrabold">{getCountryName(companyData.country)}</p>
           </div>
           <div className="w-[80%] relative mb-4">
             <InputCompanyId
               handleChange={handleChange}
-              inputclasses={inputclasses}
+              inputclasses={inputclasses + "text-stone-500"}
               values={values}
               placeholder={`${t("companyform.companyId")}*`}
               disable={true}
@@ -239,7 +242,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
           <div className=" w-[80%] relative mb-4">
             <InputCompanyName
               handleChange={handleChange}
-              inputclasses={inputclasses}
+              inputclasses={inputclasses + "text-stone-500"}
               values={values}
               placeholder={`${t("companyform.companyname")}*`}
               disable={true}

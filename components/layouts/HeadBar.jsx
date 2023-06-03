@@ -23,7 +23,7 @@ import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork"
 import NoMetamaskWarning from "./noMetamaskWarning"
 import NoRightNetworkWarning from "./noRightNetworkWarning"
 import { saveCompanyID2DB } from "../../database/dbOperations"
-import { PRODUCTION, LOCAL } from '../../utils/constants'
+//import { PRODUCTION } from '../../utils/constants'
 
 
 // toastify related imports
@@ -136,11 +136,8 @@ const HeadBar = () => {
       // check if address is valir
         if (address) {
           //first check if network is rigth
-          if (!LOCAL) 
              setNoRightNetwork(window.ethereum.networkVersion!==process.env.NEXT_PUBLIC_NETWORK_VERSION) 
-            else {
-            setNoRightNetwork(window.ethereum.networkVersion!==process.env.NEXT_PUBLIC_NETWORK_VERSION_LOCAL) 
-          }
+            //setNoRightNetwork(window.ethereum.networkVersion!==process.env.NEXT_PUBLIC_NETWORK_VERSION_LOCAL) 
             setShowSpinner(true)
             // get essential company data from Contract
             // Remember that in smart contract some prop ids are different than in DB
@@ -273,14 +270,17 @@ const HeadBar = () => {
     // there is Address, return account menu functionality
     return (
       <div ref={accountRef} id="show-account" className="flex  mr-8 mb-2" >
-        <button
-          className="text-orange-400  rounded-xl px-2 my-4 
-                    bg-white border-solid border-2 border-orange-200
-                    text-sm"
-          onClick={handleDropDownAccount}
-        >
-          {address.slice(0, 5)}...{address.slice(-6)}
-        </button>
+      <button className="relative text-orange-400 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-sm"
+      title={`${(Boolean(address) && Boolean(companyData.name) && !companyData.profileCompleted) ? t('p_not_completed'): '' }`}>
+        {address.slice(0, 5)}...{address.slice(-6)}
+        {(Boolean(address) && Boolean(companyData.name) && !companyData.profileCompleted) && (
+          <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+            <span className="bg-red-500 text-white px-1.5 pt-0.5 pb-2 rounded-full text-sm">!</span>
+            <span className="absolute -top-6 right-0 transform translate-x-1/2 -translate-y-1/2" >
+            </span>
+          </span>
+        )}
+      </button>
         <div
           id="show-account-chevron"
           className="mt-7 ml-3 hover:cursor-pointer"

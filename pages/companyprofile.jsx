@@ -21,7 +21,7 @@ function Companyprofile() {
       </div>
     );
 
-  if (isEmpty(companyData)) router.push({ pathname: "/" });
+  if (isEmpty(companyData) && address) router.push({ pathname: "/signup" });
 
   return (
     <div id="signup-screen" className="h-screen flex flex-col items-center">

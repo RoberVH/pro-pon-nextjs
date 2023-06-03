@@ -11,8 +11,6 @@ export const useSignMessage = ({onSuccess,onError}) => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const signature = await signer.signMessage(message)
-        // debuggin
-       // throw new Error('')
         onSuccess(message, signature)
     } catch (error) {
         onError(error);

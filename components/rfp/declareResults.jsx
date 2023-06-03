@@ -83,7 +83,6 @@ useEffect(() => {
   async function getRFP() {
     // get info of RFP
     setGettingRFP(true)
-    if (!rfpIndex) return;
     const result = await getContractRFP(rfpIndex);
     if (!result.status) {
       errToasterBox(result.message);

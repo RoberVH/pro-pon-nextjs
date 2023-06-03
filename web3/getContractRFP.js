@@ -15,7 +15,7 @@ export const getContractRFP = async (RFPIndex) => {
   const proponContract = await getProponContract()
   try {
     const RFP = await proponContract.getRFPbyIndex(RFPIndex)
-    // check we really retrieve a valid result (contract will return null but still valid structure object if dound none)
+    // check we really retrieve a valid result (contract will return null but still valid structure object if found none)
     if (RFP.issuer  === NullAddress) return { status: false, message:'NO RFP' }
     return { status: true, RFP:RFP }
   } catch (error) {
