@@ -2,6 +2,12 @@
 A DApp for issuing & reciving RFPs documents on the Blockchain
 ## Publish RFPs to Blockchain
 
+
+## Splitted contract version
+This new deployment comunicate with proponData Contract to read data and proponLogic Contract to make changes to data
+This allow have more code at Logic that was falling larger than allowed on Polygon EVM and to ve able
+to migrate Logic without modifying historic data
+
 ## Test site deployed to Vercel
 ### pro-pon.vercel.app
 

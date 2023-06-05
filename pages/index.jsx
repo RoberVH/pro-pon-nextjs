@@ -101,7 +101,7 @@ function LandingPage() {
                 <Image
                     width={400}
                     height={500}
-                    className="object-aspect mx-auto rounded-xl " 
+                    className="object-aspect mx-auto rounded-xl" 
                     src={image}
                     alt={title}
                 />
@@ -124,12 +124,16 @@ function LandingPage() {
       </p>
       <div id="instructions" className="py-16 flex justify-center ">
         <ul
-          className="leading-8 font-inter sm:text-md md:text-lg lg:text-xl xl:text-2xl text-stone-200 px-8 py-20"
+          className="leading-8 font-inter sm:text-md md:text-lg lg:text-xl xl:text-xl text-stone-200 px-8 py-20"
           style={{ boxShadow: "10px 10px 25px 0 rgba(255, 255, 255, 0.7)" }}
         >
           <li className="mb-4">
             <label className="font-bold px-2  text-stone-700 bg-blue-500 rounded-full">1</label>
             <label className="ml-8">{t("click_on_connect_wallet")}</label>
+            <a href="/blogg/mylink" className="ml-2 text-blue-500 hover:underline cursor-pointer">
+              ({t('dont_have_wallet')})
+            </a>
+
           </li>
           <li className="mb-4">
             <label className="font-bold px-2 text-stone-700 bg-blue-500 rounded-full">2</label>
@@ -266,8 +270,8 @@ function LandingPage() {
             </h1>
           </div>
           <div id="page-subheader" className="w-full font-inter sm:w-3/4 lg:w-1/2 mx-auto flex flex-col sm:flex-row items-center justify-around sm:my-16
-                md:my-18 lg:my-24 xl:my-32 text-xl sm:text-2xl font-semibold text-stone-600 p-8 sm:p-16 shadow-lg border-t-2 border-stone-300 
-                rounded-xl bg-gradient-to-r from-blue-400 via-stone-200 to-blue-300 transform transition hover:scale-105">
+                md:my-18 lg:my-24 xl:my-32 xl:text-xl lg:text-xl  md_text-base sm:text-base    font-semibold text-stone-600 p-8 sm:p-16 shadow-lg border-t-2 border-stone-300 
+                rounded-xl bg-gradient-to-r from-blue-400 via-stone-200 to-blue-300">
             <Image
               height={264}
               width={264}
@@ -289,7 +293,7 @@ function LandingPage() {
           <div id="no-signup-notice" className=" text-center p-4 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500
             rounded-tl-full rounded-tr-full rounded-br-full rounded-bl-full"
             style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 0.9)'}}>
-            <p className="font-bold text-white sm:text-xl md:text-xl lg:text-3xl">
+            <p className="font-bold text-white sm:text-xl md:text-xl lg:text-3xl ">
               {t('no_signup')}
             </p>
             <p className="font-inter text-white text-base sm:text-lg md:text-xl lg:text-2xl mt-2">
@@ -340,11 +344,11 @@ function LandingPage() {
       <div
         id="second-section"
         className="mx-auto sm:my-24 md:my-32 lg:my-48 xl:my-64  font-inter sm:w-4/6 md:w-4/6 lg:w-5/6 xl:w-5/6 bg-stone-300
-                    rounded-2xl  pr-8 py-8"
+                    rounded-2xl  pr-8 py-8 border-2 border-dashed border-orange-500"
       >
         <div
           id="features-subsection"
-          className="flex items-center  justify-end mt-12 space-y-12 lg:space-y-0 lg:gap-x-4 lg:gap-y-10  "
+          className="flex items-center  justify-end mt-12 space-y-12 lg:space-y-0 lg:gap-x-4 lg:gap-y-10 "
         >
           <div className="w-[50%] mr-32">
             <p className=" mb-8 sm:text-lg  md:text-xl lg:text-3xl xl:text-4xl font-bold text-orange-400"

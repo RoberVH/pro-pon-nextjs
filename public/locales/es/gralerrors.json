@@ -22,5 +22,12 @@
     "ejecución revertida: rfp_already_awarded":"RFP ya fue adjudicado",
     "execution reverted: id_already_exists":"Este Id de Empresa ya existe",
     "execution reverted: rfpid_already_taken":"Id de RFP utilizado previamente para esta compañía",
-    "execution reverted: not_matching_winners":"No coinciden los ganadores con las partidas"
+    "execution reverted: not_matching_winners":"No coinciden los ganadores con las partidas",
+    "execution reverted: address_already_admin_of_company": "Esta cuenta ya es administradora de otra empresa",
+    "execution reverted: only_owner_allowed": "Solo el propietario del contrato tiene permitido realizar esta operación",
+    "execution reverted: wrong_contest_type": "Tipo de concurso inválido para esta operación",
+    "execution reverted: not_open_tender": "Esta operación solo está permitida para concursos abiertos",
+    "execution reverted: already_canceled": "El RFP ya ha sido cancelada",
+    "execution reverted: issuer_bad_doctype": "Tipo de documento inválido para el emisor del RFP",
+    "execution reverted: participant_bad_doctype": "Tipo de documento inválido para el participante"
 }

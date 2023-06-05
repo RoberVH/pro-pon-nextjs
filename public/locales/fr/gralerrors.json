@@ -22,5 +22,13 @@
     "execution reverted: rfp_already_awarded":"RFP déjà attribué",
     "execution reverted: id_already_exists":"L'identifiant existe déjà",
     "execution reverted: rfpid_already_taken":"Id RFP déjà utilisé pour cette entreprise",
-    "execution reverted: not_matching_winners":"Les gagnants ne correspondent pas aux éléments"
+    "execution reverted: not_matching_winners":"Les gagnants ne correspondent pas aux éléments",
+    "execution reverted: address_already_admin_of_company": "Ce compte est déjà administrateur d'une autre entreprise",
+    "execution reverted: only_owner_allowed": "Seul le propriétaire du contrat est autorisé à effectuer cette opération",
+    "execution reverted: wrong_contest_type": "Type de concours invalide pour cette opération",
+    "execution reverted: not_open_tender": "Cette opération est uniquement autorisée pour les appels d'offres ouverts",
+    "execution reverted: already_canceled": "La RFP a déjà été annulée",
+    "execution reverted: issuer_bad_doctype": "Type de document invalide pour l'émetteur de la RFP",
+    "execution reverted: participant_bad_doctype": "Type de document invalide pour le participant",
+    "execution reverted: already_participating": "Vous êtes déjà inscrit à cette RFP"    
 }
