@@ -39,7 +39,7 @@ const SelectLanguage = forwardRef(({isVisible}, ref) => {
   const LanguageButton = ({language, iconLang}) => 
   <div>
     <button 
-        className="p-2"
+        className="p-2 hover:bg-stone-100 hover:rounded-lg"
         onClick = {handleLocaleChange}
         id= {language}
         value={iconLang}>
@@ -62,7 +62,7 @@ const SelectLanguage = forwardRef(({isVisible}, ref) => {
          alt="V" src={'/chevrondown.svg'} width={22} height={22}></Image>
       { hideButtons && isVisible &&
         <div id='botonesocultos' className=" absolute pl-8">
-          <div className="w-14 flex flex-col bg-slate-200  rounded-2xl justify-start pt-2 px-2">
+          <div className="w-14 flex flex-col bg-blue-300  rounded-2xl justify-start pt-2 px-2">
             <LanguageButton language={'en'} iconLang={'/uk.svg'} />
             <LanguageButton language={'es'} iconLang={'/spain.svg'} />
             <LanguageButton language={'fr'} iconLang={'/france.svg'}  />

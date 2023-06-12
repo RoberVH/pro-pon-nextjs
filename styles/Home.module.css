@@ -1,8 +1,13 @@
 
 .header_bg_color {
-  background-color: #2b2d2e;
+  /* background-color: #2b2d2e; */
+  background-color: #f28d40;
 }
 
+
+/* .header_bg_color {
+  background-color: #f96a04;
+} */
 .title a {
   color: #0070f3;
   text-decoration: none;

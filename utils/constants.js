@@ -30,7 +30,7 @@ export const errorSmartContract = [
   "execution reverted: rfpid_already_taken",
 ];
 
-export const App_Name = 'Pro-pon'
+export const App_Name = 'Propon.me'
 
 export const traslatedRFPErrors = [
     "notimetodownload", 
@@ -57,7 +57,7 @@ export const companyIdPlaceHolder = {
 // To easily reference this as an object instead of an array throughout the code I define a
 // docTypes record as a numeric property identifying each category of document type referencing
 // a docType record
-// on this version of Pro-pon (1.0) only documentProposalType document type is password protected, all others are public
+// on this version of Propon.me (1.0) only documentProposalType document type is password protected, all others are public
 export const docTypes = {
   // Doctypes for RFP Issuer
   0: {

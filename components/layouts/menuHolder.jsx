@@ -11,11 +11,11 @@ function MenuHolder({options, t, setMenuFlag}) {
     return (
     <div className="absolute mt-8 z-50">
         <div id='menuHolder' 
-             className="flex flex-col bg-slate-200  rounded-2xl text-black justify-start py-4 px-2 ">
+             className="flex flex-col bg-blue-300  rounded-2xl text-black justify-start py-4 px-2 ">
             {   
               options.map(menu => 
                 <p key={menu.tag} 
-                className="pt-2 text-sm hover:cursor-pointer hover:bg-stone-100" 
+                className="pt-2 text-sm hover:cursor-pointer hover:bg-stone-100 hover:rounded-lg" 
                 onClick={handleMenuClick} id={menu.link}>
                     {t(menu.tag)} 
                 </p>

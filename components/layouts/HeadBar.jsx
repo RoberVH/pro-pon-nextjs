@@ -110,6 +110,7 @@ const HeadBar = () => {
     },[setCompanyData, address]);
 
   // hooks  ******************************************************************************************
+
   // check if there is an account already granted and set a listener to MMask change account event
   useEffect(() => {
     const handleAccountChange = () => {
@@ -214,7 +215,7 @@ const HeadBar = () => {
   const handleConnect = async () => {
     const result= await connectMetamask()
     if (!result.status) {
-        errToasterBox(t(result.message),{ns:'common'})
+        errToasterBox(t(result.message,{ns:"common"}))
     } else {
         setAddress(result.address)    // now address in in the context
     }
@@ -269,18 +270,18 @@ const HeadBar = () => {
       );
     // there is Address, return account menu functionality
     return (
-      <div ref={accountRef} id="show-account" className="flex  mr-8 mb-2" >
-      <button className="relative text-orange-400 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-sm"
-      title={`${(Boolean(address) && Boolean(companyData.name) && !companyData.profileCompleted) ? t('p_not_completed'): '' }`}>
-        {address.slice(0, 5)}...{address.slice(-6)}
-        {(Boolean(address) && Boolean(companyData.name) && !companyData.profileCompleted) && (
-          <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
-            <span className="bg-red-500 text-white px-1.5 pt-0.5 pb-2 rounded-full text-sm">!</span>
-            <span className="absolute -top-6 right-0 transform translate-x-1/2 -translate-y-1/2" >
+      <div ref={accountRef} id="show-account" className="flex  mr-8 mb-2  h-[4rem]" >
+        <button className="relative text-orange-600 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-sm"
+        title={`${(Boolean(address) && Boolean(companyData.companyname) && !companyData.profileCompleted) ? t('p_not_completed'): '' }`}>
+          {address.slice(0, 5)}...{address.slice(-6)}
+          {(Boolean(address) && Boolean(companyData.companyname) && !companyData.profileCompleted) && (
+            <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-[76%]">
+              <span className="bg-red-500 text-white px-2 pt-0.5 pb-2 rounded-full text-sm">!</span>
+              <span className="absolute -top-6 right-0 transform translate-x-1/2 -translate-y-1/2" >
+              </span>
             </span>
-          </span>
-        )}
-      </button>
+          )}
+        </button>
         <div
           id="show-account-chevron"
           className="mt-7 ml-3 hover:cursor-pointer"
@@ -298,23 +299,17 @@ const HeadBar = () => {
           <div
             id="menuAccount"
             className="absolute mt-16 ml-8  
-                            flex flex-col bg-slate-200  rounded-2xl text-stone-600
+                            flex flex-col bg-blue-300  rounded-2xl text-stone-600
                             justify-start py-2 px-2 hover:cursor-pointer"
           >
-            <div
-              id="show-account-profile-button"
-              className="flex justify-start pb-1"
-            >
-              <BadgeCheckIcon className=" h-5 w-5 text-orange-600 mt-2 mr-1" />
-              <p className="pt-1" onClick={handleProfile}>
+            <div id="show-account-profile-button" className="flex justify-start pb-1 hover:bg-stone-100 hover:rounded-lg">
+              <BadgeCheckIcon className=" h-5 w-5 text-orange-600 mt-2 mr-1 " />
+              <p className="pt-1 " onClick={handleProfile} >
                 {t("profilemenu")}
               </p>
             </div>
-            <div
-              id="show-account-disconnect-button"
-              className="flex justify-start pb-1"
-            >
-              <StatusOfflineIcon className=" h-5 w-5 text-orange-600  mr-1" />
+            <div id="show-account-disconnect-button" className="flex justify-start pb-1 hover:bg-stone-100 hover:rounded-lg">
+              <StatusOfflineIcon className=" h-5 w-5 text-orange-600  mr-1 mt-2 " />
               <p className="pr-2" onClick={handleDisconnect}>
                 {t("disconnectmenu")}
               </p>
@@ -344,23 +339,28 @@ const AccountSpaceTitle = () => {
   )
 }
 
+// Main JSX
+
  return (
-     <nav id="navigation" className={`${styles.header_bg_color} antialiased  pl-2 pt-4 pb-4 `}>
+     <nav id="navigation" //className={`${styles.header_bg_color} antialiased  pl-2 pt-4 pb-4 `}>
+     className={`antialiased  pl-2 pt-4 pb-4 bg-gradient-to-b from-stone-600 to-orange-500 `}>
+      {console.log('x', Boolean(address), companyData.companyname, Boolean(companyData.name), !companyData.profileCompleted)}
       { addingNetwork && 
         <div className="flex justify-center">
           <DisplayMsgAddinNetwork t={t}/> 
         </div>
       }
-      {/* <ToastContainer style={{ width: "600px" }} /> */}
-      <div className="flex justify-between">
-          <div className="flex ml-4 ">
+      <div className="flex justify-between ">
+          <div className="flex ml-4 -mb-6 ">
             <Link href="/" passHref>
                 <a>
-                <Image className="cursor-pointer object-contain mix-blend-color-dodge"
+                <Image className="cursor-pointer object-contain"
                 alt="logo"
-                src="/pro-ponLogo5.png"
-                width={205}
-                height={80}
+                src="/propon.me3.png" //src="/pro-ponLogo5.png"
+                width={250}
+                height={100}
+                // width={205}
+                // height={80}
                 ></Image>
                 </a>
             </Link>

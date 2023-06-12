@@ -1,0 +1,15 @@
+{
+    "guides_title":"Guías",
+    "install_crypto_wallet": "Instalar Billetera de Criptomonedas",
+    "securely_store_seed_phrase": "Guardar de Forma Segura la Frase de Recuperación",
+    "set_metamask_account_name": "Configurar el Nombre de la Cuenta de Metamask",
+    "point_wallet_to_polygon": "Apuntar la Billetera a Polygon",
+    "get_crypto_from_exchanges": "Obtener Criptomonedas de Exchanges",
+    "send_and_receive_crypto": "Enviar y Recibir Criptomonedas",
+    "create_dapp_account": "Crear una Cuenta en la Aplicación",
+    "create_rfp": "Crear RFP (Requerimiento de Propuestas)",
+    "search_rfps": "Buscar RFPs",
+    "bid_to_rfp": "Ofertar en RFP",
+    "install_wallet_title":"Instalar billetera Metamask",
+    "install_wallet_description":"Cómo instalar una billetera de metamask en su navegador"
+  }

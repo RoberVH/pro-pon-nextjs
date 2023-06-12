@@ -1,0 +1,14 @@
+{
+    "guides_title":"Guides",
+    "install_crypto_wallet": "Installer un Portefeuille Crypto",
+    "securely_store_seed_phrase": "Conserver en Toute Sécurité la Phrase de Restauration",
+    "set_metamask_account_name": "Définir le Nom du Compte Metamask",
+    "point_wallet_to_polygon": "Pointer le Portefeuille vers Polygon",
+    "get_crypto_from_exchanges": "Obtenir des Cryptomonnaies depuis les Exchanges",
+    "send_and_receive_crypto": "Envoyer et Recevoir des Cryptomonnaies",
+    "create_dapp_account": "Créer un Compte sur l'Application",
+    "create_rfp": "Créer un RFP (Requête de Propositions)",
+    "search_rfps": "Rechercher des RFPs",
+    "bid_to_rfp": "Faire une Offre sur un RFP"
+  }
+  
