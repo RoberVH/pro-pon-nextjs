@@ -343,26 +343,23 @@ const AccountSpaceTitle = () => {
 
  return (
      <nav id="navigation" //className={`${styles.header_bg_color} antialiased  pl-2 pt-4 pb-4 `}>
-     className={`antialiased  pl-2 pt-4 pb-4 bg-gradient-to-b from-stone-600 to-orange-500 `}>
-      {console.log('x', Boolean(address), companyData.companyname, Boolean(companyData.name), !companyData.profileCompleted)}
+     className={`antialiased  pl-2 pt-4 pb-4 bg-gradient-to-b from-stone-600 to-orange-500 `} >
       { addingNetwork && 
         <div className="flex justify-center">
           <DisplayMsgAddinNetwork t={t}/> 
         </div>
       }
       <div className="flex justify-between ">
-          <div className="flex ml-4 -mb-6 ">
+          <div className="flex ml-4 -mb-2">
             <Link href="/" passHref>
-                <a>
-                <Image className="cursor-pointer object-contain"
-                alt="logo"
-                src="/propon.me3.png" //src="/pro-ponLogo5.png"
-                width={250}
-                height={100}
-                // width={205}
-                // height={80}
-                ></Image>
-                </a>
+              <div className="flex h-[3em] mt-4">
+                <p className={`text-3xl pr-1 font-khula font-semibold bg-orange-400 text-blue-900 rounded-tl-xl py-2 pl-4`}> 
+                  Propon
+                </p>
+                <p className={`text-3xl pl-1 font-khula font-semibold  pr-4 py-2  rounded-br-xl  ${styles.log_me_bg_color} `}> 
+                .me
+                </p>
+              </div>
             </Link>
             <Menues ref={menusRef} isVisible={droppletVisible=== droppableItemEnum.menu}/>
           </div>

@@ -16,11 +16,14 @@ import { App_Name } from '../utils/constants'
 
 
 
-
 function LandingPage() {
   const [warningFlag, setWarningFlag] = useState(false)
-    const { companyData, address, showSpinner, noWallet  } = useContext(proponContext);
-
+  const { companyData, address, showSpinner, noWallet  } = useContext(proponContext);
+  
+  const backdropStyles = {
+      width: "100%",
+      height: "100%",
+    }
   
   //********************************** hooks ****************************************** /
   const router = useRouter()
@@ -58,21 +61,24 @@ function LandingPage() {
     resourceSectionRef.current.scrollIntoView({ behavior: "smooth" });
 };
 
-
+//border-2  border-t-2 border-l-2 border-blue-200
   //************************************************** Inner components  *************************/
-  const InfoCard = ({ title, image, info }) => (
+  const InfoCard = ({ title, image, info, styleObject }) => (
     <li>
-      <div className="space-y-4 p-4 rounded-md  h-full">
+      <div className="space-y-4 p-4 h-full  rounded-lg" 
+         //style={{boxShadow: '0px 0px 15px 0 rgb(0, 68, 102, 0.9)'}}
+         style={styleObject}
+      >
         <div className=" flex items-center aspect-w-3 aspect-h-2 ">
           <Image height={32} width={32} className="" src={image} alt="Info" />
-          <p className="ml-4 sm:text-lg md:mt-5 md:text-xl lg:text-2xl text-2xl text-stone-500"
-          style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
+          <p className="ml-4 mt-5 sm:text-lg md:text-lg lg:text-xl xl:text-xl text-stone-800"
+          style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.4)'}}>
             {title}
           </p>
         </div>
         <div className="space-y-2">
-          <div className="text-lg leading-6 font-medium space-y-1">
-            <h3 className="text-stone-700 text-lg font-semibold font-inter text-justify">
+          <div className=" text-lg leading-6 font-medium space-y-1">
+            <h3 className="mt-8 text-stone-600 text-lg font-semibold font-inter text-justify">
               {info}
             </h3>
           </div>
@@ -90,8 +96,9 @@ function LandingPage() {
         // rel="noopener noreferrer"
       >
         <span >
-           <div className=" border-b-4 border-blue-900 rounded-xl"
-           style={{boxShadow:'10px 10px 15px 0 rgba(0, 0, 255, 0.5)'}} >
+           <div className="  rounded-xl"
+           //style={{boxShadow:'10px 10px 15px 0 rgba(0, 0, 255, 0.5)'}} 
+           >
                 <Image
                     width={400}
                     height={500}
@@ -101,7 +108,7 @@ function LandingPage() {
                 />
             </div>         
         </span>
-        <h2 className="pt-8 text-blue-700 text-3xl font-bold my-2 tracking-wider  transform transition  hover:scale-105 hover:text-blue-900" >
+        <h2 className="pt-8 text-white text-3xl font-bold my-2 tracking-wider  transform transition  hover:scale-105 hover:text-blue-900" >
           {title}
         </h2>
       </a>
@@ -111,14 +118,15 @@ function LandingPage() {
   const CTA_Card = () => (
     <div
       id="butttons-actions-component"
-      className="mx-auto xl: my-16  py-8   bg-stone-700 "
+      className="mx-auto xl: mb-16  py-8  bg-black" //bg-gradient-to-l from-black to-darkblue-900 via-stone-900"
     >
-      <p className=" sm:mt-2 lg:mt-4 font-inter text-center sm:text-md md:text-xl lg:text-2xl xl:text-3xl font-bold text-white italic p-4">
+      <p className=" sm:mt-2 lg:mt-4 font-inter text-center sm:text-md md:text-lg lg:text-xl xl:text-xl font-semibold
+       text-white italic p-4">
         {t("title_instructions")}
       </p>
       <div id="instructions" className="py-16 flex justify-center ">
         <ul
-          className="leading-8 font-inter sm:text-md md:text-lg lg:text-xl xl:text-2xl text-stone-200 px-8 py-20"
+          className="leading-8 font-inter sm:text-md md:text-md lg:text-lg xl:text-lg text-stone-200 px-8 py-20"
           style={{ boxShadow: "10px 10px 25px 0 rgba(255, 255, 255, 0.7)" }}
         >
           <li className="mb-4">
@@ -249,46 +257,83 @@ function LandingPage() {
           <AskforWalletConection />
         </ModalWindow> 
       }
-      <div id="main-section" className="pt-8">
-          <div id="page-header" className="mx-auto max-w-9xl px-4 sm:mt-16 lg:mt-24 text-center">
-            <h1 className="text-4xl tracking-tight font-bold text-stone-900 sm:text-5xl md:text-6xl pt-4 font-khula">
-              {/* <span className="bg-stone-300 p-2  text-blue-700 max-w-[10em] mx-auto">{t("app_title2")}</span>
-                <span className="bg-orange-500 p-2 ">{` ${t("app_title1")} `} </span> */}
-                <span className="bg-stone-300  pt-1 pr-2 pl-4 rounded-tl-xl   text-blue-700 max-w-[10em] mx-auto">{t("app_title1")} </span>
-                <span className="bg-orange-500 pt-1 pl-2 pr-4  rounded-br-xl ">{t("app_title2")}</span>
-            </h1>
+
+    <div id="main-section" className="pt-8">
+      <div id="page-header" className="mx-auto max-w-9xl px-4 sm:mt-16 lg:mt-24 text-center">
+        <h1 className="text-2xl tracking-tight font-base text-white sm:text-base md:text-xl lg:text-2xl xl:text-2xl  pt-4 font-inter">
+          <div id="ellipse" className=" mb-20">
+            <span className="bg-orange-500 pt-1 pb-1 pr-2 pl-4 ">
+              {t("app_title1")}
+            </span>
+            <span className="bg-[#3c4248] pt-1 pb-1 pl-2 pr-4 xrounded-br-xl">
+              {t("app_title2")}
+            </span>
           </div>
-          <div id="page-subheader" className="w-full font-inter sm:w-3/4 lg:w-1/2 mx-auto flex flex-col sm:flex-row items-center justify-around sm:my-16
-                md:my-18 lg:my-24 xl:my-32 text-xl sm:text-2xl font-semibold text-stone-600 p-8 sm:p-16 shadow-lg border-t-2 border-stone-300 
-                rounded-xl bg-gradient-to-r from-blue-400 via-stone-200 to-blue-300 transform transition hover:scale-105">
-            <Image
-              height={264}
-              width={264}
-              className="object-contain mb-8 sm:mb-0 mr-8 hover:rotate-3"
-              src={"/blockchain.png"}
-              alt="blockchain logo"
-            />
-            <div className="pl-8  text-justify leading-8">
-              <p className="mb-8 font-bold">{t("subtitle1")}</p>
-              <p className="italic">{t("subtitle2")}</p>
-            </div>
-          </div>
-        <div id="CTA-subsection" className="sm:my-16 md:my-18 lg:my-24 xl:my-48"
-         style={{boxShadow: '0px 5px 15px 0 rgba(0, 0, 0, 0.9), 0px -5px 25px 0 rgba(0, 0, 0, 0.9)'}}
-        > 
-            <CTA_Card />
+        </h1>
+      </div> 
+     
+    <div className="mt-4 w-1/2 mx-auto">
+    <div id="container-propon-me-blurred" className="relative flex justify-center items-center ">
+      <div
+        id="blur-overlay "
+        className="  absolute  inset-5 rounded-full" style={{  boxShadow: '0px 0px 48px 16px rgba(222, 157, 80, 1.5)'}}>
         </div>
-        <div className="w-[80%] mx-auto">
+      <p className=" relative z-10 text-[#0B3A71] text-xl font-semibold">{t('ap_title3')}</p>
+    </div>
+    </div>
+
+  
+    <div className="mt-32 w-[80%] mx-auto flex items-stretch ">
+      <div id="page-subheader"
+        className=" font-inter  flex justify-center items-center ">
+          <div className=" flex justify-end pr-10">
+          <p className="bg-gradient-b from-orange-100 to-blue-100  w-[70%] font-inter text-right
+           sm:text-lg md-text-lg lg:text-lg xl:text-lg text-stone-900"
+          style={{textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'}}>
+            {t("subtitle1")}
+          </p>
+          </div>
+      </div>
+      <div className="">
+        <Image className="object-cover rounded-2xl" src={"/blockchain nodes1.jpg"} 
+        height={800} width={1200} alt="blockchainnodes" />
+      </div>
+    </div>
+  
+
+  <div className="absolut mt-16 flex justify-center py-16  bg-repeat " 
+  style={{backgroundImage: 'url("/circuit-board.svg")'}}>
+    <div className="relative inset-0">
+      <div id="pen-text" className="relative flex ml-32  items-center ">
+        <div className="">
+          <Image height={500} width={1000} src={"/Pluma-recortada1.png"} alt="pen-text" 
+          className=" rounded-xl "/>
+          <div className="absolute top-10 left-0  ml-8 w-[35em] flex">
+            <p className="italic text-white">{t("subtitle2")}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="CTA-subsection" className="sm:mb-16 md:mb-18 lg:mb-24 xl:mb-48"
+      style={{boxShadow: '0px 5px 15px 0 rgba(0, 0, 0, 0.9), 0px -5px 25px 0 rgba(0, 0, 0, 0.9)'}}
+  > 
+      <CTA_Card />
+  </div>
+
+  <div className="w-[70%] mx-auto">
           <div id="no-signup-notice" className=" text-center p-4 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500
-            rounded-tl-full rounded-tr-full rounded-br-full rounded-bl-full"
-            style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 0.9)'}}>
-            <p className="font-bold text-white sm:text-xl md:text-xl lg:text-3xl">
+            rounded-md"
+            style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 1.5)'}}>
+            <p className="font-semmibold text-white sm:text-lg md:text-lg lg:text-xl">
               {t('no_signup')}
             </p>
-            <p className="font-inter text-white text-base sm:text-lg md:text-xl lg:text-2xl mt-2">
+            <p className="font-inter text-white sm:text-base md:text-base lg:text-lg xl:text-lg mt-2">
               {t('browse_rfp')}
             </p>
-            <div className="pt-8 pb-4 text-center">
+            <div className="pt-8 pb-2 text-center">
               <button className="mx-4 blueblack-btn"
                 onClick={handleSearchCompanies}>
                 {t('search_companies')}
@@ -300,51 +345,53 @@ function LandingPage() {
             </div>
           </div>
         </div>
-        <div id="informative-intro-cards" className="sm:my-16 md:my-18 lg:my-24 xl:my-48 mx-12 pb-16">
-          <div className="w-3/4 mx-auto divide-y-2 divide-gray-200">
-            <ul className="mt-4 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-16 grid-auto-rows p-4
-             border-t-2 border-l-2 border-orange-200 rounded-lg" 
-            style={{boxShadow: '5px 5px 15px 0 rgba(255, 165, 0, 0.5)'}}>
+
+    <div id="informative-intro-cards" className="sm:my-16 md:my-18 lg:my-24 xl:my-24  pb-8">
+        <div className="w-3/4 mx-auto divide-y-2 divide-gray-200">
+            <ul className="mt-4 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-16 
+                grid-auto-rows p-4"
+          >
               <InfoCard
                 title={t("transp_proc")}
                 image={"/magnifier-lined.svg"}
                 info={t("enter_new_era_of_fairness")}
+                styleObject={{boxShadow: '5px 0px 15px 0 rgb(0, 41, 102, 0.9)'}}
               />
               <InfoCard
                 title={t("pub_rfp_bc")}
                 image={"/blockchain.png"}
                 info={t("data_documents_fortified")}
+                styleObject={{boxShadow: '5px 0px 15px 0 rgb(89, 0, 179, 0.9)'}}
               />
               <InfoCard
                 title={t("unvel_post_rfp")}
                 image={"/personsearch.svg"}
                 info={t("upon_completion_of_rfp")}
+                styleObject={{boxShadow: '5px 0px 15px 0 rgb(0, 0, 0, 0.9)'}}
               />
               <InfoCard
                 title={t("build_bc_rep")}
                 image={"/education-64.png"}
                 info={t("create_immutable_trail")}
+                styleObject={{boxShadow: '5px 0px 15px 0 rgb(153, 38, 0, 0.9)'}}
               />
             </ul>
           </div>
         </div>
-      </div>
+    </div>
      
-      <div
-        id="second-section"
-        className="mx-auto sm:my-24 md:my-32 lg:my-48 xl:my-64  font-inter sm:w-4/6 md:w-4/6 lg:w-5/6 xl:w-5/6 bg-stone-300
-                    rounded-2xl  pr-8 py-8"
+    <div id="second-section"
+      className="mx-auto sm:my-4 md:my-4 lg:my-8 xl:my-8  font-inter sm:w-4/6 md:w-4/6 lg:w-5/6 xl:w-5/6 bg-blue-200
+                  rounded-2xl  pr-8 py-4">
+      <div id="features-subsection"
+        className="flex items-center  justify-end mt-12 space-y-12 lg:space-y-0 lg:gap-x-4 lg:gap-y-10  "
       >
-        <div
-          id="features-subsection"
-          className="flex items-center  justify-end mt-12 space-y-12 lg:space-y-0 lg:gap-x-4 lg:gap-y-10  "
-        >
           <div className="w-[50%] mr-32">
-            <p className=" mb-8 sm:text-lg  md:text-xl lg:text-3xl xl:text-4xl font-bold text-orange-400"
+            <p className=" mb-8 sm:text-lg  md:text-xl lg:text-3xl xl:text-3xl font-semibold text-blue-800"
             style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
               {t("features_label")}
             </p>
-            <ul className="ml-8 sm:text-md md:text-lg lg:text-xl xl:text-xl text-stone-800 pl-4 list-none leading-[1.2rem] mb-8">
+            <ul className="ml-8 sm:text-md md:text-md lg:text-lg xl:text-lg text-stone-700 pl-4 list-none leading-[1.2rem] mb-8">
               <li className="relative ">
                 <span className="absolute left-[-1.5em] text-blue-900 text-2xl font-extrabold">
                   ‣
@@ -385,15 +432,19 @@ function LandingPage() {
             />
           </div>
         </div>
-      </div>
-      <div ref={resourceSectionRef}  id="resources-section" className="px-16 pt-16 sm:pb-32 md:pb-32 lg:pb-48 xl:pb-48 bg-gradient-to-bl from-blue-100 via-slate-200 to-orange-100">
-        <p className="mt-12 text-center lg:text-3xl xl:text-4xl md:text-2xl sm:text-xl text-orange-500 font-bold tracking-wider"
-        style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
-          {t("learn_more")}
-        </p>
+    </div>
+      <div ref={resourceSectionRef}  id="resources-section" className="px-16 pt-16 sm:pb-32 md:pb-32 lg:pb-48 xl:pb-48 ">
+        <div className="flex justify-center">
+          <p className="mt-12 lg:text-3xl xl:text-4xl md:text-2xl sm:text-xl text-orange-500 font-bold tracking-wider
+          bg-gradient-to-r  from-stone-900 to-stone-900 via-blue-500 p-4 inline-block rounded-md"
+          style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
+            {t("learn_more")}
+          </p>
+       </div>
         <div
           id="resources-subsection"
-          className="mt-12 flex justify-center space-x-4 items-center bg-white p-16 rounded-xl"
+          className="mt-12 flex justify-center space-x-4 items-center p-16 rounded-xl
+          bg-gradient-to-l from-blue-200 to-blue-200 via-stone-800"
         >
           <div id="guide-card" className="pr-8">
             <Card
@@ -421,14 +472,15 @@ function LandingPage() {
 
       <footer
         id="foot-section"
-        className=" bg-stone-400 text-stone-700 text-center sm:text-sm md:text-md lg:text-lg xl:text-xl font-inter"
+        className="bg-gradient-to-t from-black to-orange-400 via-stone-800  text-stone-100 text-center
+              sm:text-sm md:text-md lg:text-lg xl:text-lg font-inter"
       >
         <div
           id="polygon-arweave-logos"
           className="flex justify-center items-center"
         >
           <p className="text-white font-bold pr-4"> {t("powerby")}: </p>
-          <div className="flex justify-center ">
+          <div className="flex justify-center">
             <Image
               height={130}
               width={130}
@@ -440,14 +492,14 @@ function LandingPage() {
             <Image
               height={130}
               width={130}
-              className=" object-contain"
+              className=" object-contain "
               src="/full-arweave-logo.svg"
               alt="Arweave Logo"
             />
             <span className="w-[25px]"></span>
           </div>
         </div>
-        <p className="-mt-8 pb-2 text-stone-900">{t("site_for_polygon")}</p>
+        <p className="-mt-8 pb-2 text-stone-300">{t("site_for_polygon")}</p>
         <div className="mt-4">
           <a
             href="/terms-of-service"

@@ -28,6 +28,7 @@ export const errorSmartContract = [
   "execution reverted: rfp_already_awarded",
   "execution reverted: id_already_exists",
   "execution reverted: rfpid_already_taken",
+  "execution reverted: already_canceled"
 ];
 
 export const App_Name = 'Propon.me'

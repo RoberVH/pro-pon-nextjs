@@ -98,6 +98,7 @@ useEffect(()=>{
   
   // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
+    console.log('ERRROR', error)
     setButtonClicked(false)
     setProTxBlockchain(false);
     const customError = parseWeb3Error(t, error);

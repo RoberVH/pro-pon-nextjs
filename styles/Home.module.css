@@ -3,7 +3,14 @@
   /* background-color: #2b2d2e; */
   background-color: #f28d40;
 }
-
+.log_me_bg_color {
+  /* background-color: #1192c8; */
+  background-color: #106386;
+  color: #d68e23;
+}
+.log_br-color {
+  border-color: #f7f6d9;
+}
 
 /* .header_bg_color {
   background-color: #f96a04;
