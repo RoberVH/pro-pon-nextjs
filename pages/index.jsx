@@ -278,7 +278,9 @@ function LandingPage() {
             <p className="p-1 rounded-tl-md rounded-bl-md bg-orange-300">Propon</p>
             <p className="p-1 rounded-tr-md rounded-br-md bg-blue-400">.me</p>
             <p>&nbsp;</p>
-            <p className="py-1 px-2 italic bg-gradient-to-r from-gray-200 via-gray-100 to-orange-100 ">{t('ap_title3')}</p>
+            <p className="py-1 px-2 italic bg-gradient-to-r from-gray-200 via-gray-100 to-orange-100 tracking-wide">
+              {t('ap_title3')}
+              </p>
           </div>
 
     </div>
