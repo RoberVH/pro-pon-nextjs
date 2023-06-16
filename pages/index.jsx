@@ -272,14 +272,15 @@ function LandingPage() {
         </h1>
       </div> 
      
-    <div className="mt-4 w-1/2 mx-auto">
-    <div id="container-propon-me-blurred" className="relative flex justify-center items-center ">
-      <div
-        id="blur-overlay "
-        className="  absolute  inset-5 rounded-full" style={{  boxShadow: '0px 0px 48px 16px rgba(222, 157, 80, 1.5)'}}>
-        </div>
-      <p className=" relative z-10 text-[#0B3A71] text-xl font-semibold">{t('ap_title3')}</p>
-    </div>
+    <div className="mt-4 flex justify-center mb-8 ">
+          {/* <p className=" text-[#0B3A71] text-xl font-semibold pb-4 border-8 border-b-orange-900"> */}
+          <div className="flex text-[#0B3A71] text-xl font-semibold pb-4 ">
+            <p className="p-1 rounded-tl-md rounded-bl-md bg-orange-300">Propon</p>
+            <p className="p-1 rounded-tr-md rounded-br-md bg-blue-400">.me</p>
+            <p>&nbsp;</p>
+            <p className="py-1 px-2 italic bg-gradient-to-r from-gray-200 via-gray-100 to-orange-100 ">{t('ap_title3')}</p>
+          </div>
+
     </div>
 
   
