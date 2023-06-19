@@ -146,8 +146,10 @@ const HeadBar = () => {
             const result = await getContractCompanyData(address) 
             if (!result.status) {
               setShowSpinner(false)
+              console.log('result',result)
               let msg=result.message
-              if (msg.includes('could not detect network')) msg=t('could_not_detect_network', { ns: "common" })
+              
+              if ((msg !==null) &&  msg.includes('could not detect network')) msg=t('could_not_detect_network', { ns: "common" })
               errToasterBox(msg)
               return
             }
@@ -339,7 +341,7 @@ const AccountSpaceTitle = () => {
   )
 }
 
-// Main JSX
+// ******************************** Main JSX  ****************************************************************
 
  return (
      <nav id="navigation" //className={`${styles.header_bg_color} antialiased  pl-2 pt-4 pb-4 `}>
@@ -351,8 +353,8 @@ const AccountSpaceTitle = () => {
       }
       <div className="flex justify-between ">
           <div className="flex ml-4 -mb-2">
-            <Link href="/" passHref>
-              <div className="flex h-[3em] mt-4">
+            <Link href="/" passHref className="">
+              <div className="flex h-[3em] mt-4 cursor-pointer">
                 <p className={`text-3xl pr-1 font-khula font-semibold bg-orange-400 text-blue-900 rounded-tl-xl py-2 pl-4`}> 
                   Propon
                 </p>

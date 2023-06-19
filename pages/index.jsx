@@ -384,17 +384,17 @@ function LandingPage() {
     </div>
      
     <div id="second-section"
-      className="mx-auto sm:my-4 md:my-4 lg:my-8 xl:my-8  font-inter sm:w-4/6 md:w-4/6 lg:w-5/6 xl:w-5/6 bg-blue-200
-                  rounded-2xl  pr-8 py-4">
+      className="mx-auto sm:my-4 md:my-4 lg:my-8 xl:my-8  font-inter sm:w-4/6 md:w-4/6 lg:w-5/6 xl:w-5/6 
+      bg-gradient-to-b from-blue-100 to-stone-400  via-blue-200     rounded-2xl  pr-8 py-4">
       <div id="features-subsection"
         className="flex items-center  justify-end mt-12 space-y-12 lg:space-y-0 lg:gap-x-4 lg:gap-y-10  "
       >
-          <div className="w-[50%] mr-32">
+          <div className="w-[50%] mr-32 ">
             <p className=" mb-8 sm:text-lg  md:text-xl lg:text-3xl xl:text-3xl font-semibold text-blue-800"
             style={{textShadow: '0 2px 5px rgba(0, 0, 0, 0.5)'}}>
               {t("features_label")}
             </p>
-            <ul className="ml-8 sm:text-md md:text-md lg:text-lg xl:text-lg text-stone-700 pl-4 list-none leading-[1.2rem] mb-8">
+            <ul className=" ml-8 sm:text-md md:text-md lg:text-lg xl:text-lg text-stone-700 pl-4 list-none leading-[1.2rem] mb-8">
               <li className="relative ">
                 <span className="absolute left-[-1.5em] text-blue-900 text-2xl font-extrabold">
                   ‣
