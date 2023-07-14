@@ -37,14 +37,6 @@ const DeclareResults = ({t,rfpIndex, setNoticeOff, companyId}) => {
  // disabling them, they are 
 const [actionButtonClicked, setButtonClicked] = useState(false)
 
- // if not items, make array of winners of just 1 element, otherwise make it as big as items there are
-//  const [winners, setWinners] = useState(Array(
-//     rfpRecord.items.length!=0 ? rfpRecord.items.length: 1).fill('not_choose')
-//   )
- // declaringItems is used to display all items, in case there is no Items use name and description of RFP
-//  const [declaringItems] = useState(
-//     rfpRecord.items.length!=0 ? rfpRecord.items : [`${rfpRecord.name} - ${rfpRecord.description}`]
-//   )
 
   // cancel the Tx, this will save it to pending transactions DB collection
   const [isCancelled, setIsCancelled] = useState(false);
@@ -54,6 +46,8 @@ const [actionButtonClicked, setButtonClicked] = useState(false)
   const [processingTxBlockchain, setProTxBlockchain] = useState(false)
   // isCollapsed flag controls displaying Declare Canceled RFP button
   const [isCollapsed, setIsCollapsed] = useState(true);
+  // controls when couldn't retrieve all bidders company's data
+  const [noCompaniesRetrieved, setNoCompaniesR] = useState(false);
   
  const { bidders, getBidders, companies, doneLookingBidders } = useBidders();
 
@@ -65,6 +59,9 @@ const [actionButtonClicked, setButtonClicked] = useState(false)
 
   // Handle Error method passed unto useDeclareRsults hook
   function onError(error) {
+    console.log('error declarando:',error)
+    console.log('error declarando: error.message',error.message)
+    console.log('error declarando error.reason:',error.reason)
     setButtonClicked(false)
     setProTxBlockchain(false);
     const customError = parseWeb3Error(t, error);
@@ -107,7 +104,6 @@ useEffect(() => {
     async function getBiddersInfo() {
       // obtain companies information from DataBase
       const result = await getBidders(rfpIndex);
-    
       if (!result.status) {
         errToasterBox(result.message);
       } 
@@ -116,6 +112,17 @@ useEffect(() => {
   getBiddersInfo();
 }, []);
 
+useEffect(()=>{
+  if (companies && companies.length !== 0) {
+      for (let i = 0; i < companies.length; i++) {
+        if (Object.keys(companies[i]).length === 0 || 'status' in companies[i]) {
+          setNoCompaniesR(true);
+          errToasterBox(t('not_all_companies_retrieved') )
+          break;
+        }
+      }
+    }
+} , [companies])
 
   /** Handling methods ************************************************************************* */
   // close showing information panel
@@ -261,11 +268,13 @@ const WinnersTable = ({ items, competitors }) => {
               >
                 <option value={'not_choose'}>{t('choose')}</option>
                 <option value={NullAddress}>{t('deserted_items')}</option>
-                {competitors.map((competitor) => (
-                  <option key={competitor.companyId} value={competitor.address}>
-                    {competitor.companyname}
-                  </option>
-                ))}
+                { !noCompaniesRetrieved &&
+                competitors.map((competitor) => 
+                    <option key={competitor.companyId} value={competitor.address}>
+                      {console.log('competitorXs', typeof competitor.status, competitor.status)}
+                      {competitor.companyname}
+                    </option>
+                )}
               </select>
             </td>
           </tr>
@@ -280,7 +289,7 @@ const ButtonDeclareWinners = (
   <div className="mt-2 mb-2 flex  pt-4 pl-4 pr-4  justify-center items-center">
     <button 
       className="main-btn" 
-      disabled={actionButtonClicked || isCancelled}
+      disabled={actionButtonClicked || isCancelled || noCompaniesRetrieved}
       onClick={handleDeclareRFPWinners}>
         {t("record_declaration")}
     </button>

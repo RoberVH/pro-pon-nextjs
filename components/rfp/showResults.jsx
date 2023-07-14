@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { getContractWinners } from '../../web3/getContractWinners'
+import { getContractWinnersFromServer } from '../../web3/getContractWinnersFromServer'
+
 import { getContractRFP } from '../../web3/getContractRFP'
 import Spinner from '../layouts/Spinner'; 
 import { getDBCompaniesbyAddress } from '../../database/dbOperations'
 import { parseWeb3Error } from '../../utils/parseWeb3Error'
 const { BigNumber } = require("ethers");
+import { getContractRFPFromServer } from "../../web3/getContractRFPFromServer";
+import { ethers } from 'ethers'
+
 // toastify related imports
 import { toastStyle } from "../../styles/toastStyle"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const NullAddress='0x0000000000000000000000000000000000000000'
+//const NullAddress='0x0000000000000000000000000000000000000000'
+const NullAddress=ethers.constants.AddressZero
 
 
 const ShowResults = ({t,rfpIndex}) => {
@@ -27,9 +33,13 @@ const ShowResults = ({t,rfpIndex}) => {
     async function getWinnersData() {
       // first check if is canceled
       try {
-      const result = await getContractRFP(rfpIndex);
+    let result;
+    if (window.ethereum ) 
+      result = await getContractRFP(rfpIndex)
+      else 
+      result = await getContractRFPFromServer(rfpIndex)
       if (!result.status) {
-        const customError = parseWeb3Error(t, error);
+        const customError = parseWeb3Error(t, result);
         errToasterBox(customError);
         setNoRFP(true);
         return;
@@ -45,7 +55,17 @@ const ShowResults = ({t,rfpIndex}) => {
         }
       }
       setRFPRecord(RFP)
-      const winnersFromContract = await getContractWinners(rfpIndex)
+      //const winnersFromContract = await getContractWinners(rfpIndex)
+      let winnersFromContract;
+      if (window.ethereum ) 
+          winnersFromContract = await getContractWinners(rfpIndex)
+        else {
+           const result= await getContractWinnersFromServer(rfpIndex)
+           if (result.status) 
+              winnersFromContract = result
+            else  
+            throw new Error(result.error)
+          }
       if (winnersFromContract.status) {
         // Set remove duplicates and spread operator convert all into an array
         const uniqueWiners = [...new Set(winnersFromContract.Winners)] 

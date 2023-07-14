@@ -1,4 +1,5 @@
 import { getProponContract } from "./contractsettings";
+import { ethers } from 'ethers'
 
 /**
  * 
@@ -9,7 +10,9 @@ import { getProponContract } from "./contractsettings";
  *    if still doesn't exist, returns the record with empty values
  */
 
-const NullAddress='0x0000000000000000000000000000000000000000'
+
+const NullAddress = ethers.constants.AddressZero
+
 
 export const getContractRFP = async (RFPIndex) => {
   const proponContract = await getProponContract()

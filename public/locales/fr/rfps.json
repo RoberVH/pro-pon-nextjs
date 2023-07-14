@@ -101,6 +101,7 @@
     "notallowed_open":"Désolé, vous ne pouvez pas enregistrer votre entreprise. La limite a été atteinte",
     "already_registered":" a déjà été ajoutée",
     "invitation_rfp":"Ceci est un concours sur invitation, cochez le curseur Afficher les enchérisseurs si vous êtes invité",
+    "no_connected_wallet":"Portefeuille détecté mais non connecté",
     "owner_open_rfp_recordbidders":"Ceci est votre appel d'offres ouvert, informez les entreprises candidates pour qu'elles s'inscrivent!",
     "copied_clipboard":"Copié dans le presse-papiers",
     "doc_type":"Type Doc.",
@@ -150,7 +151,7 @@
     "download_button":"Télécharger les fichiers sélectionnés",
     "downloading_file":"Téléchargement du fichier...",
     "downloaded_Ok":"Fichier Téléchargé",
-    "error_writing_file":"Impossible d'enregistrer le fichier sur votre système, de vérifier les autorisations, l'espace ou de choisir un autre dossier",
+    "error_writing_file":"Impossible d'enregistrer le fichier sur votre système. Veuillez vérifier les autorisations ou l'espace disponible",
     "couldnt_readfile":"Impossible de lire le fichier, vérifiez la connexion",
     "preparing_filesload":"Préparation du téléchargement du fichier, veuillez patienter...",
     "end_receiving":"Recevoir jusqu'au",
@@ -168,5 +169,8 @@
     "waiting_transaction":"En attente de transaction",
     "inviting_companies_title":"Entreprises à inviter",
     "no_companies_invite":"Il n'y a pas d'entreprises à inviter",
-    "download_rights_expired":"Le navigateur vous demande de confirmer à nouveau le dossier pour enregistrer les fichiers. Cliquez sur cette fenêtre pour continuer"
+    "download_rights_expired":"Le navigateur vous demande de confirmer à nouveau le dossier pour enregistrer les fichiers. Cliquez sur cette fenêtre pour continuer",
+    "click_to_Copy_clipboard": "Cliquez pour copier le hash dans le presse-papiers",
+    "pendingtxsaved":"Transaction en attente enregistrée. Vérifiez son statut dans 'Mes Tx en attente'",
+    "not_all_companies_retrieved":"Impossible de récupérer les informations sur toutes les participants, vérifiez le réseau"
 }

@@ -1,7 +1,7 @@
 /**
  * RFPDataForm
  *    Present input form to register RFP and post it to blockchain, 
- *    Display spinners when waiting and indicartors of progress: Tx hash, block tx included
+ *    Display spinners when waiting and indicators of progress: Tx hash, block tx included
  *    Save data to DB collections RFPs when is confirmed to the blockchain (?)
 */
 
@@ -49,14 +49,8 @@ const  invitationContest = ContestType.INVITATION_ONLY
 
 const RFPDataForm = ({setNoticeOff}) => {
   // State Variables & constants of module
-  const { t } = useTranslation("rfps");
+  const { t } = useTranslation(["rfps","gralerrors"]);
   //const infoBoardDiv = useRef()
-
-  //const [waiting, setWaiting] = useState(false); 
-  //const [postedHash, setPostedHash] = useState('')
-  //const [posted, setPosted] = useState('')
-  // const [link, setLink] = useState('')
-  //const [block, setBlock] = useState('')
   const [rfpParams, setRFPParams] = useState({})
   const [rfpCreated, setrfpCreated] = useState(false)
   const [items, setItems] = useState({})
@@ -102,9 +96,11 @@ const RFPDataForm = ({setNoticeOff}) => {
        setRFPParams(rfpparams => ({...rfpparams, rfpidx:params.rfpidx}))
        toast.success(t('rfpdatasaved',toastStyleSuccess))
        setrfpCreated(true)
-    }  else {
-        errToasterBox(resp.msg)
-    }
+      } 
+       // if there was an error saving to DB the RFP record. Consequence will be that it won't appear on 
+       // RFP searches, but this won't hinder the RFP process as that rocess won't rely on DB but contract
+       // there shall be a function when reading RFP from contract to check if exist in DB and updated the RFP there if needed
+       // so we don't show error here and let it pass silently, tht's why there is not else branch here showing an
   }
   
   // Handle Error method passed unto useWriteRFP hook 
@@ -127,7 +123,7 @@ const RFPDataForm = ({setNoticeOff}) => {
     if (!rfpCreated) {  // this is if RFP hasn't been saved to DataBase yet
       const rfpparams={rfpidx, issuer:address,...params}
       saveRFPDATA2DB(rfpparams)
-    }
+      }
   };
 
   const onSuccess = (data) => {
@@ -194,7 +190,7 @@ const RFPDataForm = ({setNoticeOff}) => {
     // pass updatedTxObj to setNoticeOff function
     setNoticeOff({ fired: true, txObj: updatedTxObj });
     setProTxBlockchain(false)
-    setButtonClicked(false) // give user a chance to resubmit when form still have its intended data
+    setButtonClicked(false) // give user a chance to resubmit when form still have its data on the form
   }
 
   // handle Edit RFP button method, Build urk with RFP params and set URL browser to that URL

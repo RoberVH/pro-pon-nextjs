@@ -1,4 +1,5 @@
  {
+    "already_pending": "There is a wallet instance waiting for confirmation, please check",
     "no_blockchain_access":"Currently there is not access to Blockchain, verify and try later",
     "address_already_admin":"This account is already admin of another company",
     "unknownerror":"Unkwon error, try later",
@@ -30,5 +31,16 @@
     "execution reverted: already_canceled": "The RFP has already been canceled",
     "execution reverted: issuer_bad_doctype": "Invalid document type for RFP issuer",
     "execution reverted: participant_bad_doctype": "Invalid document type for participant",
-    "execution reverted: already_participating": "You are already participating in the RFP"
+    "execution reverted: already_participating": "You are already participating in the RFP",
+    "missing revert data in call exception; Transaction reverted without a reason string":"Transaction reverted wtithout reason, try again",
+    "bad_method":"Method not supported",
+    "unknown account #0":"Unknown Account #0",
+    "err_bd_network":"Unreachable network",
+    "err_bd_validation":"Validation error",
+    "err_bd_ill_request":"Malformed data request",
+    "err_bd_timeout":"Network time out",
+    "err_bd_undetermined":"Data Base unkown error",
+    "db_connection_timed_out":"Data Base time out",
+    "db_unreachable":"Offline, check network",
+    "tx_not_found":"Transaction not found"
 }

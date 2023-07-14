@@ -29,11 +29,5 @@ export const companyParams=[
       searchable: true,
       date: false,
       width: '[10%]' },
-      { id:7,
-        fieldName:'rfpWon',
-        searchable: false,
-        date: false,
-        width: '[5%]' },      
-      
   ]
 

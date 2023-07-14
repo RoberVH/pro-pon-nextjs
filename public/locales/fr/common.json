@@ -17,7 +17,7 @@
   "signmessage": "signer le message",
   "selectcountry": "Choisissez le pays",
   "userreject": "Opération rejetée par l'utilisateur",
-  "nocompany": "Société non enregistrée",
+  "nocompany": "Votre entreprise n'est pas enregistrée",
   "noaccount": "Aucun portefeuille enregistré, (mode lecture seule))",
   "nometamask": "Metamask introuvable",
   "metamaskwarning": "Portefeuille Metamask introuvable, (mode lecture seule)",

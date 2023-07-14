@@ -103,6 +103,7 @@
     "notallowed_open":"Disculpas, no puede registrar su empresa. El límite ha sido alcanzado",
     "already_registered":" ya ha sido agregada",
     "invitation_rfp":"Este es un Concurso por Invitación, verifique en la regleta Mostrar participantes si está invitado",
+    "no_connected_wallet":"Cartera detectada pero no conectada",
     "owner_open_rfp_recordbidders":"Este es su RFP abierto, ¡notifique a compañías candidatas a registrarse!",
     "doc_type":"Tipo Doc.",
     "copied_clipboard":"Copiado al portapapeles",
@@ -152,7 +153,7 @@
     "download_button":"Descargar archivos seleccionados",
     "downloading_file":"Descargando Archivo...",
     "downloaded_Ok":"Archivo Descargado",
-    "error_writing_file":"No se pudo guardar archivo a su sistema, verifique permisos, espacio o elija otro folder",
+    "error_writing_file":"No se pudo guardar archivo a su sistema, verifique permisos o espacio",
     "couldnt_readfile":"No pude leer archivo, verificar conexión",
     "preparing_filesload":"Preparando carga de archivos, espere ...",
     "end_receiving":"Recibir hasta",
@@ -170,5 +171,8 @@
     "waiting_transaction":"Esperando Transacción",
     "inviting_companies_title":"Compañias a invitar",
     "no_companies_invite":"No hay compañias que invitar",
-    "download_rights_expired":"El navegador solicita que confirme de nuevo el folder para salvar los archivos. Haga click sobre esta ventana para proceder"
+    "download_rights_expired":"El navegador solicita que confirme de nuevo el folder para salvar los archivos. Haga click sobre esta ventana para proceder",
+    "click_to_Copy_clipboard": "Haga click para copiar hash al portapapeles",
+    "pendingtxsaved":"Transaccion Pendiente salvada. Checar estado en 'Mis Tx Pendientes'",
+    "not_all_companies_retrieved":"No fue posible recuperar informacion de todos los participantes, verifique red"
 }

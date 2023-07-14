@@ -22,6 +22,7 @@ import { nanoid } from "nanoid";
 import { toastStyle } from "../../styles/toastStyle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { parseWeb3Error } from '../../utils/parseWeb3Error'
 
 const allowedDocTypes = [
   docTypes[IdxDocTypes["documentProposalType"]],
@@ -39,7 +40,7 @@ const ShowBidders = ({
     setNoticeOff
   }) => {
   const [idxShowFilesComp, setidxShowFilesComp] = useState(null); // index of open Files Compo
-  const [dateAllowed, setDateAllowed] = useState(false); // flag to indicate the period is valid to upload documents according to RFP dates
+  //const [dateAllowed, setDateAllowed] = useState(false); // flag to indicate the period is valid to upload documents according to RFP dates
   const { bidders, getBidders, companies, doneLookingBidders } = useBidders();
   const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } =    useFilesRFP(rfpIndex);
   
@@ -66,7 +67,9 @@ const ShowBidders = ({
       // obtain companies information from DataBase
       const result = await getBidders(rfpIndex);
       if (!result.status) {
-        errToasterBox(result.message);
+        console.log('showBidders result.stauts false', result)
+        const msgError= parseWeb3Error(t,result)
+        errToasterBox(msgError);
       } // trigger document metadata search on useFilesRFP
     }
     getBiddersInfo();
@@ -77,7 +80,16 @@ useEffect(()=>{
   async function getFilesData() {
     if (bidders) {
     const result = await updateRFPFilesArray()
-    if (!result.status) errToasterBox(result.message)}
+    if (!result.status) {
+      // Error!, but result.message could be a string message or an object error to be parsed
+      let msgError;
+      if (typeof result.message!=='string'){
+           msgError = parseWeb3Error(t,result.message)
+          } else  msgError=t(result.message, {ns:"gralerrors"})
+      errToasterBox(msgError)
+    }
+    
+    }
   }
   getFilesData()
 },[bidders, updateRFPFilesArray])
@@ -200,6 +212,7 @@ useEffect(()=>{
     </div>
   );
 
+  // ******************** Main JSX *****************
   return (
     <>
       <ComponentLauncher />

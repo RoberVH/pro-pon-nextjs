@@ -1,3 +1,9 @@
+/**
+  DownloadFileForm
+      Displays a table of files names & hashes associated to an RFP for user to download them
+      When click on the name or type fields the row is selected and gets into the list of files to download
+      If click on the hash filed the hash get copied to the list
+*/
 import { useState, useContext, useEffect, useRef, Fragment } from "react";
 import { proponContext } from "../../utils/pro-poncontext";
 import { useTranslation } from "next-i18next";
@@ -15,11 +21,6 @@ import { convUnixEpoch } from "../../utils/misc";
 import { parseWeb3Error } from '../../utils/parseWeb3Error'
 import "react-toastify/dist/ReactToastify.css";
 
-/**
-  DownloadFileForm
-      Displays a table of files names & hashes associated to an RFP for user to download them
-*/
-
 const DownloadFileForm = ({
   rfpfiles,
   dateEnd,
@@ -33,10 +34,9 @@ const DownloadFileForm = ({
   const [showSignMsg, setShowSignMsg] = useState(false);
   const [selectAll, setSelectAll] = useState(false); // state to keep track of checkbox state
   const [processedFiles, setProcessedFiles] = useState([]);
-  //const [acceptAgainFlag, setAcceptAgainFlag ] = useState(false)
   
   
-  // There are some asynchronous functioss that reject to the main download loop at handleAllDownloadSelectedFiles
+  // There are some asynchronous functionss that reject to the main download loop at handleAllDownloadSelectedFiles
   // because they are activated after displaying message windows and called in other sections of code we need to memorize what
   // is the reject/resolve promise so it's catched at the right point, That's why we use an useRef to store the functions
   // notice that a useState var won't work
@@ -46,10 +46,12 @@ const DownloadFileForm = ({
   const params = useRef(null)         // paramters to call decryipting file process between different functions
   const downloadFolder = useRef(null) // destination folder to download files
 
-  const { t } = useTranslation(["rfps", "signup", "common"]);
+  const { t } = useTranslation(["rfps", "signup", "common","gralerrors"]);
   const { companyData } = useContext(proponContext);
 
   //   hooks ***************************************************************************
+  // whe rfpFiles gets instantiated because files' metadata was read on rfpDocuments' DownloadFileForm component it
+  // triggers setting of a filtered version of them on downloadableFiles that in turn causes displaying them on table
   useEffect(() => {
     if (rfpfiles)
       setDownloadableFiles(
@@ -110,6 +112,8 @@ const DownloadFileForm = ({
     }));
   };
 
+  // when user clics on button downloadAllSelectedFiles it sorts out selected files and set them in processedFiles Array
+  // to download them and execute the process to download them
  const handleDownloadAllSelectedFiles = async () => {
   const selectedFiles = downloadableFiles.filter(file => file.selected)  
   setProcessedFiles(selectedFiles.map(file => ({...file, status: ''})));
@@ -130,25 +134,7 @@ const DownloadFileForm = ({
     setSelectAll(false)
     return;
   }    
-  // ask for a user choosen folder only if is a registered company, and if in its config says a custom download files folder
-  if (typeof companyData?.downloadFolderOption !== 'undefined' && companyData.downloadFolderOption === 'custom') {
-    try {
-      if (!('showDirectoryPicker' in window)) {
-        errToasterBox(t('notsupportedbrowser', {ns:"common"}))
-        return
-      } 
-        const folder = await window.showDirectoryPicker()
-        downloadFolder.current = folder
-    } catch (error ) { 
-        errToasterBox(error.message)
-        //clear selected state 
-        setDownloadableFiles(prevFiles => prevFiles.map(file => ({ ...file, selected: false })));
-        setProcessedFiles([])
-        setSelectAll(false) // and in also clean select all flag
-        return 
-      }
-    }
-    // Main loop to download all selected files
+    // Main loop to download all selected files on processedFiles
     // selectedFiles var use because with var state processedFiles we will miss iterations
   for (const file of selectedFiles) {
     try {    
@@ -176,71 +162,38 @@ const DownloadFileForm = ({
 };
 
   /**saveBlobAsFile
-   *    Save the received blob as a file according to user choosen folder option
+   *    Save the received blob as a file
+   *    NOTE:  Disable  option to choose folder as most browsers on windows won't allow it
   */
   const saveBlobAsFile = async (option, filePath, writableBlob, filename) => {
     let blob;
-    if (option==='filePath') {
+    if (option==='filePath') {  // is a public file that needs to be download from Arweave
       try {
-        const url = filePath;
+        const url = filePath
         const response = await fetch(url)
+        if (!response.ok) {
+          const resp= response.statusText
+          throw new Error(resp)
+        }
         blob = await response.blob();
+        
       } catch (error) {
+        // arweave gives error (Not Found), we'll keep this generic error message 'couldnt_readfile'
         rejectDownloadLoop.current({msg:'couldnt_readfile'})
         return
       }
-    } else blob = writableBlob
-    // whatever it got the blob from now on is the same code to write it
+    } else blob = writableBlob // is a private already downloaded & decrypted file
+    // whatever it got the blob, from now on is the same code to write it
       try {
-        if (typeof companyData?.downloadFolderOption !== 'undefined' && companyData.downloadFolderOption === 'custom') {
-          const fileHandle = await downloadFolder.current.getFileHandle(filename, { create: true, overwrite: true })
-          const writableStream = await fileHandle.createWritable();
-          await writableStream.write(blob)
-          await writableStream.close()
-          resolveDownloadLoop.current()
-         } else {
             downloadBlob(filename, blob)
-            resolveDownloadLoop.current()
-         }
+            resolveDownloadLoop.current() // resolve current document download promise
       } catch (error){
-          if (error.message.toLowerCase().includes("user activation is required")) {
-            // this will only happen is user has choosen a folder (downloadFolderOption = 'custom')
-              const newFolder = await handlePermissionError(); // Handle the error and request the folder handle again
-              downloadFolder.current=newFolder
-              const fileHandle = await downloadFolder.current.getFileHandle(filename, { create: true, overwrite: true })
-              const writableStream = await fileHandle.createWritable();
-              await writableStream.write(blob)
-              await writableStream.close()
-              resolveDownloadLoop.current()
-          }
-          rejectDownloadLoop.current({msg:'error_writing_file'})
+               rejectDownloadLoop.current({msg:'error_writing_file'}) // reject THIS document download promise
         }
       };
       
       
-/*********************************  temporary ****************************************************************************** */
-async function handlePermissionError() {
-  return new Promise((resolve, reject) => {
-    const retryButton = document.getElementById("retryPermissionButton");
-    retryButton.style.display = "block"; // Show the button to the user
-
-    retryButton.addEventListener(
-      "click",
-      async () => {
-        try {
-          const newFolder = await window.showDirectoryPicker(); // Request the folder handle again
-          retryButton.style.display = "none"; // Hide the button after the user clicks it
-          resolve(newFolder);
-        } catch (error) {
-            console.error("An error occurred while requesting the folder handle:", error);
-            rejectDownloadLoop.current(error.message);
-        }
-      },
-      { once: true }
-    );
-  });
-}
-    
+  
 
   function downloadBlob(filename, blob) {
     const url = URL.createObjectURL(blob);
@@ -276,22 +229,20 @@ async function handlePermissionError() {
     } = params.current;
     let msg = message;
     if (typeof msg !== "undefined") msg = JSON.parse(message); // destringify message
-    const requestingFileprops = { globalIndex, arweaveFileIdx, msg, signature };
+    const requestingFileprops = { globalIndex, arweaveFileIdx, msg, signature }
     try {
-        const res = await getFileSecrets(requestingFileprops);
-        if (!res.status) throw new Error(res.msg);
+        const resp = await getFileSecrets(requestingFileprops)
+        if (!resp.status) throw new Error(resp.msg)
         // get the arweave encrypted file
-        const response = await fetch(
-          `https://arweave.net/${params.current.arweaveFileIdx}`
-        );
+        const response = await fetch(`https://arweave.net/${params.current.arweaveFileIdx}`)
         const arrayBuffer = await response.arrayBuffer();
         const dataContent = new Uint8Array(arrayBuffer);
         const IVuint8Array = new Uint8Array(
-          res.secrets.iv.split(",").map((c) => parseInt(c, 10))
+          resp.secrets.iv.split(",").map((c) => parseInt(c, 10))
         );
         const decryptedFile = await desCipherFile(
           dataContent,
-          res.secrets.psw,
+          resp.secrets.psw,
           IVuint8Array
         );
         const blob = new Blob([decryptedFile], {
@@ -302,8 +253,9 @@ async function handlePermissionError() {
     } catch (error) {
       let msgErr = error.message;
       if (traslatedRFPErrors.includes(error.message)) {
-        msgErr = t(error.message);
-      }
+        msgErr = t(error.message) // take the translation of error label from rfp.json langauge file!
+      } else if (error.message.includes('err_bd'))
+              msgErr = t(error.message,{ns:"gralerrors"})
       rejectDownloadLoop.current({msg:msgErr})
     }
   };
@@ -358,10 +310,9 @@ async function handlePermissionError() {
               processDownload();
             }
       } else {
-        // is a PUBLIC document (RFP requesting documents). It's not encrypted and is available as soon as is downloaded
+        // is a PUBLIC document (RFP request documents). It's not encrypted and is available as soon as is uploaded to arweave
         // so go and  delivered it
-        const filePath = `https://arweave.net/${file.idx}`;
-        // let saveBlobAsFile to take care of resolving promise if all goes ok
+        const filePath = `https://arweave.net/${file.idx}`
         saveBlobAsFile("filePath", filePath, null, file.name);
       }
     } catch (error) {
@@ -496,13 +447,15 @@ const resultAnnounce = (status, file) => {
                      <p className="whitespace-pre text-sm"> {file.name}</p>
                     </div>
                   </td>
-                  <td
-                    onClick={() => copyclipboard(file.documentHash)}
+                  <td title={t("click_to_Copy_clipboard")}
+                    onClick={() => copyclipboard(file.documentHash, file)}
                     className=" truncate   p-2 text-sm  cursor-pointer"
                   >
                     {file.documentHash}
                   </td>
-                  <td className=" truncate   p-2 text-sm ">
+                  <td className=" truncate p-2 text-sm cursor-pointer"
+                   onClick={() => toggleSelectedFile(file) }
+                   >
                     {t(docTypes[file.docType.toNumber()].desc)} 
                   </td>
                 </tr>
@@ -520,8 +473,9 @@ const resultAnnounce = (status, file) => {
   };
 
   // copy the passed text ti clickboard and briefly turn on flag to show message copied to clipboard
-  const copyclipboard = (text) => {
+  const copyclipboard = (text, file) => {
     navigator.clipboard.writeText(text);
+    toggleSelectedFile(file)
     setTimerWarning(true);
     setTimeout(() => setTimerWarning(false), 600);
   };
@@ -534,21 +488,13 @@ const resultAnnounce = (status, file) => {
         signMsg={t("signmessage", { ns: "common" })}
         handleSigning={handleSigning}
       />
-
-      <button style={{display: 'none'}}
-        onClick={handlePermissionError} id='retryPermissionButton' 
-        className="bounce-four-times absolute top-[40%] left-[40%] w-1/2 h-1/4 text-red-600 font-bold bg-yellow-300 border-4 text-2xl 
-        border-orange-300 px-8 py-2 rounded-2xl background-animate bg-gradient-to-l from-transparent via-orange-100 to-yellow-200"
-      >
-          {t('download_rights_expired')}
-      </button>
       <div id="downloadIcon" className="flex">
         <DownloadIcon className="mt-1 h-8 w-8 text-orange-300 mb-2" />
         <p className="mt-2 pl-2 font-khula">{t("dowloadrequestfiles")}</p>
       </div>
       <ComponentLauncher />
       <div className="flex justify-center mt-8">
-        <button
+        <button id="downloadAllSelectedFiles"
           className="bg-orange-500 text-white font-bold py-2 px-4 rounded mt-4 "
           onClick={handleDownloadAllSelectedFiles}
           >

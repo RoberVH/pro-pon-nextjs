@@ -101,6 +101,7 @@
     "notallowed_open":"Sorry, you can not register your company. The limit has been reached",
     "already_registered":" has already been added",
     "invitation_rfp":"This is an Invitation Contest, check on Show Bidders Tab if you are invited",
+    "no_connected_wallet":"Wallet detected but not connected",
     "owner_open_rfp_recordbidders":"This is your open RFP, notify candidate companies to sign up!",
     "copied_clipboard":"Copied to Clipboard",
     "doc_type":"Doc Type",
@@ -150,7 +151,7 @@
     "download_button":"Download Selected Files",
     "downloading_file":"Downloading file...",
     "downloaded_Ok":"File Downloaded",
-    "error_writing_file":"Could not save file to your system, check permissions, space or choose another folder",
+    "error_writing_file":"Could not save file to your system, check permissions or space",
     "couldnt_readfile":"Could not read file, verify connection",
     "preparing_filesload":"Preparing uploading of files, wait ...",
     "end_receiving":"End Receiving",
@@ -168,5 +169,8 @@
     "waiting_transaction":"Waiting Transaction",
     "inviting_companies_title":"Companies to invite",
     "no_companies_invite":"No companies to invite",
-    "download_rights_expired":"Browser asks you to confirm the folder again to save the files. Click on this window to proceed"
+    "download_rights_expired":"Browser asks you to confirm the folder again to save the files. Click on this window to proceed",
+    "click_to_Copy_clipboard": "Click to copy hash to clipboard",
+    "pendingtxsaved":"Pending Txransaction saved. Check its status in 'My Pending Transactions'",
+    "not_all_companies_retrieved":"Could not retrieve all participants information, check network"
 }

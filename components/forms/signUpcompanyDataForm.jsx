@@ -111,8 +111,13 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
   const onSuccess = async (data) => {
     await saveCompanyData(address) 
     // we need to read what we just write to retrieve DB id of record and have it on the context
-    const company= await getCompanydataDB(values.companyId.trim()) // read from DB company data
-    setCompanyData(company) // write db record to context with id that we'll use to update it
+    const result = await getCompanydataDB(values.companyId.trim()) // read from DB company data
+    if (!result.status) {
+      errToasterBox(t(result.msg,{ns:"gralerrors"}))
+      return
+    }
+
+    setCompanyData(result.data) // write db record to context with id that we'll use to update it
     setcompanyCreated(true)
     
   }
@@ -167,7 +172,14 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
     updatedTxObj.txHash = postedHash
     // pass updatedTxObj to setNoticeOff function
     setNoticeOff({ fired: true, txObj: updatedTxObj });
-    await savePendingTx({...updatedTxObj, sender: address})   // Pass the object and add who issued the Tx
+    const result= await savePendingTx({...updatedTxObj, sender: address})   // Pass the object and add who issued the Tx
+    if (!result.status) {
+      const msgErr=parseWeb3Error(t,{message:result.msg})
+      errToasterBox(msgErr)
+    } else {
+      // notify Tx was saved
+      toast.success(t('pendingtxsaved',{ns:"rfps"}))
+    }
     setButtonClicked(false)
     setProTxBlockchain(false)
   }
@@ -240,7 +252,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
     // Dic 2022 added address to save time when inviting companies to RFP and need to recover it
     const result = await  saveCompanyID2DB(companyID, companyName, country, address)
     if (!result.status)
-      errToasterBox(result.msg)
+      errToasterBox(t(result.msg,{ns:"gralerrors"}))
   }
 
 // render of Component

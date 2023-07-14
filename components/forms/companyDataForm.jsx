@@ -50,9 +50,9 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   const { values, handleChange } = useInputForm(companyData);
   const [message, setMsgtoSign] = useState();
   const [lang, setLang] = useState("");
-  const [downloadFolderOption, setsDownloadFolderOption] = useState(
-    companyData && typeof companyData.downloadFolderOption !== "undefined"
-    ? companyData.downloadFolderOption : '');
+  // const [downloadFolderOption, setsDownloadFolderOption] = useState(
+  //   companyData && typeof companyData.downloadFolderOption !== "undefined"
+  //   ? companyData.downloadFolderOption : '');
 
   const router = useRouter();
   const [profileCompleted, setProfileCompleted] = useState(
@@ -132,9 +132,9 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   };
 
   // ********************** handlers *************************
-  const handleOptionChange = (event) => {
-    setsDownloadFolderOption(event.target.value);
-  }
+  // const handleOptionChange = (event) => {
+  //   setsDownloadFolderOption(event.target.value);
+  // }
 
   // Validate and Update data to DB
   const handleSave = async () => {
@@ -163,13 +163,13 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
     )
       return;
 
-    if (downloadFolderOption.trim()==='') {
-      errToasterBox(t("companyform.nodownloadfolererror"))
-      return;
-    }
+    // if (downloadFolderOption.trim()==='') {
+    //   errToasterBox(t("companyform.nodownloadfolererror"))
+    //   return;
+    // }
 
-    // add downloadFolderOption value to the trimmedValues:
-    trimmedValues.downloadFolderOption = downloadFolderOption
+    // // add downloadFolderOption value to the trimmedValues:
+    // trimmedValues.downloadFolderOption = downloadFolderOption
       // Display modal to show & ask to sign message
     const message = JSON.stringify(trimmedValues);
     setMsgtoSign(message);
@@ -275,7 +275,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
               placeholder={`${t("companyform.website")}`}
             />
             {/* ******* File Downloading settings      ********************** */}
-            <div id="downloadsettingsframe" className="mt-4 ">
+            {/* <div id="downloadsettingsframe" className="mt-4 ">
               <label className=" text-stone-500">{t('downloadsettings')}</label>
               <div className="flex flex-col w-[80%] mt-2 mb-4 border-[1px] border-orange-500 p-2 rounded-lg text-sm text-stone-500">
                 <label className="inline-flex items-center mb-2">
@@ -300,7 +300,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
                   <span className="ml-2">{t('companyform.userchoosedfolder')}</span>
                 </label>
               </div>
-            </div>
+            </div> */}
           {/* **************************************************************************************** */}
         </div>
         </form>

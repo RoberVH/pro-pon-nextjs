@@ -1,4 +1,5 @@
 {
+    "already_pending": "Il y a une instance de portefeuille en attente de confirmation, veuillez vérifier",
     "no_blockchain_access": "Actuellement, il n'y a pas d'accès à la Blockchain, veuillez vérifier et réessayer plus tard",
     "address_already_admin":"Ce compte est déjà administrateur d'une autre entreprise",
     "unknownerror":"Erreur inconnue, essayez plus tard",
@@ -30,5 +31,16 @@
     "execution reverted: already_canceled": "La RFP a déjà été annulée",
     "execution reverted: issuer_bad_doctype": "Type de document invalide pour l'émetteur de la RFP",
     "execution reverted: participant_bad_doctype": "Type de document invalide pour le participant",
-    "execution reverted: already_participating": "Vous êtes déjà inscrit à cette RFP"    
+    "execution reverted: already_participating": "Vous êtes déjà inscrit à cette RFP",
+    "missing revert data in call exception; Transaction reverted without a reason string":"Transaction annulée sans raison, réessayez",
+    "bad_method":"Méthode non prise en charge",
+    "unknown account #0":"Compte inconnu #0",
+    "err_bd_network":"Réseau non disponible",
+    "err_bd_validation":"Erreur de validation",
+    "err_bd_ill_request":"Requête de données mal formée",
+    "err_bd_timeout":"Délai d'expiration du réseau",
+    "err_bd_undetermined":"Erreur de base de données inconnue",
+    "db_connection_timed_out":"Le temps d'attente de la base de données est épuisé",
+    "db_unreachable":"Pas de connexion, veuillez vérifier le réseau",
+    "tx_not_found":"Transaction introuvable"
 }

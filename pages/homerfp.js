@@ -9,7 +9,8 @@
  */
 
 import { useState, useEffect, lazy, Suspense, useContext } from "react";
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
+import { ethers } from 'ethers'
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -29,6 +30,7 @@ import RFPessentialData from "../components/rfp/RFPessentialData";
 //import ShowBidders from "../components/rfp/showBidders";
 //import ShowResults from "../components/rfp/showResults";
 //import DeclareResults from "../components/rfp/declareResults";
+import { parseWeb3Error } from "../utils/parseWeb3Error";
 import DisplayItems from "../components/rfp/displayItems";
 import GralMsg from "../components/layouts/gralMsg";
 import NoItemsTitle from "../components/layouts/NoItemsTitle";
@@ -36,6 +38,7 @@ import { proponContext } from "../utils/pro-poncontext";
 import HomeButtons from "../components/rfp/homeButtons";
 import Spinner from "../components/layouts/Spinner";
 import { getContractRFP } from "../web3/getContractRFP";
+import { getContractRFPFromServer } from "../web3/getContractRFPFromServer";
 import { savePendingTx } from "../database/dbOperations";
 import { toastStyle, toastStyleSuccess } from "../styles/toastStyle";
 import { toast } from "react-toastify";
@@ -55,14 +58,19 @@ function HomeRFP() {
   const [selectedPanel, setSelectedPanel] = useState()
   const [loading, setloading] = useState(true)
   const [noRFP, setNoRFP] = useState(false)
+  const [noConnectedWalletRFP, setNotConWallet] = useState(false)   // this signals THERE IS a wallet but no account connected to Propon
   const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null })
   const { companyData, address } = useContext(proponContext)
   const router = useRouter()
-  const { t } = useTranslation("rfps")
+  const { t } = useTranslation(["rfps","gralerrors"])
   const t_companies = useTranslation("companies").t; // tp search for companies when inviting them
   const { companyId, companyname, rfpidx } = router.query;
 
   //Next line  because we'll need to be able to search for Companies when inviting them to contest
+  // this is because deep in the hierarchy, there is a control to search countries that is displayed in the selected language
+  // this selection is programatically asigned according to current language , that is got from i18n.language property
+  // the control that uses is InputCountrySel.jsx
+  // future versions could have this setting in the context
   const { i18n } = useTranslation("companies");
 
   const errToasterBox = (msj) => {
@@ -75,7 +83,14 @@ function HomeRFP() {
   useEffect(() => {
     const saveDBPendingTx = async () => {
       if (noticeOff.fired) {
-        await savePendingTx({...noticeOff.txObj, sender:companyData.address})   // Pass the object and add who issued the Tx
+        const result = await savePendingTx({...noticeOff.txObj, sender:companyData.address})   // Pass the object and add who issued the Tx
+        if (!result.status) {
+          const msgErr=parseWeb3Error(t,{message:result.msg})
+          errToasterBox(msgErr)
+        } else {
+          // notify Tx was saved
+          toast.success(t('pendingtxsaved'))
+        }
       }
     };
     saveDBPendingTx();
@@ -85,19 +100,44 @@ function HomeRFP() {
   useEffect(() => {
     const getRFP = async () => {
       if (!rfpidx) return;
-      const result = await getContractRFP(rfpidx);
+      let result;
+      if (window.ethereum ) {
+          if (window.ethereum.selectedAddress === null) {
+              try {
+                // MetaMask is not connected, request access
+                await window.ethereum.enable();      
+                result = await getContractRFP(rfpidx)
+              } catch (error) {
+                  const customError = parseWeb3Error(t, error);
+                  errToasterBox(customError)
+                  setNotConWallet(true)
+                  setloading(false)
+                }
+          } else result = await getContractRFP(rfpidx)
+      } else {
+        result = await getContractRFPFromServer(rfpidx)
+      }
+      if (!result) {
+          setloading(false)
+          return
+      }
       if (!result.status) {
-        errToasterBox(result.message);
+        const errMsg=parseWeb3Error(t,result)
+        errToasterBox(errMsg);
         setNoRFP(true);
         return;
       }
       const RFP = { companyId: companyId, companyname: companyname };
       //  remove redundant numeric properties ([0]: ... [N]) from contract response & convert from Big number to
       //  number at the same time
+      // Remeber that converting to flat object in the server could have made it lost BigNumber type so to be safe
+      // we check for explicit type on object
       for (const prop in result.RFP) {
         if (isNaN(parseInt(prop))) {
-          if (result.RFP[prop] instanceof BigNumber)
-            RFP[prop] = result.RFP[prop].toNumber()
+          if (result.RFP[prop].type === 'BigNumber') {
+            const bigNumber = ethers.BigNumber.from(result.RFP[prop].hex);
+            RFP[prop] = bigNumber.toNumber();
+          }
           else RFP[prop] = result.RFP[prop];
         }
       }
@@ -108,7 +148,6 @@ function HomeRFP() {
   }, [companyId, companyname, rfpidx]);
 
   //  Inner Components ******************************************************************
-
   
   const RFPTabDisplayer = () => {
     switch (selectedPanel) {
@@ -191,6 +230,10 @@ function HomeRFP() {
     }
   };
 
+  //********************* MAIN JSX ******************** */
+
+  if (!loading && noConnectedWalletRFP)
+    return <NoItemsTitle msg={t("no_connected_wallet").toUpperCase()} />;
   if (!loading && noRFP)
     return <NoItemsTitle msg={t("no_rfp").toUpperCase()} />;
   if (!noRFP && rfpRecord)
@@ -204,7 +247,6 @@ function HomeRFP() {
                 buttonText={"accept"}
                 setNoticeOff={setNoticeOff}
                 dropTx={noticeOff.txObj}
-                //typeTx={'mtransact'}
                 typeTx = {t(`transactions.${noticeOff.txObj.type}`)}
               />
               </div>
@@ -269,25 +311,6 @@ function HomeRFP() {
   );
 }
 
-// Get language translation json files  and the rfpId params at url to present it on this page
-// export async function getServerSideProps({ locale, query }) {
-//   //getStaticProps
-//   // get documents registered to this RFP here
-
-//   return {
-//     props: {
-//       query: query,
-//       ...(await serverSideTranslations(locale, [
-//         "rfps",
-//         "common",
-//         "gralerrors",
-//         "menus",
-//         "companies",
-//       ])),
-//       // Will be passed to the page component as props
-//     },
-//   };
-// }
 
 export async function getStaticProps({ locale }) {
   return {

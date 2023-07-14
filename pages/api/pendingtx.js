@@ -1,11 +1,14 @@
 import { connectToDatabase } from "../../database/mongodb";
 import {  ObjectId } from 'mongodb';
+import processBDerror from '../../database/processBDerror'
 
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();
   const { method } = req
   switch (method) {
     case 'GET':
+      try {
+        //throw new Error('MongoTimeoutError')
        const query={}
       query['$and']=[]
       const term={}
@@ -18,44 +21,62 @@ export default async function handler (req, res) {
       const pendingtxs = await db
       .collection("pendingTxs")
       .find(query)
-      .sort({ metacritic: -1 })
+      .sort({ _id: 1 })
       .limit(20)
       .toArray();
-      res.json(pendingtxs);
+      res.json({status:true, res:pendingtxs});
       break
+    } catch(error) {
+      const {status, message} = processBDerror(error)
+      res.status(403).send( {status:false, msg:message} )
+      return
+    }
     case 'POST':
         try {
           await db
           .collection("pendingTxs")
           .insertOne(req.body)
-          res.status(201).json({ status: true })
+                    res.status(201).json({ status: true })
           return
         } catch (error) {
-          console.log('error pendingTx creation', error)
-          res.status(400).json({ status: false, msg:'Internal server Error' })
+          const {status, message} = processBDerror(error)
+          res.status(status).json({ status: false, msg:message }) 
+          break;          
         }
         break
     case 'DELETE':
+      // removeObj can hace one of there params: 
+      // {sender: address} it's remove all pending TXs
+      //  or {_id: id} remove specific Tx with _id given on id
       const removeObj = req.body;
+      //const removeObj = {};
       let filter = {};
       let deletedCount = 0;
       try {
         if (removeObj._id) 
               filter = { _id: ObjectId(removeObj._id) };
           else if (removeObj.sender) 
-          // filter = { sender: removeObj.sender };
               filter = { sender: { $regex: new RegExp(removeObj.sender, "i") } }
            else {
-              return res.status(400).json({ error: 'Invalid request data' });
+              //return res.status(400).json({ status:false, msg: 'Invalid_params' });
+              throw new Error('err_bd_ill_request')
         }
         const result = await db.collection("pendingTxs").deleteMany(filter);
         deletedCount = result.deletedCount;
         if (deletedCount === 0) {
-          return res.status(404).json({ error: 'Document(s) not found' });
+          //return res.status(404).json({ status:false, msg: 'not_found' });
+          throw new Error('tx_not_found')
+
         }
-        res.status(200).json({ deletedCount });
+        res.status(200).json({status:true, deletedCount:deletedCount });
       } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        console.log('server error:', error)
+        const {status, message} = processBDerror(error)
+        console.log('despues de processDBerror', message)
+        res.status(status).json({ status:false, msg:message });
       }
+      default:
+        res.status(503).json({status:false, msg:'err_bd_ill_request'})
+        break      
   }
 }

@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Searchrfps() {
   // const { locale,pathname, query, asPath   } = useRouter();
   const [IsWaiting, setIsWaiting] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({});
   const [results, setResults] = useState([]);
   const router = useRouter();
 
@@ -29,7 +29,7 @@ function Searchrfps() {
     router.push("/homerfp?" + rfphomeparams);
   };
 
- const { t } = useTranslation("rfps");
+ const { t } = useTranslation(["rfps","gralerrors"]);
   
  const rfpActions = [
     {
@@ -46,7 +46,8 @@ function Searchrfps() {
   };
 
   useEffect(() => {
-    if (error.message) errToasterBox(error.message);
+    if (error.message) {
+      errToasterBox(error.message)}
   }, [error]);
 
  
@@ -55,12 +56,8 @@ function Searchrfps() {
       <h1 className="mt-4 text-stone-500 text-2xl text-center">
         {t("titlescreen")}
       </h1>
-      <div
-        id="rfp-search"
-        className="mt-4  bg-white flex 
-                rounded-lg justify-beetween py-4 border-2 border-orange-200"
-      >
-        <div className="w-[100%] pl-4">
+      <div id="rfp-search" className="mt-2  bg-white flex rounded-lg justify-beetween py-2 border-2 border-orange-200">
+        <div id="search-bar-holder" className="">
           <SearchDB
             fields={rfpParams}
             path={`/api/serverrfp?`}
@@ -99,7 +96,7 @@ function Searchrfps() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "menus", "rfps"])),
+      ...(await serverSideTranslations(locale, ["common", "menus", "rfps","gralerrors"])),
       // Will be passed to the page component as props
     },
   };

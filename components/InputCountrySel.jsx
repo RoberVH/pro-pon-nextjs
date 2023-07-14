@@ -37,7 +37,7 @@ useEffect(() => {
 
 
 return (
-    <select className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none w-[11vw]
+    <select className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none w-2/3
                        p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8 bg-white"
     onChange={handleChange}
     id={"country"}

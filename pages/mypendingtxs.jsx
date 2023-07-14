@@ -44,7 +44,7 @@ function MyPendingTransactions() {
   
 
 
-  const { t } = useTranslation("rfps");
+  const { t } = useTranslation(["rfps", "gralerrors"]);
   const { companyData, address } = useContext(proponContext);
 
     
@@ -75,6 +75,9 @@ function MyPendingTransactions() {
       if (address) {
         const result = await getPendingTxs({sender:address})
         if (result.status)  setPendingTxs(result.res)
+        else {
+          errToasterBox(parseWeb3Error(t, result))
+        }
       }
       setSearching(false)
     }
@@ -90,7 +93,7 @@ const handleClearAllTxs  = async () => {
   if (result.status) {
       setPendingTxs([]);
       setButtonClicked(false)
-  } else errToasterBox(result.msg) 
+  } else errToasterBox(t(result.msg,{ns:"gralerrors"})) 
 
 };
 
@@ -102,7 +105,7 @@ const handleClearTx = async (id) => {
       setPendingTxs(updatedPendingTxs)
       setButtonClicked(false)
 
-    } else errToasterBox(result.msg) 
+    } else errToasterBox(t(result.msg,{ns:"gralerrors"})) 
 }
 const handleRetry = async (Tx) => {
   // we send again the Tx. For now only record document metadata is implemented (type: 'filesuploadm')

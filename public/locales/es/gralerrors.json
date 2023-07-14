@@ -1,4 +1,5 @@
 {
+    "already_pending":"Hay una instancia de la billetera esperando confirmación, verifique",
     "no_blockchain_access":"Actualmente no hay acceso a la Blockchain, verifique e intente mas tarde",
     "address_already_admin":"Esta cuenta ya es administradora de otra empresa",
     "unknownerror":"Error desconocido, reintente mas tarde",
@@ -29,5 +30,17 @@
     "execution reverted: not_open_tender": "Esta operación solo está permitida para concursos abiertos",
     "execution reverted: already_canceled": "El RFP ya ha sido cancelada",
     "execution reverted: issuer_bad_doctype": "Tipo de documento inválido para el emisor del RFP",
-    "execution reverted: participant_bad_doctype": "Tipo de documento inválido para el participante"
+    "execution reverted: participant_bad_doctype": "Tipo de documento inválido para el participante",
+    "missing revert data in call exception; Transaction reverted without a reason string":"Transacción revertida sin motivo, reintente",
+    "bad_method":"Método no soportado",
+    "unknown account #0":"Cuenta Desconocida #0",
+    "err_bd_network":"Red no disponible",
+    "err_bd_validation":"Error de validación",
+    "err_bd_ill_request":"Solicitud de datos mal formada",
+    "err_bd_timeout":"Tiempo de espera de red agotado",
+    "err_bd_undetermined":"Error desconocido de la base de datos",
+    "db_connection_timed_out":"Tiempo de espera de la base de datos agotado",
+    "db_unreachable":"No hay línea, verifique red",
+    "tx_not_found":"Transacción no hallada"
+
 }

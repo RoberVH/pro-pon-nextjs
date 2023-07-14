@@ -59,16 +59,3 @@ export const cvrtStrtoUint8 = (str) => {
   }
   return bufView;
 }
-
-
-// const downloadFile = (fileBlob,name) => {
-//   const url = URL.createObjectURL(fileBlob);
-//   const a = document.createElement('a');
-//   document.body.appendChild(a);
-//   a.style = 'display: none';
-//   a.href = url;
-//   a.download = name
-//   a.click();
-//   window.URL.revokeObjectURL(url);
-//   document.body.removeChild(a);
-// }

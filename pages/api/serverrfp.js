@@ -4,6 +4,7 @@ import { verifyMessage } from 'ethers/lib/utils'
 import { accountHasRigths } from '../../web3/serveraccessweb3'
 import { buildQuery } from '../../database/serverDBUtils'
 import { isEmpty } from "../../utils/misc"
+import processBDerror from "../../database/processBDerror";
 
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();
@@ -15,39 +16,38 @@ export default async function handler (req, res) {
       const rfps = await db
         .collection("rfps")
         .find(query)
-        .sort({ metacritic: -1 })
+        .sort({ _id: 1 })
         .limit(20)
         .toArray();
       res.status(200).json(rfps);
       break
     case 'POST':  //  post one rfp data
-      if (isEmpty(req.body)) {
-        res.status(400).json({ status: false, msg:'no_data_to_save' })
-        return
-      }
       try {
-        // first check there is not another RFP with same Id and account issuer
-        const cursor = await db.collection("rfps").find({name:req.body.name, companyId:req.body.companyId})
-        const results = await cursor.toArray()
-        if (results.length > 0)  {
-          // there is a previous RFP already using this RFP id - companyId combination, do nothing
-          // this is to avoid duplicated RFP and desync contract and DB
-          res.status(200).json({ status: true, _id:results[0]._id.toString() })
-          return
+        if (isEmpty(req.body)) {
         }
-
-        const data= await db
-          .collection("rfps")
-          .insertOne(req.body)
-        res.status(200).json({status:true, _id:data.insertedId.toString()})
-        break
+          // first check there is not another RFP with same Id and account issuer
+          const cursor = await db.collection("rfps").find({name:req.body.name, companyId:req.body.companyId})
+          const results = await cursor.toArray()
+          if (results.length > 0)  {
+            // there is a previous RFP already using this RFP id - companyId combination, return the present _id of company
+            // this is to avoid duplicated RFP and desync contract and DB, 
+            res.status(200).json({ status: true, _id:results[0]._id.toString() })
+            return
+          }
+          const data= await db
+            .collection("rfps")
+            .insertOne(req.body)
+          res.status(200).json({status:true, _id:data.insertedId.toString()})
+          break
       } catch (error) {
-          res.status(400).json({ status: false, msg:error })
+        const {status, message} = processBDerror(error)
+          res.status(status).json({ status: false, msg:message })
           break
       }
     case 'PATCH':  //  modify rfp data
       const {signature,...msg} = req.body
-      const account=await verifyMessage(JSON.stringify(msg), signature)
+      //const account=await verifyMessage(JSON.stringify(msg), signature)
+      const account= verifyMessage(JSON.stringify(msg), signature)
       if ( !accountHasRigths(account, msg.companyId)) {
           res.status(400).json({ status: false, 
             message:`Account ${account.slice(0,5)}...${account.slice(-6)}  not admin of company with ID: ${msg.companyId}`  })

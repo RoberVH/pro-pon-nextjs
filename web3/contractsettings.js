@@ -12,9 +12,7 @@ export const getProponContract = async () => {
       const signer = provider.getSigner()
       const contract = new ethers.Contract(CONTRACT_ADDRESS_DATA, CONTRACT_DATA_JSON.abi, signer)
       return contract
-    // }
   } catch (error) { 
-    console.log('contractsettings error', error)
     return undefined
   }
 }
@@ -28,9 +26,7 @@ export const getWritingProponContract = async () => {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(CONTRACT_ADDRESS_LOGIC, CONTRACT_LOGIC_JSON.abi, signer)
     return contract
-
   } catch (error) { 
-    console.log('propon error', error)
     return undefined
   }
 }

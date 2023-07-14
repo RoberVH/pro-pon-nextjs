@@ -25,6 +25,7 @@ import { convUnixEpoch } from "../../utils/misc";
 import { toastStyle } from "../../styles/toastStyle";
 import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { parseWeb3Error } from '../../utils/parseWeb3Error';
 
 import { docTypes, IdxDocTypes } from "../../utils/constants";
 
@@ -63,10 +64,19 @@ const RFPDocuments = ({
   };
 
 /** Hooks ********************************************************************** */
+// Initially obtain list of documents to be downloaded when the component loads
 useEffect(()=>{
   async function getFilesData() {
-    const result = await updateRFPFilesArray()
-    if (!result.status) errToasterBox(result.message)
+    const result = await updateRFPFilesArray() 
+        if (!result.status) {
+      // Error!, but result.message could be a string message or an object error to be parsed
+      let msgError;
+      if (typeof result.message!=='string') {
+          msgError = parseWeb3Error(t,result.message)
+      }
+          else  msgError=t(result.message, {ns:"gralerrors"})
+      errToasterBox(msgError)
+    }
   }
   getFilesData()
 },[])

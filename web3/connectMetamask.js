@@ -11,7 +11,6 @@ export const connectMetamask = async (setAddress) => {
     let message=''
     try {
       const accounts= await window.ethereum.request({method: 'eth_requestAccounts'})
-      console.log('connect message', accounts)
       return {status:true, address:accounts[0]}
     } catch (error )  {
       console.log('connect error', error)

@@ -21,7 +21,7 @@ import { useRegisterBidders } from "../../hooks/useRegisterBidders"
 import { useBidders } from '../../hooks/useBidders'
 import ShowTXSummary from "./ShowTXSummary"
 import { parseWeb3Error } from "../../utils/parseWeb3Error"
-import SpinnerBar from "../layouts/SpinnerBar"
+//import SpinnerBar from "../layouts/SpinnerBar"
 //import { serializeArray } from '../../utils/serialArrays'
 import { todayUnixEpoch } from "../../utils/misc"
 
@@ -36,7 +36,6 @@ const RegisterBidder = ({
   i18n,
   setNoticeOff
 }) => {
-  //const { bidders, getBidders, companies } = useBidders(rfpRecord.rfpIndex);
   const { bidders, getBidders, companies } = useBidders();
 
   // same address could have different case but are the same address, that's why we check like this the address vs bidders array 
@@ -47,8 +46,6 @@ const RegisterBidder = ({
   const [error, setError] = useState(false)
   // Next  is for SearchDB component & make Spinner spin when searching
   const [IsWaiting, setIsWaiting] = useState(false)
-  //const [sendingBlockchain, setsendingBlockchain] = useState(false)
-  //const [showPanel, setShowPanel] = useState(false)
   const [isCancelled, setIsCancelled] = useState(false);
   const [droppedTx, setDroppedTx] = useState()  
   const cleanSearchParams = useRef()
@@ -77,12 +74,16 @@ const RegisterBidder = ({
     getBidders(rfpRecord.rfpIndex)
   },[])
 
-useEffect(()=>{
-  if (bidders) 
-      setAlreadyRegistered((-1!==bidders.findIndex(element => {
-          return element.toLowerCase() === address.toLowerCase();
-      })))
-},[bidders, address])
+  useEffect(()=>{
+    if (bidders) 
+        setAlreadyRegistered((-1!==bidders.findIndex(element => {
+            return element.toLowerCase() === address.toLowerCase();
+        })))
+  },[bidders, address])
+
+  useEffect(() => {
+    if (error.message) errToasterBox(error.message);
+  }, [error]);
 
   /** UTILITY FUNCTIONS ********************************************************************** */
   const errToasterBox = (msj) => {
@@ -98,7 +99,6 @@ useEffect(()=>{
   
   // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
-    console.log('ERRROR', error)
     setButtonClicked(false)
     setProTxBlockchain(false);
     const customError = parseWeb3Error(t, error);
@@ -269,7 +269,7 @@ useEffect(()=>{
                 <>
                   <div
                     id="owner-rfp-invitation"
-                    className="shadow w-3/5 h-[25em] outline-1 border border-orange-500 rounded-lg"
+                    className="shadow w-3/5 h-[25em] outline-1 border border-orange-500 rounded-lg overflow-hidden"
                   >
                     <SearchDB
                       i18n={i18n}

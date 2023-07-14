@@ -230,7 +230,6 @@ function UploadRFPForm({
         }))
       );
     } catch (error) {
-      console.log('write metadata',error);
     } finally {
       setsendingBlockchain(false);
     }

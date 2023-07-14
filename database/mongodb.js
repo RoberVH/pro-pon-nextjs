@@ -30,6 +30,12 @@ export async function connectToDatabase() {
     const opts = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        // maxPoolSize default is  5
+        // We set limiting maximum connection pool size so MongoDB Atlas won't complain we are using near 500 conns.
+        // Somehow default is not enforced and it was opening lots of conns when heavy GET request from dev environ debuging 
+        // and from JMeter testing. New param maxPoolSize does it even for 1000 threads Ramp-up 1 loops 2 of simple
+        // /api/servercompanies/country='CAN' returning 4 records, it opened like 58 max conns)
+        maxPoolSize: 50, 
     };
 
     // Connect to cluster

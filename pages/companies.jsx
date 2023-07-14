@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-// import { useRouter } from "next/router";
 import  Spinner  from '../components/layouts/Spinner'
-import { SearchIcon } from "@heroicons/react/outline";
+//import { SearchIcon } from "@heroicons/react/outline";
 import DisplayResults from "../components/DisplayResults";
 import SearchDB from "../components/SearchDB";
 import { companyParams } from "../utils/companyItems";
@@ -17,7 +16,7 @@ function Companies() {
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
   const [results, setResults] = useState([]);
-  const { t, i18n  } = useTranslation("companies")
+  const { t, i18n  } = useTranslation("companies","gralerrors")
 
   const companyActions = [
     
@@ -36,7 +35,6 @@ function Companies() {
     if (error.message) errToasterBox(error.message);
   }, [error]);
 
-  //const router = useRouter()
 
 
   return (
@@ -50,7 +48,7 @@ function Companies() {
                 rounded-lg justify-beetween py-2 border-2 border-orange-200"
       >
         {/* <SearchIcon className="ml-8 h-8 w-8 text-orange-400  " /> */}
-        <div className="w-[100%] pl-0">
+        <div className="w-[100%] pl-0 flex justify-between">
           <SearchDB
             fields={companyParams}
             path={`/api/servercompanies?`}
@@ -92,6 +90,7 @@ export async function getStaticProps({ locale }) {
         "common",
         "menus",
         "companies",
+        "gralerrors"
       ])),
       // Will be passed to the page component as props
     },

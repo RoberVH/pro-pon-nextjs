@@ -9,11 +9,10 @@ import { getProponContract } from "./contractsettings";
  * @returns {Promise<Object>} Return a promise object with the company data or error message
  */
 export const getContractCompanyData = async (address) => {
-  const proponContract = await getProponContract()
-
   try {
-    const companyData = await proponContract.getCompany(address);
-    return { status: true, data: companyData }
+    const proponContract = await getProponContract()
+    const companyData = await proponContract.getCompany(address)
+        return { status: true, data: companyData }
   } catch (error) {
     return({ status: false, message: error.reason });
   }

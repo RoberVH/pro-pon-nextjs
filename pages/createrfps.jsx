@@ -9,13 +9,15 @@ import  RFPDataForm  from '../components/forms/rfpDataForm'
 import { toastStyle } from "../styles/toastStyle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { parseWeb3Error } from "../utils/parseWeb3Error";
 
 
 function Createrfps() {
   const { companyData, address } = useContext(proponContext)
   const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null })
 
-  
+   const { t } = useTranslation(["rfps", "common","gralerrors"]);
+
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
@@ -25,16 +27,23 @@ function Createrfps() {
   useEffect(() => {
     const saveDBPendingTx = async () => {
       if (noticeOff.fired) {
-        await savePendingTx({...noticeOff.txObj, sender:companyData.address})   // Pass the object and add who issued the Tx
+        const result= await savePendingTx({...noticeOff.txObj, sender:companyData.address})   // Pass the object and add who issued the Tx
+        if (!result.status) {
+          const msgErr=parseWeb3Error(t,{message:result.msg})
+          errToasterBox(msgErr)
+        } else {
+          // notify Tx was saved
+          toast.success(t('pendingtxsaved'))
+        }
       }
     };
     saveDBPendingTx();
   }, [noticeOff.fired]);
 
   
-  const { t } = useTranslation(["rfps", "common"]);
+ 
 
-  //* Inner components
+  //* Inner components   ************************************************************
   
   // If not Logged In display warning sign
   if (!address) 

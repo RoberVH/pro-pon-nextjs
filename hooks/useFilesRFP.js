@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
 import { getArweaveFilesMetadata } from '../web3/getArweaveFilesMetadata'
-// import { getContractRFPbidders } from '../web3/getContractRFPbidders'
 
 export const  useFilesRFP= (rfpidx) => {
     const [newfiles, setNewFiles] = useState(false); // flag to refresh RFP files loaded. Get them from contract
@@ -26,7 +25,7 @@ const updateRFPFilesArray = useCallback( async () => {
       return {status:true}
   } else {
       setdoneLookingFiles(true)
-      return {status:false, message:result.error}
+      return {status:false, message:result.msg}
     }
   },[rfpidx])
 
@@ -34,8 +33,6 @@ const updateRFPFilesArray = useCallback( async () => {
   useEffect(() => {
     if (newfiles) updateRFPFilesArray();
   }, [newfiles, updateRFPFilesArray]);
-
-
 
   return {newfiles, setNewFiles, rfpfiles, setRFPFiles, updateRFPFilesArray, doneLookingFiles}
 }

@@ -23,7 +23,6 @@ import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork"
 import NoMetamaskWarning from "./noMetamaskWarning"
 import NoRightNetworkWarning from "./noRightNetworkWarning"
 import { saveCompanyID2DB } from "../../database/dbOperations"
-//import { PRODUCTION } from '../../utils/constants'
 
 
 // toastify related imports
@@ -65,7 +64,7 @@ const HeadBar = () => {
             noWallet, 
             setnoWallet } = useContext(proponContext);
 
-  const { t } = useTranslation(["menus", "common"]);
+  const { t } = useTranslation(["menus", "common", "gralerrors"]);
   const router = useRouter();
   
   /**
@@ -94,17 +93,26 @@ const HeadBar = () => {
       const rfpSent = parseInt(RFPSent)
       const companyRFPs= company_RFPs.map(rfp => parseInt(rfp))
       const result = await getCompanydataDB(id); // get complementary company data from DB
-      if (result. companyId)
-          setCompanyData({rfpWon, rfpSent, companyRFPs, ...result})
+      if (!result.status) {
+        errToasterBox(t(result.msg,{ns:"gralerrors"}))
+        return
+      }
+      if (result.data.companyId)
+          setCompanyData({rfpWon, rfpSent, companyRFPs, ...result.data})
       else {
         // Error, there is not a Company  DB record corresponding to found Company Id on Contract, record it to DB to sync them
+        // this could be because a previous error when creating the company that didn't get into DataBase
           const {name, country}= contractCiaData
           const result = await  saveCompanyID2DB(id, name, country, address)
           if (!result.status)
-              errToasterBox(result.msg)
-              else {
-              const company= await getCompanydataDB(id) // read from DB company data
-              setCompanyData({rfpWon, rfpSent, companyRFPs, ...company}) // write db record to context with id that we'll use to update it                
+                errToasterBox(result.msg)
+             else {
+                const result= await getCompanydataDB(id) // read from DB company data
+                if (!result.status) {
+                  errToasterBox(t(result.msg,{ns:"gralerrors"}))
+                  return    
+                }
+                setCompanyData({rfpWon, rfpSent, companyRFPs, ...result.data}) // write db record to context with id that we'll use to update it                
             }
       }
     },[setCompanyData, address]);
@@ -146,9 +154,7 @@ const HeadBar = () => {
             const result = await getContractCompanyData(address) 
             if (!result.status) {
               setShowSpinner(false)
-              console.log('result',result)
               let msg=result.message
-              
               if ((msg !==null) &&  msg.includes('could not detect network')) msg=t('could_not_detect_network', { ns: "common" })
               errToasterBox(msg)
               return
@@ -205,7 +211,6 @@ const HeadBar = () => {
           });
           setNoRightNetwork(false)
         } catch (error) {
-          console.log(error);
           errToasterBox(error)
         } finally 
           { setAddingNetwork(false) }
@@ -325,7 +330,7 @@ const HeadBar = () => {
 
 const AccountSpaceTitle = () => {
   if (noWallet) return (
-      <nav id="navigation" className="bg-[#2b2d2e] antialiased  pl-2 pt-4 pb-4 ">
+      <nav id="navigation" className="bg-[#2b2d2e] antialiased  px-2 pt-4 pb-4 rounded-lg ">
         <NoMetamaskWarning msg={t('metamaskwarning',{ns:'common'})} buttontitle={t('getmetamask',{ns:'common'})}/>
       </nav> 
   )
@@ -365,7 +370,7 @@ const AccountSpaceTitle = () => {
             </Link>
             <Menues ref={menusRef} isVisible={droppletVisible=== droppableItemEnum.menu}/>
           </div>
-          <div className="mt-4">
+          <div className="mt-4 rounded-lg">
             <AccountSpaceTitle />
           </div>
           <div className="flex justify-around">

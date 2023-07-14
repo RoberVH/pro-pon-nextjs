@@ -3,12 +3,20 @@ import { ExclamationCircleIcon } from "@heroicons/react/solid"
 //import { ExclamationCircleIcon } from "@heroicons/react/outline"
 import { CheckCircleIcon } from "@heroicons/react/outline"
 import Image from "next/image"
+import { parseWeb3Error } from '../../utils/parseWeb3Error'
+
 
 
 
 import  ProgressBr  from "../layouts/progressBar"
 
 const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
+
+  const refactorErrMsg = (errMsg) => {
+    if (!errMsg) { return null}
+    const tMsgErr=parseWeb3Error(t, {message:errMsg})
+    return tMsgErr
+  }
   
   const checkProperty = (index,property) => {
     return (
@@ -31,7 +39,7 @@ const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
           <div className="group relative  flex align-center justify-center">
             <ExclamationCircleIcon className="h-6 w-6 text-red-600 "/>
               <span className="tooltip-span-error-upload">
-                            {uploadingSet[index].error}
+                         { refactorErrMsg(uploadingSet[index].error)}
               </span>
           </div>
         )
@@ -40,8 +48,8 @@ const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
           <CheckCircleIcon className="h-5 w-5 text-green-600  ml-2"/> 
           )
       default:
-          console.log('Couldnt switch uploadingSet[index].status', uploadingSet[index].status)
-          return null
+        // undefined state? it should never reach this point
+          return <label>{uploadingSet[index].status}</label>
     }
   }
 

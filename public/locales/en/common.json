@@ -17,7 +17,7 @@
   "signmessage": "Sign Message",
   "selectcountry": "Select Country",
   "userreject": "User deny operation",
-  "nocompany": "Company not registered",
+  "nocompany": "Your company is not registered",
   "noaccount": "No wallet registered (read-only mode only)",
   "metamaskwarning": "Metamask wallet not found (read-only mode only)",
   "nometamask": "Metamask not found",

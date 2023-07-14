@@ -26,8 +26,6 @@ import { sha512 } from "crypto-hash";
 import { setResultObject } from "./setResultObject";
 import { privateFileTypes } from '../utils/constants'
 import { cipherFile, desCipherFile } from "./zipfiles";
-// remove next line  after testing
-//import { saveFileSecrets, getFileSecrets } from '../database/dbOperations'
 
 const password = require('secure-random-password');
 
@@ -79,6 +77,8 @@ export const uploadBlockchainFiles = (
       }
 
       // Save file whatever encrypted or not (RFP requesting docs) to Arweave
+      // if filetype is one of the encryptable files ivStr and passCode carry the IV and password
+      //they are empty otherwise
       const loadingresult = await uploadDataBundlr(
         setuploadingSet,
         remoteBundlr,
@@ -95,9 +95,10 @@ export const uploadBlockchainFiles = (
         // finally add the passed tile type to success uploadingSet array
         setResultObject(setuploadingSet, idx, 'docType', fileType)
         return resolve(loadingresult.txid);
-      } else return reject(loadingresult); // pass up returning object from uploadDataBundlr (status, error.message)
+      } else {
+        return reject(loadingresult); // pass up returning object from uploadDataBundlr (status, error.message)
+      }
     } catch (error) {
-      console.log("Error ",idx,"error is:",error);
       return reject(error);
     }
   });

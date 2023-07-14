@@ -14,6 +14,15 @@ import Image from "next/image";
 import styles from '../styles/Home.module.css'
 import { App_Name } from '../utils/constants'
 
+// testing
+import { savePendingTx } from "../database/dbOperations";
+import { todayUnixEpoch } from "../utils/misc"
+import {parseWeb3Error} from '../utils/parseWeb3Error'
+
+/***************** */
+import { toastStyle } from "../styles/toastStyle";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function LandingPage() {
@@ -24,14 +33,47 @@ function LandingPage() {
       width: "100%",
       height: "100%",
     }
-  
-  //********************************** hooks ****************************************** /
-  const router = useRouter()
-    const resourceSectionRef = useRef(null);
-  const { t } = useTranslation(["common","rfps"]);
-  
+    
+//********************************** hooks ****************************************** /
+const router = useRouter()
+const resourceSectionRef = useRef(null);
+const { t } = useTranslation(["common","rfps","gralerrs"]);
 
-  // ******************************* handlers ****************************************************/
+
+
+// testing **************************************************************
+const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null })
+
+
+const errToasterBox = (msj) => {
+  toast.error(msj, toastStyle);
+};
+
+const testPendingTx= async () => {
+  const today = todayUnixEpoch(new Date())
+      //     {type: 'filesuploadm', date: today, rfpIndex, docTypeArray, nameArray, hashArray, fileIdArray}
+  const Tx = {type: 'filesuploadm', date: today, rfpIndex:90, docTypeArray:[0,3,1], nameArray:['arch1', 'arch2', 'arch3'], 
+      hashArray:['0349423349','10492241','59101412'], fileIdArray:['3bb586a543','0d414be23','0f4c2b1a4e']}
+  // droppedTx = Tx
+  // this creates a copy of droppedTx object
+  const updatedTxObj = { ...Tx }
+  const txobject = { fired: true, txObj: updatedTxObj }
+  const result = await savePendingTx({...txobject, sender:companyData.address})   // Pass the object and add who issued the Tx
+        if (!result.status) {
+          const msgErr=parseWeb3Error(t,{message:result.msg})
+          errToasterBox(msgErr)
+        } else {
+          // notify Tx was saved
+          toast.success(t('pendingtxsaved',{ns:"rfps"}))
+        }
+}
+
+const handleTest= async () => {
+  // testing facility
+  testPendingTx()
+}
+
+
   const handleCreateRFP = () => {
     router.push('/createrfps')
   }
@@ -61,7 +103,6 @@ function LandingPage() {
     resourceSectionRef.current.scrollIntoView({ behavior: "smooth" });
 };
 
-//border-2  border-t-2 border-l-2 border-blue-200
   //************************************************** Inner components  *************************/
   const InfoCard = ({ title, image, info, styleObject }) => (
     <li>
@@ -167,7 +208,7 @@ function LandingPage() {
   );
 
   const AskforWalletInstallation =() =>
-  <>
+    <>
        <div id="connectwallet_image" className="flex items-center justify-between p-8">
          <div className="pr-8">
            <Image src='/information.svg' height={45} width={45} alt='warning' className="object-contain"/>
@@ -202,10 +243,10 @@ function LandingPage() {
                </button>            
            </div>
        </div>
-  </>
+    </>
   
   const AskforWalletConection =() =>
-   <>
+    <>
         <div id="connectwallet_image" className="flex items-center justify-between p-8">
           <div className="pr-8">
             <Image src='/information.svg' height={45} width={45} alt='warning' className="object-contain"/>
@@ -271,9 +312,13 @@ function LandingPage() {
           </div>
         </h1>
       </div> 
+      <div className="text-center">
+        <button onClick={handleTest} className=" text-[#0B3A71] text-xl bg-blue-300  p-2 border-8 rounded-lg">
+          Test
+        </button>
+      </div>
      
     <div className="mt-4 flex justify-center mb-8 ">
-          {/* <p className=" text-[#0B3A71] text-xl font-semibold pb-4 border-8 border-b-orange-900"> */}
           <div className="flex text-[#0B3A71] text-xl font-semibold pb-4 ">
             <p className="p-1 rounded-tl-md rounded-bl-md bg-orange-300">Propon</p>
             <p className="p-1 rounded-tr-md rounded-br-md bg-blue-400">.me</p>

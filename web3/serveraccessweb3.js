@@ -1,5 +1,6 @@
 import {  getProponContractServer } from './servercontractsettings'
 import { NullAddress } from '../utils/constants'
+import { sortWeb3Error } from '../utils/sortWeb3Error'
 
 export const accountHasRigths =async (accountAddress, companyId) => {
     const proponContract = await getProponContractServer()
@@ -8,15 +9,17 @@ export const accountHasRigths =async (accountAddress, companyId) => {
 }
 
 export const getRFP= async (rfpIdx) => {
-    const proponContract = await getProponContractServer()
-    try {
+  try {
+    const result = await getProponContractServer() 
+      if (!result.status) throw new Error(result.message)
+      const proponContract = result.contract
       const RFP = await proponContract.getRFPbyIndex(rfpIdx)
       // check we really retrieve a valid result (contract will return null but still valid structure object if dound none)
       if (RFP.issuer  === NullAddress) return { status: false, message:'NO RFP' }
       return { status: true, RFP:RFP }
     } catch (error) {
-      console.log('getContractRFP error', error)
-      return({ status: false, message: error.reason });
+      const msgErr=sortWeb3Error(error)
+      return({ status: false, message: msgErr });
     }
   };
 
@@ -33,7 +36,6 @@ export const getRFP= async (rfpIdx) => {
       const companyRFPs = contractRFPArray.map(elem => parseInt(elem.toString()))
       return { status: true, RFP:companyRFPs }
     } catch (error) {
-      console.log('getCompanyRFPs error', error)
       return({ status: false, message: error.reason });
     }
   }

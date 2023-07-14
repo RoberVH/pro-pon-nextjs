@@ -10,7 +10,6 @@ export const errorSmartContract = [
   "execution reverted: too_many_guests",
   "execution reverted: already_participating",
   "execution reverted: end_receiving_reached",
-  // To Do: test and add custom error tags to locals gralerrors.json for each one
   "execution reverted: initial_date_wrong",
   "execution reverted: receiving_date_wrong",
   "execution reverted: wrong_contest_type",
@@ -28,7 +27,9 @@ export const errorSmartContract = [
   "execution reverted: rfp_already_awarded",
   "execution reverted: id_already_exists",
   "execution reverted: rfpid_already_taken",
-  "execution reverted: already_canceled"
+  "execution reverted: already_canceled",
+  "missing revert data in call exception; Transaction reverted without a reason string",
+  "unknown account #0"
 ];
 
 export const App_Name = 'Propon.me'
