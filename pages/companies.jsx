@@ -1,21 +1,24 @@
-import { useState, useEffect } from "react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { useState, useEffect } from "react"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 import  Spinner  from '../components/layouts/Spinner'
-//import { SearchIcon } from "@heroicons/react/outline";
-import DisplayResults from "../components/DisplayResults";
-import SearchDB from "../components/SearchDB";
-import { companyParams } from "../utils/companyItems";
-import { toastStyle } from "../styles/toastStyle";
+import DisplayResults from "../components/DisplayResults"
+import SearchDB from "../components/SearchDB"
+import { companyParams } from "../utils/companyItems"
+import CtlPagination from '../components/ctlPagination'
+import { PAGE_SIZE } from '../utils/constants'
+import { toastStyle } from "../styles/toastStyle"
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css"
 
 
 function Companies() {
   //const { locale,pathname, query, asPath   } = useRouter();
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState([])
+  const [currentPage, setCurrentPage]=useState(1)
+  const [numberPages, setNumberPages]=useState(0)
   const { t, i18n  } = useTranslation("companies","gralerrors")
 
   const companyActions = [
@@ -35,7 +38,14 @@ function Companies() {
     if (error.message) errToasterBox(error.message);
   }, [error]);
 
-
+  useEffect(()=>{
+    // recalculate displaying params when result set changes
+    if (results.length) {
+      setNumberPages(Math.ceil(results.length/PAGE_SIZE))
+      setCurrentPage(1) // reset page to diplay
+    }
+  }
+  ,[results])
 
   return (
     <div id="companies">
@@ -68,12 +78,25 @@ function Companies() {
            :
           (<div className="mt-8 w-full">
             {(results.length>0) ? (
-              <DisplayResults
-                fields={companyParams}
-                results={results}
-                actions={companyActions}
-                t={t}
-              />
+              <>
+                <DisplayResults
+                  fields={companyParams}
+                  results={results}
+                  actions={companyActions}
+                  firstRecord={PAGE_SIZE * (currentPage-1)}
+                  lastRecord={(currentPage * PAGE_SIZE)}
+                  currentPage={currentPage}
+                  t={t}
+                />
+                { Boolean(results.length) &&  <CtlPagination 
+                      setCurrentPage={setCurrentPage}
+                      numberPages={numberPages}
+                      currentPage={currentPage}
+                      t={t}
+                    /> 
+                }
+
+              </>
             ) :   <div className="bg-orange-100 p-4 text-red-600 text-xl text-center">
                     {t('noresults',{ ns: 'common' })}
                   </div>}

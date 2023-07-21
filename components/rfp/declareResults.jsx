@@ -59,9 +59,6 @@ const [actionButtonClicked, setButtonClicked] = useState(false)
 
   // Handle Error method passed unto useDeclareRsults hook
   function onError(error) {
-    console.log('error declarando:',error)
-    console.log('error declarando: error.message',error.message)
-    console.log('error declarando error.reason:',error.reason)
     setButtonClicked(false)
     setProTxBlockchain(false);
     const customError = parseWeb3Error(t, error);
@@ -271,7 +268,6 @@ const WinnersTable = ({ items, competitors }) => {
                 { !noCompaniesRetrieved &&
                 competitors.map((competitor) => 
                     <option key={competitor.companyId} value={competitor.address}>
-                      {console.log('competitorXs', typeof competitor.status, competitor.status)}
                       {competitor.companyname}
                     </option>
                 )}

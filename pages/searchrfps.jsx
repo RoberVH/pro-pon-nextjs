@@ -4,19 +4,26 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Spinner from "../components/layouts/Spinner";
 import DisplayResults from "../components/DisplayResults";
+import CtlPagination from '../components/ctlPagination';
 import SearchDB from "../components/SearchDB";
 import { rfpParams } from "../utils/rfpItems";
 import { buildRFPURL } from "../utils/buildRFPURL";
 import { toastStyle } from "../styles/toastStyle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { PAGE_SIZE } from '../utils/constants'
 
 function Searchrfps() {
-  // const { locale,pathname, query, asPath   } = useRouter();
-  const [IsWaiting, setIsWaiting] = useState(false);
-  const [error, setError] = useState({});
-  const [results, setResults] = useState([]);
+  const [IsWaiting, setIsWaiting] = useState(false)
+  const [error, setError] = useState({})
+  const [results, setResults] = useState([])
+  const [currentPage, setCurrentPage]=useState(1)
+  const [numberPages, setNumberPages]=useState(0)
+  
+
+  
   const router = useRouter();
+
 
   const handleShowRFP = (rfpParams) => {
     setIsWaiting(true);
@@ -50,6 +57,14 @@ function Searchrfps() {
       errToasterBox(error.message)}
   }, [error]);
 
+  useEffect(()=>{
+    // recalculate displaying params when result set changes
+    if (results?.length) {
+      setNumberPages(Math.ceil(results.length/PAGE_SIZE))
+      setCurrentPage(1) // reset page to diplay
+    }
+  }
+  ,[results])
  
   return (
     <div id="rfps">
@@ -75,13 +90,25 @@ function Searchrfps() {
         </div>
       ) : (
         <div className="mt-8 w-full">
-          {results.length > 0 ? (
-            <DisplayResults
-              fields={rfpParams}
-              results={results}
-              actions={rfpActions}
-              t={t}
-            />
+          {results?.length > 0 ? (
+            <>
+              <DisplayResults
+                fields={rfpParams}
+                results={results}
+                actions={rfpActions}
+                firstRecord={PAGE_SIZE * (currentPage-1)}
+                lastRecord={(currentPage * PAGE_SIZE)}
+                currentPage={currentPage}
+                t={t}
+                />
+              { Boolean(results.length) &&  <CtlPagination 
+                    setCurrentPage={setCurrentPage}
+                    numberPages={numberPages}
+                    currentPage={currentPage}
+                    t={t}
+                  /> 
+              }
+            </>
           ) : (
             <div className="bg-orange-100 p-4 text-red-600 text-xl text-center">
               {t("noresults")}

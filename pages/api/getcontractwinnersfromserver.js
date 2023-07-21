@@ -6,10 +6,7 @@
  *  lost when sending the array from the server to the client. When the Polygon EVM returns the RFP from contract, it includes all the props
  *  in an array, the WWeb3 library flesh out the propoerty names and add them to the same object array. But they got lost
 */
-import { utils } from "ethers";
 import {  getProponContractServer } from '../../web3/servercontractsettings'
-import { parseWeb3Error }  from '../../utils/parseWeb3Error'
-import { proponContext } from "../../utils/pro-poncontext";
 
 
 

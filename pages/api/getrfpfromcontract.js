@@ -8,7 +8,6 @@
  * when sent to the client because of what was explained.
  * When we do const RFPObject = {...RFP};  and pass it back to the client, we are constructing a plain object that gets fully serialized
 */
-import { utils } from "ethers";
 import {  getProponContractServer } from '../../web3/servercontractsettings'
 
 

@@ -70,9 +70,7 @@ export default async function handler (req, res) {
         }
         res.status(200).json({status:true, deletedCount:deletedCount });
       } catch (error) {
-        console.log('server error:', error)
         const {status, message} = processBDerror(error)
-        console.log('despues de processDBerror', message)
         res.status(status).json({ status:false, msg:message });
       }
       default:

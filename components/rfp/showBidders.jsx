@@ -67,7 +67,6 @@ const ShowBidders = ({
       // obtain companies information from DataBase
       const result = await getBidders(rfpIndex);
       if (!result.status) {
-        console.log('showBidders result.stauts false', result)
         const msgError= parseWeb3Error(t,result)
         errToasterBox(msgError);
       } // trigger document metadata search on useFilesRFP

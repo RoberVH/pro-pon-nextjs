@@ -70,7 +70,6 @@ function Createrfps() {
                 buttonText={"accept"}
                 setNoticeOff={setNoticeOff}
                 dropTx={noticeOff.txObj}
-                //typeTx={'mi transaccion'}
                 typeTx = {t(`transactions.${noticeOff.txObj.type}`)}
               />
             </div>

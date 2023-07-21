@@ -16,7 +16,7 @@ import { nanoid } from 'nanoid'
 
 
 
-function DisplayResults({fields,results, actions, t}) {
+function DisplayResults({fields,results, actions, t, firstRecord, lastRecord}) {
   // Inner functions ******************
   const parseField = (fields, elem) => {
     if (fields.fieldName==='contestType') 
@@ -34,7 +34,7 @@ function DisplayResults({fields,results, actions, t}) {
     </div>  // we won't check later if there are results
   // There are results. display them
   return (
-    <div className="">
+    <div className="text-sm">
          <table className="table-fixed w-full ">
          <thead className="bg-orange-100 font-khula font-bold text-sm text-orange-600 border-2 rounded-lg">
             <tr className="text-left">
@@ -52,7 +52,7 @@ function DisplayResults({fields,results, actions, t}) {
          </thead>
           <tbody className="">
           {
-            results.map(elem => (
+            results.slice(firstRecord,lastRecord).map(elem => (
               <tr key={nanoid()} className="text-stone-600 font-khula font-bold even:bg-slate-200 odd:bg-slate-100">
                 { fields.map(fields => (
                   <td key={nanoid()} className="p-2 truncate">

@@ -74,7 +74,6 @@ import { saveFileSecrets } from '../database/dbOperations'
         //         return reject( 'Rejecting.. falso error uploading Bundlr')
         //     }
     const resp= await result.json()
-    console.log('resp:', resp)
     if (!resp.status) {
       setResultObject(setuploadingSet, idx, 'error', resp.message ) // error is the property in the array with ID of error
       setResultObject(setuploadingSet, idx, 'status', 'error')

@@ -5,7 +5,6 @@ export default function processBDerror(err) {
     // a name property exists? then is a MongoDB error and shall we use name property, otherwise use message prop
     if (!typeof err.name==='undefined') errMsg=err.name
     else  errMsg=err.message
-    console.log('processdb', errMsg)
     let status,message;
     switch (errMsg) {
         case 'MongoNetworkError':

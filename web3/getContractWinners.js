@@ -18,7 +18,6 @@ export const getContractWinners = async (RFPIndex) => {
     // check we really retrieve a valid result (contract will return null but still valid structure object if dound none)
     return { status: true, Winners }
   } catch (error) {
-    console.log('getContractWinners error', error)
     return({ status: false, message: error.reason });
   }
 };

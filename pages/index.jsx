@@ -14,16 +14,6 @@ import Image from "next/image";
 import styles from '../styles/Home.module.css'
 import { App_Name } from '../utils/constants'
 
-// testing
-import { savePendingTx } from "../database/dbOperations";
-import { todayUnixEpoch } from "../utils/misc"
-import {parseWeb3Error} from '../utils/parseWeb3Error'
-
-/***************** */
-import { toastStyle } from "../styles/toastStyle";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 
 function LandingPage() {
   const [warningFlag, setWarningFlag] = useState(false)
@@ -41,37 +31,9 @@ const { t } = useTranslation(["common","rfps","gralerrs"]);
 
 
 
-// testing **************************************************************
-const [noticeOff, setNoticeOff] = useState({ fired: false, tx: null })
-
-
-const errToasterBox = (msj) => {
-  toast.error(msj, toastStyle);
-};
-
-const testPendingTx= async () => {
-  const today = todayUnixEpoch(new Date())
-      //     {type: 'filesuploadm', date: today, rfpIndex, docTypeArray, nameArray, hashArray, fileIdArray}
-  const Tx = {type: 'filesuploadm', date: today, rfpIndex:90, docTypeArray:[0,3,1], nameArray:['arch1', 'arch2', 'arch3'], 
-      hashArray:['0349423349','10492241','59101412'], fileIdArray:['3bb586a543','0d414be23','0f4c2b1a4e']}
-  // droppedTx = Tx
-  // this creates a copy of droppedTx object
-  const updatedTxObj = { ...Tx }
-  const txobject = { fired: true, txObj: updatedTxObj }
-  const result = await savePendingTx({...txobject, sender:companyData.address})   // Pass the object and add who issued the Tx
-        if (!result.status) {
-          const msgErr=parseWeb3Error(t,{message:result.msg})
-          errToasterBox(msgErr)
-        } else {
-          // notify Tx was saved
-          toast.success(t('pendingtxsaved',{ns:"rfps"}))
-        }
-}
-
-const handleTest= async () => {
-  // testing facility
-  testPendingTx()
-}
+// const errToasterBox = (msj) => {
+//   toast.error(msj, toastStyle);
+// };
 
 
   const handleCreateRFP = () => {
@@ -119,7 +81,7 @@ const handleTest= async () => {
         </div>
         <div className="space-y-2">
           <div className=" text-lg leading-6 font-medium space-y-1">
-            <h3 className="mt-8 text-stone-600 text-lg font-semibold font-inter text-justify">
+            <h3 className="mt-8 text-stone-500 text-lg font-semibold font-inter text-justify">
               {info}
             </h3>
           </div>
@@ -159,7 +121,7 @@ const handleTest= async () => {
   const CTA_Card = () => (
     <div
       id="butttons-actions-component"
-      className="mx-auto xl: mb-16  py-8  bg-black" //bg-gradient-to-l from-black to-darkblue-900 via-stone-900"
+      className="mx-auto xl: mb-16  py-8 bg-black" 
     >
       <p className=" sm:mt-2 lg:mt-4 font-inter text-center sm:text-md md:text-lg lg:text-xl xl:text-xl font-semibold
        text-white italic p-4">
@@ -299,31 +261,24 @@ const handleTest= async () => {
         </ModalWindow> 
       }
 
-    <div id="main-section" className="pt-8">
+    <div id="main-section" className="pt-2">
       <div id="page-header" className="mx-auto max-w-9xl px-4 sm:mt-16 lg:mt-24 text-center">
         <h1 className="text-2xl tracking-tight font-base text-white sm:text-base md:text-xl lg:text-2xl xl:text-2xl  pt-4 font-inter">
-          <div id="ellipse" className=" mb-20">
-            <span className="bg-orange-500 pt-1 pb-1 pr-2 pl-4 ">
+          <div id="ellipse" className=" mb-4">
+            <span className="bg-orange-500 pt-4 pb-4 pr-4 pl-6   ">
               {t("app_title1")}
             </span>
-            <span className="bg-[#3c4248] pt-1 pb-1 pl-2 pr-4 xrounded-br-xl">
+            <span className="bg-[#3c4248] pt-4 pb-4 pl-4 pr-6 text-orange-400 font-bold">
               {t("app_title2")}
             </span>
           </div>
         </h1>
       </div> 
-      <div className="text-center">
-        <button onClick={handleTest} className=" text-[#0B3A71] text-xl bg-blue-300  p-2 border-8 rounded-lg">
-          Test
-        </button>
-      </div>
      
-    <div className="mt-4 flex justify-center mb-8 ">
+    <div className="flex justify-center mb-8 ">
           <div className="flex text-[#0B3A71] text-xl font-semibold pb-4 ">
-            <p className="p-1 rounded-tl-md rounded-bl-md bg-orange-300">Propon</p>
-            <p className="p-1 rounded-tr-md rounded-br-md bg-blue-400">.me</p>
             <p>&nbsp;</p>
-            <p className="py-1 px-2 italic bg-gradient-to-r from-gray-200 via-gray-100 to-orange-100 tracking-wide">
+            <p className="py-1 px-2 tracking-wide "> 
               {t('ap_title3')}
               </p>
           </div>
@@ -331,70 +286,33 @@ const handleTest= async () => {
     </div>
 
   
-    <div className="mt-32 w-[80%] mx-auto flex items-stretch ">
-      <div id="page-subheader"
-        className=" font-inter  flex justify-center items-center ">
+  <div id="page-subheader" className="mt-32 w-[80%] mx-auto flex items-stretch ">
+    <div className="flex-col">
+      <Image className="object-cover rounded-2xl opacity-90" src={"/3 1 Propon blockchain.png"} 
+      height={1200} width={1400} alt="blockchainnodes" /> 
+      <p className="ml-4 mt-4 text-center sm:text-lg md-text-lg lg:text-xl xl:text-xl text-stone-600 font-italic tracking-wide font-inter ">
+        {t('the_new_way', {ns:"common"})}
+      </p>
+    </div>
+    <div className="flex mt-64">
+      <div className=" font-inter  flex justify-center items-center ">
           <div className=" flex justify-end pr-10">
-          <p className="bg-gradient-b from-orange-100 to-blue-100  w-[70%] font-inter text-right
-           sm:text-lg md-text-lg lg:text-lg xl:text-lg text-stone-900"
-          style={{textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'}}>
-            {t("subtitle1")}
-          </p>
+              <p className="w-[60%] font-inter text-right italic
+                sm:text-lg md-text-lg lg:text-xl xl:text-xl text-stone-700 font-italic tracking-wide"
+              >   
+              {/* </div>style={{textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'}}> */}
+                {t("subtitle1")}
+              </p>
           </div>
       </div>
       <div className="">
         <Image className="object-cover rounded-2xl" src={"/blockchain nodes1.jpg"} 
-        height={800} width={1200} alt="blockchainnodes" />
+        height={1000} width={1200} alt="blockchainnodes" />
       </div>
     </div>
+  </div>
   
-
-  <div className="absolut mt-16 flex justify-center py-16  bg-repeat " 
-  style={{backgroundImage: 'url("/circuit-board.svg")'}}>
-    <div className="relative inset-0">
-      <div id="pen-text" className="relative flex ml-32  items-center ">
-        <div className="">
-          <Image height={500} width={1000} src={"/Pluma-recortada1.png"} alt="pen-text" 
-          className=" rounded-xl "/>
-          <div className="absolute top-10 left-0  ml-8 w-[35em] flex">
-            <p className="italic text-white">{t("subtitle2")}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div id="CTA-subsection" className="sm:mb-16 md:mb-18 lg:mb-24 xl:mb-48"
-      style={{boxShadow: '0px 5px 15px 0 rgba(0, 0, 0, 0.9), 0px -5px 25px 0 rgba(0, 0, 0, 0.9)'}}
-  > 
-      <CTA_Card />
-  </div>
-
-  <div className="w-[70%] mx-auto">
-          <div id="no-signup-notice" className=" text-center p-4 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500
-            rounded-md"
-            style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 1.5)'}}>
-            <p className="font-semmibold text-white sm:text-lg md:text-lg lg:text-xl">
-              {t('no_signup')}
-            </p>
-            <p className="font-inter text-white sm:text-base md:text-base lg:text-lg xl:text-lg mt-2">
-              {t('browse_rfp')}
-            </p>
-            <div className="pt-8 pb-2 text-center">
-              <button className="mx-4 blueblack-btn"
-                onClick={handleSearchCompanies}>
-                {t('search_companies')}
-              </button>
-              <button className="mx-4 blueblack-btn"
-                onClick={handleSearchRFP}>
-                {t('search_rfps')}
-              </button>
-            </div>
-          </div>
-        </div>
-
-    <div id="informative-intro-cards" className="sm:my-16 md:my-18 lg:my-24 xl:my-24  pb-8">
+  <div id="informative-intro-cards" className="sm:my-16 md:my-18 lg:my-24 xl:my-24  py-8">
         <div className="w-3/4 mx-auto divide-y-2 divide-gray-200">
             <ul className="mt-4 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-16 
                 grid-auto-rows p-4"
@@ -424,8 +342,59 @@ const handleTest= async () => {
                 styleObject={{boxShadow: '5px 0px 15px 0 rgb(153, 38, 0, 0.9)'}}
               />
             </ul>
+        </div>
+    </div>
+
+
+
+  <div className="absolut mt-16 flex justify-left py-16  bg-repeat " 
+  style={{backgroundImage: 'url("/circuit-board.svg")'}}>
+    <div className="relative inset-0">
+      <div id="pen-text" className="relative flex ml-32  items-center ">
+        <div className="">
+          <Image height={500} width={1000} src={"/Pluma-recortada1.png"} alt="pen-text" 
+          className=" rounded-xl "/>
+          <div className="absolute top-10 left-0  ml-8 w-[35em] flex">
+            <p className="italic text-white">{t("subtitle2")}</p>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="CTA-subsection" className="sm:mb-16 md:mb-18 lg:mb-24 xl:mb-48"
+      style={{boxShadow: '0px 5px 15px 0 rgba(0, 0, 0, 0.9), 0px -5px 25px 0 rgba(0, 0, 0, 0.9)'}}
+  > 
+      <CTA_Card />
+  </div>
+
+  <div className="w-[70%] mx-auto">
+          <div id="no-signup-notice" className=" text-center p-4 bg-gradient-to-r from-orange-800 via-red-700 to-orange-200
+            rounded-md"
+            //style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 1.5)'}}
+            >
+            <p className="font-semmibold text-white sm:text-lg md:text-lg lg:text-xl">
+              {t('no_signup')}
+            </p>
+            <p className="font-inter text-white sm:text-base md:text-base lg:text-lg xl:text-lg mt-2 tracking-wide">
+              {t('browse_rfp')}
+            </p>
+            <div className="pt-8 pb-2 text-center">
+              <button className="mx-4 blueblack-btn"
+                onClick={handleSearchCompanies}>
+                {t('search_companies')}
+              </button>
+              <button className="mx-4 blueblack-btn"
+                onClick={handleSearchRFP}>
+                {t('search_rfps')}
+              </button>
+            </div>
+          </div>
+        </div>
+
+  
+
     </div>
      
     <div id="second-section"
@@ -481,7 +450,8 @@ const handleTest= async () => {
           </div>
         </div>
     </div>
-      <div ref={resourceSectionRef}  id="resources-section" className="px-16 pt-16 sm:pb-32 md:pb-32 lg:pb-48 xl:pb-48 ">
+
+    <div ref={resourceSectionRef}  id="resources-section" className="px-16 pt-16 sm:pb-32 md:pb-32 lg:pb-48 xl:pb-48 ">
         <div className="flex justify-center">
           <p className="mt-12 lg:text-3xl xl:text-4xl md:text-2xl sm:text-xl text-orange-500 font-bold tracking-wider
           bg-gradient-to-r  from-stone-900 to-stone-900 via-blue-500 p-4 inline-block rounded-md"
@@ -516,13 +486,13 @@ const handleTest= async () => {
             />
           </div>
         </div>
-      </div>
+    </div>
 
-      <footer
+    <footer
         id="foot-section"
         className="bg-gradient-to-t from-black to-orange-400 via-stone-800  text-stone-100 text-center
               sm:text-sm md:text-md lg:text-lg xl:text-lg font-inter"
-      >
+     >
         <div
           id="polygon-arweave-logos"
           className="flex justify-center items-center"
@@ -587,7 +557,8 @@ const handleTest= async () => {
             </div>
           </a>
         </div>
-      </footer>
+    </footer>
+
     </div>
   );
 }

@@ -36,7 +36,6 @@ export const sendWarningServer = async (msgType, msg) => {
         const resp = await response.json();
         return
     } catch (error) {
-        console.log('Error sending warning message', error)
         return
     }
 }

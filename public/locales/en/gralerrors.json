@@ -42,5 +42,6 @@
     "err_bd_undetermined":"Data Base unkown error",
     "db_connection_timed_out":"Data Base time out",
     "db_unreachable":"Offline, check network",
-    "tx_not_found":"Transaction not found"
+    "tx_not_found":"Transaction not found",
+    "db_too_many_results":"Search returned too many results, please narrow your search criteria"
 }

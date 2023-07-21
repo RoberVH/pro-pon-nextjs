@@ -37,10 +37,13 @@ export const useWriteRFP =  (
 
         const  write = async (params, value) => {
                 const proponContract = await getWritingProponContract()
-                const listeners = proponContract.listeners("NewRFPCreated")
+               // next prevently remove any ppossible listener left behind if user reject in wallet and tries again
+              //  const newRFPEventHandler = (address, rfpIdx, rfpName) => {
+              //    onEvent(address, rfpIdx, rfpName, params)}
                 proponContract.once("NewRFPCreated", (address, rfpIdx, rfpName) => {
-                        onEvent(address, rfpIdx, rfpName, params)
-        })
+                          onEvent(address, rfpIdx, rfpName, params)
+                  })
+                //proponContract.once("NewRFPCreated", newRFPEventHandler)
         try {
             const Tx = await proponContract.createRFP(
                     params.name,
@@ -63,7 +66,11 @@ export const useWriteRFP =  (
                     onSuccess(data)
              }
         } catch (error) {
-                if (isMounted.current) onError(error);
+                if (isMounted.current) {
+                  if (proponContract) {
+                    proponContract.removeAllListeners()}
+                  onError(error)
+                }
         }       
     };
   //  return write

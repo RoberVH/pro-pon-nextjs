@@ -5,6 +5,8 @@ import { accountHasRigths } from '../../web3/serveraccessweb3'
 import { buildQuery } from '../../database/serverDBUtils'
 import { isEmpty } from "../../utils/misc"
 import processBDerror from "../../database/processBDerror";
+import { LIMIT_RESULTS } from "../../utils/constants";
+
 
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();
@@ -12,15 +14,22 @@ export default async function handler (req, res) {
   
   switch (method) {
     case 'GET':
-      const query = buildQuery(req.query)
-      const rfps = await db
-        .collection("rfps")
-        .find(query)
-        .sort({ _id: 1 })
-        .limit(20)
-        .toArray();
-      res.status(200).json(rfps);
-      break
+      try {
+        const query = buildQuery(req.query)
+        let totalCount = await db.collection('rfps').countDocuments(query);
+        const rfps = await db
+          .collection("rfps")
+          .find(query)
+          .sort({ _id: 1 })
+          .limit(LIMIT_RESULTS)
+          .toArray();
+        res.status(200).json({status:true, result:rfps, count:totalCount})
+        break
+      } catch (error) {
+        const {status, message} = processBDerror(error)
+        res.status(status).json({ status: false, msg:message })
+        break
+      }
     case 'POST':  //  post one rfp data
       try {
         if (isEmpty(req.body)) {
@@ -63,11 +72,12 @@ export default async function handler (req, res) {
           res.status(201).json({ status: true })
           break
         } catch (error) {
-          res.status(400).json({ status: false, msg:'Mi errorsotote' })
+          const {status, message} = processBDerror(error)
+          res.status(status).json({ status: false, msg:message })
           break
         }
       default:
-        res.status(400).json({ status: false, msg:'Error desconocido' })
+        res.status(400).json({ status: false, msg:'bad_method' })
         break
     }
 

@@ -2,6 +2,9 @@ import { connectToDatabase } from "../../database/mongodb";
 import  { ObjectId } from 'mongodb'
 import { verifyMessage } from 'ethers/lib/utils'
 import { accountHasRigths } from '../../web3/serveraccessweb3'
+import processBDerror from '../../database/processBDerror'
+import { LIMIT_RESULTS } from "../../utils/constants";
+
 
 export default async function handler (req, res) {
   const { db } = await connectToDatabase();
@@ -11,22 +14,29 @@ export default async function handler (req, res) {
   try {
       switch (method) {
         case 'GET':
-          const query={}
-          query['$and']=[]
-          const term={}
-          const params = req.query
-          for (const key in params) {
-            term[key]=new RegExp('^'+params[key], "i")
-            query['$and'].push(term)
-          }
-          const companies = await db
-          .collection("companies")
-          .find(query)
-          .sort({ _id: 1 })
-          .limit(20)
-          .toArray();
-          res.status(200).json(companies);
+          try {        
+            const query={}
+            query['$and']=[]
+            const term={}
+            const params = req.query
+            for (const key in params) {
+              term[key]=new RegExp('^'+params[key], "i")
+              query['$and'].push(term)
+            }
+            let totalCount = await db.collection('companies').countDocuments(query);
+            const companies = await db
+            .collection("companies")
+            .find(query)
+            .sort({ _id: 1 })
+            .limit(LIMIT_RESULTS)
+            .toArray();
+            res.status(200).json({status:true, result:companies, count:totalCount})
+            break
+        } catch (error) {
+          const {status, message} = processBDerror(error)
+          res.status(status).json({ status: false, msg:message })
           break
+        }
         case 'PATCH':  //  Verify passed signed data and if succesful modify company data at Data Base
           // first check the company is not already registered
           const {signature,...msg} = req.body
@@ -38,9 +48,9 @@ export default async function handler (req, res) {
               return
           }
           msg.profileCompleted=true
-            const cursor = await db.collection("companies").find({companyId:req.body.companyId})
-            const results = await cursor.toArray()
-            if (results.length >= 0)  {
+          const cursor = await db.collection("companies").find({companyId:req.body.companyId})
+          const results = await cursor.toArray()
+          if (results.length >= 0)  {
               // there is a company record for this company at DB, strip it off the essential data already there
               // as we won't allow updating this values in this PATCH method
                 const uniqueIdRecord = req.body._id

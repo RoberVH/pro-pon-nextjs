@@ -211,13 +211,10 @@ export const verifyData_Save = async (message, signature) => {
     });
     const resp = await response.json();
     if (!resp.status) {
-      console.log('resp', resp)
       throw new Error(resp.msg)
     }
     return {status: true, response: resp.deletedCount };
   } catch (error) {
-    console.log('error',error)
-    console.log('error.message',error.message)
     return { status: false, msg: error.message };
   }
   

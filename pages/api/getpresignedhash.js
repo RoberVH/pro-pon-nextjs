@@ -2,7 +2,6 @@
  * /api/preseignedhash
  *   Get the presigned hash of hardcode message throguh current server account and send it to client 
 */
-import { utils } from "ethers";
 import Bundlr from "@bundlr-network/client/";
 
 const signingMsj="sign this message to connect to Bundlr.Network"

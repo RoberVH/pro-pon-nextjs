@@ -28,7 +28,7 @@
     "execution reverted: only_owner_allowed": "Solo el propietario del contrato tiene permitido realizar esta operación",
     "execution reverted: wrong_contest_type": "Tipo de concurso inválido para esta operación",
     "execution reverted: not_open_tender": "Esta operación solo está permitida para concursos abiertos",
-    "execution reverted: already_canceled": "El RFP ya ha sido cancelada",
+    "execution reverted: already_canceled": "El RFP ya ha sido cancelado",
     "execution reverted: issuer_bad_doctype": "Tipo de documento inválido para el emisor del RFP",
     "execution reverted: participant_bad_doctype": "Tipo de documento inválido para el participante",
     "missing revert data in call exception; Transaction reverted without a reason string":"Transacción revertida sin motivo, reintente",
@@ -41,6 +41,7 @@
     "err_bd_undetermined":"Error desconocido de la base de datos",
     "db_connection_timed_out":"Tiempo de espera de la base de datos agotado",
     "db_unreachable":"No hay línea, verifique red",
-    "tx_not_found":"Transacción no hallada"
+    "tx_not_found":"Transacción no hallada",
+    "db_too_many_results":"La búsqueda produjo demasiados resultados, restrinja criterios de búsqueda"
 
 }

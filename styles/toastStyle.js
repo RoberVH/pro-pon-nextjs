@@ -20,3 +20,14 @@ export const toastStyle= {
     theme: "colored"
   }
   
+
+  export const toastStyleWarning= {
+    width:"150px",
+    position: "bottom-center",
+    hideProgressBar: true,
+    autoClose:false,
+    closeOnClick: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  }

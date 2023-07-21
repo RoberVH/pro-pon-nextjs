@@ -13,7 +13,7 @@ import processBDerror from '../../database/processBDerror'
 // our promise: we'll return a string with the error on property msg
 
 export default async function handler(req, res) {
-  const { db, client } = await connectToDatabase();
+  const { db } = await connectToDatabase();
   const { method } = req;
 
   switch (method) {

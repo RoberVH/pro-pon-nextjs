@@ -1,23 +1,24 @@
-import {
-  useEffect,
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
-import useInputForm from "../hooks/useInputForm";
-import InputCountrySel from "./InputCountrySel";
-import { SearchIcon } from "@heroicons/react/outline";
-import processBDerror from "../database/processBDerror";
-//import { errorSmartContract } from '../utils/constants';
-//import  processBDerror  from '../database/processBDerror'
+import {  useEffect,  useState,  useRef,  forwardRef,  useImperativeHandle,} from "react"
+import useInputForm from "../hooks/useInputForm"
+import InputCountrySel from "./InputCountrySel"
+import { SearchIcon } from "@heroicons/react/outline"
+import processBDerror from "../database/processBDerror"
+import { LIMIT_RESULTS } from "../utils/constants"
+import { toastStyleWarning } from "../styles/toastStyle";
+import { toast } from "react-toastify";
+
 
 const errorColor = {
   true: "border-red-600 border-9",
   false: "",
 };
+
+  // Function to display warning msg
+const warningToast = (msgWarning) =>{
+  toast.warning(msgWarning, toastStyleWarning)
+}
 const SearchDB = forwardRef(
-  ({ fields, path, setResults, setWait, setError, t, i18n }, ref) => {
+  ({ fields, path, setResults, setWait, setError,  t, i18n }, ref) => {
     const { values, handleChange, handleReinitialize } = useInputForm();
     const [currInput, setCurrInput] = useState();
 
@@ -56,9 +57,9 @@ const SearchDB = forwardRef(
       };
 
       return (
-        <div id={`term-${field.fieldName}`} className="">
+        <div id={`term-${field.fieldName}`} className="text-sm">
           {!field.date ? ( // no date type
-            // check if country tpye
+            // check if country type
             field.fieldName !== "country" ? (
               <InputSearchTerm />
             ) : (
@@ -123,16 +124,16 @@ const SearchDB = forwardRef(
       if (values.country === "default") delete values.country;
       const params = new URLSearchParams(values);
       const url = path + params;
-      console.log('url', url)
       try {
         setWait(true);
         const response = await fetch(url);
         const resp = await response.json();
         if (!response.ok) {
-          var bderr = resp.msg;
+          let bderr = resp.msg;
           setError(new Error(t(bderr, { ns: "gralerrors" })));
         }
-        setResults(resp);
+        setResults(resp.result);
+        if (resp.count > LIMIT_RESULTS) warningToast(t('db_too_many_results',{ns: "gralerrors"}))
         return;
       } catch (error) {
         const msgErr = processBDerror(error);
@@ -155,7 +156,7 @@ const SearchDB = forwardRef(
     }));
 
     const handleCleanFields = () => {
-      handleReinitialize();
+      handleReinitialize()
       setResults([]);
     };
 

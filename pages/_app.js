@@ -51,7 +51,6 @@ export async function getStaticProps(context) {
       props: { isConnected: true, _nextI18Next  },
     }
   } catch (e) {
-    console.error(e)
     return {
       props: { isConnected: false },
     }

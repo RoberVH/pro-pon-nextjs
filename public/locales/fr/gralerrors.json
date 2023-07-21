@@ -42,5 +42,6 @@
     "err_bd_undetermined":"Erreur de base de données inconnue",
     "db_connection_timed_out":"Le temps d'attente de la base de données est épuisé",
     "db_unreachable":"Pas de connexion, veuillez vérifier le réseau",
-    "tx_not_found":"Transaction introuvable"
+    "tx_not_found":"Transaction introuvable",
+    "db_too_many_results":"La recherche a renvoyé trop de résultats, veuillez affiner vos critères de recherche"
 }

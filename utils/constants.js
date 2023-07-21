@@ -1,3 +1,8 @@
+// limit of results gotten in queries from DB
+export const LIMIT_RESULTS=250
+// size page of display query from DB results limit
+export const PAGE_SIZE=20
+
 // all errors labels coming from prop-pon smart contract
 export const errorSmartContract = [
   "address_already_admin",
