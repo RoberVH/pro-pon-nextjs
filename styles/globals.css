@@ -140,4 +140,17 @@ html {
       background-position: 100% 50%;
     }
   }
+
+  
+  /* Animation for beta testing marquee */
+  @keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  .animate-marquee {
+    animation: marquee 15s linear infinite;
+  }
+  
+  
   

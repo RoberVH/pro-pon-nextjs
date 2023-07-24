@@ -102,5 +102,6 @@
   "down_one_page":"Previous Page",
   "up_one_page":"Next Page",
   "last_page":"Last Page",
-  "the_new_way":"Blockchain. A door to a new way to do Business"
+  "the_new_way":"Blockchain. A door to a new way to do Business",
+  "beta_testing":"This Application is in Beta testing on the Mumbai testnet, you can create and publish RFPs, contact us at propon@mail.com"
 }

@@ -260,6 +260,18 @@ const { t } = useTranslation(["common","rfps","gralerrs"]);
           <AskforWalletConection />
         </ModalWindow> 
       }
+    
+    {/* Temporal Marquee for Beta Testing */}
+  <div className="overflow-hidden w-full h-12  flex items-center justify-center  bg-stone-300">
+    <div className="relative w-full">
+      <div className="absolute animate-marquee">
+        <p className="whitespace-nowrap text-lg font-base text-orange-700 leading-none">
+            {t('beta_testing')}
+        </p>
+      </div>
+    </div>
+  </div>
+
 
     <div id="main-section" className="pt-2">
       <div id="page-header" className="mx-auto max-w-9xl px-4 sm:mt-16 lg:mt-24 text-center">
@@ -370,7 +382,7 @@ const { t } = useTranslation(["common","rfps","gralerrs"]);
   </div>
 
   <div className="w-[70%] mx-auto">
-          <div id="no-signup-notice" className=" text-center p-4 bg-gradient-to-r from-orange-800 via-red-700 to-orange-200
+          <div id="no-signup-notice" className=" text-center p-4 bg-gradient-to-r from-orange-300 via-red-500 to-orange-300
             rounded-md"
             //style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 1.5)'}}
             >

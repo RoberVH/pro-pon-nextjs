@@ -103,5 +103,6 @@
   "down_one_page":"Page précédente",
   "up_one_page":"Page suivante",
   "last_page":"Dernière page",
-  "the_new_way":"Blockchain. La porte vers une nouvelle façon de faire des affaires"
+  "the_new_way":"Blockchain. La porte vers une nouvelle façon de faire des affaires",
+  "beta_testing":"Cette application est en test bêta sur le testnet de Mumbai, vous pouvez créer et publier des appels d'offres, contactez-nous à propon@mail.com"
 }
