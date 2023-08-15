@@ -16,7 +16,6 @@ import { toastStyle } from "../../styles/toastStyle"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-//const NullAddress='0x0000000000000000000000000000000000000000'
 const NullAddress=ethers.constants.AddressZero
 
 

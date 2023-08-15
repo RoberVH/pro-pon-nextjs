@@ -22,20 +22,30 @@ html {
     }
 
     .main-btn {
-      @apply bg-orange-400 text-sm font-bold font-khula  px-4 py-2.5   
-      text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 
+      @apply bg-orange-400 text-sm font-bold font-khula  px-4 py-2   
+      text-white leading-tight uppercase rounded-md shadow-md hover:bg-orange-700 
       active:hover:shadow-lg active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none
       active:focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 
       ease-in-out disabled:bg-orange-200 focus:outline-none disabled:shadow-none
     }
     .secondary-btn {
-      @apply bg-blue-400 text-sm font-bold font-khula text-white leading-tight uppercase 
-      px-4 py-2.5 rounded shadow-md hover:bg-blue-700 active:hover:shadow-lg 
-      active:focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 
+      @apply bg-blue-500 text-sm font-bold font-khula text-white leading-tight uppercase      
+      px-4 py-2 rounded-md shadow-md hover:bg-blue-700 active:hover:shadow-lg 
+      active:focus:bg-blue-800 focus:shadow-lg focus:outline-none focus:ring-2 
       active:bg-blue-800 active:focus:shadow-lg transition duration-150 
       ease-in-out disabled:bg-blue-400;
+  } 
+
+    .action-btn {
+      @apply border-[1px]  text-sm font-bold font-khula  leading-tight uppercase bg-blue-600 text-white
+      px-4 py-1 rounded-md shadow-sm active:hover:shadow-lg 
+      active:focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-2   
+      hover:bg-blue-900 hover:text-white active:focus:shadow-lg transition duration-150
+      ease-in-out disabled:bg-blue-400;
   }
-  .txCancel-btn {
+
+
+    .txCancel-btn {
     @apply bg-red-500 text-sm font-bold font-khula text-white leading-tight uppercase 
     px-4 py-2.5 rounded shadow-md hover:bg-red-700 active:hover:shadow-lg 
     active:focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 
@@ -43,22 +53,22 @@ html {
     ease-in-out disabled:bg-red-400;
   }
 
-  .blueblack-btn {
+    .blueblack-btn {
     @apply bg-gradient-to-r from-blue-600 to-black hover:from-blue-400 hover:to-gray-500 text-white md:text-base sm:text-base 
     xl:text-lg lg:text-lg font-normal py-2 px-4 rounded-xl
   }
 
 
     .btn-add-circular {
-      @apply bg-green-400 text-2xl text-white  w-8 h-8  rounded-lg
-      hover:bg-green-300 
+      @apply border-2 border-green-700 text-xl text-green-700 hover:bg-green-300 hover:text-white w-5 h-5 flex items-center 
+      justify-center rounded-full 
     }
     .btn-removeall-circular {
-      @apply bg-red-400 text-2xl text-white  w-8 h-8  rounded-lg
-      hover:bg-red-300 focus:outline-none
+      @apply border-2 border-red-500 text-xl  text-red-500 hover:bg-red-500 hover:text-white  w-5 h-5 flex items-center  
+      justify-center rounded-full
     }    
     .btn-remove-circular {
-      @apply bg-red-400 text-sm text-white  w-5 h-5  rounded-full
+      @apply bg-red-400 text-sm text-white  w-5 h-5  rounded-full font-bold
       hover:bg-red-300 focus:outline-none
     }
     .btn-edit-circular {
@@ -84,7 +94,14 @@ html {
       after:border-l-transparent  after:border-l-red-500
     }
 
+    .list-circle {
+      list-style-type: circle;
+    }
     
+    .list-square {
+      list-style-type: square;
+    }
+
     
     .animate-dot {
       animation: animate-blue-dot 1.5s ease-in-out infinite alternate;

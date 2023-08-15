@@ -104,5 +104,18 @@
   "up_one_page":"Page suivante",
   "last_page":"Dernière page",
   "the_new_way":"Blockchain. La porte vers une nouvelle façon de faire des affaires",
+  "email_notif_formtitle":"Ajoutez les adresses e-mail des entreprises que vous souhaitez voir participer à l'appel d'offres. Si vous avez un compte configuré sur cet appareil, vous aurez une meilleure communication si vous les envoyez depuis votre propre compte de messagerie",
+  "input_email_tooltip":"Saisissez l'e-mail de l'entreprise et appuyez sur ENTER ou cliquez sur l'icône ⊕",
+  "send_email":"Notifier les Entreprises",
+  "send_email_tooltip":" Nous enverrons un e-mail de notification depuis notre serveur. Informez vos contacts pour qu'ils ajoutent no-reply@propon.me.me à leur liste blanche",
+  "notify_new_companies": "Notifier les nouvelles sociétés",
+  "notify_email_button": "Notifier les Entreprises",
+  "notify_tooltip":"Notifier par courrier électronique les entreprises non enregistrées de ce RFP",
+  "send_own_email":"Créer un e-mail",
+  "prepare_email_tooltip":"Créez l'e-mail et invoquez mon propre client de messagerie (nous ferons de notre mieux pour l'invoquer, vous devez vérifier votre client de messagerie)",
+  "email_prepare_ok": "La notification a été créée dans votre client de messagerie et peut prendre du temps à s'ouvrir, selon votre système. Revoyez et envoyez-le",
+  "notif_sent_ok": "Notifications envoyées",
+  "issuer_notified": "L'émetteur du RFP a été notifié",
+  "companies_without_email": "Ces entreprises n'ont pas encore enregistré un e-mail administrateur. Envoyez-leur un e-mail en tant que Nouvelles Entreprises pour les informer",
   "beta_testing":"Cette application est en test bêta sur le testnet de Mumbai, vous pouvez créer et publier des appels d'offres, contactez-nous à propon@mail.com"
 }

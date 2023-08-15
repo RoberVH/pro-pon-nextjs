@@ -52,7 +52,7 @@
     "showsigningmsg":"You will be asked to sign with your wallet account a message with your company data, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you have the right to request this operation. Please sign the message",
     "savebutton":"Save",
     "cancelbutton": "Cancel",
-    "savingstate": " Saving...",
+    "savingstate": " Saving",
     "successsaving": "Company Data saved",
     "recordingcompanylegend":"A record of your company will be created associated with your Blockchain account, which will be assigned administrator privileges",
     "savingtoblockchainmsg":"The transaction was sent, it may take time according to the conditions of use of the network",

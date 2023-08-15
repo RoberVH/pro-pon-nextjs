@@ -14,6 +14,7 @@ export const connectMetamask = async (setAddress) => {
       return {status:true, address:accounts[0]}
     } catch (error )  {
         if (error && error.code===4001) return ({status:false, message:'userreject'})
+        if (error && error.message==='Already processing eth_requestAccounts. Please wait.') return ({status:false, message:'requestaccounts_pending'})
         else if (error && error.message) return ({status:false, message:error.message}) 
              else return ({status:false, message:error}) 
   }

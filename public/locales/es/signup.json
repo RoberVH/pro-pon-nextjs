@@ -52,7 +52,7 @@
     "showsigningmsg":"Se le pedirá que firme con su cuenta de billetera un mensaje con los datos de su empresa, no se preocupe ya que esta operación no le costará ninguna criptomoneda, es solo una forma de asegurarse de que tiene derecho a solicitar esta operación. Por favor firme el mensaje",
     "savebutton":"Guardar",
     "cancelbutton": "Cancelar",
-    "savingstate": " Guardando...",
+    "savingstate": " Guardando",
     "successsaving": "Datos de Compañía salvados",
     "recordingcompanylegend":"Se creará un registro de su compañia asociada a su cuenta de Blockchain, a la que se asignarán privilegios de adminstrador",
     "savingtoblockchainmsg":"La transacción fue enviada, puede tomar tiempo de acuerdo a las condiciones de uso de la red",

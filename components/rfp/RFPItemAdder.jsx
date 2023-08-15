@@ -67,16 +67,16 @@ const handleKeyPress= (e) => {
               />
               <button 
                     disabled={((itemTender.length===0) || disable)}
-                    className="btn-add-circular disabled:cursor-not-allowed"
+                    className="btn-add-circular disabled:cursor-not-allowed pb-1 scale-[120%] mr-2"
                     onClick={handleAddItem}>
                         +
               </button>
               <button 
                   disabled={(!Object.keys(items).length || disable)}
-                  className="btn-removeall-circular disabled:cursor-not-allowed ml-1
-                  group relative inline-block  "
+                  className="btn-removeall-circular disabled:cursor-not-allowed pb-1 ml-2 scale-[120%] 
+                  group relative  "
                   onClick={handleRemoveAllItems}> 
-                      x
+                        x
                       <span className="tooltip-span-rigth mt-2">
                           {t('removeallitems')}
                       </span>
@@ -97,11 +97,9 @@ const handleKeyPress= (e) => {
                             <button 
                               className="btn-remove-circular mt-1 ml-1 group relative inline-block "
                               onClick={() => handleRemoveItem(itemKey)}
-                              disabled={disable}>
-                                  - 
-                                <span className="tooltip-span-top -left-20">
-                                {t('removethisitem')}
-                                </span>
+                              disabled={disable}
+                              title={t('removethisitem')}>
+                                  − 
                             </button>
                           </li>
                           )

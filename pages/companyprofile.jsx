@@ -42,21 +42,10 @@ function Companyprofile() {
   );
 }
 
-// Get language translation json files  and the rfpId params at url to present it on this page
-// export async function getServerSideProps({ locale, query }) {
-//   return {
-//     props: {
-//       query: query,
-//       ...(await serverSideTranslations(locale, ["signup", "menus", "common"])),
-//       // Will be passed to the page component as props
-//     },
-//   };
-// }
-
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["signup", "menus", "common"])),
+      ...(await serverSideTranslations(locale, ["signup", "menus", "common","gralerrors"])),
       // Will be passed to the page component as props
     },
   };

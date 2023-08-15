@@ -25,11 +25,7 @@ import DismissedTxNotice from "../components/layouts/dismissedTxNotice";
 
 import RFPIdentificator from "../components/rfp/rfpIdentificator";
 import RFPessentialData from "../components/rfp/RFPessentialData";
-//import RFPDocuments from "../components/rfp/rfpDocuments";
-//import RegisterBidder from "../components/rfp/registerBidder";
-//import ShowBidders from "../components/rfp/showBidders";
-//import ShowResults from "../components/rfp/showResults";
-//import DeclareResults from "../components/rfp/declareResults";
+
 import { parseWeb3Error } from "../utils/parseWeb3Error";
 import DisplayItems from "../components/rfp/displayItems";
 import GralMsg from "../components/layouts/gralMsg";
@@ -168,25 +164,32 @@ function HomeRFP() {
         );
       case "bidder_register": //bidder_register  only for Open Contests
         if (!address || !Boolean(companyData.companyId))
-          return <GralMsg title={t("not_registered")} />;
+          return <GralMsg title={t("not_registered")} />  // not registered company is logged 
+        if (!!address && rfpRecord.participants.some(participant => participant.toLowerCase() === address.toLowerCase())) 
+            return <GralMsg title={t("participant_rfp")} /> // a participating company is logged 
         if (
           Number(rfpRecord.contestType) === inviteContest &&
           companyData.companyId !== rfpRecord.companyId
-        )
-          return <GralMsg title={t("invitation_rfp")} />;
-        if (
-          Number(rfpRecord.contestType) === openContest &&
-          companyData.companyId === rfpRecord.companyId
-        )
-          // Open contest and address it's owner's
-          return <GralMsg title={t("owner_open_rfp_recordbidders")} />;
+        )  return <GralMsg title={t("invitation_rfp")} /> // a not participating company is logged
+
+        /*********************Comentado para agregar notif a empresas ************************************************************ */
+        // if (
+        //   Number(rfpRecord.contestType) === openContest &&
+        //   companyData.companyId === rfpRecord.companyId
+        // )
+        //   // Open contest and address it's owner's
+        //   return <GralMsg title={t("owner_open_rfp_recordbidders")} />;
+        /***************************************************************************************************************************** */
+        
         // all ok, show Register component
         return (
           <RegisterBidder
             t={t}
             t_companies={t_companies}
+            lang={i18n.language}
             rfpRecord={rfpRecord}
             companyId={companyData.companyId}
+            companyIssuer={companyData.companyname}
             inviteContest={Number(rfpRecord.contestType) === inviteContest}
             address={address}
             i18n={i18n} // This is because SearchDB needs it to be able to search for Companies

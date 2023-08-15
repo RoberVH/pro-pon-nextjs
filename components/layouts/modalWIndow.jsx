@@ -19,4 +19,4 @@ const ModalWindow = ({children, setFlag, closeLabel}) =>
         </div>      
     </div>
     </div>
-export default ModalWindow;
+export default ModalWindow

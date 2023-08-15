@@ -8,8 +8,6 @@ import { sortWeb3Error } from "../utils/sortWeb3Error";
 
 export const getProponContractServer = async () => {
   try {
-    //throw new Error('err_bd_undetermined')
-    //throw new Error('execution reverted: address_already_admin_of_company')
     
     const alchemyProvider = new ethers.providers.JsonRpcProvider(
       process.env.ALCHEMY_SERVER_LINK

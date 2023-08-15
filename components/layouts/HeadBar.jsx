@@ -4,7 +4,7 @@
  */
 
 import styles from '../../styles/Home.module.css'
-import { useState, useContext, useEffect, useCallback, useRef } from "react";
+import { useState, useContext, useEffect, useCallback, useRef, forwardRef } from "react";
 import { getContractCompanyData } from "../../web3/getContractCompanyData"
 import { checkMMAccounts } from "../../web3/getMetaMaskAccounts"
 import { getCompanydataDB } from "../../database/dbOperations"
@@ -52,7 +52,6 @@ const HeadBar = () => {
   //const [noWallet, setnoWallet] = useState(true)
   const [addingNetwork, setAddingNetwork]=useState(false)
   const [droppletVisible, setdroppletVisible] = useState(false)
-
 // get context variables
   const {   companyData, 
             setCompanyData, 
@@ -222,7 +221,8 @@ const HeadBar = () => {
   const handleConnect = async () => {
     const result= await connectMetamask()
     if (!result.status) {
-        errToasterBox(t(result.message,{ns:"common"}))
+      const processed_error = result.message
+        errToasterBox(t(result.message,{ns:"gralerrors"}))
     } else {
         setAddress(result.address)    // now address in in the context
     }
@@ -245,6 +245,11 @@ const HeadBar = () => {
   };
 
   const handleClickOutside = (event) => {
+    // console.log('handleClickOutside', event.target)
+    // console.log('Click en otro lado', event.target)
+    // console.log('accountRef',accountRef)
+    // console.log('menusRef',menusRef)
+    // console.log('languageRef',languageRef)
      if (menusRef.current && menusRef.current.contains(event.target)) {
          setdroppletVisible(droppableItemEnum.menu)
       } else if (accountRef.current && accountRef.current.contains(event.target)) {
@@ -257,12 +262,12 @@ const HeadBar = () => {
     };
 
 // Inner Components  ******************************************************************************************
-  const ShowAccount = ({isVisible}) => {
+  const ShowAccount = forwardRef(({isVisible}, ref) => {
     if (noWallet) return null
     if (!address)
       return (
         // no address yet, allow to connect
-        <div>
+        <div ref={ref}> 
           <button
             className="mt-4 p-2 mr-4 font-khula font-semibold text-sm uppercase 
                 text-white bg-orange-600 rounded-xl  drop-shadow-lg  
@@ -277,7 +282,7 @@ const HeadBar = () => {
       );
     // there is Address, return account menu functionality
     return (
-      <div ref={accountRef} id="show-account" className="flex  mr-8 mb-2  h-[4rem]" >
+      <div  ref={ref} id="show-account" className="flex  mr-8 mb-2  h-[4rem]" >
         <button className="relative text-orange-600 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-sm"
         title={`${(Boolean(address) && Boolean(companyData.companyname) && !companyData.profileCompleted) ? t('p_not_completed'): '' }`}>
           {address.slice(0, 5)}...{address.slice(-6)}
@@ -325,8 +330,9 @@ const HeadBar = () => {
         )}
       </div>
     )
-  };
+  });
  
+ShowAccount.displayName = 'ShowAccount';
 
 const AccountSpaceTitle = () => {
   if (noWallet) return (
@@ -375,7 +381,7 @@ const AccountSpaceTitle = () => {
           </div>
           <div className="flex justify-around">
             <SelectLanguage ref={languageRef} isVisible={droppletVisible=== droppableItemEnum.language}/>
-            <ShowAccount isVisible={droppletVisible=== droppableItemEnum.account} />
+            <ShowAccount ref={accountRef} isVisible={droppletVisible=== droppableItemEnum.account} />
           </div>
       </div>
           {(address && noRightNetwork) &&<NoRightNetworkWarning t={t} changeNetworks ={changeNetworks }/> }

@@ -43,7 +43,7 @@ countries.registerLocale(spanish)
 countries.registerLocale(french)
 
 const CompanyDataForm = ({ companyData, setCompanyData }) => {
-  const { t, i18n } = useTranslation(["signup", "common"]);
+  const { t, i18n } = useTranslation(["signup", "common","gralerrors"]);
   const [saving, setSaving] = useState(false);
   const [showSignMsg, setShowSignMsg] = useState(false);
   const [countryList, setCountryList] = useState([]);
@@ -63,6 +63,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
+  // Called whe the message has been signed, and sends the updated data to DB
   const onSuccess = async (message, signature) => {
     // When sign message succeeds, send to server for checking and to update DB with email/adminname/website
     const result = await verifyData_Save(message, signature);
@@ -73,10 +74,13 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
       const newCompanyProps=JSON.parse(message)
       const updatedCompanyData = { ...companyData, ...newCompanyProps, profileCompleted:true };
       setCompanyData(updatedCompanyData);
-    } else errToasterBox(result.message);
+    } else {
+      errToasterBox((t(result.msg,{ns:"gralerrors"})))
+    }
     setSaving(false);
   };
 
+  // process wallet errors
   const onError = async (error) => {
     let customError = t("errors.undetermined_blockchain_error"); // default answer, now check if we can specified it
     if (typeof error.reason !== "undefined") {
@@ -132,9 +136,6 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   };
 
   // ********************** handlers *************************
-  // const handleOptionChange = (event) => {
-  //   setsDownloadFolderOption(event.target.value);
-  // }
 
   // Validate and Update data to DB
   const handleSave = async () => {
@@ -163,14 +164,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
     )
       return;
 
-    // if (downloadFolderOption.trim()==='') {
-    //   errToasterBox(t("companyform.nodownloadfolererror"))
-    //   return;
-    // }
-
-    // // add downloadFolderOption value to the trimmedValues:
-    // trimmedValues.downloadFolderOption = downloadFolderOption
-      // Display modal to show & ask to sign message
+    // Display modal to show & ask to sign message
     const message = JSON.stringify(trimmedValues);
     setMsgtoSign(message);
     setSaving(true);
@@ -274,34 +268,6 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
               values={values}
               placeholder={`${t("companyform.website")}`}
             />
-            {/* ******* File Downloading settings      ********************** */}
-            {/* <div id="downloadsettingsframe" className="mt-4 ">
-              <label className=" text-stone-500">{t('downloadsettings')}</label>
-              <div className="flex flex-col w-[80%] mt-2 mb-4 border-[1px] border-orange-500 p-2 rounded-lg text-sm text-stone-500">
-                <label className="inline-flex items-center mb-2">
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    value="default"
-                    checked={downloadFolderOption === 'default'}
-                    onChange={handleOptionChange}
-                    />
-                  <span className="ml-2">{t('companyform.defaultdownloadfolder')}</span>
-                </label>
-
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    className="form-radio"
-                    value="custom"
-                    checked={downloadFolderOption === 'custom'}
-                    onChange={handleOptionChange}
-                    />
-                  <span className="ml-2">{t('companyform.userchoosedfolder')}</span>
-                </label>
-              </div>
-            </div> */}
-          {/* **************************************************************************************** */}
         </div>
         </form>
         <div id="footersubpanel3 ">

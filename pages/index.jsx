@@ -359,7 +359,7 @@ const { t } = useTranslation(["common","rfps","gralerrs"]);
 
 
 
-  <div className="absolut mt-16 flex justify-left py-16  bg-repeat " 
+  <div id="featherImg" className="absolut mt-16 flex justify-left py-16  bg-repeat " 
   style={{backgroundImage: 'url("/circuit-board.svg")'}}>
     <div className="relative inset-0">
       <div id="pen-text" className="relative flex ml-32  items-center ">

@@ -78,7 +78,7 @@ export const useRegisterBidders =  (onError, onSuccess, isCancelled, setProTxBlo
          if (isMounted.current) {
             setBlock(data.blockNumber)
             setBlockchainsuccess(true)
-            onSuccess()
+            onSuccess(registerType)
          }
       } catch (error) {
          if (isMounted.current) {

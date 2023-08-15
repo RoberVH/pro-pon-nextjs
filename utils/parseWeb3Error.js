@@ -21,7 +21,10 @@ export const parseWeb3Error = (t,error) => {
             customError=error.data.message
             if (customError.includes('err: insufficient funds for gas')) customError = t('insufficient_funds',{ns:"gralerrors"})
         } else if (typeof error.message!== 'undefined') 
-               if (error.message.includes('already pending for origin')) {
+                if (error.message==='Already processing eth_requestAccounts. Please wait.') {
+                        customError=t('user_rejection', {ns:"gralerrors"})
+                        customError=t('requestaccounts_pending',{ns:"gralerrors"})
+                } else if (error.message.includes('already pending for origin')) {
                     customError=t('already_pending', {ns:"gralerrors"})
                 } else if (error.message.toUpperCase().includes('USER REJECTED')) 
                         customError=t('user_rejection', {ns:"gralerrors"})

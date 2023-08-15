@@ -1,7 +1,7 @@
 // limit of results gotten in queries from DB
-export const LIMIT_RESULTS=250
+export const LIMIT_RESULTS = 250;
 // size page of display query from DB results limit
-export const PAGE_SIZE=20
+export const PAGE_SIZE = 20;
 
 // all errors labels coming from prop-pon smart contract
 export const errorSmartContract = [
@@ -34,18 +34,18 @@ export const errorSmartContract = [
   "execution reverted: rfpid_already_taken",
   "execution reverted: already_canceled",
   "missing revert data in call exception; Transaction reverted without a reason string",
-  "unknown account #0"
+  "unknown account #0",
+  "Already processing eth_requestAccounts. Please wait.",
 ];
 
-export const App_Name = 'Propon.me'
+export const App_Name = "Propon.me";
 
 export const traslatedRFPErrors = [
-    "notimetodownload", 
-    "only_ownerrfp_doctpye", 
-    "no_valid_docType",
-    "no_valid_signature"
-  ];
-
+  "notimetodownload",
+  "only_ownerrfp_doctpye",
+  "no_valid_docType",
+  "no_valid_signature",
+];
 
 // Only  5 files each loading
 export const MAX_FILES = process.env.NEXT_PUBLIC_MAX_FILES; //15
@@ -73,14 +73,29 @@ export const docTypes = {
     desc: "request_doc",
     public: true,
   }, // RFP doc  from Owner
-  1: { id: "1", type: "documentQandAType", desc: "q_a_doc", public: true}, // Clarification Questions and answers from Owner
-  2: { id: "2", type: "documentAmendment", desc: "amend_doc", public: true}, // Contract, adenda, guaranties etc documents created between owner and winners
+  1: { id: "1", type: "documentQandAType", desc: "q_a_doc", public: true }, // Clarification Questions and answers from Owner
+  2: { id: "2", type: "documentAmendment", desc: "amend_doc", public: true }, // Contract, adenda, guaranties etc documents created between owner and winners
   // Doctypes for RFP Participant
-  3: { id: "3", type: "documentProposalType", desc: "prop_doc", public: false}, // Technical offering, RFPs answers from participant
-  4: {id: "4",type: "documentPricingOfferingType",desc: "pricing_doc",public: true}, // Economic Proposal from participant. It's password protected
+  3: { id: "3", type: "documentProposalType", desc: "prop_doc", public: false }, // Technical offering, RFPs answers from participant
+  4: {
+    id: "4",
+    type: "documentPricingOfferingType",
+    desc: "pricing_doc",
+    public: true,
+  }, // Economic Proposal from participant. It's password protected
   5: { id: "5", type: "documentLegalType", desc: "legal_doc", public: true }, // Legal documents from participants
-  6: {id: "6",type: "documentFinancialType",desc: "financial_doc",public: true}, // Financial statements and documents from participants
-  7: {id: "7",type: "documentAdministrativeType",desc: "admin_doc",public: true}, // Administrative documents from participants
+  6: {
+    id: "6",
+    type: "documentFinancialType",
+    desc: "financial_doc",
+    public: true,
+  }, // Financial statements and documents from participants
+  7: {
+    id: "7",
+    type: "documentAdministrativeType",
+    desc: "admin_doc",
+    public: true,
+  }, // Administrative documents from participants
 };
 // Also a IdxDocTypes is defined to better reference index of docTypes record
 export const IdxDocTypes = {
@@ -110,4 +125,9 @@ export const inviteContest = 1;
 //export const PRODUCTION = false;
 //export const LOCAL = false;
 
-export const NullAddress = "0x0000000000000000000000000000000000000000";
+//export const NullAddress = "0x0000000000000000000000000000000000000000";
+export const typeOfRegistrationtoRFP = {
+  inviteguests:'inviteguests',
+  registeropen: 'registeropen'
+}
+

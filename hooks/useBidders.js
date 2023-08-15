@@ -28,13 +28,6 @@ export const useBidders = () => {
                         setDoneLookingBidders(true); 
                         return {status:true}
                 }
-                //testing *********
-                // let newBidders = [...participants.bidders]; // Create a copy of the bidders array
-                // newBidders.splice(1, 0, '0x0d349b2a88f4e109f'); // Insert buggie address at the second position, there is not company at that
-                // console.log('Nuevo arreglo newBidders',newBidders)
-                // const results=await getDBCompaniesbyAddress(newBidders)
-                //If only one of the adresses couldn't resolve to a company then invalidate the whole package and report error
-                //testing *********
                 const results=await getDBCompaniesbyAddress(participants.bidders)
                 //console.log('useBidder getDBCompaniesbyaddress',participants.bidders)
                 setCompanies(results)

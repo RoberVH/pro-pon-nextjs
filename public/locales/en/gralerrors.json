@@ -10,6 +10,7 @@
     "Only_admin_can_perform":"Only admin owner can make this operation",
     "user_rejection":"User rejected transaction",
     "execution reverted: Insufficient_payment":"Insufficient Payment",
+    "requestaccounts_pending": "Already processing previous request. Please check your wallet and/or wait",
     "no_serverBundlr_funding":"Can not performe operation this time, please retry later",
     "execution reverted: too_many_guests":"The operation exceeded the limit of companies for the RFP",
     "execution reverted: exists_participating":"Already registered to this RFP",
@@ -43,5 +44,7 @@
     "db_connection_timed_out":"Data Base time out",
     "db_unreachable":"Offline, check network",
     "tx_not_found":"Transaction not found",
-    "db_too_many_results":"Search returned too many results, please narrow your search criteria"
+    "db_too_many_results":"Search returned too many results, please narrow your search criteria",
+    "emailerror":"Wrong Email",
+    "invalid_email_format":"Invalid email format"
 }

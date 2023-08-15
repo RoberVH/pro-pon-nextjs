@@ -3,7 +3,7 @@ import { NullAddress } from '../utils/constants'
 import { sortWeb3Error } from '../utils/sortWeb3Error'
 
 export const accountHasRigths =async (accountAddress, companyId) => {
-    const proponContract = await getProponContractServer()
+    const proponContract = (await getProponContractServer()).contract;
     const _companyId = await proponContract.getCompanyId(accountAddress)
     return (_companyId === companyId)
 }

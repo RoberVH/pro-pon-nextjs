@@ -7,6 +7,7 @@
  */
 
 import { useState, useEffect } from 'react'
+import { ethers } from 'ethers'
 import Image from "next/image"
 import { useBidders } from '../../hooks/useBidders'
 import { useDeclareResults } from '../../hooks/useDeclareResults'
@@ -26,7 +27,8 @@ import { todayUnixEpoch } from "../../utils/misc"
 
 
 
-const NullAddress='0x0000000000000000000000000000000000000000'
+//const NullAddress='0x0000000000000000000000000000000000000000'
+const NullAddress=ethers.constants.AddressZero
 
 const DeclareResults = ({t,rfpIndex, setNoticeOff, companyId}) => {
  const [rfpRecord, setRFPRecord] = useState()
