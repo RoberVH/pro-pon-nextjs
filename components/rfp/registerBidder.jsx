@@ -44,21 +44,21 @@ const RegisterBidder = ({
   const { bidders, getBidders, companies } = useBidders();
 
   // same address could have different case but are the same address, that's why we check like this the address vs bidders array
-  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
-  const [rfpOwner, setrfpOwner] = useState(companyId === rfpRecord.companyId);
-  const [guestCompanies, setGuestCompanies] = useState([]);
-  const [results, setResults] = useState([]);
-  const [error, setError] = useState(false);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false)
+  const [rfpOwner, setrfpOwner] = useState(companyId === rfpRecord.companyId)
+  const [guestCompanies, setGuestCompanies] = useState([])
+  const [results, setResults] = useState([])
+  const [error, setError] = useState(false)
   // Next  is for SearchDB component & make Spinner spin when searching
-  const [IsWaiting, setIsWaiting] = useState(false);
-  const [isCancelled, setIsCancelled] = useState(false);
-  const [droppedTx, setDroppedTx] = useState();
-  const [showModalNotifications, setShowModalNotifications] = useState(false);
+  const [IsWaiting, setIsWaiting] = useState(false)
+  const [isCancelled, setIsCancelled] = useState(false)
+  const [droppedTx, setDroppedTx] = useState()
+  const [showModalNotifications, setShowModalNotifications] = useState(false)
   const [showWarningNotEmail, setShowWarningNotEmail] = useState(false)
   const [compWithoutEmail,setCompWithoutEmail ] = useState([])
-  const [typeOfNotification, setTypeOfNotification] = useState();
+  const [typeOfNotification, setTypeOfNotification] = useState()
   const [notifying, setNotifying] = useState(false)
-  const cleanSearchParams = useRef();
+  const cleanSearchParams = useRef()
 
   //********************** nueva estructura/
   // processingTxBlockchain flag to control when TX was send: it shows cancel transaction button on ShowTxSummary

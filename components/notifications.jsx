@@ -1,4 +1,4 @@
-errToasterBox
+
 /**
  * notifications
  *      Pops a modal form to add emails of 
