@@ -92,8 +92,8 @@ function Notifications({ t, rfpRecord, notiftype, lang }) {
     errToasterBox(t('invalid_email_format',{ns:"gralerrors"}))
     return;
   }
-  //const baseUrl=`${process.env.NEXT_PUBLIC_PROPON_URL}/${lang}/`
-  const baseUrl=`${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
+  const baseUrl=`${process.env.NEXT_PUBLIC_PROPON_URL}/${lang}/`
+  //const baseUrl=`${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
   const rfplink = `${baseUrl}homerfp?companyId=${encodeURIComponent(rfpRecord.companyId)}&companyname=${encodeURIComponent(rfpRecord.companyname)}&rfpidx=${rfpRecord.rfpIndex}`
   const subjectLine = `${SubjetNotifRFP[lang][notiftype]} ${rfpRecord.name} - ${rfpRecord.description}`
   

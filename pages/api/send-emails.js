@@ -28,8 +28,8 @@ export default async function handler(req, res) {
   }
 
 
-  //const baseUrl=`${process.env.NEXT_PUBLIC_PROPON_URL}/${lang}/`
-  const baseUrl=`${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
+  const baseUrl=`${process.env.NEXT_PUBLIC_PROPON_URL}/${lang}/`
+  //const baseUrl=`${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
   const rfplink = `${baseUrl}homerfp?companyId=${encodeURIComponent(companyid)}&companyname=${encodeURIComponent(hostcompany)}&rfpidx=${rfpid}`
 
   const textHTML = invRFPHTML(
