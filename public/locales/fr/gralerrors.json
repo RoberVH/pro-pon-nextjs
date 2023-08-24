@@ -46,5 +46,6 @@
     "tx_not_found":"Transaction introuvable",
     "db_too_many_results":"La recherche a renvoyé trop de résultats, veuillez affiner vos critères de recherche",
     "emailerror":"Mauvais e-mail",
-    "invalid_email_format":"Format d'e-mail invalide"
+    "invalid_email_format":"Format d'e-mail invalide",
+    "userreject": "Opération rejetée par l'utilisateur"
 }

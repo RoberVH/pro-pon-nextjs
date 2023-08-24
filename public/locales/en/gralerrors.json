@@ -46,5 +46,6 @@
     "tx_not_found":"Transaction not found",
     "db_too_many_results":"Search returned too many results, please narrow your search criteria",
     "emailerror":"Wrong Email",
-    "invalid_email_format":"Invalid email format"
+    "invalid_email_format":"Invalid email format",
+    "userreject": "User deny operation"
 }

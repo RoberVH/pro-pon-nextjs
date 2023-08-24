@@ -244,31 +244,32 @@ const HeadBar = () => {
     sethideMenuAccount(!hideMenuAccount);
   };
 
-  const handleClickOutside = (event) => {
-    // console.log('handleClickOutside', event.target)
-    // console.log('Click en otro lado', event.target)
-    // console.log('accountRef',accountRef)
-    // console.log('menusRef',menusRef)
-    // console.log('languageRef',languageRef)
-     if (menusRef.current && menusRef.current.contains(event.target)) {
-         setdroppletVisible(droppableItemEnum.menu)
-      } else if (accountRef.current && accountRef.current.contains(event.target)) {
-        setdroppletVisible(droppableItemEnum.account)
-      } else if (languageRef.current && languageRef.current.contains(event.target)) {
-        setdroppletVisible(droppableItemEnum.language)
-      }  else {
-                setdroppletVisible(droppableItemEnum.elsewhere)
-      }
-    };
+
+    const handleClickOutside = (event) => {
+      if (menusRef.current && menusRef.current.contains(event.target)) {
+          setdroppletVisible(droppableItemEnum.menu)
+       } else if (accountRef.current && accountRef.current.contains(event.target)) {
+         setdroppletVisible(droppableItemEnum.account)
+         if (event.target.id === 'connect-button') handleConnect()
+       } else if (languageRef.current && languageRef.current.contains(event.target)) {
+         setdroppletVisible(droppableItemEnum.language)
+       }  else {
+                 setdroppletVisible(droppableItemEnum.elsewhere)
+       }
+     };
 
 // Inner Components  ******************************************************************************************
   const ShowAccount = forwardRef(({isVisible}, ref) => {
-    if (noWallet) return null
-    if (!address)
-      return (
+    if (noWallet) {
+      return null
+   }
+    if (!address) 
+      {
+         return (
         // no address yet, allow to connect
-        <div ref={ref}> 
+        <div ref={ref}  id="showAccount"> 
           <button
+            id="connect-button"
             className="mt-4 p-2 mr-4 font-khula font-semibold text-sm uppercase 
                 text-white bg-orange-600 rounded-xl  drop-shadow-lg  
                 bg-gradient-to-r from-orange-500  to-red-500 
@@ -279,12 +280,15 @@ const HeadBar = () => {
             {t("connect_wallet", { ns: "common" })}
           </button>
         </div>
-      );
+      );}
     // there is Address, return account menu functionality
     return (
       <div  ref={ref} id="show-account" className="flex  mr-8 mb-2  h-[4rem]" >
-        <button className="relative text-orange-600 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-sm"
-        title={`${(Boolean(address) && Boolean(companyData.companyname) && !companyData.profileCompleted) ? t('p_not_completed'): '' }`}>
+        <button 
+            disabled
+            className="relative text-orange-600 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-sm"
+            title={`${(Boolean(address) && Boolean(companyData.companyname) && !companyData.profileCompleted) ? t('p_not_completed'): '' }`}
+         >
           {address.slice(0, 5)}...{address.slice(-6)}
           {(Boolean(address) && Boolean(companyData.companyname) && !companyData.profileCompleted) && (
             <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-[76%]">
@@ -298,8 +302,8 @@ const HeadBar = () => {
           id="show-account-chevron"
           className="mt-7 ml-3 hover:cursor-pointer"
         >
-
           <Image
+            id="profile-imagebutton"
             onClick={handleDropDownAccount}
             alt="V"
             src="/chevrondown.svg"
@@ -355,13 +359,14 @@ const AccountSpaceTitle = () => {
 // ******************************** Main JSX  ****************************************************************
 
  return (
-     <nav id="navigation" //className={`${styles.header_bg_color} antialiased  pl-2 pt-4 pb-4 `}>
-     className={`antialiased  pl-2 pt-4 pb-4 bg-gradient-to-b from-stone-600 to-orange-500 `} >
-      { addingNetwork && 
-        <div className="flex justify-center">
-          <DisplayMsgAddinNetwork t={t}/> 
-        </div>
-      }
+     <nav 
+      id="navigation" 
+      className={`antialiased  pl-2 pt-4 pb-4 bg-gradient-to-b from-stone-600 to-orange-500 `} >
+         { addingNetwork && 
+         <div className="flex justify-center">
+            <DisplayMsgAddinNetwork t={t}/> 
+         </div>
+         }
       <div className="flex justify-between ">
           <div className="flex ml-4 -mb-2">
             <Link href="/" passHref className="">
@@ -374,13 +379,13 @@ const AccountSpaceTitle = () => {
                 </p>
               </div>
             </Link>
-            <Menues ref={menusRef} isVisible={droppletVisible=== droppableItemEnum.menu}/>
+            <Menues id="menues" ref={menusRef} isVisible={droppletVisible=== droppableItemEnum.menu}/>
           </div>
           <div className="mt-4 rounded-lg">
             <AccountSpaceTitle />
           </div>
           <div className="flex justify-around">
-            <SelectLanguage ref={languageRef} isVisible={droppletVisible=== droppableItemEnum.language}/>
+            <SelectLanguage id="selectLanguage" ref={languageRef} isVisible={droppletVisible=== droppableItemEnum.language}/>
             <ShowAccount ref={accountRef} isVisible={droppletVisible=== droppableItemEnum.account} />
           </div>
       </div>
