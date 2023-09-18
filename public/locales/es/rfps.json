@@ -48,6 +48,8 @@
     "titlescreen": "Solicitud de Propuestas (RFP)",
     "companyId": "Identificación de la empresa",
     "companyname": "Nombre de la empresa",
+    "country":"País",
+    "invite":"Invitar",
     "name": "Id RFP",
     "description":"Nombre",
     "openDate":"F. Inicial",
@@ -107,8 +109,7 @@
     "participant_rfp":"Estás participando en este RFP",
     "no_connected_wallet":"Cartera detectada pero no conectada",
     "owner_open_rfp_recordbidders":"Este es su RFP abierto, ¡notifique a compañías candidatas a registrarse!",
-    "doc_type":"Tipo Doc.",
-    "copied_clipboard":"Copiado al portapapeles",
+    "doc_type":"Tipo",
     "request_doc":"Solicitud",  
     "amend_doc":"Rectificaciones",
     "q_a_doc":"Preguntas y respuestas",  
@@ -176,5 +177,9 @@
     "download_rights_expired":"El navegador solicita que confirme de nuevo el folder para salvar los archivos. Haga click sobre esta ventana para proceder",
     "click_to_Copy_clipboard": "Haga click para copiar hash al portapapeles",
     "pendingtxsaved":"Transaccion Pendiente salvada. Checar estado en 'Mis Tx Pendientes'",
-    "not_all_companies_retrieved":"No fue posible recuperar informacion de todos los participantes, verifique red"
+    "not_all_companies_retrieved":"No fue posible recuperar informacion de todos los participantes, verifique red",
+    "compare_hash_file":"Haz Click para comparar el hash de un archivo",
+    "test":"Comprobar",
+    "nomatch":"No coincide",
+    "match":"Coincide"
 }

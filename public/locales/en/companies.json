@@ -6,6 +6,12 @@
     "website":"Web Site",
     "country":"Country",
     "noresults":"No results",
-    "rfpWon":"Won",
-    "reset_search":"Reset Search"
+    "rfpWon":"RFP Won",
+    "reset_search":"Reset Search",
+    "profileCompleted":"Completed Profile",
+    "address":"Account",
+    "companyRFPs": "Company Issued RFP",
+    "rfpSent":"Participation in RFP",
+    "yes":"Yes",
+    "no":"No"
 }

@@ -340,13 +340,13 @@ ShowAccount.displayName = 'ShowAccount';
 
 const AccountSpaceTitle = () => {
   if (noWallet) return (
-      <nav id="navigation" className="bg-[#2b2d2e] antialiased  px-2 pt-4 pb-4 rounded-lg ">
+      <div id="navigation" className="bg-yellow-200 antialiased  px-2 pt-4 pb-4 rounded-lg ">
         <NoMetamaskWarning msg={t('metamaskwarning',{ns:'common'})} buttontitle={t('getmetamask',{ns:'common'})}/>
-      </nav> 
+      </div> 
   )
   else return (
       <div>
-        <label className="text-xl font-semibold font-nunito text-white">
+        <label className="text-gl font-semibold font-nunito text-white">
         { companyData.companyname ? `${companyData.companyname}`
         :
           address ? `${t('nocompany',{ns:'common'})}`: `${t('noaccount', {ns:'common'})}`

@@ -6,6 +6,12 @@
     "website": "Sitio web",
     "country": "País",
     "noresults":"No hay resultados",
-    "rfpWon":"Ganados",
-    "reset_search":"Restablecer Búsquedas"
+    "rfpWon":"RFP Ganados",
+    "reset_search":"Restablecer Búsquedas",
+    "profileCompleted":"Perfil Completo",
+    "address":"Cuenta",
+    "companyRFPs": "RFPs de Compañía",
+    "rfpSent":"Participaciones en RFP",
+    "yes":"Si",
+    "no":"No"
 }

@@ -1,7 +1,7 @@
 const NoRightNetworkWarning= ({t, changeNetworks}) => (
-    <div className="m-4 rounded-md mx-auto bg-yellow-200 p-2 text-red-600 w-[70%]">
+    <div className="m-1 rounded-md mx-auto bg-yellow-200 p-1 text-red-600 w-[40%]">
         <div className="flex justify-center">
-          <h1 className="text-xl mt-4 font-bold text-red-600 font-khula">
+          <h1 className="text-gl mt-4 font-bold text-red-600 font-khula">
                   {t('changenetwork',{ns:"common"})}
           </h1>
           <button 

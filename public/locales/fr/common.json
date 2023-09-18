@@ -117,5 +117,6 @@
   "notif_sent_ok": "Notifications envoyées",
   "issuer_notified": "L'émetteur du RFP a été notifié",
   "companies_without_email": "Ces entreprises n'ont pas encore enregistré un e-mail administrateur. Envoyez-leur un e-mail en tant que Nouvelles Entreprises pour les informer",
-  "beta_testing":"Cette application est en test bêta sur le testnet de Mumbai, vous pouvez créer et publier des appels d'offres, contactez-nous à propon@mail.com"
+  "beta_testing":"Cette application est en test bêta sur le testnet de Mumbai, vous pouvez créer et publier des appels d'offres, contactez-nous à propon@mail.com",
+  "selectall": "Sélectionner tout"
 }

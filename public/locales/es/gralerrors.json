@@ -46,6 +46,7 @@
     "db_too_many_results":"La búsqueda produjo demasiados resultados, restrinja criterios de búsqueda",
     "emailerror":"Email erróneo",
     "invalid_email_format":"Formato de correo electrónico inválido",
-    "userreject": "Usuario rechazó operación"
-
+    "userreject": "Usuario rechazó operación",
+    "no_companyid":"No se recibió ID de compañía",
+    "company_notfound":"Compañía no hallada"
 }

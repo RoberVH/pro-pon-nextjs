@@ -47,5 +47,7 @@
     "db_too_many_results":"Search returned too many results, please narrow your search criteria",
     "emailerror":"Wrong Email",
     "invalid_email_format":"Invalid email format",
-    "userreject": "User deny operation"
+    "userreject": "User deny operation",
+    "no_companyid":"No company Id was received",
+    "company_notfound":"Company was not found"
 }

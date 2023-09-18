@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router";
+import { buildRFPURL } from "../utils/buildRFPURL";
 import  Spinner  from '../components/layouts/Spinner'
 import DisplayResults from "../components/DisplayResults"
 import SearchDB from "../components/SearchDB"
@@ -20,20 +22,34 @@ function Companies() {
   const [currentPage, setCurrentPage]=useState(1)
   const [numberPages, setNumberPages]=useState(0)
   const { t, i18n  } = useTranslation("companies","gralerrors")
+  const router = useRouter();
+
+
+  const handleShowCompany = (company) => {
+    setIsWaiting(true);
+    const urlLine={
+      companyid: company.companyId,
+    }
+     const companyparams = buildRFPURL(urlLine);
+     router.push("/company?" + companyparams);
+  };
 
   const companyActions = [
     
     { id:1,
-      iconAction:'',
+      iconAction:'👁️',
       titleAction:t('review',{ns:"common"}),
-      callBack:''}
+      callBack:handleShowCompany,
+      width: "[25%]"}
   ]
+
+
 
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
 
-
+// hooks ****************************************************************************************
    useEffect(() => {
     if (error.message) errToasterBox(error.message);
   }, [error]);

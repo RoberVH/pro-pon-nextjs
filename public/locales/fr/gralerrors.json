@@ -47,5 +47,7 @@
     "db_too_many_results":"La recherche a renvoyé trop de résultats, veuillez affiner vos critères de recherche",
     "emailerror":"Mauvais e-mail",
     "invalid_email_format":"Format d'e-mail invalide",
-    "userreject": "Opération rejetée par l'utilisateur"
+    "userreject": "Opération rejetée par l'utilisateur",
+    "no_companyid": "Aucun identifiant d'entreprise n'a été reçu",
+     "company_notfound": "La société n'a pas été trouvée"
 }

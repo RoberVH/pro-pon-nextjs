@@ -14,7 +14,7 @@ const DisplayMsgAddinNetwork = ({t}) => (
               </div>    
           </div>
       </div>
-        <label className="font-khula text-2xl text-stone-800 ml-4 mt-8">
+        <label className="font-khula text-xl text-stone-800 ml-4 mt-8">
             { t('addingnetwork',{ns:"common"}) } ...
         </label>
   

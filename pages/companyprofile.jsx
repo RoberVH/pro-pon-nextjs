@@ -3,7 +3,7 @@ import CompanyDataForm from "../components/forms/companyDataForm";
 import NoConnectedWarning from "../components/layouts/NoConnectedWarning";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { proponContext } from "../utils/pro-poncontext";
+import { proponContext } from "../utils/pro-poncontext"
 import { useRouter } from "next/router";
 
 function Companyprofile() {

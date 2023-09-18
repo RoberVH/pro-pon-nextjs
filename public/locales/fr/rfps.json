@@ -50,6 +50,8 @@
     "description":"Nom",
     "companyId": "Identifiant de l'entreprise",
     "companyname": "Nom de l'entreprise",
+    "country": "Pays",
+    "invite":"Inviter",
     "openDate":"Date Initiale",
     "endReceivingDate":"Date limite de soumission",
     "endDate":"D. décision",
@@ -105,8 +107,7 @@
     "participant_rfp": "Vous participez à cet RFP",
     "no_connected_wallet":"Portefeuille détecté mais non connecté",
     "owner_open_rfp_recordbidders":"Ceci est votre appel d'offres ouvert, informez les entreprises candidates pour qu'elles s'inscrivent!",
-    "copied_clipboard":"Copié dans le presse-papiers",
-    "doc_type":"Type Doc.",
+    "doc_type":"Type",
     "request_doc":"Demande",  
     "amend_doc":"Rectifications",
     "q_a_doc":"Clarifications",  
@@ -174,5 +175,9 @@
     "download_rights_expired":"Le navigateur vous demande de confirmer à nouveau le dossier pour enregistrer les fichiers. Cliquez sur cette fenêtre pour continuer",
     "click_to_Copy_clipboard": "Cliquez pour copier le hash dans le presse-papiers",
     "pendingtxsaved":"Transaction en attente enregistrée. Vérifiez son statut dans 'Mes Tx en attente'",
-    "not_all_companies_retrieved":"Impossible de récupérer les informations sur toutes les participants, vérifiez le réseau"
+    "not_all_companies_retrieved":"Impossible de récupérer les informations sur toutes les participants, vérifiez le réseau",
+    "compare_hash_file": "Cliquez pour comparer le hachage d'un fichier",
+    "test": "Vérifier",
+    "nomatch": "Pas de coïncidence",
+     "match": "Coïncider"
 }

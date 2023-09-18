@@ -9,7 +9,7 @@ import DisplayProgressUpload from "./displayProgressUpload";
 import { uploadBlockchainFiles } from "../../utils/uploadBlockchainFiles";
 import { getRmteBndlr } from "../../web3/getRmteBndlr";
 import { parseWeb3Error } from "../../utils/parseWeb3Error";
-import DismissedTxNotice from "../layouts/dismissedTxNotice"
+
 // toastify related imports
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

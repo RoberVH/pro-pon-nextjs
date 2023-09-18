@@ -32,11 +32,6 @@ export default async function handler (req, res) {
             .toArray();
             res.status(200).json({status:true, result:companies, count:totalCount})
             break
-        // } catch (error) {
-        //   const {status, message} = processBDerror(error)
-        //   res.status(status).json({ status: false, msg:message })
-        //   break
-        // }
         case 'PATCH':  //  Verify passed signed data and if succesful modify company data at Data Base
           // first check the company is not already registered
           const {signature,...msg} = req.body

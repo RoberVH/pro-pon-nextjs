@@ -117,5 +117,7 @@
   "notif_sent_ok":"Notification sent",
   "issuer_notified": "The issuer of the RFP has been notified",
   "companies_without_email": "These companies have not registered an Admin email yet. Send them an email as New Companies to notify them",
-  "beta_testing":"This Application is in Beta testing on the Mumbai testnet, you can create and publish RFPs, contact us at propon@mail.com"
+  "beta_testing":"This Application is in Beta testing on the Mumbai testnet, you can create and publish RFPs, contact us at propon@mail.com",
+  "selectall":"Select all"
+
 }

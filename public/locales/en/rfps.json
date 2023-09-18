@@ -50,6 +50,8 @@
     "description":"Description",
     "companyId":"Company Id",
     "companyname":"Company Name",
+    "country":"Country",
+    "invite":"Invite",
     "openDate":"Start Date",
     "endReceivingDate":"End Date to receive proposals",
     "endDate":"Decision Date",
@@ -105,8 +107,7 @@
     "participant_rfp":"You are participating in this RFP",
     "no_connected_wallet":"Wallet detected but not connected",
     "owner_open_rfp_recordbidders":"This is your open RFP, notify candidate companies to sign up!",
-    "copied_clipboard":"Copied to Clipboard",
-    "doc_type":"Doc Type",
+    "doc_type":"Type",
     "request_doc":"Request",  
     "amend_doc":"Amendments",
     "q_a_doc":"Q & A",  
@@ -174,5 +175,9 @@
     "download_rights_expired":"Browser asks you to confirm the folder again to save the files. Click on this window to proceed",
     "click_to_Copy_clipboard": "Click to copy hash to clipboard",
     "pendingtxsaved":"Pending Txransaction saved. Check its status in 'My Pending Transactions'",
-    "not_all_companies_retrieved":"Could not retrieve all participants information, check network"
+    "not_all_companies_retrieved":"Could not retrieve all participants information, check network",
+    "compare_hash_file":"Click to compare the hash of a file",
+    "test":"Check",
+    "nomatch":"Match",
+    "match":"No match"
 }

@@ -1,26 +1,44 @@
-import {  useEffect,  useState,  useRef,  forwardRef,  useImperativeHandle,} from "react"
+import {
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import useInputForm from "../hooks/useInputForm"
 import InputCountrySel from "./InputCountrySel"
 import { SearchIcon } from "@heroicons/react/outline"
 import processBDerror from "../database/processBDerror"
 import { LIMIT_RESULTS } from "../utils/constants"
-import { toastStyleWarning } from "../styles/toastStyle";
-import { toast } from "react-toastify";
+import { toastStyleWarning } from "../styles/toastStyle"
+import { toast } from "react-toastify"
 
+const DEBOUNCING_TIME = 750
 
 const errorColor = {
   true: "border-red-600 border-9",
   false: "",
 };
 
-  // Function to display warning msg
-const warningToast = (msgWarning) =>{
-  toast.warning(msgWarning, toastStyleWarning)
-}
+const debounce = (fn, delay) => {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+};
+
+
+// Function to display warning msg
+const warningToast = (msgWarning) => {
+  toast.warning(msgWarning, toastStyleWarning);
+};
 const SearchDB = forwardRef(
-  ({ fields, path, setResults, setWait, setError,  t, i18n }, ref) => {
-    const { values, handleChange, handleReinitialize } = useInputForm();
-    const [currInput, setCurrInput] = useState();
+  ({ fields, path, setResults, setWait, setError, t, i18n }, ref) => {
+    const { values, handleChange, handleReinitialize } = useInputForm()
+    const [currInput, setCurrInput] = useState()
 
     const inputRefs = useRef([]);
     const uSEReference = useRef; // to avoid calling a hook inside a callback when setting inputRefs next line
@@ -34,6 +52,7 @@ const SearchDB = forwardRef(
 
     const SearchBox = ({ field, index }) => {
       const [faultyDates, setFaultyDates] = useState(false);
+
 
       useEffect(() => {
         setFaultyDates(
@@ -115,6 +134,9 @@ const SearchDB = forwardRef(
       );
     };
 
+  
+
+
     const getResults = async (values) => {
       for (const key in values) {
         if (values[key].trim() === "") delete values[key];
@@ -133,11 +155,12 @@ const SearchDB = forwardRef(
           setError(new Error(t(bderr, { ns: "gralerrors" })));
         }
         setResults(resp.result);
-        if (resp.count > LIMIT_RESULTS) warningToast(t('db_too_many_results',{ns: "gralerrors"}))
+        if (resp.count > LIMIT_RESULTS)
+          warningToast(t("db_too_many_results", { ns: "gralerrors" }));
         return;
       } catch (error) {
         const msgErr = processBDerror(error);
-        setError(new Error(t(msgErr.message, { ns: "gralerrors" })))
+        setError(new Error(t(msgErr.message, { ns: "gralerrors" })));
       } finally {
         setWait(false);
         if (currInput) currInput.current.focus();
@@ -145,7 +168,13 @@ const SearchDB = forwardRef(
     };
 
     useEffect(() => {
-      getResults(values);
+      //  getResults(values)
+      //debounceSearch(values, getResults)
+      const debouncedGetResults = debounce(getResults, DEBOUNCING_TIME);
+      debouncedGetResults(values);
+
+      if (currInput) currInput.current.focus();
+
     }, [values]);
 
     useImperativeHandle(ref, () => ({
@@ -156,7 +185,7 @@ const SearchDB = forwardRef(
     }));
 
     const handleCleanFields = () => {
-      handleReinitialize()
+      handleReinitialize();
       setResults([]);
     };
 

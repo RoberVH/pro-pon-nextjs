@@ -71,7 +71,7 @@ const RegisterBidder = ({
     {
       id: 1,
       iconAction: "📍",
-      titleAction: "Invite",
+      titleAction: "invite",
       callBack: handleAddGuestCompanytoList,
       width: "[5%]",
     },
@@ -240,7 +240,7 @@ const RegisterBidder = ({
 
   const handleClosePanel = () => {
     setProTxBlockchain(false);
-
+const c= [[1], {a:2323, b:'3434'}, ()=>{handleRemoveCompany(resetparams())}]
     // setShowPanel(false);
     setGuestCompanies([]);
     if (cleanSearchParams.current) cleanSearchParams.current.resetparams();

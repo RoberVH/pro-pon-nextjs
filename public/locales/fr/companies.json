@@ -6,6 +6,12 @@
     "website": "Site Web",
     "country": "Pays",
     "noresults":"Aucun résultat",
-    "rfpWon":"Gagnés",
-    "reset_search":"Réinitialiser les recherches"        
+    "rfpWon":"RFP Gagné",
+    "reset_search":"Réinitialiser les recherches",
+    "profileCompleted":"Profil complet",
+    "address":"Compte",
+    "companyRFPs": "RFP de l'entreprise",
+    "rfpSent":"Participations aux RFP",
+    "yes":"Oui",
+    "no":"Non"
 }
