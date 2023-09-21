@@ -17,6 +17,7 @@ import { toastStyle } from "../styles/toastStyle";
 import { toast } from "react-toastify";
 import { buildRFPURL } from "../utils/buildRFPURL";
 import Spinner from "../components/layouts/Spinner";
+import TableValueDisplay from "../components/tableValueDisplay";
 
 function Company() {
   const [companyData, setCompanyData] = useState(null);
@@ -24,7 +25,7 @@ function Company() {
 
   const router = useRouter();
   const { companyid } = router.query;
-  const { t } = useTranslation(["companies", "gralerrors"]);
+  const { t } = useTranslation(["companies", "gralerrors", "common","rfps","menus"]);
   const { address } = useContext(proponContext);
 
   // utility functions  ********************************************************
@@ -50,9 +51,11 @@ function Company() {
 
         const { company_RFPs, RFPsWins, RFPSent } = resp.data.company;
         const rfpWon = parseInt(RFPsWins.length);
-        const rfpSent = parseInt(RFPSent);
-        const companyRFPs = company_RFPs.map((rfp) => parseInt(rfp))
-
+        //const rfpSent = parseInt(RFPSent);
+        //const companyRFPs = company_RFPs.map((rfp) => parseInt(rfp))
+        //const rfpSent =  Array.from({ length: 2 + 1 }, (_, i) => i)
+        const rfpSent =  []
+        const companyRFPs =  Array.from({ length: 77 + 1 }, (_, i) => i)
         setCompanyData({
           rfpWon,
           rfpSent,
@@ -94,6 +97,7 @@ function Company() {
       "rfpWon"
     ];
 
+
     return (
       <>
         {fieldOrder.map((key) => {
@@ -105,24 +109,7 @@ function Company() {
                   {t(key)}
                 </td>
                 <td className="p-4 text-stone-500 overflow-x-auto">
-                  <div className="whitespace-nowrap">
-                    {Array.isArray(value)
-                      ? value.map((rfpidx, index) => (
-                          <button
-                            key={index}
-                            className="text-blue-500"
-                            onClick={() => handleShowRFP(rfpidx)}
-                            title={`RFP ${rfpidx}`}
-                          >
-                            [{rfpidx}] &nbsp;
-                          </button>
-                        ))
-                      : value.toString() === "true"
-                      ? t("yes")
-                      : value.toString() === "false"
-                      ? t("no")
-                      : value}
-                  </div>
+                  <TableValueDisplay value={value} handleShowRFP={handleShowRFP} t={t} RFP_INTERVAL={5} />                  
                 </td>
               </tr>
             );
@@ -132,7 +119,7 @@ function Company() {
     );
   };
 
-  // Returning JSX
+  // Returning  component JSX *******************************************************
   if (isLoading) {
     return (
       <div className="mt-24 mb-4">
@@ -175,7 +162,8 @@ export async function getStaticProps({ locale }) {
         "companies",
         "common",
         "rfps",
-        "gralerrors"
+        "gralerrors",
+        "menus"
       ]))
     }
   };

@@ -13,5 +13,8 @@
     "companyRFPs": "RFPs de Compañía",
     "rfpSent":"Participaciones en RFP",
     "yes":"Si",
-    "no":"No"
+    "no":"No",
+    "total":"Total",
+    "showrfps":"Mostrar RFPs",
+    "gotorfp":"Ir a RFP"
 }
