@@ -48,5 +48,6 @@
     "invalid_email_format":"Formato de correo electrónico inválido",
     "userreject": "Usuario rechazó operación",
     "no_companyid":"No se recibió ID de compañía",
-    "company_notfound":"Compañía no hallada"
+    "company_notfound":"Compañía no hallada",
+    "no_right_network":"Red Blockchain errónea"
 }

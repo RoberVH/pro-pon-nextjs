@@ -181,5 +181,6 @@
     "compare_hash_file":"Haz Click para comparar el hash de un archivo",
     "test":"Comprobar",
     "nomatch":"No coincide",
-    "match":"Coincide"
+    "match":"Coincide",
+    "no_rfp_on_wrong_netwrok":"No se puede obtener información desde una red incorrecta. Por favor, cambie a la red correcta y recargue la página (tecla F5)"
 }

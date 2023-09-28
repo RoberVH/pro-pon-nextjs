@@ -28,6 +28,17 @@ function Company() {
   const { t } = useTranslation(["companies", "gralerrors", "common","rfps","menus"]);
   const { address } = useContext(proponContext);
 
+
+  /**
+   * 
+      "companyRFPs",
+      "rfpSent",
+      "rfpWon"
+      --------------------
+      "companyIssuedRFPs",
+      "RFPresponses",
+      "RFPsWinings"
+   */
   // utility functions  ********************************************************
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
@@ -43,23 +54,23 @@ function Company() {
         if (!result.status) {
           throw new Error(t(result.msg,{ns:"gralerrors"}));
         }
-
         const resp = await getCompanyDatafromContract(result.data.address, t);
         if (!resp.status) {
           throw new Error(resp.msg);
         }
 
-        const { company_RFPs, RFPsWins, RFPSent } = resp.data.company;
-        const rfpWon = parseInt(RFPsWins.length);
-        //const rfpSent = parseInt(RFPSent);
-        //const companyRFPs = company_RFPs.map((rfp) => parseInt(rfp))
+        let { company_RFPs, RFPsWins, RFPParticipations } = resp.data.company;
+        let RFPsWinings =   RFPsWins.map((rfp) => parseInt(rfp))
+        company_RFPs =      company_RFPs.map((rfp) => parseInt(rfp))
+        RFPParticipations = RFPParticipations.map((rfp) => parseInt(rfp))
+        // debuging
         //const rfpSent =  Array.from({ length: 2 + 1 }, (_, i) => i)
-        const rfpSent =  []
-        const companyRFPs =  Array.from({ length: 77 + 1 }, (_, i) => i)
+        //const rfpSent =  []
+        //const companyRFPs =  Array.from({ length: 77 + 1 }, (_, i) => i)
         setCompanyData({
-          rfpWon,
-          rfpSent,
-          companyRFPs,
+          RFPsWinings,
+          RFPParticipations,
+          company_RFPs,
           ...result.data
         });
       } catch (error) {
@@ -92,9 +103,9 @@ function Company() {
       "adminname",
       "email",
       "website",
-      "companyRFPs",
-      "rfpSent",
-      "rfpWon"
+      "company_RFPs",
+      "RFPParticipations",
+      "RFPsWinings"
     ];
 
 

@@ -1,4 +1,4 @@
-/**
+/**rfpWon
  * CompanyDataForm - Edit Profile Form
  *    When user clicks on Profile Menu at Account display, is presented with this  form to register rest of company data 
  *    to DB form (adminname, email and website). 
@@ -9,7 +9,8 @@
  *    Notice: As companyData in context has data for other components that won't be updated
  *            in the form, there is not need to pass them onto update (PATCH call to server) DB
  *            method at handleSave, so we  filter those out before updating, namely rfpWon,
- *            rfpSent and companyRFPs array
+ *            rfpSent and companyRFPs array NOTE SEPT 2023: these fields changed in contract and this app to:
+*            arrays RFPsWinings, RFPParticipations, company_RFPs,
 *
 */
 import { useState, useEffect } from "react"
@@ -142,7 +143,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
     const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
       // strips these keys as we don't want to overwrite their values, only editable fields allowable
-      if (!["rfpWon", "rfpSent", "companyRFPs", "profileCompleted"].includes(key)) {
+      if (!["RFPsWinings", "RFPParticipations", "company_RFPs", "profileCompleted"].includes(key)) {
         trimmedValues[key] = typeof value !== "undefined" ? value.trim() : "";
       }
     }

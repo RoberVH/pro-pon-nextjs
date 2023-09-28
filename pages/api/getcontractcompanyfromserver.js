@@ -25,7 +25,7 @@ export default async function handler(req, res) {
             id: company.id,
             name: company.name,
             country: company.country,
-            RFPSent: company.RFPSent,
+            RFPParticipations: company.RFPParticipations.map(bn => bn.toString()),
             RFPsWins:  company.RFPsWins.map(bn => bn.toString()),
             company_RFPs: company.company_RFPs.map(bn => bn.toString())
           }

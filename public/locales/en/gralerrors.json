@@ -49,5 +49,6 @@
     "invalid_email_format":"Invalid email format",
     "userreject": "User deny operation",
     "no_companyid":"No company Id was received",
-    "company_notfound":"Company was not found"
+    "company_notfound":"Company was not found",
+    "no_right_network":"Wrong Blockchain network"
 }

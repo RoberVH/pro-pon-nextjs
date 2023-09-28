@@ -179,5 +179,6 @@
     "compare_hash_file": "Cliquez pour comparer le hachage d'un fichier",
     "test": "Vérifier",
     "nomatch": "Pas de coïncidence",
-     "match": "Coïncider"
+     "match": "Coïncider",
+     "no_rfp_on_wrong_netwrok":"Impossible de récupérer des informations à partir du mauvais réseau. Veuillez passer au bon réseau et recharger la page (touche F5)"
 }

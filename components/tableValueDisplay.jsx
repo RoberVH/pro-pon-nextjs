@@ -5,8 +5,10 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
   const [popoverElements, setPopoverElements] = useState([]);
 
   const PopoverContent = ({ elements, handleShowRFP }) => (
-    <div className="absolute z-10 border border-gray-300 p-2 overflow-y-auto max-h-64 flex flex-col 
-                    items-center justify-center bg-slate-100">
+    <div
+      className="absolute z-10 border border-gray-300 p-2 overflow-y-auto max-h-64 flex flex-col
+                 items-center justify-center bg-slate-100"
+    >
       <span className="px-6 py-1 text-white  bg-slate-500 rounded-md">
         RFPs
       </span>
@@ -70,10 +72,10 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
             ))}
           {showPopover && (
             <div className="fixed inset-0 flex items-center justify-center z-50 ">
-                <PopoverContent
-                  elements={popoverElements}
-                  handleShowRFP={handleShowRFP}
-                />
+              <PopoverContent
+                elements={popoverElements}
+                handleShowRFP={handleShowRFP}
+              />
             </div>
           )}
         </>
