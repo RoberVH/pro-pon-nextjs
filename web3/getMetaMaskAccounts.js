@@ -2,7 +2,6 @@
  *  checkMMAccounts - check if we already  have  permissions to Metamask account
 *****************************************************************/
 export const checkMMAccounts = async (setAddress) => {
-  console.log('getmetamask called!!')
   if (typeof window === "undefined" || !window.ethereum) {
         return;
       }

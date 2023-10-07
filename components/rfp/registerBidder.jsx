@@ -461,6 +461,7 @@ const RegisterBidder = ({
   /************************* MAIN JSX ******************************************************** */
   return (
     <div className="p-1">
+
       {showModalNotifications && (
         <ModalWindow
           setFlag={setShowModalNotifications}

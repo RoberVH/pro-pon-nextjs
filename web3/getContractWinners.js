@@ -10,7 +10,6 @@ import { ethers } from 'ethers'
  *    if empty, returns the record with empty values
  */
 
-//const NullAddress='0x0000000000000000000000000000000000000000'
 const NullAddress=ethers.constants.AddressZero
 
 export const getContractWinners = async (RFPIndex) => {

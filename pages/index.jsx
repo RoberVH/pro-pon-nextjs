@@ -386,6 +386,15 @@ function LandingPage() {
             </div>
           </div>
         </div>
+        { (address && !companyData?.companyname) &&
+          <div className="my-16   mx-48 rounded-md  shadow-md
+          absolut  flex justify-center   bg-repeat "
+          style={{ backgroundImage: 'url("/circuit-board.svg")' }}>
+            <button className="flashy-main-btn m-8" onClick={handlesignIn}>
+            {t("signup")}
+          </button>
+          </div>
+          }
 
         <div
           id="informative-intro-cards"
@@ -568,7 +577,7 @@ function LandingPage() {
         <div
           id="resources-subsection"
           className="mt-12 flex justify-center space-x-4 items-center p-16 rounded-xl
-          bg-gradient-to-l from-blue-200 to-blue-200 via-stone-800"
+          bg-gradient-to-l from-orange-100 to-orange-100 via-stone-800"
         >
           <div id="guide-card" className="pr-8">
             <Card

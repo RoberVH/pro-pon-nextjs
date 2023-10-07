@@ -12,7 +12,6 @@ export const getCompanyDatafromContract = async (address, t) => {
     if (address & window.ethereum) {
         const result= await getContractCompanyData(address)
         if (result.status) {
-            console.log('getCompanyDatafromContract result',result)
             return {data: result.data}
         }
     } else {
@@ -26,7 +25,6 @@ export const getCompanyDatafromContract = async (address, t) => {
             const msgErr= parseWeb3Error(t, resp.error)
                 return({status:false, msg:msgErr})
             }        
-            console.log('getCompanyDatafromContract result',resp)
             return {status:true, data:  resp}
         } catch (error) {
             const msgErr= parseWeb3Error(t, error)

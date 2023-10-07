@@ -26,9 +26,8 @@ export const getRFPsbyCompanyAddress = async (companyAddress) => {
         // of an RFP record (name, description, website, etc.) along with the rfpIndex 
         // property substitute by its corresponding integer value.
         const RFPsArray = await Promise.all(RFPs.map(async (rfp) => {
-            const rfpId = rfp.toNumber(); // convert BigNumber to integer
-            const rfpRecord = await proponContract.getRFPbyIndex(rfpId);
-            return { ...rfpRecord, rfpIndex: rfpId };
+            const rfpRecord = await proponContract.getRFPbyIndex(rfp);
+            return { ...rfpRecord, rfpIndex: rfp };
         }))
         return { status: true, RFPs:RFPsArray }
   } catch (error) {

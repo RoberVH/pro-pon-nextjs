@@ -12,6 +12,7 @@
     "closebutton":"Close",
     "Copied_clipboard":"Copied to Clipboard",
     "rfpform": {
+        "index":"Index",
         "companyId":"Company Id",
         "companyname":"Company Name",
         "name":"Request for Proposal Id",
@@ -181,4 +182,4 @@
     "nomatch":"Match",
     "match":"No match",
     "no_rfp_on_wrong_netwrok":"Information cannot be retrieved from the wrong network. Please switch to the correct network and reload the page (F5 key)"
-}
+ }

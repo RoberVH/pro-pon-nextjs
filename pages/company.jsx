@@ -5,94 +5,88 @@
  *    to display company in a table
  */
 
-import React, { useContext, useEffect, useState } from "react";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { proponContext } from "../utils/pro-poncontext";
-import { Warning } from "../components/layouts/warning";
-import { getCompanydataDB } from "../database/dbOperations";
-import { getCompanyDatafromContract } from "../web3/getCompanyDatafromContract";
-import { toastStyle } from "../styles/toastStyle";
-import { toast } from "react-toastify";
-import { buildRFPURL } from "../utils/buildRFPURL";
-import Spinner from "../components/layouts/Spinner";
-import TableValueDisplay from "../components/tableValueDisplay";
+import React, { useContext, useEffect, useState } from "react"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { proponContext } from "../utils/pro-poncontext"
+import { Warning } from "../components/layouts/warning"
+import { getCompanydataDB } from "../database/dbOperations"
+import { getCompanyDatafromContract } from "../web3/getCompanyDatafromContract"
+import { toastStyle } from "../styles/toastStyle"
+import { toast } from "react-toastify"
+import { buildRFPURL } from "../utils/buildRFPURL"
+import Spinner from "../components/layouts/Spinner"
+import TableValueDisplay from "../components/tableValueDisplay"
+import { getRFPCompanyIssuer } from "../web3/getRFPCompanyIssuer"
 
 function Company() {
-  const [companyData, setCompanyData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedCompanyData, setSelCompanyData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  
+  const router = useRouter()
+  const { companyid } = router.query
+  const { t } = useTranslation(["companies", "gralerrors", "common","rfps","menus"])
+  
+  const { address } = useContext(proponContext)
 
-  const router = useRouter();
-  const { companyid } = router.query;
-  const { t } = useTranslation(["companies", "gralerrors", "common","rfps","menus"]);
-  const { address } = useContext(proponContext);
 
-
-  /**
-   * 
-      "companyRFPs",
-      "rfpSent",
-      "rfpWon"
-      --------------------
-      "companyIssuedRFPs",
-      "RFPresponses",
-      "RFPsWinings"
-   */
-  // utility functions  ********************************************************
+    // utility functions  ********************************************************
   const errToasterBox = (msj) => {
-    toast.error(msj, toastStyle);
-  };
+    toast.error(msj, toastStyle)
+  }
 
   // hooks  ********************************************************
   useEffect(() => {
     async function fetchData() {
       try {
-        if (!companyid) throw new Error(t("no_companyid",{ns:"gralerrors"}));
-
-        const result = await getCompanydataDB(companyid);
+        if (!companyid) {
+          throw new Error(t("no_companyid",{ns:"gralerrors"}))
+        }
+        const result = await getCompanydataDB(companyid)
         if (!result.status) {
-          throw new Error(t(result.msg,{ns:"gralerrors"}));
+          throw new Error(t(result.msg,{ns:"gralerrors"}))
         }
-        const resp = await getCompanyDatafromContract(result.data.address, t);
+        const resp = await getCompanyDatafromContract(result.data.address, t)
         if (!resp.status) {
-          throw new Error(resp.msg);
+          throw new Error(resp.msg)
         }
 
-        let { company_RFPs, RFPsWins, RFPParticipations } = resp.data.company;
+        let { company_RFPs, RFPsWins, RFPParticipations } = resp.data.company
         let RFPsWinings =   RFPsWins.map((rfp) => parseInt(rfp))
         company_RFPs =      company_RFPs.map((rfp) => parseInt(rfp))
         RFPParticipations = RFPParticipations.map((rfp) => parseInt(rfp))
-        // debuging
-        //const rfpSent =  Array.from({ length: 2 + 1 }, (_, i) => i)
-        //const rfpSent =  []
-        //const companyRFPs =  Array.from({ length: 77 + 1 }, (_, i) => i)
-        setCompanyData({
+        setSelCompanyData({
           RFPsWinings,
           RFPParticipations,
           company_RFPs,
           ...result.data
-        });
+        })
       } catch (error) {
-        errToasterBox(error.message);
+        errToasterBox(error.message)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     }
+      fetchData()
+  }, [companyid])
 
-    fetchData();
-  }, []);
+
 
   //  handlers     ****************************************************************************
-  const handleShowRFP = (rfpidx) => {
+  const handleShowRFP = async (rfpidx) => {
+    // need to get owner company of Selected RFP
+    // get Companyname and companyId with rfpIdx
+    const CompanyRFPIssuer = await getRFPCompanyIssuer( rfpidx,t)
+    const {id, name} = CompanyRFPIssuer.data
     const urlLine = {
-      companyId: companyData.companyId,
-      companyname: companyData.companyname,
+      companyId: id,
+      companyname: name,
       rfpidx: rfpidx
-    };
-    const rfphomeparams = buildRFPURL(urlLine);
-    router.push("/homerfp?" + rfphomeparams);
-  };
+    }
+    const rfphomeparams = buildRFPURL(urlLine)
+    router.push("/homerfp?" + rfphomeparams)
+  }
 
   const CompanyTable = () => {
     const fieldOrder = [
@@ -106,13 +100,13 @@ function Company() {
       "company_RFPs",
       "RFPParticipations",
       "RFPsWinings"
-    ];
+    ]
 
 
     return (
       <>
         {fieldOrder.map((key) => {
-          const value = companyData[key];
+          const value = selectedCompanyData[key]
           if (value !== undefined && key !== "_id") {
             return (
               <tr key={key} className="border-b-[1px] border-slate-200">
@@ -123,12 +117,12 @@ function Company() {
                   <TableValueDisplay value={value} handleShowRFP={handleShowRFP} t={t} RFP_INTERVAL={5} />                  
                 </td>
               </tr>
-            );
+            )
           }
         })}
       </>
-    );
-  };
+    )
+  }
 
   // Returning  component JSX *******************************************************
   if (isLoading) {
@@ -136,11 +130,11 @@ function Company() {
       <div className="mt-24 mb-4">
         <Spinner />
       </div>
-    );
+    )
   }
 
-  if (!companyData) {
-    return <Warning title={t("company_notfound",{ns:"gralerrors"})} />;
+  if (!selectedCompanyData) {
+    return <Warning title={t("company_notfound",{ns:"gralerrors"})} />
   }
 
   return (
@@ -150,7 +144,7 @@ function Company() {
           <tr className="bg-slate-500">
             <th className="w-1/5 text-center p-4 border-b-[1px]   text-white rounded-tl-xl "></th>
             <th className="w-4/5 text-left p-4 border-b-[1px]   text-white rounded-tr-xl">
-              {companyData.companyname}
+              {selectedCompanyData.companyname}
             </th>
           </tr>
         </thead>
@@ -163,7 +157,7 @@ function Company() {
         </tbody>
       </table>
     </section>
-  );
+  )
 }
 
 export async function getStaticProps({ locale }) {
@@ -177,7 +171,7 @@ export async function getStaticProps({ locale }) {
         "menus"
       ]))
     }
-  };
+  }
 }
 
-export default Company;
+export default Company

@@ -6,7 +6,7 @@
     "website": "Sitio web",
     "country": "País",
     "noresults":"No hay resultados",
-    "RFPsWinings":"RFP Ganados",
+    "RFPsWinings":"Ganados",
     "reset_search":"Restablecer Búsquedas",
     "profileCompleted":"Perfil Completo",
     "address":"Cuenta",
@@ -16,5 +16,6 @@
     "no":"No",
     "total":"Total",
     "showrfps":"Mostrar RFPs",
-    "gotorfp":"Ir a RFP"
+    "gotorfp":"Ir a RFP",
+    "not_available":"Información no disponible, haga clic para ir a RFP"
 }

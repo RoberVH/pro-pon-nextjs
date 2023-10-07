@@ -1,11 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { getRFPIdentityDataProvider } from "../web3/getRFPIdentityDataProvider";
+import { getRFPIdentityDataServer } from "../web3/getRFPIdentityDataServer";
 
 const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
   const [showPopover, setShowPopover] = useState(false);
   const [popoverElements, setPopoverElements] = useState([]);
 
-  const PopoverContent = ({ elements, handleShowRFP }) => (
-    <div
+
+  //const [rfpData, setRFPData] = useState([])
+  const rfpData=useRef(null)
+
+  const PopoverContent = ({ elements, handleShowRFP }) => {
+    const [isDataFetched, setIsDataFetched] = useState(false);
+  useEffect(()=>{
+    let isMounted = true
+    async function fetchRFPData() {
+      
+      const data = await Promise.all(elements.map(async (element) => {
+        if (window.ethereum)
+          return getRFPIdentityDataProvider(element)
+        else {
+        return getRFPIdentityDataServer(element)}
+      }))
+      // because changes to smart contract we need to remeber that
+      // props from Smart Contract mean different than UI. name ion contract mean RFP Id, and description in contract mean RFP Name
+      if (isMounted) {
+        const rfpIdData = data.map(elem => 
+          elem.status 
+          ? {idx: parseInt(elem.RFP.rfpIndex) , tag: `${elem.RFP.name} | ${elem.RFP.description}`} 
+          : t("not_available")
+        )
+        rfpData.current=rfpIdData
+        setIsDataFetched(true)
+      }
+    }
+
+    fetchRFPData()
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  
+  const tagsRFP = (idx) => {
+    if (isDataFetched && rfpData.current && Array.isArray(rfpData.current) && rfpData.current.length > 0) {
+      const foundElement = rfpData.current.find(element => element.idx === idx)
+      return foundElement ? foundElement.tag : t("gotorfp")
+    }
+  }
+
+  return (
+      <div
       className="absolute z-10 border border-gray-300 p-2 overflow-y-auto max-h-64 flex flex-col
                  items-center justify-center bg-slate-100"
     >
@@ -14,7 +59,7 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
       </span>
       {elements.map((rfpidx, index) => (
         <div
-          title={t("gotorfp")}
+          title={tagsRFP(rfpidx)}
           key={index}
           className="cursor-pointer hover:bg-gray-200 p-1"
           onClick={() => handleShowRFP(rfpidx)}
@@ -29,7 +74,7 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
         {t("close", { ns: "common" })}
       </button>
     </div>
-  );
+  )};
 
   const handlePopover = (elements) => {
     setPopoverElements(elements);
@@ -70,7 +115,7 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
                 &nbsp;{`[${group[0]}-${group[group.length - 1]}]`}&nbsp;
               </span>
             ))}
-          {showPopover && (
+          {showPopover &&  (
             <div className="fixed inset-0 flex items-center justify-center z-50 ">
               <PopoverContent
                 elements={popoverElements}

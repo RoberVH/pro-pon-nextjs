@@ -56,6 +56,8 @@ useEffect(()=>{
   async  function getCompanyRFPs()  {
     if (address) {
       const result = await getRFPsbyCompanyAddress(address)
+      console.log('address',address)
+      console.log('result',result)
       if (result.status) {
         setContractRFPs(result.RFPs)
       }

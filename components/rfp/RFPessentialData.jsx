@@ -4,6 +4,7 @@ import { TableIcon } from "@heroicons/react/outline";
 import { openContest, inviteContest } from "../../utils/constants";
 
 function RFPessentialData({ t, rfpRecord }) {
+  console.log(rfpRecord)
 
   const TableEntryBadge = ({ contestType, title, value  }) => (
     <tr>
@@ -60,6 +61,10 @@ function RFPessentialData({ t, rfpRecord }) {
                 : t("invitation")
             }
             contestType={rfpRecord.contestType}
+          />
+          <TableEntry
+            title={t("rfpform.index")}
+            value={rfpRecord.rfpIndex}
           />
           <TableEntry
             title={t("rfpform.companyId")}

@@ -12,6 +12,7 @@
     "closebutton":"Fermer",
     "Copied_clipboard":"Copié dans le presse-papiers",
     "rfpform": {
+        "index":"Index",
         "companyId": "Identifiant de l'entreprise",
         "companyname": "Nom de l'entreprise",
         "name":"Id de la demande de propositions (RFP)",
@@ -181,4 +182,5 @@
     "nomatch": "Pas de coïncidence",
      "match": "Coïncider",
      "no_rfp_on_wrong_netwrok":"Impossible de récupérer des informations à partir du mauvais réseau. Veuillez passer au bon réseau et recharger la page (touche F5)"
+    
 }

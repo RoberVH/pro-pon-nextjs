@@ -12,6 +12,7 @@
     "closebutton":"Cerrar",
     "Copied_clipboard":"Copiado al portapales",
     "rfpform": {
+        "index":"Índice",
         "companyId":"Identificación de la empresa",
         "companyname":"Nombre de la empresa",
         "name":"Id de la Solicitud de propuestas (RFP)",
@@ -183,4 +184,5 @@
     "nomatch":"No coincide",
     "match":"Coincide",
     "no_rfp_on_wrong_netwrok":"No se puede obtener información desde una red incorrecta. Por favor, cambie a la red correcta y recargue la página (tecla F5)"
+    
 }
