@@ -7,16 +7,18 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
   const [popoverElements, setPopoverElements] = useState([]);
 
 
-  //const [rfpData, setRFPData] = useState([])
   const rfpData=useRef(null)
 
   const PopoverContent = ({ elements, handleShowRFP }) => {
-    const [isDataFetched, setIsDataFetched] = useState(false);
+  const [isDataFetched, setIsDataFetched] = useState(false)
+
   useEffect(()=>{
     let isMounted = true
     async function fetchRFPData() {
       
       const data = await Promise.all(elements.map(async (element) => {
+        // if a etheruem provider wallet exists (Metamask) use it to retrieve data, otherwise we must be dealing
+        // with a read-onmly user, then retrieve data through out server alchemy link provider
         if (window.ethereum)
           return getRFPIdentityDataProvider(element)
         else {
@@ -27,7 +29,7 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
       if (isMounted) {
         const rfpIdData = data.map(elem => 
           elem.status 
-          ? {idx: parseInt(elem.RFP.rfpIndex) , tag: `${elem.RFP.name} | ${elem.RFP.description}`} 
+          ? {idx: parseInt(elem.RFP.rfpIndex), tag: `${elem.RFP.name} | ${elem.RFP.description}`} 
           : t("not_available")
         )
         rfpData.current=rfpIdData
