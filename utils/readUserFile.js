@@ -7,7 +7,6 @@ export const  readUserFile= () => {
         const file = input.files[0];
         const reader = new FileReader();
         reader.onload = () => {
-            console.log(file)
           resolve({
             status: true,
             content: reader.result,

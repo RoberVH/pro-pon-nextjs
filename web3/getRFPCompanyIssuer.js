@@ -18,7 +18,6 @@ export const getRFPCompanyIssuer = async ( rfpidx, t) => {
         const proponContract = await getProponContract()
         const issuerAddress = await proponContract.getRFPIssuer(rfpidx)
         const result= await getContractCompanyData(issuerAddress)
-        console.log('rama if getContractCompanyData obtuve:' , result)
         if (result.status) {
             return {data: result.data}
         }
@@ -28,7 +27,6 @@ export const getRFPCompanyIssuer = async ( rfpidx, t) => {
             let url=`/api/getrfpissuercompanyfromserver?${params}`
             let response = await fetch(url,{method: 'GET'})
             let resp = await response.json()
-            console.log('rama else resp', resp)
             if (!resp.status) {
                 const msgErr= parseWeb3Error(t, resp.error)
                     return({status:false, msg:msgErr})
@@ -38,7 +36,6 @@ export const getRFPCompanyIssuer = async ( rfpidx, t) => {
              url=`/api/getcontractcompanyfromserver?${params}`
             response = await fetch(url,{method: 'GET'})
             resp = await response.json()
-            console.log('rama else resp 2da', resp)
             if (!resp.status) {
             const msgErr= parseWeb3Error(t, resp.error)
                 return({status:false, msg:msgErr})

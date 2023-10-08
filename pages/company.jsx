@@ -19,6 +19,8 @@ import { buildRFPURL } from "../utils/buildRFPURL"
 import Spinner from "../components/layouts/Spinner"
 import TableValueDisplay from "../components/tableValueDisplay"
 import { getRFPCompanyIssuer } from "../web3/getRFPCompanyIssuer"
+import { parseWeb3Error } from "../utils/parseWeb3Error"
+
 
 function Company() {
   const [selectedCompanyData, setSelCompanyData] = useState(null)
@@ -28,7 +30,8 @@ function Company() {
   const { companyid } = router.query
   const { t } = useTranslation(["companies", "gralerrors", "common","rfps","menus"])
   
-  const { address } = useContext(proponContext)
+  const {  noRightNetwork, noWallet } = useContext(proponContext)
+  
 
 
     // utility functions  ********************************************************
@@ -47,27 +50,40 @@ function Company() {
         if (!result.status) {
           throw new Error(t(result.msg,{ns:"gralerrors"}))
         }
-        const resp = await getCompanyDatafromContract(result.data.address, t)
-        if (!resp.status) {
-          throw new Error(resp.msg)
+        if (window.ethereum && !window.ethereum.selectedAddress) {
+          // MetaMask is not connected, request access
+          await window.ethereum.enable()
+        } else {
+          // if there is wallet and not connected to right network raise error
+          if (noRightNetwork && !noWallet) {
+            throw new Error("no_right_network")
+          } 
+          // all ok, go ahead 
+          const resp = await getCompanyDatafromContract(result.data.address, t)
+          if (!resp.status) {
+            throw new Error(resp.msg)
+          }
+          // This destructuring is because we are using a legacy function depending if it is using local provider or server alchemy prov
+          let sourceData = resp.data.company ? resp.data.company : resp.data  
+          let { company_RFPs, RFPsWins, RFPParticipations } = sourceData
+          let RFPsWinings =   RFPsWins.map((rfp) => parseInt(rfp))
+          company_RFPs =      company_RFPs.map((rfp) => parseInt(rfp))
+          RFPParticipations = RFPParticipations.map((rfp) => parseInt(rfp))
+          setSelCompanyData({
+            RFPsWinings,
+            RFPParticipations,
+            company_RFPs,
+            ...result.data
+          })
         }
-
-        let { company_RFPs, RFPsWins, RFPParticipations } = resp.data.company
-        let RFPsWinings =   RFPsWins.map((rfp) => parseInt(rfp))
-        company_RFPs =      company_RFPs.map((rfp) => parseInt(rfp))
-        RFPParticipations = RFPParticipations.map((rfp) => parseInt(rfp))
-        setSelCompanyData({
-          RFPsWinings,
-          RFPParticipations,
-          company_RFPs,
-          ...result.data
-        })
-      } catch (error) {
-        errToasterBox(error.message)
+    } catch (error) {
+        const customError = parseWeb3Error(t, error)
+        errToasterBox(customError)
       } finally {
         setIsLoading(false)
       }
     }
+      setIsLoading(true)
       fetchData()
   }, [companyid])
 
@@ -160,7 +176,8 @@ function Company() {
   )
 }
 
-export async function getStaticProps({ locale }) {
+//export async function getStaticProps({ locale }) {
+  export async function getServerSideProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, [

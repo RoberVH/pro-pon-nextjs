@@ -42,53 +42,6 @@ export const sendWarningServer = async (msgType, msg) => {
   }
 };
 
-// select an Email Subject Line based on selector
-// export const emailHTMLText = (
-//   rfpDescriptor,
-//   companyid,
-//   rfpname,
-//   rfpid,
-//   hostcompany,
-//   lang,
-//   notiftype
-// ) => {
-//   let textHTML, subjectLine;
-//   const rfplink = `https://www.propon.me/es/homerfp?companyId=${encodeURIComponent(
-//     companyid
-//   )}&companyname=${encodeURIComponent(hostcompany)}&rfpidx=${rfpid}`
-//   console.log("emailHTMLText", notiftype);
-//   switch (notiftype) {
-//     case "notifnonRegCompanyOfInvRFP":
-//     case "notifnonRegCompanyOfOpenRFP":
-//       textHTML = invRFPHTML(
-//         rfpDescriptor,
-//         rfpid,
-//         rfpname,
-//         hostcompany,
-//         rfplink,
-//         lang,
-//         notiftype
-//       );
-//       subjectLine = SubjetNotifRFP[lang][notiftype];
-//       return { textHTML, subjectLine };
-//       break;
-//     case "notifRegCompanyOfOpenRFP":
-//     case "notifInvitedCompanyToRFP":
-//       textHTML = invRFPHTML(
-//         rfpDescriptor,
-//         rfpid,
-//         rfpname,
-//         hostcompany,
-//         rfplink,
-//         lang,
-//         notiftype
-//       );
-//       subjectLine = SubjetNotifRFP[lang][notiftype];
-//       return { textHTML, subjectLine };
-//       break;
-//     case "notifToRegisterToPropon":
-//   }
-// };
 
 export const validateEmails = (emailArray) => {
   // Define the regular expression for basic email validation

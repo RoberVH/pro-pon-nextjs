@@ -4,8 +4,6 @@ import { TableIcon } from "@heroicons/react/outline";
 import { openContest, inviteContest } from "../../utils/constants";
 
 function RFPessentialData({ t, rfpRecord }) {
-  console.log(rfpRecord)
-
   const TableEntryBadge = ({ contestType, title, value  }) => (
     <tr>
       <td className="w-[9em] pb-2 ">

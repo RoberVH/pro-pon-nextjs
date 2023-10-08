@@ -186,15 +186,6 @@ function HomeRFP() {
         )
           return <GralMsg title={t("invitation_rfp")} /> // a not participating company is logged and this is an invitation contest
 
-        /*********************Comentado para agregar notif a empresas ************************************************************ */
-        // if (
-        //   Number(rfpRecord.contestType) === openContest &&
-        //   companyData.companyId === rfpRecord.companyId
-        // )
-        //   // Open contest and address it's owner's
-        //   return <GralMsg title={t("owner_open_rfp_recordbidders")} />
-        /***************************************************************************************************************************** */
-
         // all ok, show Register component
         return (
           <RegisterBidder

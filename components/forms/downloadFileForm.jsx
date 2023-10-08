@@ -92,10 +92,8 @@ const DownloadFileForm = ({
 
   const handleTestFile = async (originalHash) => {
     const result = await readUserFile();
-    console.log(result);
 
     const hash = await sha512(result.content);
-    console.log("hash:", hash);
     const check = hash === originalHash;
     if (check) toast.success(`<${result.filename}> ${t('match')}`);
     else {

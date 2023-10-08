@@ -29,7 +29,6 @@ export const useBidders = () => {
                         return {status:true}
                 }
                 const results=await getDBCompaniesbyAddress(participants.bidders)
-                //console.log('useBidder getDBCompaniesbyaddress',participants.bidders)
                 setCompanies(results)
                 setDoneLookingBidders(true)}       
             return {status:true}
