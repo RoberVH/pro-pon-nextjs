@@ -1,21 +1,37 @@
-import { useState, useEffect }from 'react'
+/**
+ * input-controls/InputCountrySel 
+ *     Display a user-selected language dropdow box to choose a country for
+ *    Is used by components/forms/signUpcompanyDataForm.jsx
+ *    When company is being  registered, allow to select a Country from the list and save it when selected to 
+ *    state vales using handleChange passed prop method
+ *    When used to display a Company in profile editing, only shows on Select component the prop companyData.contry
+ *    and  disables the entry
+ */
+
+import { useState, useEffect } from "react";
 import countries from "i18n-iso-countries";
 import english from "i18n-iso-countries/langs/en.json";
 import spanish from "i18n-iso-countries/langs/es.json";
 import french from "i18n-iso-countries/langs/fr.json";
-import { companyIdPlaceHolder } from '../../utils/constants'
+import { companyIdPlaceHolder } from "../../utils/constants";
 
 countries.registerLocale(english);
 countries.registerLocale(spanish);
-countries.registerLocale(french);    
+countries.registerLocale(french);
 
+export const InputCountrySel = ({
+  t,
+  handleChange,
+  values,
+  i18n,
+  setPlaceHolder,
+  companyData,
+  profileCompleted,
+  disable,
+}) => {
+  const [countryList, setCountryList] = useState([]);
 
-
-export const InputCountrySel = ({t, handleChange, values, i18n, setPlaceHolder,
-   companyData, profileCompleted, disable}) => {
-    const [countryList, setCountryList] = useState([]);
-
-useEffect(() => {
+  useEffect(() => {
     function changeLanguage() {
       const lang = i18n.language;
       const countryGen = countries.getNames(lang);
@@ -37,37 +53,41 @@ useEffect(() => {
     changeLanguage();
   }, [i18n.language]);
 
-  useEffect(()=>{
-    const solveCountry = async(valueCountry) => {
-        if (typeof companyIdPlaceHolder[valueCountry]!== 'undefined') setPlaceHolder(companyIdPlaceHolder[valueCountry])
-        else setPlaceHolder('companyId')
-    }
-    solveCountry(values.country)
-},[values.country, setPlaceHolder])
+  useEffect(() => {
+    const solveCountry = async (valueCountry) => {
+      if (typeof companyIdPlaceHolder[valueCountry] !== "undefined")
+        setPlaceHolder(companyIdPlaceHolder[valueCountry]);
+      else setPlaceHolder("companyId");
+    };
+    solveCountry(values.country);
+  }, [values.country, setPlaceHolder]);
 
-return (
+  return (
     <select
       className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-stone-100 bg-clip-padding
-            bg-no-repeat border border-solid border-gray-300 outline-none transition ease-in-out
-            border-grey-light rounded rounded-l-none focus:bg-blue-100 
+                bg-no-repeat border border-solid border-gray-300 outline-none transition ease-in-out
+                border-grey-light rounded rounded-l-none focus:bg-blue-100 
               text-black  font-khula"
       onChange={handleChange}
       id={"country"}
       disabled={disable}
-      value={profileCompleted ? companyData.country: values.country}>
-        <option value={"default"} >
-          {!profileCompleted
-            ? `${t("companyform.country")}*`
-            : companyData.country}
+      value={profileCompleted ? companyData.country : values.country}
+    >
+      <option value={"default"}>
+        {!profileCompleted
+          ? `${t("companyform.country")}*`
+          : companyData.country}
+      </option>
+      {countryList.map((country, index) => (
+        <option
+          key={index}
+          value={countries.getAlpha3Code(country, i18n.language)}
+        >
+          {country}
         </option>
-        {countryList.map((country, index) => (
-          <option key={index} value={countries.getAlpha3Code(country,i18n.language)}>
-            {country}
-          </option>
       ))}
-  </select>
-)
+    </select>
+  );
+};
 
-}
-
-export default InputCountrySel
+export default InputCountrySel;

@@ -1,3 +1,13 @@
+/**
+ *  components/InputCountrySel.jsx
+ *     Display a user-selected language dropdow box to choose a country for
+ *    Is used by components components/SearchDB.jsx
+ *    When company is being  searched, allow to select a Country from the list and save it when selected to 
+ *    state vales using handleChange passed prop method
+ *    for Search component the existing input-controls/InputCountrySel component was not used because was hard 
+ *    to adapt it to this use case when there is not disabling if in profile editing mode
+ */
+
 import { useState, useEffect }from 'react'
 import countries from "i18n-iso-countries";
 import english from "i18n-iso-countries/langs/en.json";
@@ -37,11 +47,10 @@ useEffect(() => {
 
 
 return (
-    <select className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none w-2/3
+  <select className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none w-2/3
                        p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8 bg-white"
     onChange={handleChange}
     id={"country"}
-    defaultValue={"default"}
     value={values.country}
   >
     <option value={"default"} >

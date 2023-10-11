@@ -60,7 +60,7 @@ function HomeRFP() {
   const router = useRouter()
   const { t } = useTranslation(["rfps", "gralerrors"])
   const t_companies = useTranslation("companies").t // tp search for companies when inviting them
-  const { companyId, companyname, rfpidx } = router.query
+  let { companyId, companyname, rfpidx } = router.query
 
   //Next line  because we'll need to be able to search for Companies when inviting them to contest
   // this is because deep in the hierarchy, there is a control to search countries that is displayed in the selected language
@@ -74,6 +74,16 @@ function HomeRFP() {
   }
 
   //  Hooks ******************************************************************
+
+  
+  const reReadUrlParams = () => {
+      const urlParams = new URLSearchParams(window.location.search)
+      companyId = urlParams.get("companyId")
+      companyname = decodeURIComponent(urlParams.get("companyname") || "")
+      rfpidx = urlParams.get("rfpidx")
+    }
+  
+  
 
   //save to DB pending Transactions
   useEffect(() => {
@@ -115,9 +125,9 @@ function HomeRFP() {
         } else {
           // if there is wallet and not connected to right network raise error
           if (noRightNetwork && !noWallet)
-              result = { status: false, message: "no_right_network" }
-          else// all ok, go ahead and get RFP from contract
-              result = await getContractRFP(rfpidx)
+            result = { status: false, message: "no_right_network" }
+          // all ok, go ahead and get RFP from contract
+          else result = await getContractRFP(rfpidx)
         }
       } else {
         result = await getContractRFPFromServer(rfpidx)
@@ -147,9 +157,10 @@ function HomeRFP() {
       }
       setRfpRecord(RFP)
     }
+    reReadUrlParams()
     getRFP()
     setloading(false)
-  }, [companyId, companyname, rfpidx])
+  }, [ i18n.language])
 
   //  Inner Components ******************************************************************
 
@@ -321,7 +332,8 @@ function HomeRFP() {
   )
 }
 
-export async function getStaticProps({ locale }) {
+//export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, [

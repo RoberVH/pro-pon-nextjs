@@ -1,3 +1,9 @@
+/**
+ *  api/send-emails
+*     Constructs email based on templates accordig to type of notification passed on parameters (calls method invRFPHTML)
+*    Send notifications email to all emails sent in the recipients param
+ */
+
 const mailjet = require("node-mailjet").apiConnect(
   process.env.MAILJET_API_KEY,
   process.env.MAILJET_API_SECRET
@@ -81,7 +87,6 @@ export default async function handler(req, res) {
 
     res.status(201).json({ status: true, message: "ok" });
   } catch (err) {
-
     res.status(501).json({ status: false, message: err.message });
   }
 }

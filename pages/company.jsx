@@ -27,8 +27,8 @@ function Company() {
   const [isLoading, setIsLoading] = useState(true)
   
   const router = useRouter()
-  const { companyid } = router.query
-  const { t } = useTranslation(["companies", "gralerrors", "common","rfps","menus"])
+  let { companyid } = router.query
+  const { t, i18n } = useTranslation(["companies", "gralerrors", "common","rfps","menus"])
   
   const {  noRightNetwork, noWallet } = useContext(proponContext)
   
@@ -39,11 +39,18 @@ function Company() {
     toast.error(msj, toastStyle)
   }
 
+  const reloadParam = () => {
+    const urlParams = new URLSearchParams(window.location.search)
+    //companyid = decodeURIComponent(urlParams.get("companyid"))
+    companyid = urlParams.get("companyid")
+  }
+
   // hooks  ********************************************************
   useEffect(() => {
     async function fetchData() {
       try {
-        if (!companyid) {
+        if (!companyid) reloadParam() // it comes from a language change and we need to reload URL params
+        if (!companyid) { // check if parameter companyid is really on url
           throw new Error(t("no_companyid",{ns:"gralerrors"}))
         }
         const result = await getCompanydataDB(companyid)
@@ -85,7 +92,7 @@ function Company() {
     }
       setIsLoading(true)
       fetchData()
-  }, [companyid])
+  }, [i18n.language])
 
 
 
