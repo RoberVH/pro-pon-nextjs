@@ -397,7 +397,7 @@ const HeadBar = () => {
       return (
         <div
           id="navigation"
-          className="bg-yellow-200 antialiased  px-2 pt-4 pb-4 rounded-lg "
+          className=" antialiased  px-2 pt-1 pb-4 rounded-lg "
         >
           <NoMetamaskWarning
             msg={t("metamaskwarning", { ns: "common" })}
