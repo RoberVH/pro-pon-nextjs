@@ -42,7 +42,6 @@ function DisplayResults({
   };
   // if not results return informative msg
   if (!results.length) return;
-  //<div className="text-red-600 text-xl">{t("noresults")}</div>; // we won't check later if there are results
   // There are results. display them
   return (
     <div className="text-sm">

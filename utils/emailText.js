@@ -1,4 +1,4 @@
-/**********************  email constants and templates ********************************** */
+/**********************  email constants definitions and templates for email notifications ********************************** */
 
 export const notifTypes = {
     notif_InvitedCompanyRFP: "notifInvitedCompanyToRFP", // (Automatic) A company was registered by the Issuer for an RFP, automatically sent to the already registered to Propon companies invitation and link to RFP
@@ -6,8 +6,9 @@ export const notifTypes = {
     notif_noRegCompanyInvRFP: "notifnonRegCompanyOfInvRFP", // (Manual) An Issuer company notify a non registered Company of an Invitation RFP
     notif_noRegCompanyOpenRFP: "notifnonRegCompanyOfOpenRFP", // (Manual) An Issuer company notify a non registered candidate Company of an open RFP
     notif_ToRegPropon: "notifToRegisterToPropon", // A notification to a company to invite them to register to Propon
-    notif_ToIssuerOpenRFP:"notifToIssuerOpenRFPcompanyRegstred" // A notification to an Issuer of an Open RFP that a company has registered to it
-    //notifDocumentUploaded: "notifDocumentUploaded", // A notification to all participants/Issuer that  documents have been uploaded
+    notif_ToIssuerOpenRFP:"notifToIssuerOpenRFPcompanyRegstred", // A notification to an Issuer of an Open RFP that a company has registered to it
+    notifDocumentUploaded: "notifDocumentUploaded", // A notification to all participants/Issuer that  documents have been uploaded
+    notif_RFPDeclared: "notifRFPDeclared"
   };
   
   export const SubjetNotifRFP = {
@@ -17,7 +18,8 @@ export const notifTypes = {
       notifnonRegCompanyOfInvRFP: "Únete a Propon.me y participa en la Licitación por Invitación ",
       notifnonRegCompanyOfOpenRFP: "Invitación a licitación abierta: Regístrate en Propon.me y presenta tu propuesta para ",
       notifToIssuerOpenRFPcompanyRegstred:"Tienes un nuevo participante en tu Licitatión abierta ",
-      notifToRegisterToPropon: "Transforma tus Licitaciones con Propon.me: ¡Regístrate Hoy!"
+      notifToRegisterToPropon: "Transforma tus Licitaciones con Propon.me: ¡Regístrate Hoy!",
+      notifRFPDeclared:"Este RFP en el que participas ha sido declarado: "
     },
     en: {
         notifInvitedCompanyToRFP: "Exclusive Invitation: submit your proposal for the Tender ",
@@ -25,7 +27,8 @@ export const notifTypes = {
         notifnonRegCompanyOfInvRFP: "Join Propon.me and participate in the Invitation-only Tender ",
         notifnonRegCompanyOfOpenRFP: "Invitation to open tender: Register on Propon.me and submit your proposal for ",
         notifToIssuerOpenRFPcompanyRegstred: "You have a new participant in your Tender ",
-        notifToRegisterToPropon: "Transform your Tenders with Propon.me: Register Today!"
+        notifToRegisterToPropon: "Transform your Tenders with Propon.me: Register Today!",
+        notifRFPDeclared:"This RFP in which you participate has been declared: "
     },
     fr: {
         notifInvitedCompanyToRFP: "Invitation Exclusive : présentez votre proposition pour l'Appel d'offres ",
@@ -33,7 +36,8 @@ export const notifTypes = {
         notifnonRegCompanyOfInvRFP: "Rejoignez Propon.me et participez à l'Appel d'offres sur Invitation ",
         notifnonRegCompanyOfOpenRFP: "Invitation à l'appel d'offres ouvert : Inscrivez-vous sur Propon.me et présentez votre proposition pour ",
         notifToIssuerOpenRFPcompanyRegstred: "Vous avez un nouveau participant à votre Appel d'offres ",
-        notifToRegisterToPropon: "Transformez vos Appels d'offres avec Propon.me : Inscrivez-vous Aujourd'hui !"
+        notifToRegisterToPropon: "Transformez vos Appels d'offres avec Propon.me : Inscrivez-vous Aujourd'hui !",
+        notifRFPDeclared : "L'appel d'offres auquel vous participez a été déclaré: "
     },
   };
   
@@ -94,9 +98,6 @@ export const notifTypes = {
   Trouvez des tutoriels et des informations sur comment vous inscrire sur le lien suivant: https://propon.me
   Nous croyons que Propon.me a le potentiel de changer le monde en permettant aux entreprises et aux individus de coordonner transparentement leurs processus d'appel d'offres et leurs RFP.`
    
-
-
-
   export const invRFPHTML = (
     rfpDescriptor,
     RFPName,
@@ -362,5 +363,47 @@ export const notifTypes = {
         break;
       case "fr":
         break;
+    }
+  }
+
+  export const declarationRFPHTML = ( rfpname, hostcompany, rfpDescriptor, lang, rfplink) => {
+    switch (lang) {
+      case "es":
+        return `${headerHTML}
+        <br><br>
+        <p style="text-align: left; margin-top: 2rem; font-weight: normal;">
+        <strong>¡Hola!</strong>,
+        <br><br>
+        El RFP <strong>${rfpDescriptor} - ${rfpname}</strong> de la compañía <strong>${hostcompany}</strong> ha sido declarado. Te invitamos a verificar el resultado<br> 
+        <br><br>
+        <a href="${rfplink}">Sitio del RFP: ${rfpDescriptor} - ${rfpname}</a> 
+        <br> <br> <br>
+        <p><strong>**** Por favor no responda a este correo, esta es una cuenta no atendida y se usa sólo para enviar correos, no para recibirlos ****</strong></p>`;
+        break;
+      case "en":
+        return `${headerHTML}
+        <br><br>
+        <p style="text-align: left; margin-top: 2rem; font-weight: normal;">
+        <strong>Hello!</strong>,
+        <br><br>
+        The RFP <strong>${rfpDescriptor} - ${rfpname}</strong> from the company <strong>${hostcompany}</strong> has been declared. You are invited to check the result<br> 
+        <br><br>
+        <a href="${rfplink}">RFP Site: ${rfpDescriptor} - ${rfpname}</a> 
+        <br> <br> <br>
+        <p><strong>**** Please do not reply to this email, this is an unattended account and is used only to send emails, not to receive them ****</strong></p>`;
+        break;
+      case "fr":
+        return `${headerHTML}
+        <br><br>
+        <p style="text-align: left; margin-top: 2rem; font-weight: normal;">
+        <strong>Bonjour !</strong>,
+        <br><br>
+        Le RFP <strong>${rfpDescriptor} - ${rfpname}</strong> de la société <strong>${hostcompany}</strong> a été déclaré. Vous êtes invité à vérifier le résultat<br> 
+        <br><br>
+        <a href="${rfplink}">Site du RFP : ${rfpDescriptor} - ${rfpname}</a> 
+        <br> <br> <br>
+        <p><strong>**** Veuillez ne pas répondre à cet email, il s'agit d'un compte non surveillé et est utilisé uniquement pour envoyer des emails, pas pour les recevoir ****</strong></p>`;
+        break;
+
     }
   }

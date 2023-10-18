@@ -60,7 +60,10 @@ const RFPDocuments = ({
   // In a future version when Issuer could be able to load RFPs follow up contracts this function should be modified or not used
   const isDateAllowed = () => {
     const rightNow = convUnixEpoch(new Date());
-    return rfpDates[0] < rightNow && rightNow < rfpDates[2];
+    //return rfpDates[0] < rightNow && rightNow < rfpDates[2];
+    // first it wasn't possible to upload docs after the RFP ended, but on a second revision, is ok
+    // to allow the company issuer to upload documents after the end date for following up, reasons to cancel etc.
+     return rfpDates[0] < rightNow 
   };
 
 /** Hooks ********************************************************************** */

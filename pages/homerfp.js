@@ -240,6 +240,8 @@ function HomeRFP() {
             rfpIndex={rfpRecord.rfpIndex}
             setNoticeOff={setNoticeOff}
             companyId={companyData.companyId}
+            lang={i18n.language}
+            companyname={companyname}
           />
         )
         break

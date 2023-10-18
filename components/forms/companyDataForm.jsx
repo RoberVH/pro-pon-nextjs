@@ -10,7 +10,7 @@
  *            in the form, there is not need to pass them onto update (PATCH call to server) DB
  *            method at handleSave, so we  filter those out before updating, namely rfpWon,
  *            rfpSent and companyRFPs array NOTE SEPT 2023: these fields changed in contract and this app to:
-*            arrays RFPsWinings, RFPParticipations, company_RFPs,
+*            arrays RFPsWins, RFPParticipations, company_RFPs,
 *
 */
 import { useState, useEffect } from "react"
@@ -140,10 +140,10 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
 
   // Validate and Update data to DB
   const handleSave = async () => {
-    const trimmedValues = {};
+    const trimmedValues = {}
     for (let [key, value] of Object.entries(values)) {
       // strips these keys as we don't want to overwrite their values, only editable fields allowable
-      if (!["RFPsWinings", "RFPParticipations", "company_RFPs", "profileCompleted"].includes(key)) {
+      if (!["RFPsWins", "RFPParticipations", "company_RFPs", "profileCompleted"].includes(key)) {
         trimmedValues[key] = typeof value !== "undefined" ? value.trim() : "";
       }
     }

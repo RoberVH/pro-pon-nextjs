@@ -71,6 +71,8 @@ const RegisterBidder = ({
 
   //****************************** */
 
+  
+
   const companyActions = [
     {
       id: 1,
@@ -115,6 +117,7 @@ const RegisterBidder = ({
     if (registerType === typeOfRegistrationtoRFP.inviteguests)
       automaticEmailNotification(notifTypes.notif_InvitedCompanyRFP)
     else {
+      // sent notification to an Issuer of an Open RFP that a company has registered to it
       await automaticEmailIssuerNotification(notifTypes.notif_ToIssuerOpenRFP)
       getBidders(rfpRecord.rfpIndex)
     }
@@ -177,10 +180,10 @@ const RegisterBidder = ({
     else errToasterBox(t("emailerror", { ns: "gralerrors" }))
   };
 
-  // Future option to complete: A notification to issuer of contest when a company register itself to their Open RFP
+  
   const automaticEmailIssuerNotification = async (typeOfNotification) => {
-    const result = await getCompanydataDB(rfpRecord.companyId);
-    if (result.status) {
+    const result = await getCompanydataDB(rfpRecord.companyId); // this trip to DB is needed 'cos the issuer email is requirerd and is not available
+    if (result?.status && result?.data?.email) { // if we get the email, and it 
       const issuerCompany = result.data;
       const params = {
         recipient: issuerCompany.email,
@@ -201,7 +204,7 @@ const RegisterBidder = ({
         );
       }
       setNotifying(false);
-    }
+    } // in case there is no email don't do anything
   };
 
   //**************************************  Handlers ************************ */
@@ -484,9 +487,9 @@ const RegisterBidder = ({
         </ModalWindow>
       )}
       <div className="mt-4  border-2 border-stone-300 shadow-lg ">
-        <p className="text-stone-600 p-4 ">
+        <div className="text-stone-600 p-4 ">
           <MainInstructions />
-        </p>
+        </div>
         <div className="m-2 p-2">
           {rfpOwner && (
             <>

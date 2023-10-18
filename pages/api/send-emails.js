@@ -1,19 +1,19 @@
 /**
- *  api/send-emails
-*     Constructs email based on templates accordig to type of notification passed on parameters (calls method invRFPHTML)
-*    Send notifications email to all emails sent in the recipients param
+ *  api/send-emails - Route to send automatic emails from propon email server
+ *     Constructs email based on templates accordig to type of notification passed on parameters (calls method invRFPHTML)
+ *    Send notifications email to all emails sent in the recipients param
  */
 
 const mailjet = require("node-mailjet").apiConnect(
   process.env.MAILJET_API_KEY,
   process.env.MAILJET_API_SECRET
-);
-import { invRFPHTML, SubjetNotifRFP } from "../../utils/emailText";
-import { validateEmails } from "../../utils/misc";
-
-
-
-
+)
+import {
+  declarationRFPHTML,
+  invRFPHTML,
+  SubjetNotifRFP,
+} from "../../utils/emailText"
+import { validateEmails } from "../../utils/misc"
 
 export default async function handler(req, res) {
   // Configuración del correo electrónico
@@ -26,28 +26,45 @@ export default async function handler(req, res) {
     hostcompany,
     lang,
     notiftype,
-  } = req.body;
- 
+  } = req.body
+
   if (!validateEmails(recipients)) {
-    res.status(403).json({ status: false, message: "invalid_email_format" });
-    return;
+    res.status(403).json({ status: false, message: "invalid_email_format" })
+    return
   }
 
-
-  const baseUrl=`${process.env.NEXT_PUBLIC_PROPON_URL}/${lang}/`
+  const baseUrl = `${process.env.NEXT_PUBLIC_PROPON_URL}/${lang}/`
   //const baseUrl=`${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
-  const rfplink = `${baseUrl}homerfp?companyId=${encodeURIComponent(companyid)}&companyname=${encodeURIComponent(hostcompany)}&rfpidx=${rfpid}`
+  const rfplink = `${baseUrl}homerfp?companyId=${encodeURIComponent(
+    companyid
+  )}&companyname=${encodeURIComponent(hostcompany)}&rfpidx=${rfpid}`
 
-  const textHTML = invRFPHTML(
-    rfpDescriptor,
-    rfpname,
-    hostcompany,
-    rfplink,
-    lang,
-    notiftype
-  );
+  let textHTML;
+  switch (notiftype) {
+    case "notifRFPDeclared":
+      // sent notification that an RFP is been declared
+      textHTML = declarationRFPHTML(
+        rfpname,
+        hostcompany,
+        rfpDescriptor,
+        lang,
+        rfplink
+      )
+      break
+    default:
+      // sent invitation to RFP
+      textHTML = invRFPHTML(
+        rfpDescriptor,
+        rfpname,
+        hostcompany,
+        rfplink,
+        lang,
+        notiftype
+      )
+      break
+  }
+
   const subjectLine = `${SubjetNotifRFP[lang][notiftype]} ${rfpDescriptor} - ${rfpname}`
-
 
   const emailObj = {
     Messages: [
@@ -68,25 +85,25 @@ export default async function handler(req, res) {
         CustomID: "PROPON.ME-Bidding",
       },
     ],
-  };
+  }
 
-  const bccRecipients = [];
+  const bccRecipients = []
   for (var i = 0; i < recipients.length; i++) {
     bccRecipients.push({
       Email: recipients[i],
       Name: "Propon.me Bidders",
-    });
+    })
   }
 
-  emailObj.Messages[0].Bcc = bccRecipients;
+  emailObj.Messages[0].Bcc = bccRecipients
 
   try {
     const request = await mailjet
       .post("send", { version: "v3.1" })
-      .request(emailObj);
+      .request(emailObj)
 
-    res.status(201).json({ status: true, message: "ok" });
+    res.status(201).json({ status: true, message: "ok" })
   } catch (err) {
-    res.status(501).json({ status: false, message: err.message });
+    res.status(501).json({ status: false, message: err.message })
   }
 }

@@ -96,7 +96,7 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
       {Array.isArray(value) ? (
         <>
           <div>
-            <strong>{t("total")}</strong>: {value.length}
+            <strong>{t("total")}: {value.length}</strong>
           </div>
           {value
             .reduce((acc, curr, index) => {
