@@ -439,19 +439,7 @@ const DeclareResults = ({
     );
 
   if (rfpRecord.winners.length > 0 || rfpRecord.canceled)
-    return (
-      <>
-        <GralMsg title={t("already_declared")} />
-        <button
-          onClick={() =>
-            automaticEmailNotification(notifTypes.notif_RFPDeclared)
-          }
-          className="bg-orange-300 p-2"
-        >
-          notificar
-        </button>
-      </>
-    );
+    return  <GralMsg title={t("already_declared")} />
 
   if (!inTime)
     return (

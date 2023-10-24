@@ -33,13 +33,13 @@ export default async function handler(req, res) {
     return
   }
 
-  const baseUrl = `${process.env.NEXT_PUBLIC_PROPON_URL}/${lang}/`
-  //const baseUrl=`${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
+  //const baseUrl = `${process.env.NEXT_PUBLIC_PROPON_URL}/`
+  const baseUrl = `${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
   const rfplink = `${baseUrl}homerfp?companyId=${encodeURIComponent(
     companyid
   )}&companyname=${encodeURIComponent(hostcompany)}&rfpidx=${rfpid}`
 
-  let textHTML;
+  let textHTML
   switch (notiftype) {
     case "notifRFPDeclared":
       // sent notification that an RFP is been declared

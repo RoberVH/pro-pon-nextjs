@@ -9,9 +9,11 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
 
   const rfpData=useRef(null)
 
+  // inner components
   const PopoverContent = ({ elements, handleShowRFP }) => {
-  const [isDataFetched, setIsDataFetched] = useState(false)
+    const [isDataFetched, setIsDataFetched] = useState(false)
 
+  // hooks
   useEffect(()=>{
     let isMounted = true
     async function fetchRFPData() {
@@ -43,7 +45,7 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
     }
   }, [])
 
-  
+  // utility functions
   const tagsRFP = (idx) => {
     if (isDataFetched && rfpData.current && Array.isArray(rfpData.current) && rfpData.current.length > 0) {
       const foundElement = rfpData.current.find(element => element.idx === idx)
@@ -87,6 +89,7 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
     setShowPopover(false);
   };
 
+  // Main JSX 
   return (
     <div
       className="whitespace-nowrap relative"

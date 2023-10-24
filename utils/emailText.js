@@ -114,7 +114,7 @@ export const notifTypes = {
         <strong>¡Hola!</strong>,
         <br><br>
         Tienes una invitación para participar en el RFP/Licitación <strong>"${rfpDescriptor} - ${RFPName}" </strong> de la compañía: <strong>${hostCompany}</strong> en <strong>Propon.me</strong><br> 
-        Consulta el sitio del RFP: <a href="${RFPLink}">Sitio del RFP: ${rfpDescriptor} - ${RFPName}</a> <br><br>
+        Consulta el <a href="${RFPLink}">Sitio del RFP: ${rfpDescriptor} - ${RFPName}</a> <br><br>
         ${
           notificationType === "notifnonRegCompanyOfOpenRFP" ||
           notificationType === "notifnonRegCompanyOfInvRFP"
@@ -126,7 +126,7 @@ export const notifTypes = {
             ? `Una vez registrado, informa a <strong>${hostCompany}</strong> que ya tienes una cuenta en Propon.me, para que te agregue al registro de Blockchain como participante invitado del RFP <br>`
             : ""
         }
-        Para presentar tu propuesta, deberás consultar el sitio web del RFP en el <a href=${RFPLink}>Sitio del RFP: ${rfpDescriptor} - ${RFPName}</a>   
+        Para presentar tu propuesta, deberás consultar el <a href=${RFPLink}>Sitio del RFP: ${rfpDescriptor} - ${RFPName}</a>   
         ${
           notificationType === "notifnonRegCompanyOfOpenRFP"
             ? ", regístrarte en la pestaña REGISTRAR PARTICIPANTE"
@@ -147,7 +147,7 @@ export const notifTypes = {
         <strong>Hello!</strong>,
         <br><br>
         You have an invitation to participate in the RFP/Tender <strong>"${rfpDescriptor} - ${RFPName}" </strong> from the company: <strong>${hostCompany}</strong> on <strong>Propon.me</strong><br> 
-        Check the RFP site <a href="${RFPLink}">RFP Site: ${rfpDescriptor} - ${RFPName}</a> <br><br>
+        Check the <a href="${RFPLink}">RFP Site: ${rfpDescriptor} - ${RFPName}</a> <br><br>
         ${
             notificationType === "notifnonRegCompanyOfOpenRFP" ||
             notificationType === "notifnonRegCompanyOfInvRFP"
@@ -159,7 +159,7 @@ export const notifTypes = {
             ? `Once registered, inform <strong>${hostCompany}</strong> that you have an account on Propon.me, so they can add you to the Blockchain registry as an invited participant of the RFP <br>`
             : ""
         }
-        To submit your proposal, you must consult the RFP website at the <a href=${RFPLink}>RFP Site: ${rfpDescriptor} - ${RFPName}</a>   
+        To submit your proposal, you must consult the <a href=${RFPLink}>RFP Site: ${rfpDescriptor} - ${RFPName}</a>   
         ${
             notificationType === "notifnonRegCompanyOfOpenRFP"
             ? ", register on the REGISTER BIDDERS tab"
@@ -180,7 +180,7 @@ export const notifTypes = {
         <strong>Bonjour !</strong>,
         <br><br>
         Vous avez une invitation à participer à l'RFP/Appel d'offres <strong>"${rfpDescriptor} - ${RFPName}" </strong> de la société : <strong>${hostCompany}</strong> sur <strong>Propon.me</strong><br> 
-        Consultez le site de l'RFP <a href="${RFPLink}">Site de l'RFP: ${rfpDescriptor} - ${RFPName}</a> <br><br>
+        Consultez le <a href="${RFPLink}">Site de l'RFP: ${rfpDescriptor} - ${RFPName}</a> <br><br>
         ${
             notificationType === "notifnonRegCompanyOfOpenRFP" ||
             notificationType === "notifnonRegCompanyOfInvRFP"
@@ -192,7 +192,7 @@ export const notifTypes = {
             ? `Une fois inscrit, informez <strong>${hostCompany}</strong> que vous avez un compte sur Propon.me, afin qu'ils vous ajoutent au registre Blockchain en tant que participant invité de l'RFP <br>`
             : ""
         }
-        Pour soumettre votre proposition, vous devez consulter le site web de l'RFP sur le <a href=${RFPLink}>Site de l'RFP: ${rfpDescriptor} - ${RFPName}</a>   
+        Pour soumettre votre proposition, vous devez consulter le <a href=${RFPLink}>Site de l'RFP: ${rfpDescriptor} - ${RFPName}</a>   
         ${
             notificationType === "notifnonRegCompanyOfOpenRFP"
             ? ", vous inscrire dans l'onglet INSCRIRE UN ENCHERISSEUR"
@@ -238,7 +238,7 @@ export const notifTypes = {
             : ""
         }
 
-        Para presentar tu propuesta, consulta el sitio web del RFP en el Sitio del RFP: ${RFPLink}
+        Para presentar tu propuesta, consulta el Sitio del RFP: ${RFPLink}
 
         ${
             notificationType === "notifnonRegCompanyOfOpenRFP"
@@ -270,7 +270,7 @@ export const notifTypes = {
             : ""
         }
         
-        To submit your proposal, consult the RFP website at the RFP Site: ${RFPLink}
+        To submit your proposal, consult the RFP website at: ${RFPLink}
 
         ${
             notificationType === "notifnonRegCompanyOfOpenRFP"
@@ -302,7 +302,7 @@ export const notifTypes = {
             : ""
         }
         
-        Pour soumettre votre proposition, consultez le site web de l'RFP sur le Site de l'RFP: ${RFPLink}
+        Pour soumettre votre proposition, consultez le site web de l'RFP sur: ${RFPLink}
 
         ${
             notificationType === "notifnonRegCompanyOfOpenRFP"
