@@ -586,13 +586,13 @@ const DownloadFileForm = ({
       />
       <div id="downloadIcon" className="flex">
         <DownloadIcon className="mt-1 h-8 w-8 text-orange-300 mb-2" />
-        <p className="mt-2 pl-2 font-khula">{t("dowloadrequestfiles")}</p>
+        <p className="lg:text-xs xl:text-sm  mt-2 pl-2 font-khula">{t("dowloadrequestfiles")}</p>
       </div>
       <ComponentLauncher />
       <div className="flex justify-center mt-8">
         <button
           id="downloadAllSelectedFiles"
-          className="bg-orange-500 text-white font-bold py-2 px-4 rounded mt-4 "
+          className="lg:text-xs xl:text-sm  bg-orange-500 text-white font-bold py-2 px-4 rounded mt-4 "
           onClick={handleDownloadAllSelectedFiles}
         >
           {t("download_button")}

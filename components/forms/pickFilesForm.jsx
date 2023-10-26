@@ -90,7 +90,7 @@ const PickFilesForm = ({t, setPickedFiles, errToasterBox, setTotalSize, allowedD
     />
     <button
       onClick={() => inputRef.current.click()}
-      className=" text-center outline outline-1 outline-orange-500 rounded-md cursor-pointer
+      className="lg:text-xs xl:text-sm text-center outline outline-1 outline-orange-500 rounded-md cursor-pointer
       outline-offset-2 p-1 hover:bg-orange-100 text-coal-300"
       htmlFor="rfprequestdocs"
     >

@@ -51,7 +51,7 @@ const handleKeyPress= (e) => {
  if (!showItemsField) return null
   return (
     <div className="">
-          <div className="">
+          <div className="xl:text-base lg:text-xs">
             <p className="text-stone-500">{t('additemstitle')}  </p>
             <p className="text-stone-500">{t('addintemsinstructions')}</p>
             <div className=" flex mt-10">

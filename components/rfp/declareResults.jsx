@@ -282,7 +282,7 @@ const DeclareResults = ({
         height={20}
         width={20}
       />
-      <p className="font-khula ml-4 mt-2 text-md text-stone-900">
+      <p className="font-khula ml-4 mt-2 lg:text-xs xl:text-base text-stone-900">
         {t("declare_winners")}
       </p>
     </div>
@@ -297,7 +297,7 @@ const DeclareResults = ({
       <div id="declarecanceled-section" className="m-8 mx-auto w-[40%]">
         <div className="border border-orange-300  rounded-md shadow p-4">
           <div className="flex justify-between items-center">
-            <p className="font-khula text-red-500 text-xl font-bold mb-4">
+            <p className="font-khula text-red-500 text-xl font-bold mb-4 lg:text-xs xl:text-base">
               {t("cancel_rfp_title")}
             </p>
             <div
@@ -317,7 +317,7 @@ const DeclareResults = ({
                 title={t("caution_cancel_rfp")}
                 onClick={handleDeclareRFPCanceled}
                 disabled={actionButtonClicked || isCancelled} // once clicked no need to click again
-                className="main-btn py-2 px-4 mb-2"
+                className="main-btn py-2 px-4 mb-2 lg:text-xs xl:text-sm"
               >
                 {t("cancelbutton")}
               </button>
@@ -339,7 +339,7 @@ const DeclareResults = ({
     return (
       <table className="mb-4 table-fixed font-khula mx-auto ">
         <thead>
-          <tr className="">
+          <tr className="lg:text-xs xl:text-base">
             <th className="w-3/5 px-2 py-2 border border-orange-300 ">
               {t("item")}
             </th>
@@ -350,7 +350,7 @@ const DeclareResults = ({
         </thead>
         <tbody className="">
           {items.map((item, index) => (
-            <tr key={nanoid()} className="">
+            <tr key={nanoid()} className="lg:text-xs xl:text-base">
               <td className="px-4 py-2 border border-orange-300">{item}</td>
               <td className="px-4 py-2 text-center border border-orange-300">
                 <select

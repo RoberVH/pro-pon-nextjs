@@ -5,13 +5,13 @@ import { openContest, inviteContest } from "../../utils/constants";
 
 function RFPessentialData({ t, rfpRecord }) {
   const TableEntryBadge = ({ contestType, title, value  }) => (
-    <tr>
-      <td className="w-[9em] pb-2 ">
+    <tr >
+      <td className="w-[9em] mb-1">
         <strong>{title}: </strong>
       </td>
       <td className="w-[22em] text-orange-500 flex flex-wrap overflow-hidden">
       <p
-          className={`w-[90px] text-white text-center rounded-lg ${
+          className={`w-[90px]  py-1 xl:text-sm lg:text-xs text-white text-center rounded-lg ${
             contestType === openContest
               ? " bg-green-400"
               : " bg-red-400"
@@ -25,16 +25,16 @@ function RFPessentialData({ t, rfpRecord }) {
   );
 
   const TableEntry = ({ title, value, link }) => (
-    <tr>
+    <tr className="lg:text-xs xl:text-base">
       <td className="w-[9em]">
         <strong>{title}: </strong>
       </td>
       {!Boolean(link) ? (
-        <td className="w-[22em] text-orange-500 flex flex-wrap overflow-hidden">
+        <td className="xl:w-[21em] lg:w-[14em] text-orange-500 flex flex-wrap overflow-hidden" title={value}>
           <strong>{value}</strong>
         </td>
       ) : (
-        <td className="w-[22em] text-orange-500 flex flex-wrap overflow-hidden underline cursor-pointer">
+        <td className="xl:w-[21em] lg:w-[14em] text-orange-500 flex flex-wrap overflow-hidden underline cursor-pointer">
           <a className="" href={value} target="_blank" rel="noreferrer">
             {value}
           </a>
@@ -47,9 +47,9 @@ function RFPessentialData({ t, rfpRecord }) {
     <div className="flex flex-col font-khula bg-white leading-8 mb-2">
       <div className="flex">
         <TableIcon className=" h-6 w-6 text-orange-300 mt-1 ml-2" />
-        <p className="ml-4 mt-1 text-md text-stone-900">{t("rfp")}</p>
+        <p className="ml-4 my-2 xl:text-base lg:text-sm text-stone-900">{t("rfp")}</p>
       </div>
-      <table className="table-fixed ml-2 pr-4 text-sm">
+      <table className="table-fixed ml-2 pr-4 ">
         <tbody className="">
         <TableEntryBadge
             title={t("contestType")}

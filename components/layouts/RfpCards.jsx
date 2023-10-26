@@ -26,9 +26,8 @@ function RfpCards({ rfps,
 
 const  RfpCard = ({ rfp }) => {
   const handleShowRFP = (rfpParams) => {
-       setIsWaiting(true);
-  
-      const urlLine={
+       setIsWaiting(true)
+       const urlLine={
           companyId: companyData.companyId,
           companyname: companyData.companyname,
           rfpidx:rfpParams.rfpIndex
@@ -41,21 +40,21 @@ const  RfpCard = ({ rfp }) => {
       if (canceled) bg='bg-red-100'
       if (rfp.winners.length) bg='bg-green-100'
       return (
-      <div className={`${bg} rounded-lg  px-6 py-4 border border-orange-300`}
+      <div className={`${bg} rounded-lg  xl:px-6 lg:px-4 py-4 border border-orange-300 xl:w-[28rem] lg:w-[18rem]`}
       style={{boxShadow: '6px 6px 12px rgba(0, 0, 0, 0.3)'}}>
-          <div className="text-md flex justify-between mb-4">
+          <div className="lg:text-xs xl:text-lg flex justify-between mb-4">
             <p className=" ">Id: {rfp.name}</p>
-            { canceled  &&   <p className="text-red-500 text-sm">{t('canceled').toUpperCase()}</p>}
-            {Boolean(rfp.winners.length) && <p className="text-green-800 text-sm">{t('declared').toUpperCase()}</p>}
+            { canceled  &&   <p className="text-red-500 lg:text-xs xl:text-lg">{t('canceled').toUpperCase()}</p>}
+            {Boolean(rfp.winners.length) && <p className="text-green-800 lg:text-xs xl:text-lg">{t('declared').toUpperCase()}</p>}
             <p className="">{rfp.contestType===0 ? t('open') : t('invitation') }</p>
-              <button className=" text-orange-500 font-khula text-xl font-semibold" onClick={() => handleShowRFP(rfp)}>
-                 <p className="underline"> {t('go')}</p>
+              <button className=" text-orange-500 font-khula lg:text-xs xl:text-lg font-semibold" onClick={() => handleShowRFP(rfp)}>
+                 <p className="underline lg:text-xs xl:text-lg"> {t('go')}</p>
             </button>
           </div>
-          <p className="mt-2 text-gray-500 text-sm truncate" title={rfp.description}><strong>{t('description')}: </strong> {rfp.description}</p>
-          <p className="mt-2 text-gray-500 text-sm"><strong>{t('open')}: </strong> {convDate(rfp.endReceivingDate)}</p>
-          <p className="mt-2 text-gray-500 text-sm"><strong>{t('end_receiving')}: </strong>{convDate(rfp.openDate)}</p>
-          <p className="mt-2 text-gray-500 text-sm"><strong>{t('end')}: </strong>{convDate(rfp.endDate)}</p>
+          <p className="mt-2 lg:text-xs xl:text-lg text-gray-500 text-sm truncate" title={rfp.description}><strong>{t('description')}: </strong> {rfp.description}</p>
+          <p className="mt-2 lg:text-xs xl:text-lg text-gray-500 text-sm"><strong>{t('open')}: </strong> {convDate(rfp.endReceivingDate)}</p>
+          <p className="mt-2 lg:text-xs xl:text-lg text-gray-500 text-sm"><strong>{t('end_receiving')}: </strong>{convDate(rfp.openDate)}</p>
+          <p className="mt-2 lg:text-xs xl:text-lg text-gray-500 text-sm"><strong>{t('end')}: </strong>{convDate(rfp.endDate)}</p>
           <div className="text-blue-500 flex justify-end mb-2 mr-2">
           </div>
       </div>
@@ -83,9 +82,9 @@ const  RfpCard = ({ rfp }) => {
   return (
     <div className="m-2">
  
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
         {columns.map((column, index) => (
-          <Fragment key={index}>
+          <Fragment key={index} className="">
             {column.map((rfp, index) => (
               <RfpCard key={index} rfp={rfp} />
             ))}

@@ -71,7 +71,7 @@ function Searchrfps() {
       <h1 className="mt-4 text-stone-500 text-2xl text-center">
         {t("titlescreen")}
       </h1>
-      <div id="rfp-search" className="mt-2  bg-white flex rounded-lg justify-beetween py-2 border-2 border-orange-200">
+      <div id="rfp-search" className="mt-2  bg-white flex rounded-lg justify-beetween pt-2 pb-4 border-2 border-orange-200 overflow-x-auto">
         <div id="search-bar-holder" className="">
           <SearchDB
             fields={rfpParams}

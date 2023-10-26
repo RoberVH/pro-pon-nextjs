@@ -49,6 +49,7 @@ function HomeRFP() {
     "rfp_results", // if contest closed, only this is valid showing results
   ]
 
+  
   const [rfpRecord, setRfpRecord] = useState(undefined)
   const [selectedPanel, setSelectedPanel] = useState()
   const [loading, setloading] = useState(true)
@@ -102,6 +103,7 @@ function HomeRFP() {
         }
       }
     }
+    
     saveDBPendingTx()
   }, [noticeOff.fired])
 
@@ -162,6 +164,7 @@ function HomeRFP() {
     setloading(false)
   }, [ i18n.language])
 
+  
   //  Inner Components ******************************************************************
 
   const RFPTabDisplayer = () => {

@@ -4,7 +4,7 @@ import { App_Name } from '../../utils/constants'
 
 const DismissedTxNotice = ({notification, buttonText, setNoticeOff, dropTx, typeTx}) => 
     <div className="rounded-md shadow-md   border-2 w-[60%] h-auto border-orange-500  flex flex-col 
-    justify-start bg-stone-100 ">
+    justify-start bg-stone-100 text-warnings ">
         <div className=" bg-orange-500 h-12 flex items-center justify-center  "> 
             <p className="text-white text-lg font-semibold "> {App_Name} </p></div>
         <div className="p-8 w-15 h-15 flex items-center justify-center ">

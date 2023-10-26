@@ -2,7 +2,7 @@
 
 const RFPIdentificator = ({t, rfpRecord}) => (
     <table className="border-separate border-spacing-1">
-      <tbody>
+      <tbody className=" xl:text-base lg:text-xs">
         <tr>
           <td className="col-start-1 col-end-1">
             <label className="leading-8">

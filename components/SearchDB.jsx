@@ -114,7 +114,7 @@ const SearchDB = forwardRef(
                 />
 
                 <input
-                  className={`font-khula  text-stone-900 outline-none border
+                  className={`font-khula  text-stone-900 outline-none  
                       py-1 pl-2  rounded-md focus:bg-stone-100 focus:rounded-md ${errorColor[faultyDates]} `}
                   type="text"
                   id={`${field.fieldName}_end`}
@@ -192,7 +192,7 @@ const SearchDB = forwardRef(
     // Main JSX return ************************************************************************************
 
     return (
-      <div id="searchBD-component-main" className="py-2 flex  items-center  ">
+      <div id="searchBD-component-main" className="py-2 flex  items-center"> 
         <div
           id="search-icon"
           onClick={handleCleanFields}
@@ -204,7 +204,7 @@ const SearchDB = forwardRef(
           </span>
         </div>
         {fields.map((field, index) => (
-          <div key={field.id} className="resize">
+          <div key={field.id} className="resize ">
             {field.searchable && <SearchBox field={field} index={index} />}
           </div>
         ))}

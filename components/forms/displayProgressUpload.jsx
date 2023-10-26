@@ -45,7 +45,7 @@ const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
         )
       case 'success':
         return (
-          <CheckCircleIcon className="h-5 w-5 text-green-600  ml-2"/> 
+          <CheckCircleIcon className="h-5 w-5 text-green-600  xl:ml-2"/> 
           )
       default:
         // undefined state? it should never reach this point

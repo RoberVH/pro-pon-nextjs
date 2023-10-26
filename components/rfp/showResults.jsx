@@ -97,7 +97,7 @@ const errToasterBox = (msj) => {
 const Title= () => 
 <div className="flex">
 <Image className="text-orange-400 mt-1 ml-2" alt="Proposal" src="/awards.svg" height={20} width={20} />
-    <p className="font-khula ml-4 mt-2 text-md  text-stone-900">
+    <p className="lg:text-xs xl:text-base font-khula ml-4 mt-2 text-md  text-stone-900">
         {t('companies_awarded')}
     </p>
 </div>
@@ -108,7 +108,7 @@ const  TitleDeclare= ({msg, redflag}) =>
 <div className="mx-auto w-[95%] mt-8  p-4  border-2 border-stone-300 shadow-lg">
     <div className="pl-2 py-1 px-4 mb-8 font-khula text-stone-500">
         <div className="pl-12 mt-8">
-            <p className={`font-khula ml-4 mt-2 text-lg  ${redflag ? 'text-red-600': 'text-stone-900'}`}>
+            <p className={`lg:text-xs xl:text-base font-khula ml-4 mt-2 text-lg  ${redflag ? 'text-red-600': 'text-stone-900'}`}>
                 <strong>{msg}</strong>
             </p>
         </div>
@@ -133,7 +133,7 @@ const BodyTable = ()=> {
     return (
       <>
         {rfpRecord.items.map((item,index) => 
-          <tr key={index} className="font-khuna text-stone-900 text-bold">
+          <tr key={index} className="lg:text-xs xl:text-base font-khuna text-stone-900 text-bold">
             <td className="px-4 py-2 border border-orange-300">
               {item}
             </td>
@@ -174,7 +174,7 @@ const BodyTable = ()=> {
         <div className="py-8">
         <table className="mb-4 table-fixed font-khula mx-auto ">
           <thead>
-            <tr className="">
+            <tr className="lg:text-xs xl:text-base">
                 <th className="w-3/5 px-2 py-2 border border-orange-300 ">{t('item')}</th>
                 <th className="w-2/5 px-4 py-2 border border-orange-300">{t('winner')}</th>
             </tr>

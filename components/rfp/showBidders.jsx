@@ -94,7 +94,7 @@ useEffect(()=>{
 },[bidders, updateRFPFilesArray])
 
   const CellTable = ({ field, highhLigth, w }) => (
-    <td className={`${w} p-2  font-khula ${highhLigth ? 'text-orange-700 font-bold':'text-stone-800'}`}>
+    <td className={`${w} lg:text-xs xl:text-sm p-2 font-khula ${highhLigth ? 'text-orange-700 font-bold':'text-stone-800'}`}>
             {field}
     </td>
   );

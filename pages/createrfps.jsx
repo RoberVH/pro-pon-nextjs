@@ -61,13 +61,13 @@ function Createrfps() {
   // all Ok, allow create RFP screen
   return (
     // Logged In, display create RFP screen
-    <div id="createrfps" className="md:mt-4 sm:mt-4">
+    <div id="createrfps" className="mt-4">
         {noticeOff.fired && (
           <div className="fixed inset-0 bg-transparent z-50">
             <div className=" absolute top-[30%] left-[30%] ">
               <DismissedTxNotice
                 notification={t("dropped_tx_notice")}
-                buttonText={"accept"}
+                buttonText={t("accept")}
                 setNoticeOff={setNoticeOff}
                 dropTx={noticeOff.txObj}
                 typeTx = {t(`transactions.${noticeOff.txObj.type}`)}

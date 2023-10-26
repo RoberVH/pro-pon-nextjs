@@ -17,7 +17,7 @@ export function InputRFPName({
     type="text" id={'name'} 
     onChange={handleChange} 
     disabled={disable}
-    placeholder={placeholder}  />
+    placeholder={placeholder}/>
   </>
   )
 }

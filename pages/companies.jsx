@@ -15,7 +15,6 @@ import "react-toastify/dist/ReactToastify.css"
 
 
 function Companies() {
-  //const { locale,pathname, query, asPath   } = useRouter();
   const [ IsWaiting, setIsWaiting] = useState(false)
   const [ error, setError] = useState(false)
   const [results, setResults] = useState([])
@@ -71,7 +70,7 @@ function Companies() {
       <div
         id="companies-search"
         className="mt-2  bg-white flex 
-                rounded-lg justify-beetween py-2 border-2 border-orange-200"
+                rounded-lg justify-beetween py-2 border-2 border-orange-200 overflow-x-auto"
       >
         {/* <SearchIcon className="ml-8 h-8 w-8 text-orange-400  " /> */}
         <div className="w-[100%] pl-0 flex justify-between">

@@ -497,7 +497,7 @@ const RegisterBidder = ({
                 <>
                   <div
                     id="owner-rfp-invitation"
-                    className="shadow w-3/5 h-[25em] outline-1 border border-orange-500 rounded-lg overflow-hidden"
+                    className="shadow w-3/5 h-[25em] outline-1 border border-orange-500 rounded-lg overflow-x-auto"
                   >
                     <SearchDB
                       i18n={i18n}

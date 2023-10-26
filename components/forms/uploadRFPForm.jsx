@@ -91,8 +91,8 @@ function UploadRFPForm({
 
   // Inner components   *********************************************************************************************
   const ShowSummaryUploads = () => (
-    <div className="p-4">
-      <div className="flex">
+    <div className="p-4 text-warnings">
+      <div className="flex ">
       <p className="pr-1"> 
         <strong>{`${successFiles.length}`} </strong> 
       </p> 
@@ -103,10 +103,10 @@ function UploadRFPForm({
       {(successFiles.length > 0) && <p>{t("call_to_record_files")}</p>}
       {postedHash && <p>{t("rfpessentialdataposted")}</p>}
       {postedHash && (
-        <div>
+        <div className="text-warnings label-warnings">
           <label>{t("chekhash")}</label>
           <a
-            className=" text-blue-600 "
+            className=" text-blue-600 lg:text-xs xl:text-sm"
             href={`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${postedHash}`}
             target="_blank"
             rel="noreferrer"
@@ -116,7 +116,7 @@ function UploadRFPForm({
         </div>
       )}
       {block && (
-        <div>
+        <div className="text-warnings label-warnings">
           <label>{t("block")} </label>
           <label className="text-blue-600">&nbsp;{block}</label>
         </div>

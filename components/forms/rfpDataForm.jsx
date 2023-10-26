@@ -33,8 +33,10 @@ import RFPItemAdder from '../rfp/RFPItemAdder'
 //import SpinnerBar from "../layouts/SpinnerBar"
 
 
-const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
-    "font-roboto  outline-none pl-10 w-full focus:bg-blue-100 bg-stone-100"
+const inputclasses =`
+      leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none  
+      lg:text-xs xl:text-base font-roboto  outline-none pl-10 md:pl-8 w-full focus:bg-blue-100 bg-stone-100
+    `
 
 const validatingFields = new Map([
   ['openDate','rfpform.opendateerror'],
@@ -280,10 +282,10 @@ const RFPDataForm = ({setNoticeOff}) => {
   };
   
   // Some objects to style UX
-  const itemStyleContainer= {true: 'w-[85%]', false: 'w-[45%]'}
+  const itemStyleContainer= {true: 'w-[85%]', false: 'w-[55%] xl:w-[45%]'} // adjust size if not showing item (partidas) edit frame
   const itemStyleInputName ={true: 'w-[85%]', false: 'w-[130%]'}
-  const itemStyleDate ={true: 'w-[50%]', false: 'w-[110%]'}
-  const itemStyleCheckboxText = {true: 'w-[85%]', false: 'w-[100%]'}
+  const itemStyleDate ={true: 'w-[75%]', false: 'lg:w-[120%] xl:w-[110%]'}
+  const itemStyleCheckboxText = {true: 'w-[90%]', false: 'lg:w-[100%] xl:w-[90%]'}
 
    
 
@@ -295,7 +297,7 @@ const RFPDataForm = ({setNoticeOff}) => {
         className={`container ${itemStyleContainer[showItemsField]} p-4 bg-white border-xl border-2 border-orange-200 rounded-md`}>
         <div className="flex items-center" >
           <Image   alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
-          <p className="text-gray-600 text-extrabold text-base  mt-2 ml-2 font-khula">{t("recresrfpdata")}</p>
+          <p className="text-gray-600 text-extrabold md:text-sm sm:text-sm lg:text-xs xl:text-base  mt-2 ml-2 font-khula">{t("recresrfpdata")}</p>
         </div>
           <div className="grid grid-cols-2 grid-gap-1">
             <div id="essentialdatacontainer" className="flex flex-col items-left justify-between leading-8 mt-8  pl-8 ">
@@ -363,7 +365,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                 <div className={`bg-stone-100 p-2 flex ${itemStyleDate[showItemsField]}`}>
                   <label className="text-stone-500">{t('contestType')}</label> 
                   <br></br>
-                  <div className=" ml-12 flex justify-start text-sm" >
+                  <div className=" ml-12 flex justify-start lg:text-xs xl:text-sm" >
                     <label 
                       id="open"
                       // type="radio" 
@@ -389,7 +391,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     disabled={rfpCreated || actionButtonClicked}
                     className="mr-4" type="checkbox" value={showItemsField}/>
                 <div className={`${itemStyleCheckboxText[showItemsField]}`}>
-                <p className={`text-stone-600 font-khula`}> 
+                <p className={`text-stone-600 font-khula lg:text-xs xl:text-base`}> 
                 <strong>{t('optional')}&nbsp;</strong>{t('additemscheckbox')} </p>
                 </div>
               </div>

@@ -22,7 +22,7 @@ const ShowTXSummary = ({
     handleCancelTx
     }) =>   
       <div className="mx-auto mt-4 mb-8 p-4 border rounded-md border-orange-300 border-solid shadow-xl bg-white big-opacity-100
-            font-khula text-base py-4 pl-2">
+            font-khula text-base py-4 pl-2 text-warnings lg:overflow-y-auto">
               <div className="flex mb-4">
               <Image alt="Info" src="/information.svg" height={20} width={20}/>
               <p className="ml-2 mt-1  text-gray-600 text-extrabold text-base ">
@@ -34,11 +34,11 @@ const ShowTXSummary = ({
               <div className="px-4">
                 <p>{t('savingtoblockchainmsg')} </p>
                 { postedHash && 
-                    <div>
+                    <div className="text-warnings label-warnings">
                       <p>{t("rfpessentialdataposted")}</p>
                           <label>{t("chekhash")}</label>
                             <a
-                              className=" text-blue-600 "
+                              className=" text-blue-600 lg:text-xs xl:text-sm"
                               href={`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${postedHash}`}
                               target="_blank"
                               rel="noreferrer"
@@ -49,7 +49,7 @@ const ShowTXSummary = ({
                 }
                 {block && (
                   <>
-                    <div>
+                    <div className="text-warnings label-warnings">
                       <label>{t("block")} </label>
                       <label className=" text-orange-700"><strong>&nbsp;{block}</strong></label>
                     </div>
@@ -59,7 +59,7 @@ const ShowTXSummary = ({
                 { !blockchainsuccess && 
                   <div className="my-8  ">
                     <SpinnerBar msg={t('loading_data')} />
-                    <div className="flex justify-center mt-2">
+                    <div className="flex justify-center mt-2 text-warnings">
                             <p className=" text-orange-400 font-bold pl-12">{t('waiting_transaction')}</p>
                     </div>                    
                   </div>
@@ -77,7 +77,7 @@ const ShowTXSummary = ({
                     <button 
                       title={t('cancel_tx')}
                       onClick={handleCancelTx} 
-                      className="txCancel-btn">
+                      className="txCancel-btn mb-2">
                       {t("cancelbutton")}
                     </button>
                 }

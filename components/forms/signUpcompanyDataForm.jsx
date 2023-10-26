@@ -276,7 +276,7 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
     <div id="dataentrypanel" className="mx-auto mt-4 mb-4 p-4 bg-white border border-orange-300 rounded-md container shadow-md">
       <div className="flex items-center mt-2 z-50" >
         <Image alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
-        <p className="text-stone-500 text-bold text-lg mt-2 ml-2 font-khula">
+        <p className="lg:text-xs xl:text-base text-stone-500 text-bold  mt-2 ml-2 font-khula">
            {t("companyform.recordessentialdata")}
         </p>
       </div>
@@ -284,11 +284,11 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
         action=""
         className="flex flex-col items-center justify-between leading-8 my-6"
       >
-        <div className="w-[70%] relative mb-2">
+        <div className="w-[70%] relative mb-2 xl:text-base lg:text-xs">
         { typeof companyData.profileCompleted === 'undefined' ?
           // Company not yet registered to blockchain contract
             <React.Fragment>
-              <p className="text-stone-500 text-base mb-2">
+              <p className="lg:text-xs xl:text-base text-stone-500 text-base mb-2">
                   {t('companyform.essentialfilldata')}
               </p>
               <InputCountrySel

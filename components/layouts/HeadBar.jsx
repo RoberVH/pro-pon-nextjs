@@ -308,7 +308,7 @@ const HeadBar = () => {
         <div ref={ref} id="showAccount">
           <button
             id="connect-button"
-            className="mt-4 p-2 mr-4 font-khula font-semibold text-sm uppercase 
+            className="mt-4 p-2 mr-4 font-khula font-semibold lg:text-sm xl:text-base uppercase 
                 text-white bg-orange-600 rounded-xl  drop-shadow-lg  
                 bg-gradient-to-r from-orange-500  to-red-500 
                 hover:outline hover:outline-2 hover:outline-orange-300
@@ -408,7 +408,7 @@ const HeadBar = () => {
     else
       return (
         <div>
-          <label className="text-gl font-semibold font-nunito text-white">
+          <label className="lg:text-xs xl:text-sm font-semibold font-nunito text-white">
             {companyData.companyname
               ? `${companyData.companyname}`
               : address

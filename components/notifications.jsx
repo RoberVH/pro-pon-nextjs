@@ -160,21 +160,21 @@ function Notifications({ t, rfpRecord, notiftype, lang }) {
       </div>
       <div id="content-recipient-frm" className=" p-4 mx-8 mt-6  space-x-4 rounded-md border-2 border-stone-400 min-h-[18rem]">
         <div id="input-holder" className="w-[70%] ">
-          <div id="input-wrapper" className="flex items-center w-full">
+          <div id="input-wrapper" className="flex items-center w-full lg:text-xs xl:text-base">
             {EmailInputCtl()}
           </div>
         </div>
         <div id="box-area" className="flex items-center my-6 ">
           {Boolean(recipientList.length) ? (
-            <div id="outer-list" className=" min-w-0 overflow-auto w-[34rem] max-h-[10rem] border-[1px] border-stone-500 rounded-md p-2 ">
+            <div id="outer-list" className=" min-w-0 overflow-auto xl:w-[34rem] lg:w-[26rem] xl:max-h-[10rem] lg:max-h-[8rem] border-[1px] border-stone-500 rounded-md p-2 ">
               <div id="inner-list" className="flex items-center space-y-1 ">
-                <ul className="w-[32rem]  flex flex-col space-y-2 ">
+                <ul className="xl:w-[32rem] lg:w-[28rem] flex flex-col space-y-2 ">
                   {recipientList.map((recipient) => (
                     <li
                       key={nanoid()}
                       className="flex  items-center justify-between bg-gray-200 rounded-md  "
                     >
-                      <p className="text-stone-500 truncate  px-4 py-1 text-sm">
+                      <p className="text-stone-500 truncate  px-4 py-1 lg:text-xs xl:text-sm">
                         {recipient}
                       </p>
                       <div className="pr-1">
@@ -196,8 +196,8 @@ function Notifications({ t, rfpRecord, notiftype, lang }) {
             <p className="w-[55%]"></p>
           )}
           {Boolean(recipientList.length) && (
-            <div id="buttons-area" className="flex flex-col space-y-4  mx-auto ml-2">
-              <button onClick={handleSendEmailPropon} title={t('send_email_tooltip',{ns:"common"})} className="action-btn " >
+            <div id="buttons-area" className="flex flex-col  space-y-4  lg:ml-8 xl:ml-12">
+              <button onClick={handleSendEmailPropon} title={t('send_email_tooltip',{ns:"common"})} className="action-btn" >
                 {t("send_email", {ns:"common"})}
               </button>
               <button onClick={handlePrepareEmail} title={t("prepare_email_tooltip", {ns:"common"})} className="action-btn">

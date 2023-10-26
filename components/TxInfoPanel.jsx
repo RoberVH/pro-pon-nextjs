@@ -19,18 +19,18 @@ const TxInfoPanel = ({
     }) => 
   <div className="mx-auto mt-4 mb-8 p-4 border rounded-md border-orange-300 border-solid shadow-xl bg-white bg-opacity-100
                   font-khula py-4 pl-2 ">
-    <div className="text-base py-4 pl-2">
+    <div className="lg:text-xs xl:text-base py-4 pl-2">
         <div className="flex mb-2">
             <Image alt="Info" src="/information.svg" height={20} width={20}/>
-            <p className="ml-2 mt-1 text-gray-600 text-extrabold text-base pr-4">
+            <p className="lg:text-xs xl:text-base ml-2 mt-1 text-gray-600 text-extrabold text-base pr-4">
             <strong>{t('recordingcompanylegend')} </strong></p>
         </div>
     </div>
     <div className="mb-2 ml-8 h-64 flex flex-col justify-between">
       <div>
-      <p>{t('savingtoblockchainmsg')} </p> 
+      <p className="lg:text-xs xl:text-base">{t('savingtoblockchainmsg')} </p> 
       {hash && 
-          <div>
+          <div className="lg:text-xs xl:text-base">
             <p>{t('companyessentialdataposted')}</p>
             <label className="mt-4"> {t('chekhash')}</label>
             <a

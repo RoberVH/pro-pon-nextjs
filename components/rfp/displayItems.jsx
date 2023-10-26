@@ -10,7 +10,7 @@ function DisplayItems({items, t}) {
             <div className="flex pl-2 py-1 px-4">
                 <Image alt="Proposal" src="/surveys-icon.svg" height={17} width={17} 
                 className="text-orange-400 mt-1 ml-2" />  
-                <p className="font-khula ml-4 mt-1 text-md text-stone-900">{t('showItems')}
+                <p className="font-khula ml-4 mt-1 lg:text-xs xl:text-base  text-stone-900">{t('showItems')}
                    {` (${(items.length)})`}
                  </p>
             </div>
@@ -28,14 +28,14 @@ function DisplayItems({items, t}) {
             }
             </div>
         </div>
-        <div className="my-4 px-4 pb-6">
+        <div className="label-warnings my-4 px-4 pb-6">
             { showingItems && 
                 <ul>
                     { items.map(item => 
                         <li 
                             key={nanoid()} 
                             className="truncate border-b border-dashed  border-orange-400">
-                                <label className="px-4 w-1/6 text-orange-500 "> 
+                                <label title={item} className="px-4 w-1/6 text-orange-500"> 
                                     <strong>{item} </strong>
                                 </label>
                         </li>
