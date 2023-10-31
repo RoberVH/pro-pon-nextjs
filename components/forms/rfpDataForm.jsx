@@ -34,9 +34,9 @@ import RFPItemAdder from '../rfp/RFPItemAdder'
 
 
 const inputclasses =`
-      leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none  
-      lg:text-xs xl:text-base font-roboto  outline-none pl-10 md:pl-8 w-full focus:bg-blue-100 bg-stone-100
-    `
+       leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none  
+      font-roboto  outline-none pl-10 w-full focus:bg-blue-100 bg-stone-100 text-components py-1 `
+    
 
 const validatingFields = new Map([
   ['openDate','rfpform.opendateerror'],
@@ -284,7 +284,7 @@ const RFPDataForm = ({setNoticeOff}) => {
   // Some objects to style UX
   const itemStyleContainer= {true: 'w-[85%]', false: 'w-[55%] xl:w-[45%]'} // adjust size if not showing item (partidas) edit frame
   const itemStyleInputName ={true: 'w-[85%]', false: 'w-[130%]'}
-  const itemStyleDate ={true: 'w-[75%]', false: 'lg:w-[120%] xl:w-[110%]'}
+  const itemStyleDate ={true: 'w-[75%]', false: 'lg:w-[120%] xl:w-[120%]'}
   const itemStyleCheckboxText = {true: 'w-[90%]', false: 'lg:w-[100%] xl:w-[90%]'}
 
    
@@ -295,7 +295,7 @@ const RFPDataForm = ({setNoticeOff}) => {
       {/* Entry Form with buttons save & cancel */}
       <div id="dataentrypanel" 
         className={`container ${itemStyleContainer[showItemsField]} p-4 bg-white border-xl border-2 border-orange-200 rounded-md`}>
-        <div className="flex items-center" >
+        <div className="flex items-center text-components" >
           <Image   alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
           <p className="text-gray-600 text-extrabold md:text-sm sm:text-sm lg:text-xs xl:text-base  mt-2 ml-2 font-khula">{t("recresrfpdata")}</p>
         </div>
@@ -305,7 +305,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                 action=""
                 className="mb-8"
                 disabled={ rfpCreated || actionButtonClicked}>
-                <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
+                <div className={`${itemStyleInputName[showItemsField]} relative flex mb-4`}>
                   <InputRFPName
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -314,7 +314,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
-                <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
+                <div className={`${itemStyleInputName[showItemsField]} relative flex mb-4`}>
                   <InputRFPDescription
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -323,7 +323,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
-                <div className={`${itemStyleInputName[showItemsField]} relative mb-4`}>
+                <div className={`${itemStyleInputName[showItemsField]} relative flex mb-4`}>
                   <InputRFPwebsite
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -332,7 +332,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     disable={rfpCreated || actionButtonClicked}
                   />                  
                 </div>                
-                <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
+                <div className={`${itemStyleDate[showItemsField]} relative flex mb-4`}>
                   <InputDate
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -342,7 +342,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
-                <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
+                <div className={`${itemStyleDate[showItemsField]} relative flex mb-4`}>
                   <InputDate
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -352,7 +352,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
-                <div className={`${itemStyleDate[showItemsField]} relative mb-4`}>
+                <div className={`${itemStyleDate[showItemsField]} relative flex mb-4`}>
                   <InputDate
                     handleChange={handleChange}
                     inputclasses={inputclasses}
@@ -362,14 +362,13 @@ const RFPDataForm = ({setNoticeOff}) => {
                     disable={rfpCreated || actionButtonClicked}
                   />
                 </div>
-                <div className={`bg-stone-100 p-2 flex ${itemStyleDate[showItemsField]}`}>
+                <div className={`text-components bg-stone-100 p-2 flex ${itemStyleDate[showItemsField]}`}>
                   <label className="text-stone-500">{t('contestType')}</label> 
                   <br></br>
-                  <div className=" ml-12 flex justify-start lg:text-xs xl:text-sm" >
+                  <div className="ml-12 flex justify-start lg:text-xs xl:text-sm" >
                     <label 
                       id="open"
-                      // type="radio" 
-                      className={`mr-4 mt-1 cursor-pointer 
+                      className={`mr-4 mt-1 cursor-pointer text-components
                         ${contestType===openContest  ? 'bg-blue-200 px-2 py-1  rounded-3xl' : 'py-1'}
                         ${rfpCreated || actionButtonClicked ? 'pointer-events-none':''}`} 
                       onClick={handleClickContestType} >
@@ -377,7 +376,7 @@ const RFPDataForm = ({setNoticeOff}) => {
                     </label>
                     <label 
                       id="invitation"
-                      className={`mx-4 mt-1 cursor-pointer 
+                      className={`mx-4 mt-1 cursor-pointer text-components
                         ${contestType=== invitationContest ?'bg-blue-200 px-2 py-1  rounded-3xl' : 'py-1'}
                         ${rfpCreated || actionButtonClicked ? 'pointer-events-none':''}`} 
                       onClick={handleClickContestType}>
@@ -390,8 +389,8 @@ const RFPDataForm = ({setNoticeOff}) => {
                     onClick={handleCheckItemsAdder} 
                     disabled={rfpCreated || actionButtonClicked}
                     className="mr-4" type="checkbox" value={showItemsField}/>
-                <div className={`${itemStyleCheckboxText[showItemsField]}`}>
-                <p className={`text-stone-600 font-khula lg:text-xs xl:text-base`}> 
+                <div className={`text-components ${itemStyleCheckboxText[showItemsField]}`}>
+                <p className={`text-components text-stone-600 font-khula ${itemStyleInputName[showItemsField]}`}> 
                 <strong>{t('optional')}&nbsp;</strong>{t('additemscheckbox')} </p>
                 </div>
               </div>

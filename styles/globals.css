@@ -8,29 +8,29 @@ html {
 
 
 @layer components {
-
+  
     .flashy-main-btn {
-      @apply ml-16 p-4 font-khula font-black lg:text-xs xl:text-base uppercase text-white bg-orange-600 rounded-xl  drop-shadow-lg bg-gradient-to-r 
+      @apply ml-16 p-4 font-khula font-black lg:text-xs xl:text-sm 2xl:text-base uppercase text-white bg-orange-600 rounded-xl  drop-shadow-lg bg-gradient-to-r 
       from-orange-500  to-blue-500  hover:outline hover:outline-4 hover:outline-blue-300 min-w-[12rem] text-center
       hover:outline-offset-2
     }
 
     .flashy-secondary-btn {
-      @apply ml-16 p-4 font-khula font-black lg:text-xs xl:text-base uppercase text-white bg-blue-600 rounded-xl  drop-shadow-lg 
+      @apply ml-16 p-4 font-khula font-black lg:text-xs xl:text-sm 2xl:text-base uppercase text-white bg-blue-600 rounded-xl  drop-shadow-lg 
       hover:outline hover:outline-4 hover:outline-orange-300 min-w-[12rem] text-center
       hover:outline-offset-2
     }
 
     .main-btn {
-      @apply bg-orange-400 lg:text-xs xl:text-sm font-bold font-khula  px-4 py-2   
+      @apply bg-orange-400 lg:text-xs xl:text-sm 2xl:text-sm font-bold font-khula  px-2 py-1 
       text-white leading-tight uppercase rounded-md shadow-md hover:bg-orange-700 
       active:hover:shadow-lg active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none
       active:focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 
       ease-in-out disabled:bg-orange-200 focus:outline-none disabled:shadow-none
     }
     .secondary-btn {
-      @apply bg-blue-500 lg:text-xs xl:text-sm font-bold font-khula text-white leading-tight uppercase      
-      px-4 py-2 rounded-md shadow-md hover:bg-blue-700 active:hover:shadow-lg 
+      @apply bg-blue-500 lg:text-xs xl:text-sm 2xl:text-sm font-bold font-khula text-white leading-tight uppercase      
+      px-2 py-1 rounded-md shadow-md hover:bg-blue-700 active:hover:shadow-lg 
       active:focus:bg-blue-800 focus:shadow-lg focus:outline-none focus:ring-2 
       active:bg-blue-800 active:focus:shadow-lg transition duration-150 
       ease-in-out disabled:bg-blue-400;
@@ -115,6 +115,23 @@ html {
       @apply lg:text-xs xl:text-sm;
     }
 
+    .text-components, .text-components div {
+      @apply lg:text-xs xl:text-sm 2xl:text-base;
+    }
+
+    .buttons-titles {
+      @apply lg:text-xs xl:text-sm 2xl:text-base;
+    }
+    .text-titles-div div  {
+      @apply lg:text-sm xl:text-base 2xl:text-base;
+    }
+
+    h1 {
+      @apply lg:text-base xl:text-lg 2xl:text-xl 
+    }
+    h2 {
+      @apply lg:text-base xl:text-xl 2xl:text-xl 
+    }
     @keyframes animate-blue-dot {
       from {
         left:0%;

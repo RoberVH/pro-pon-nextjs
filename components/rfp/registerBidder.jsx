@@ -10,7 +10,7 @@ import { useState, useEffect, useRef } from "react";
 import SearchDB from "../SearchDB";
 import DisplayResults from "../DisplayResults";
 import Spinner from "../layouts/Spinner";
-import { companyFields } from "../../utils/companyFieldsonRFP";
+////import { companyFields as availableFields } from "../../utils/companyFieldsonRFP";
 import { nanoid } from "nanoid";
 import Image from "next/image";
 import GralMsg from "../layouts/gralMsg";
@@ -53,6 +53,7 @@ const RegisterBidder = ({
   const [guestCompanies, setGuestCompanies] = useState([]);
   const [results, setResults] = useState([]);
   const [error, setError] = useState(false);
+  //const [companyFields, setCompanyFields] = useState([])
   // Next  is for SearchDB component & make Spinner spin when searching
   const [IsWaiting, setIsWaiting] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
@@ -69,8 +70,24 @@ const RegisterBidder = ({
   const [processingTxBlockchain, setProTxBlockchain] = useState(false);
   const [actionButtonClicked, setButtonClicked] = useState(false);
 
-  //****************************** */
 
+  const availableFields=[
+    { id:1,
+       fieldName:'companyId',
+       searchable: true,
+       width: '[30%]',
+       date: false },
+    { id:2,
+       fieldName:'companyname',
+       searchable: true,
+       width: '[30%]',
+       date: false },
+    { id:3,
+      fieldName:'country',
+      searchable: true,
+      date: false,
+      width: '[20%]' }            
+    ] 
   
 
   const companyActions = [
@@ -83,13 +100,34 @@ const RegisterBidder = ({
     },
   ];
 
+
+  const updateBreakpoint = () => {
+    if (window.matchMedia('(min-width: 1024px)').matches && window.matchMedia('(max-width: 1399px)').matches) {
+      //setCompanyFields([availableFields[0]])
+      return [availableFields[0]]
+    } else if (window.matchMedia('(min-width: 1400px)').matches && window.matchMedia('(max-width: 1799px)').matches) {
+      //setCompanyFields([availableFields[0], availableFields[1]])
+      return [availableFields[0], availableFields[1]]
+    } else if (window.matchMedia('(min-width: 1800px)').matches) {
+      //setCompanyFields(availableFields)
+      return availableFields
+    }
+  }
+  
+  const companyFields =  updateBreakpoint()
+  
+
   // Hooks   ******************************************************************************** */
   const { write, postedHash, block, link, blockchainsuccess } =
     useRegisterBidders(onError, onSuccess, isCancelled, setProTxBlockchain);
+    
 
+  // fetch  Bidders of the RFP
   useEffect(() => {
     getBidders(rfpRecord.rfpIndex);
   }, []);
+
+
 
   useEffect(() => {
     if (bidders)
@@ -338,10 +376,10 @@ const RegisterBidder = ({
   const InvitedCompanies = () => {
     return (
       <div className="h-[25em] overflow-y-auto p-2">
-        <div className="pb-2 flex justify-center font-khula text-stone-900">
+        <div className="pb-2 text-components flex justify-center font-khula text-stone-500">
           <p>{t("inviting_companies_title")}</p>
         </div>
-        <table className="p-2 w-full h-[5em]  table-fixed border-2 border-orange-300  font-khula">
+        <table className="text-components p-2 w-full h-[5em]  table-fixed border-2 border-orange-300  font-khula">
           <thead>
             <tr className=" border-2 border-orange-500  text-stone-500 ">
               <th className="pt-1 w-1/6 border-r-2 border-orange-500  break-words">
@@ -428,10 +466,18 @@ const RegisterBidder = ({
   const MainInstructions = () => {
     // if is an invitation contest but current logged company it's not owner (rfpOwner is false)  it doesn't matter as it wont get up here 
     // as it's dispatched on parent component (homerfp.jsx)
-    if (inviteContest && rfpOwner) return t("register_guest"); 
+    if (inviteContest && rfpOwner) return (
+        <div className="text-components">
+          {t("register_guest")}
+        </div>
+        ); 
     if (!inviteContest && rfpOwner)
       // if is and Open RFP and its the RFP owner
-      return t("notify_open_non_reg");
+      return (
+        <div className="text-components">
+          {t("notify_open_non_reg")}
+        </div>
+        );
     // Display Notice to select companies for notifying component
     else if (!alreadyRegistered) return t("register_open");
     // Display Notice to registered compamy for self-registering to open RFP
@@ -497,8 +543,9 @@ const RegisterBidder = ({
                 <>
                   <div
                     id="owner-rfp-invitation"
-                    className="shadow w-3/5 h-[25em] outline-1 border border-orange-500 rounded-lg overflow-x-auto"
+                    className="shadow lg:w-3/5 xl:w-3/5 3xl:w-3/5 h-[25em] outline-1 border border-orange-500 rounded-lg overflow-x-auto"
                   >
+
                     <SearchDB
                       i18n={i18n}
                       fields={companyFields}
@@ -509,6 +556,7 @@ const RegisterBidder = ({
                       t={t_companies}
                       ref={cleanSearchParams}
                     />
+                    
                     {IsWaiting ? (
                       <div className="mt-12 mb-4 scale-75">
                         <Spinner />
@@ -517,20 +565,21 @@ const RegisterBidder = ({
                       <div className="mt-8 w-full">
                         {results.length > 0 ? (
                           <DisplayResults
-                            fields={companyFields}
+                            // fields={companyFields.length <= 1 ? [availableFields[0], availableFields[1]]: companyFields }
+                            fields={availableFields}
                             results={results}
                             actions={companyActions}
                             t={t}
                           />
                         ) : (
-                          <div className="bg-orange-100 p-4 text-red-600 text-xl text-center">
+                          <div className="bg-orange-100 p-4 text-red-600 lg:text-sm  2xl:text-xl text-center">
                             {t("noresults", { ns: "common" })}
                           </div>
                         )}
                       </div>
                     )}
                   </div>
-                  <div id="companiestoinvite" className="ml-2 w-2/5  ">
+                  <div id="companiestoinvite" className="ml-2 lg:w-2/5 xl:w-2/5 3xl:w-2/5  ">
                     <div className="shadow outline-1 border border-orange-500 rounded-lg">
                       <InvitedCompanies />
                     </div>

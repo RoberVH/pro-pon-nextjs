@@ -32,14 +32,14 @@ const PendingTxs = ({ pendingTxs, handleClearAllTxs, handleClearTx, handleRetry,
       <div>
         <button
         disabled={actionButtonClicked}
-          className="mr-1 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-1 bg-blue-500 xl:text-sm lg:text-xs 
+          className="mr-1 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-1 bg-blue-500 buttons-titles 
           font-bold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-500"
           onClick={() => handleRetry(Tx)} >
             {t('retry')}
         </button>
         <button
           disabled={actionButtonClicked}
-          className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-1 bg-orange-500 xl:text-sm lg:text-xs 
+          className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-1 bg-orange-500 buttons-titles
           font-bold text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:bg-orange-500"
           onClick={() => handleClearTx(txId)} >
           {t('clean_tx')} 
@@ -49,7 +49,7 @@ const PendingTxs = ({ pendingTxs, handleClearAllTxs, handleClearTx, handleRetry,
     else return (
         <button
         disabled={actionButtonClicked}
-        className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-1 bg-orange-500 text-sm 
+        className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-1 bg-orange-500 buttons-titles 
         font-bold text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:bg-orange-500"
         onClick={() => handleClearTx(txId)} >
         {t('clean_tx')} 
@@ -60,10 +60,10 @@ const PendingTxs = ({ pendingTxs, handleClearAllTxs, handleClearTx, handleRetry,
   return (
       <div >
         <div className=" flex justify-center items-center  mb-4">
-          <h2 className="xl:text-2xl lg:text-xl font-medium text-stone-500 mt-8 mx-auto">{t('mypending_transactions')}</h2>
+          <h2 className="font-medium text-stone-500 mt-8 mx-auto">{t('mypending_transactions')}</h2>
           <button
             disabled={actionButtonClicked}
-            className="xl:text-base lg:text-xs mt-24 mr-4 rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-sm disabled:bg-red-600
+            className="buttons-titles mt-24 mr-4 rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500  disabled:bg-red-600
             font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             onClick={handleClearAllTxs}
           >
@@ -76,45 +76,46 @@ const PendingTxs = ({ pendingTxs, handleClearAllTxs, handleClearTx, handleRetry,
           :
           <div>
             <div  
-                  key="0001_HEADER" 
-                  className="flex items-center justify-center bg-sky-600 rounded-lg py-2 mb-2 font-khula  text-xl 
-                  font-semibold shadow text-white">
-                  <div id="1rstcoltitle" className="w-[30%] mr-2 ">
-                    {t('transactions.transaction_type', {ns:"rfps"})} 
-                  </div>
-                  <div id="2ndtcoltitle" className="w-[20%]   ">
-                    {t('issued_on')} 
-                  </div>
-                  <div  id="3rdcoltitle" className="w-[15%] ">
-                    {t('transaction_hash') }
-                  </div>
-                  <div id="4thcoltitle" className="w-[30%]  ">
-                    {t('status')}
-                  </div>
+              key="0001_HEADER" 
+              className="text-components flex items-center justify-center bg-sky-600 rounded-lg py-2 mb-2 font-khula  
+              font-semibold shadow text-white">
+              <div id="1rstcoltitle" className="w-[30%] mr-2 ">
+                {t('transactions.transaction_type', {ns:"rfps"})} 
+              </div>
+              <div id="2ndtcoltitle" className="w-[20%]   ">
+                {t('issued_on')} 
+              </div>
+              <div  id="3rdcoltitle" className="w-[15%] ">
+                {t('transaction_hash') }
+              </div>
+              <div id="4thcoltitle" className="w-[30%]  ">
+                {t('status')}
+              </div>
             </div>
             {Boolean(txStatuses.length) && txStatuses
               .sort((a, b) => a.date - b.date)
               .map((tx) => (
                 <div  
                   key={tx._id} 
-                  className="xl:text-base lg:text-sm flex items-center justify-center bg-orange-100 rounded-lg py-2 mb-2 font-khula text-stone-700 font-semibold shadow">
-                  <div id="1rstcol" className="w-[30%] mr-2 xl:text-base lg:text-sm">
-                    {t(`transactions.${tx.type}`, {ns:"rfps"})} 
+                  className="text-titles-div flex items-center justify-center bg-orange-100 rounded-lg py-2 mb-2 font-khula text-stone-700 font-semibold shadow"
+                >
+                  <div id="1rstcol" className="w-[30%] mr-2 ">
+                    {t(`transactions.${tx.type}`, {ns:"rfps"})}
                   </div>
-                  <div id="2ndtcol" className="w-[20%] flex items-center  xl:text-base lg:text-sm">
+                  <div id="2ndtcol" className="w-[20%] flex items-center ">
                      {convDate(tx.date)}
                   </div>
-                  <div  id="3rdcol" className="xl:text-base lg:text-sm w-[15%] ml-4 text-orange-500 truncate cursor-pointer hover:text-orange-700"
+                  <div  id="3rdcol" className="w-[15%] ml-4 text-orange-500 truncate cursor-pointer hover:text-orange-700"
                     onClick={() => window.open(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}/tx/${tx.txHash}`, '_blank')} 
                     title={`Tx Hash: ${tx.txHash}`}>
                     {tx.txHash.slice(0, 6)}...{tx.txHash.slice(-6)}
                   </div>
-                  <div id="4th" className="xl:text-base lg:text-sm w-[30%] flex items-center justify-between ">
+                  <div id="4th" className="w-[30%] flex items-center justify-between ">
                     {tx.status ==="pending" && (
                       <div className="text-red-700 font-bold mr-2"> {t('pending',{ns:"rfps"})} </div>
                     )}
                     { tx.status === 1 && (
-                      <div className="xl:text-base lg:text-sm font-bold text-green-700  mr-2 cursor-pointer " 
+                      <div className="font-bold text-green-700  mr-2 cursor-pointer " 
                         onClick={() => window.open(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}/block/${tx.blockNumber}`, '_blank')}
                         title={`${process.env.NEXT_PUBLIC_LINK_EXPLORER}/block/${tx.blockNumber}`}>
                         {`${t('success')} (Block: ${tx.blockNumber})`}

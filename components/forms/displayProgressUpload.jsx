@@ -60,7 +60,7 @@ const  DisplayProgressUpload=({t, files,  uploadingSet}) => {
         <tbody className="">
         {
           files.map((file,indx) => 
-            <tr key={file.name} className="border-2 border-orange-200 pl-2 text-stone-600 w-[35%]">
+            <tr key={file.name} className="text-components border-2 border-orange-200 pl-2 text-stone-600 w-[35%]">
                 <td className="pl-1 truncate">
                   <strong>{file.name}</strong>
                 </td>

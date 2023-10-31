@@ -485,25 +485,25 @@ const DownloadFileForm = ({
           >
             <thead className="">
               <tr className="font-khula text-md text-left text-stone-600 border border-orange-400">
-                <th className="w-1/4 px-4 py-2 ">
-                  <div className="cursor-pointer" onClick={toggleAllEntries}>
+                <th className="w-1/4 lg:px-1 py-2 ">
+                  <div className="cursor-pointer text-components" onClick={toggleAllEntries}>
                     <input
                       title={t("selectall", { ns: "common" })}
                       type="checkbox"
-                      className=" cursor-pointer mr-2 accent-orange-200 "
+                      className=" cursor-pointer mr-2 accent-orange-200 lg:w-2 lg:h-2  "
                       checked={selectAll}
                       onChange={toggleAllEntries}
                     />
                     <strong>{t("document_name")}</strong>
                   </div>
                 </th>
-                <th className="w-5/12 px-4 py-2 ">
+                <th className="w-5/12 px-4 py-2 text-components">
                   <strong>{t("document_hash")}</strong>
                 </th>
-                <th className="w-2/12 px-4 py-2   ">
+                <th className="w-2/12 px-4 py-2 text-components  ">
                   <strong>{t("doc_type")}</strong>
                 </th>
-                <th className="w-2/12 px-4 py-2   ">
+                <th className="w-2/12 px-4 py-2 text-components  ">
                   <strong>{t("test")}</strong>
                 </th>
               </tr>
@@ -512,7 +512,7 @@ const DownloadFileForm = ({
               {downloadableFiles.map((file) => (
                 <tr
                   key={file.idx}
-                  className={`${
+                  className={` ${
                     file.selected
                       ? "bg-orange-100"
                       : "even:bg-stone-100 odd:bg-white"
@@ -522,31 +522,31 @@ const DownloadFileForm = ({
                     className="flex p-2 truncate ml-7  cursor-pointer"
                     onClick={() => toggleSelectedFile(file)}
                   >
-                    <div className="">
-                      <p className="whitespace-pre text-sm"> {file.name}</p>
+                    <div className="text-components">
+                      <p className="whitespace-pre  "> {file.name}</p>
                     </div>
                   </td>
                   <td
                     title={t("click_to_Copy_clipboard")}
                     onClick={() => copyclipboard(file.documentHash, file)}
-                    className=" truncate   p-2 text-sm  cursor-pointer"
+                    className=" truncate   p-2 text-components  cursor-pointer"
                   >
                     {file.documentHash}
                   </td>
                   <td
-                    className=" truncate p-2 text-sm cursor-pointer"
+                    className=" truncate p-2 text-components cursor-pointer"
                     onClick={() => toggleSelectedFile(file)}
                   >
                     {t(docTypes[file.docType.toNumber()].desc)}
                   </td>
                   <td
-                    className=" truncate p-2 text-sm cursor-pointer"
+                    className=" truncate p-2  cursor-pointer"
                     >
                     <div className="flex items-center">
                       <Image
                         onClick={() => handleTestFile(file.documentHash)}
                         title={t("compare_hash_file")}
-                        className=""
+                        className="w-full h-full  lg:w-3 lg:h-3 2xl:w-6 2xl:h-6"
                         alt="checkdoc icon"
                         src={"/filecheck.svg"}
                         height={18}

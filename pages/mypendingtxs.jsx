@@ -137,7 +137,7 @@ const DismissedTxNotice = (typeTx) =>
       justify-start bg-stone-100 ">
           <div className=" bg-orange-500 h-12 flex items-center justify-center  "> 
               <p className="text-white text-lg font-semibold "> {App_Name} </p></div>
-          <div className="p-8 w-15 h-15 flex items-center justify-center ">
+          <div className="p-8  w-15 h-15 flex items-center justify-center ">
               <p className="text-orange-500 text-4xl font-bold" > ⓘ</p>
               <p className="flex-grow pl-8 py-4 text-left text-stone-800 text-lg font-khula"> 
                   {t('dropped_tx_notice')}<br />
@@ -181,7 +181,7 @@ const DismissedTxNotice = (typeTx) =>
               </div>
             </div>
         }        
-        <div className="xl:w-[65%] lg:w-[60%] md:w-[55%] sm:w[50%] mx-auto"> 
+        <div className="w-[80%]  mx-auto"> 
           <PendingTxs  
               pendingTxs={pendingTxs} 
               handleClearAllTxs= {handleClearAllTxs} 

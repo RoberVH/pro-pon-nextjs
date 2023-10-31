@@ -8,12 +8,16 @@ module.exports = {
     container: {
       center: true,
     },
-    extend: {},
-    fontFamily:{
-      nunito:['Nunito', 'sans-serif'],
-      khula:['Khula','sans-serif'],
-      'inter': ['Inter', 'sans-serif'],
-    }
+    extend: {
+      screens: {
+        "3xl": "1800px", // Puedes ajustar este valor según tus necesidades
+      },
+    },
+    fontFamily: {
+      nunito: ["Nunito", "sans-serif"],
+      khula: ["Khula", "sans-serif"],
+      inter: ["Inter", "sans-serif"],
+    },
   },
   plugins: [],
 }

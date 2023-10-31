@@ -133,10 +133,10 @@ function Company() {
           if (value !== undefined && key !== "_id") {
             return (
               <tr key={key} className="border-b-[1px] border-slate-200">
-                <td className="w-64 pl-4 text-stone-500 text-bold border-r-[1px] border-blue-500">
+                <td className="text-components w-64 pl-4 text-stone-500 text-bold border-r-[1px] border-blue-500">
                   {t(key)}
                 </td>
-                <td className="p-4 text-stone-500 overflow-x-auto">
+                <td className="text-components p-4 text-stone-500 overflow-x-auto">
                   <TableValueDisplay value={value} handleShowRFP={handleShowRFP} t={t} RFP_INTERVAL={5} />                  
                 </td>
               </tr>
@@ -160,6 +160,7 @@ function Company() {
     return <Warning title={t("company_notfound",{ns:"gralerrors"})} />
   }
 
+  //***********Main JSX ************************** */
   return (
     <section className="">
       <table className="table-fixed w-[80%] min-w-[60%] max-w-[80%] bg-white mx-auto mt-8 shadow-lg rounded-xl">
@@ -167,7 +168,7 @@ function Company() {
           <tr className="bg-slate-500">
             <th className="w-1/5 text-center p-4 border-b-[1px]   text-white rounded-tl-xl "></th>
             <th className="w-4/5 text-left p-4 border-b-[1px]   text-white rounded-tr-xl">
-              {selectedCompanyData.companyname}
+             <h2> {selectedCompanyData.companyname}</h2>
             </th>
           </tr>
         </thead>

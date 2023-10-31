@@ -36,8 +36,8 @@ countries.registerLocale(english);
 countries.registerLocale(spanish);
 countries.registerLocale(french);
 
-const inputclasses ="leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none " && 
-                    "font-roboto  outline-none pl-10 w-full focus:bg-blue-100 bg-stone-100"                    
+const inputclasses =`leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none 
+                    font-roboto  outline-none pl-10 w-full focus:bg-blue-100 bg-stone-100 py-1`
  
  /**
  * SignUpCompanyDataForm is a React functional component that manages posting 
@@ -273,10 +273,10 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
         )
     }    
     {/* Entry Form with buttons save & cancel */}
-    <div id="dataentrypanel" className="mx-auto mt-4 mb-4 p-4 bg-white border border-orange-300 rounded-md container shadow-md">
-      <div className="flex items-center mt-2 z-50" >
+    <div id="dataentrypanel" className="lg:w-[120%] xl:w-[95%] mx-auto mt-4 mb-4 p-4 bg-white border border-orange-300 rounded-md container shadow-md">
+      <div className="flex items-center mt-2 z-50 " >
         <Image alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
-        <p className="lg:text-xs xl:text-base text-stone-500 text-bold  mt-2 ml-2 font-khula">
+        <p className="text-components text-bold  mt-2 ml-2 font-khula">
            {t("companyform.recordessentialdata")}
         </p>
       </div>
@@ -284,11 +284,11 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
         action=""
         className="flex flex-col items-center justify-between leading-8 my-6"
       >
-        <div className="w-[70%] relative mb-2 xl:text-base lg:text-xs">
+        <div className="lg:w-[80%] xl:w-[70%] 3xl:w-[65%]  relative mb-2 text-components">
         { typeof companyData.profileCompleted === 'undefined' ?
           // Company not yet registered to blockchain contract
             <React.Fragment>
-              <p className="lg:text-xs xl:text-base text-stone-500 text-base mb-2">
+              <p className="text-components text-stone-500 mb-2">
                   {t('companyform.essentialfilldata')}
               </p>
               <InputCountrySel
@@ -341,12 +341,12 @@ const SignUpCompanyDataForm = ({setCompanyData, companyData}) => {
           :
           // Company already registered to blockchain contract
             <React.Fragment>
-              <p className="text-stone-500 text-base mb-3 ">
+              <p className="font-khula text-stone-500 text-components mb-3 ">
                 {t('companyform.dataofaccount')}
               </p>
               <div className="flex bg-stone-100 ">
-                <GlobeIcon className="h-5 w-5 text-orange-400 mt-1 ml-2 "/>
-                <p className="pl-4 ">{getCountryName(companyData.country)}</p>
+                <GlobeIcon className="lg:h-4 lg:w-4 2xl:h-5  2xl:w-5  text-orange-400 mt-2  ml-2 "/>
+                <p className="pl-4 my-2">{getCountryName(companyData.country)}</p>
               </div>                
               <div className="relative mb-4 mt-4">
                 <InputCompanyId

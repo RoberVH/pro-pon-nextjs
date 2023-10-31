@@ -120,7 +120,7 @@
     "financial_doc":"Financiero",  
     "admin_doc":"Administrativo",
     "cto_doc":"Contrato",
-    "select_doctype":"Seleccion el tipo de documento para cada archivo",
+    "select_doctype":"Seleccione el tipo de documento para cada archivo",
     "no_bidders":"Aun no hay participantes registrados",
     "uploading_metadata":"Cargando Metadata a la Blockchain... espere",
     "loading_data":"Cargando Datos a la Blockchain",

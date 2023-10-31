@@ -51,12 +51,12 @@ const handleKeyPress= (e) => {
  if (!showItemsField) return null
   return (
     <div className="">
-          <div className="xl:text-base lg:text-xs">
+          <div className="text-components">
             <p className="text-stone-500">{t('additemstitle')}  </p>
             <p className="text-stone-500">{t('addintemsinstructions')}</p>
             <div className=" flex mt-10">
               <input 
-                  className="w-[80%] p-2  mr-4 outline outline-1 outline-orange-600  rounded-md"
+                  className="w-[80%] p-2  mr-4 outline outline-1 outline-orange-600  rounded-md text-components"
                   type = 'text'
                   id='addItemInputControl'
                   onChange = { (e) => setItemTender(e.target.value) }
@@ -67,14 +67,13 @@ const handleKeyPress= (e) => {
               />
               <button 
                     disabled={((itemTender.length===0) || disable)}
-                    className="btn-add-circular disabled:cursor-not-allowed pb-1 scale-[120%] mr-2"
+                    className="btn-add-circular disabled:cursor-not-allowed pb-1 scale-[120%] mr-2 lg:text-lg"
                     onClick={handleAddItem}>
                         +
               </button>
               <button 
                   disabled={(!Object.keys(items).length || disable)}
-                  className="btn-removeall-circular disabled:cursor-not-allowed pb-1 ml-2 scale-[120%] 
-                  group relative  "
+                  className="btn-removeall-circular disabled:cursor-not-allowed pb-1 ml-2 scale-[120%] group relative"
                   onClick={handleRemoveAllItems}> 
                         x
                       <span className="tooltip-span-rigth mt-2">

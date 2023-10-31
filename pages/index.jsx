@@ -294,7 +294,37 @@ function LandingPage() {
     <div
       id="landing-page"
       className="bg-gradient-to-br from-orange-100 via-slate-200 to-blue-100 "
-    >
+     // className="bg-[#1f1929] from-orange-100 via-slate-200 to-blue-100 "
+      >
+    {/* <div className="absolute top-60 left-90 overflow-hidden">
+
+    <Image 
+        className="transform scale-105 object-cover opacity-90"
+        src={"/bola gris.png"}
+        priority
+        height={200}
+        width={200}
+        alt="logo 45"
+    /> 
+
+    </div> */}
+
+      {/* <div  className="opacity-40 absolute -top-20 -left-40 translate-y-5 "
+            style={{
+              background: 'radial-gradient(circle, #FFFFFF, transparent)',
+              width: '20rem',
+              height: '20rem',
+              borderRadius: '50%'
+          }} > </div>
+      <div  className="opacity-40 absolute top-0 -left-60 translate-y-5"
+      style={{
+        background: 'radial-gradient(circle, #E46545, transparent)',
+        width: '20rem',
+        height: '20rem',
+        borderRadius: '50%'
+    }} > </div> */}
+
+
       {showSpinner && (
         <div className="absolute bottom-[45%] left-[45%]">
           <Spinner />

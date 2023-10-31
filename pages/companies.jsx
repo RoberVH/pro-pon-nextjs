@@ -64,7 +64,7 @@ function Companies() {
 
   return (
     <div id="companies">
-      <h1 className="mt-4 text-stone-500 text-2xl text-center">
+      <h1 className="mt-4 text-stone-500  text-center">
         {t("titlescreen")}
       </h1>
       <div

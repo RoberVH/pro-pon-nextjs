@@ -7,10 +7,12 @@ function DisplayItems({items, t}) {
     return (
     <div className="font-khula  bg-white leading-8 mb-2 "> 
         <div className="flex justify-between">
-            <div className="flex pl-2 py-1 px-4">
-                <Image alt="Proposal" src="/surveys-icon.svg" height={17} width={17} 
-                className="text-orange-400 mt-1 ml-2" />  
-                <p className="font-khula ml-4 mt-1 lg:text-xs xl:text-base  text-stone-900">{t('showItems')}
+            <div className="flex pl-2 py-1 px-4 items-center">
+                <Image 
+                className="text-orange-400  ml-2 lg:h-10 lg:w-10" 
+                alt="Proposal" src="/surveys-icon.svg"  width={14} height={14}
+                />  
+                <p className="font-khula ml-2 mt-1  text-components  text-stone-900">{t('showItems')}
                    {` (${(items.length)})`}
                  </p>
             </div>

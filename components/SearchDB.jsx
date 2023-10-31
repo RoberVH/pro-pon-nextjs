@@ -39,7 +39,6 @@ const SearchDB = forwardRef(
   ({ fields, path, setResults, setWait, setError, t, i18n }, ref) => {
     const { values, handleChange, handleReinitialize } = useInputForm()
     const [currInput, setCurrInput] = useState()
-
     const inputRefs = useRef([]);
     const uSEReference = useRef; // to avoid calling a hook inside a callback when setting inputRefs next line
     inputRefs.current = fields.map(() => uSEReference(null));
@@ -76,7 +75,7 @@ const SearchDB = forwardRef(
       };
 
       return (
-        <div id={`term-${field.fieldName}`} className="text-sm">
+        <div id={`term-${field.fieldName}`} className="text-components">
           {!field.date ? ( // no date type
             // check if country type
             field.fieldName !== "country" ? (
@@ -91,13 +90,13 @@ const SearchDB = forwardRef(
             )
           ) : (
             // field of type Date
-            <div className="flex  mt-3 ">
+            <div className="flex  mt-3">
               <div className="flex items-center">
-                <label className="text-stone-400 mx-2 max-w-20 flex-wrap ">
+                <label className="text-stone-400 mx-2 max-w-20 flex-wrap text-components">
                   {t(field.fieldName)}:
                 </label>
               </div>
-              <div className={` flex flex-col  rounded-md w-42`}>
+              <div className={`text-components flex flex-col  rounded-md w-42`}>
                 <input
                   className={`font-khula  text-stone-900 outline-none border
                 py-1 pl-2  rounded-md focus:bg-stone-100 focus:rounded-md ${errorColor[faultyDates]} `}
@@ -114,7 +113,7 @@ const SearchDB = forwardRef(
                 />
 
                 <input
-                  className={`font-khula  text-stone-900 outline-none  
+                  className={`font-khula  text-stone-900 outline-none  border
                       py-1 pl-2  rounded-md focus:bg-stone-100 focus:rounded-md ${errorColor[faultyDates]} `}
                   type="text"
                   id={`${field.fieldName}_end`}
@@ -198,7 +197,7 @@ const SearchDB = forwardRef(
           onClick={handleCleanFields}
           className="pr-2 cursor-pointer group relative inline-block"
         >
-          <SearchIcon className="ml-8 h-8 w-8 text-orange-400  " />
+          <SearchIcon className="ml-8 lg:h-6 lg:w-6 2xl:h-8 2xl:w-8 text-orange-400  " />
           <span className="tooltip-span-rigth mt-2 mr-4">
             {t("reset_search")}
           </span>

@@ -28,7 +28,7 @@ const Menues = forwardRef (({isVisible}, ref) =>  {
 
   return (
     <div ref={ref} className='flex mt-12 ml-20' >
-      <div className="text-white xl:text-base lg:text-sm font-semibold font-khula uppercase flex items-start mr-8">
+      <div className="text-white lg:text-sm xl:text-base  font-semibold font-khula uppercase flex items-start mr-8">
           <label 
               onClick={()=> handleMenu('company')}  
               className=" cursor-pointer  decoration-orange-200 hover:text-slate-300

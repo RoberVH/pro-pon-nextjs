@@ -172,13 +172,10 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
     setShowSignMsg(true);
   };
 
-  const inputclasses =
-    "require leading-normal flex-1 border-0  border-grey-light " &&
-    "rounded rounded-l-none outline-none pl-10 w-full bg-stone-100 focus:bg-blue-100 font-khula font-extrabold";
+  const inputclasses =`
+    require leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none outline-none pl-10 
+     bg-stone-100 focus:bg-blue-100 font-roboto pl-10 w-full bg-stone-100 py-1 text-components `
 
-  /*const patronemail = new RegExp(
-    "^$|^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-  );*/
 
   const patronemail = new RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -200,7 +197,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   };
 
   return (
-    <div className="container mx-auto w-[80%] ">
+    <div className="container mx-auto lg:w-[80%] xl:w-[70%] 3xl:w-[65%] ">
       <SignMsgAlert
         showSignMsg={showSignMsg}
         msgWarning={t("showsigningmsg")}
@@ -213,38 +210,41 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
       >
         <div className="flex items-center mt-2 mb-4" >
           <Image alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
-            <p className="text-stone-500 text-bold text-lg mt-2 ml-2 font-khula">
+            <p className="text-components text-stone-500 text-bold  mt-2 ml-2 font-khula">
             {t("companyform.recordcompanytitle")}
             </p>
         </div>
         <form
           action=""
-          className={`flex flex-col items-center justify-between leading-8 mb-8`}
+          className="flex flex-col items-center justify-between leading-8 mb-8"
         >
-          <div className="w-[80%] relative mb-4 flex bg-stone-100">
-            <GlobeIcon className="h-5 w-5 text-orange-400 mt-1 ml-2" />
-            <p className="pl-4 text-stone-500 font-khula font-extrabold">{getCountryName(companyData.country)}</p>
+          <div className=" w-[80%] relative mb-4 flex bg-stone-100 ">
+            <GlobeIcon className="absolute lg:h-4 lg:w-4 2xl:h-5  text-orange-400 mt-2 ml-2" />
+            <p 
+              className=" lg:text-xs xl:text-sm 2xl:text-base w-full my-2 text-stone-500 font-roboto pl-10">
+              {getCountryName(companyData.country) }
+              </p>
           </div>
-          <div className="w-[80%] relative mb-4">
+          <div className="w-[80%] relative flex mb-4">
             <InputCompanyId
               handleChange={handleChange}
-              inputclasses={inputclasses + "text-stone-500"}
+              inputclasses={inputclasses + " text-stone-500"}
               values={values}
               placeholder={`${t("companyform.companyId")}*`}
               disable={true}
             />
           </div>
-          <div className=" w-[80%] relative mb-4">
+          <div className=" w-[80%] relative flex mb-4">
             <InputCompanyName
               handleChange={handleChange}
-              inputclasses={inputclasses + "text-stone-500"}
+              inputclasses={inputclasses + "  text-stone-500"}
               values={values}
               placeholder={`${t("companyform.companyname")}*`}
               disable={true}
             />
           </div>
 
-          <div className="w-[80%] relative mb-4">
+          <div className="w-[80%] relative flex mb-4">
             <InputAdminName
               handleChange={handleChange}
               inputclasses={inputclasses}
@@ -253,7 +253,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
             />
           </div>
 
-          <div className="w-[80%] relative mb-4">
+          <div className="w-[80%] relative flex mb-4">
             <InputEmail
               handleChange={handleChange}
               inputclasses={inputclasses}
@@ -262,7 +262,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
             />
           </div>
 
-          <div className="w-[80%] relative mb-4 ">
+          <div className="w-[80%] relative flex mb-4 ">
             <InputWebsite
               handleChange={handleChange}
               inputclasses={inputclasses}

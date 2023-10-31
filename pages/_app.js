@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {  useState } from 'react'
 import { appWithTranslation } from "next-i18next";
 import clientPromise from '../database/mongodb'
 
@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import '../styles/globals.css'
 
 
+
 function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   // Variables to hold state through all Pro-pon D'app via proponContext context
   const [ companyData, setCompanyData] = useState({})
@@ -17,7 +18,6 @@ function MyApp({ Component, pageProps, isConnected,  _nextI18Next  }) {
   const [showSpinner, setShowSpinner] = useState(false)
   const [noRightNetwork, setNoRightNetwork] = useState(false);
   const [noWallet, setnoWallet] = useState(true);
-  
   
   return (
    <>

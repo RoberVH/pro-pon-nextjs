@@ -425,6 +425,7 @@ const HeadBar = () => {
     <nav
       id="navigation"
       className={`antialiased  pl-2 pt-4 pb-4 bg-gradient-to-b from-stone-600 to-orange-500 `}
+      //className={`antialiased  pl-2 pt-4 pb-4 bg-[#1f1929] `}
     >
       {addingNetwork && (
         <div className="flex justify-center">

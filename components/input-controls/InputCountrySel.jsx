@@ -64,10 +64,9 @@ export const InputCountrySel = ({
 
   return (
     <select
-      className="form-select block w-full px-3 py-1.5 text-base font-roboto bg-stone-100 bg-clip-padding
+      className="form-select text-components block w-full px-3 py-1.5  font-roboto bg-stone-100 bg-clip-padding
                 bg-no-repeat border border-solid border-gray-300 outline-none transition ease-in-out
-                border-grey-light rounded rounded-l-none focus:bg-blue-100 
-              text-black  font-khula"
+                border-grey-light rounded rounded-l-none focus:bg-blue-100 text-stone-500"
       onChange={handleChange}
       id={"country"}
       disabled={disable}

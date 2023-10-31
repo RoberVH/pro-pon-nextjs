@@ -66,6 +66,8 @@ useEffect(()=>{
   getCompanyRFPs()
  },[address, typeRFP])
 
+
+
 // ******************************* handlers ******************************************** */
 
     const handleStatusChange = (option) => {
@@ -114,7 +116,7 @@ useEffect(()=>{
           <div className="flex">
             <div id="tpyecontest" className="ml-8 flex items-center pl-4 p-2 border-2 border-stone-100 rounded-md">
               <p className="ml-2 mr-8 font-bold">{t('contestType')}: </p>
-              <div className="flex flex-col lg:text-xs xl:text-lg">
+              <div className="flex flex-col lg:text-xs xl:text-sm 2xl:text-base">
                 {typeOfContest.map((option) => (
                       <label  key={option} htmlFor={option}>
                       <input
@@ -147,7 +149,7 @@ useEffect(()=>{
                         checked={statusSelector(option)}
                         onChange={ () => handleStatusChange(option) }
                       />
-                      <label className="ml-4 lg:text-xs xl:text-lg" htmlFor={option}>{t(option)}</label>
+                      <label className="ml-4 lg:text-xs xl:text-sm 2xl:text-base" htmlFor={option}>{t(option)}</label>
                     </span>
                     ))} 
                 </div>

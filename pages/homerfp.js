@@ -287,7 +287,7 @@ function HomeRFP() {
             className=" border-r-8 border-double border-orange-200 "
           >
             <div id="left-subpanel" className="mt-2">
-              <div className="shadow-md">
+              <div className="shadow-md ">
                 <RFPessentialData t={t} rfpRecord={rfpRecord} />
               </div>
               {rfpRecord?.items && Boolean(rfpRecord.items.length) && (

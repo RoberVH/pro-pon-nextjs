@@ -68,7 +68,7 @@ function Searchrfps() {
  
   return (
     <div id="rfps">
-      <h1 className="mt-4 text-stone-500 text-2xl text-center">
+      <h1 className="mt-4 text-stone-500  text-center">
         {t("titlescreen")}
       </h1>
       <div id="rfp-search" className="mt-2  bg-white flex rounded-lg justify-beetween pt-2 pb-4 border-2 border-orange-200 overflow-x-auto">

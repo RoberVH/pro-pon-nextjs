@@ -374,7 +374,7 @@ function UploadRFPForm({
         </div>
       );
        else return (
-          <div className="border-[1px] border-orange-200 pt-8 flex flex-col justify-center">
+          <div className="text-components border-[1px] border-orange-200 pt-8 flex flex-col justify-center">
             <p className="mx-auto text-stone-500 text-xl">{t('preparing_filesload')}</p>
             <div className="scale-50">
               <Spinner />
