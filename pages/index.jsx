@@ -311,7 +311,7 @@ function LandingPage() {
           <h1 className="mt-32 text-stone-600 lg:text-2xl xl:text-4xl 2xl:text-5xl  font-roboto font-semibold tracking-tighter ">
             {t("header_1", {ns:"common"})}
           </h1>
-          <h2 className="text-white landing-page-bullets italic my-4 p-3 font-semibold bg-gradient-to-r from-blue-500 to-orange-600"> 
+          <h2 className="text-white landing-page-bullets italic mt-12 mb-4 p-3 font-semibold bg-gradient-to-r from-blue-500 to-orange-600"> 
            {t("subtitle",{ns:"common"})}
           </h2>
           <p className="max-w-[900px] text-stone-100 text-center lg:my-8 2xl:my-8 text-base lg:text-base xl:text-xl ">
@@ -367,7 +367,7 @@ function LandingPage() {
       <p className="text-stone-600 font-roboto mb-2 font-bold pl-4 lg:text-lg xl:text-2xl 3xl:text-3xl ">
         {t("secure",{ns:"common"})}
       </p>
-      <p className="text-orange-400 font-roboto mb-6 font-semibold pl-4 landing-page-bullets">
+      <p className="text-orange-400 font-roboto mb-6 font-semibold pl-4 lg:text-base xl:text-lg 2xl:text-xl lg:w-[45em] xl:w-[49em] 2xl:w-[50em] 3xl-[54em]">
         {t("secure_subtitle",{ns:"common"})}
       </p>
       <p >

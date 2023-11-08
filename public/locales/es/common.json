@@ -126,6 +126,10 @@
     "bul_sol2": "Prejuicio y Ventaja Desleal",
     "bul_sol3": "Comunicación transparente de actividades RFP",
     "bul_sol4": "Divulgación no deseada de documentos antes de tiempo",
+    "secure_subtitle": "Designa a un único administrador para dirigir la plataforma, garantizando la integridad y una gestión eficiente",
+    "sol_bul1": "Un único Administrador podrá subir documentos sin problemas, anunciar RFPs y manejar todas las comunicaciones esenciales",
+    "sol_bul2": "Propon no es solo otro gestor de RFPs; es una aplicación distribuida Web3 que crea un puente entre los Emisores de RFPs y los Licitadores, utilizando Blockchain para coordinar actividades relacionadas con las RFPs",
+    "sol_bul3": "Asegura la inmutabilidad y transparencia de cada transacción e interacción en la blockchain, eliminando preocupaciones de sesgo, ventajas injustas y divulgación prematura de documentos",
     "secure": "Coordinación segura y justa de RFPs con Propon",
     "subtitle": "Control Centralizado, Confianza Descentralizada"
 
