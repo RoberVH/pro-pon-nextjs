@@ -17,41 +17,41 @@
  *
  */
 
-import {  useEffect } from 'react'
+import { useEffect } from "react";
 import { useFilesRFP } from "../../hooks/useFilesRFP";
-import UploadRFPForm from "../forms/uploadRFPForm"
-import DownloadFileForm from "../forms/downloadFileForm"
+import UploadRFPForm from "../forms/uploadRFPForm";
+import DownloadFileForm from "../forms/downloadFileForm";
 import { convUnixEpoch } from "../../utils/misc";
 import { toastStyle } from "../../styles/toastStyle";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { parseWeb3Error } from '../../utils/parseWeb3Error';
+import { parseWeb3Error } from "../../utils/parseWeb3Error";
 
 import { docTypes, IdxDocTypes } from "../../utils/constants";
 
 // In this component, only RFP Issuer doctypes allowed to upload
 const allowedDocTypes = [
-    docTypes[IdxDocTypes['documentRequestType']],
-    docTypes[IdxDocTypes['documentAmendment']],
-    docTypes[IdxDocTypes['documentQandAType']],
-]
+  docTypes[IdxDocTypes["documentRequestType"]],
+  docTypes[IdxDocTypes["documentAmendment"]],
+  docTypes[IdxDocTypes["documentQandAType"]],
+];
 
 const RFPDocuments = ({
-    t,
-    showUpload,
-    // rfpId,
-    rfpIndex,
-    rfpDates,
-    owner,
-    setNoticeOff
+  t,
+  showUpload,
+  rfpIndex,
+  rfpDates,
+  owner,
+  setNoticeOff,
 }) => {
-  const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } = useFilesRFP(rfpIndex);
+  const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } =
+    useFilesRFP(rfpIndex);
 
   /** UTILITY FUNCTIONS ********************************************************************** */
   const errToasterBox = (msj) => {
     toast.error(msj, {
       //toastId: id,
-      ...toastStyle
+      ...toastStyle,
     });
   };
 
@@ -63,26 +63,25 @@ const RFPDocuments = ({
     //return rfpDates[0] < rightNow && rightNow < rfpDates[2];
     // first it wasn't possible to upload docs after the RFP ended, but on a second revision, is ok
     // to allow the company issuer to upload documents after the end date for following up, reasons to cancel etc.
-     return rfpDates[0] < rightNow 
+    return rfpDates[0] < rightNow;
   };
 
-/** Hooks ********************************************************************** */
-// Initially obtain list of documents to be downloaded when the component loads
-useEffect(()=>{
-  async function getFilesData() {
-    const result = await updateRFPFilesArray() 
-        if (!result.status) {
-      // Error!, but result.message could be a string message or an object error to be parsed
-      let msgError;
-      if (typeof result.message!=='string') {
-          msgError = parseWeb3Error(t,result.message)
+  /** Hooks ********************************************************************** */
+  // Initially obtain list of documents to be downloaded when the component loads
+  useEffect(() => {
+    async function getFilesData() {
+      const result = await updateRFPFilesArray();
+      if (!result.status) {
+        // Error!, but result.message could be a string message or an object error to be parsed
+        let msgError;
+        if (typeof result.message !== "string") {
+          msgError = parseWeb3Error(t, result.message);
+        } else msgError = t(result.message, { ns: "gralerrors" });
+        errToasterBox(msgError);
       }
-          else  msgError=t(result.message, {ns:"gralerrors"})
-      errToasterBox(msgError)
     }
-  }
-  getFilesData()
-},[])
+    getFilesData();
+  }, []);
 
   let uploadComponent = null;
 

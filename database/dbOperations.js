@@ -201,8 +201,7 @@ export const verifyData_Save = async (message, signature) => {
   } 
 
   export const removePendingTx = async (removeObj) => {
-  //let method = "DELETE";
-  let method = "PATCH";
+  let method = "DELETE";
   try {
     const response = await fetch("/api/pendingtx", {
       method: method,

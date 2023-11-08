@@ -3,7 +3,7 @@
  * @description This module is used for to display the headbar for the application
  */
 
-import styles from "../../styles/Home.module.css"
+import styles from "../../styles/Home.module.css";
 import {
   useState,
   useContext,
@@ -11,31 +11,31 @@ import {
   useCallback,
   useRef,
   forwardRef,
-} from "react"
-import { getContractCompanyData } from "../../web3/getContractCompanyData"
-import { checkMMAccounts } from "../../web3/getMetaMaskAccounts"
-import { getCompanydataDB } from "../../database/dbOperations"
-import { connectMetamask } from "../../web3/connectMetamask"
-import { useTranslation } from "next-i18next"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import Image from "next/image"
-import Menues from "../menues"
-import SelectLanguage from "../header/selectLanguage"
-import { proponContext } from "../../utils/pro-poncontext"
-import { switchNetwork } from "../../web3/switchnetwork"
-import { BadgeCheckIcon } from "@heroicons/react/outline"
-import { StatusOfflineIcon } from "@heroicons/react/outline"
-import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork"
-import NoMetamaskWarning from "./noMetamaskWarning"
-import NoRightNetworkWarning from "./noRightNetworkWarning"
-import { saveCompanyID2DB } from "../../database/dbOperations"
+} from "react";
+import { getContractCompanyData } from "../../web3/getContractCompanyData";
+import { checkMMAccounts } from "../../web3/getMetaMaskAccounts";
+import { getCompanydataDB } from "../../database/dbOperations";
+import { connectMetamask } from "../../web3/connectMetamask";
+import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Menues from "../menues";
+import SelectLanguage from "../header/selectLanguage";
+import { proponContext } from "../../utils/pro-poncontext";
+import { switchNetwork } from "../../web3/switchnetwork";
+import { BadgeCheckIcon } from "@heroicons/react/outline";
+import { StatusOfflineIcon } from "@heroicons/react/outline";
+import DisplayMsgAddinNetwork from "./displayMsgAddinNetwork";
+import NoMetamaskWarning from "./noMetamaskWarning";
+import NoRightNetworkWarning from "./noRightNetworkWarning";
+import { saveCompanyID2DB } from "../../database/dbOperations";
 
 // toastify related imports
 // import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import { toastStyle } from "../../styles/toastStyle"
-import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css";
+import { toastStyle } from "../../styles/toastStyle";
+import { toast } from "react-toastify";
 
 /**
  * This function displays the HeadBar for the application. It contains the company logo, menus,
@@ -50,13 +50,13 @@ const droppableItemEnum = {
   account: 2,
   language: 3,
   elsewhere: 4,
-}
+};
 
 const HeadBar = () => {
-  const [hideMenuAccount, sethideMenuAccount] = useState(false)
+  const [hideMenuAccount, sethideMenuAccount] = useState(false);
   //const [noWallet, setnoWallet] = useState(true)
-  const [addingNetwork, setAddingNetwork] = useState(false)
-  const [droppletVisible, setdroppletVisible] = useState(false)
+  const [addingNetwork, setAddingNetwork] = useState(false);
+  const [droppletVisible, setdroppletVisible] = useState(false);
   // get context variables
   const {
     companyData,
@@ -68,18 +68,18 @@ const HeadBar = () => {
     setNoRightNetwork,
     noWallet,
     setnoWallet,
-  } = useContext(proponContext)
+  } = useContext(proponContext);
 
-  const { t } = useTranslation(["menus", "common", "gralerrors"])
-  const router = useRouter()
+  const { t } = useTranslation(["menus", "common", "gralerrors"]);
+  const router = useRouter();
 
   /**
    * Error Toaster Box
    * @param {String} msj Error message to show in the toaster box
    */
   const errToasterBox = (msj) => {
-    toast.error(msj, toastStyle)
-  }
+    toast.error(msj, toastStyle);
+  };
 
   /**
    * getCompany -
@@ -94,14 +94,14 @@ const HeadBar = () => {
   // account in the contract. It must get the rest of the data from Database record
   const getCompany = useCallback(
     async (contractCiaData) => {
-      let { id, company_RFPs, RFPsWins, RFPParticipations } = contractCiaData
-      RFPsWins = RFPsWins.map((rfp) => parseInt(rfp))
-      RFPParticipations = RFPParticipations.map((rfp) => parseInt(rfp))
-      company_RFPs = company_RFPs.map((rfp) => parseInt(rfp))
-      const result = await getCompanydataDB(id) // get complementary company data from DB
+      let { id, company_RFPs, RFPsWins, RFPParticipations } = contractCiaData;
+      RFPsWins = RFPsWins.map((rfp) => parseInt(rfp));
+      RFPParticipations = RFPParticipations.map((rfp) => parseInt(rfp));
+      company_RFPs = company_RFPs.map((rfp) => parseInt(rfp));
+      const result = await getCompanydataDB(id); // get complementary company data from DB
       if (!result.status) {
-        errToasterBox(t(result.msg, { ns: "gralerrors" }))
-        return
+        errToasterBox(t(result.msg, { ns: "gralerrors" }));
+        return;
       }
       if (result.data.companyId)
         setCompanyData({
@@ -109,121 +109,120 @@ const HeadBar = () => {
           RFPParticipations,
           company_RFPs,
           ...result.data,
-        })
+        });
       else {
         // Error, there is not a Company  DB record corresponding to found Company Id on Contract, record it to DB to sync them
         // this could be because a previous error when creating the company that didn't get into DataBase
-        const { name, country } = contractCiaData
-        const result = await saveCompanyID2DB(id, name, country, address)
-        if (!result.status) errToasterBox(result.msg)
+        const { name, country } = contractCiaData;
+        const result = await saveCompanyID2DB(id, name, country, address);
+        if (!result.status) errToasterBox(result.msg);
         else {
-          const result = await getCompanydataDB(id) // read from DB company data
+          const result = await getCompanydataDB(id); // read from DB company data
           if (!result.status) {
-            errToasterBox(t(result.msg, { ns: "gralerrors" }))
-            return
+            errToasterBox(t(result.msg, { ns: "gralerrors" }));
+            return;
           }
           setCompanyData({
             RFPsWins,
             RFPParticipations,
             company_RFPs,
             ...result.data,
-          }) // write db record to context with id that we'll use to update it
+          }); // write db record to context with id that we'll use to update it
         }
       }
     },
     [setCompanyData, address]
-  )
+  );
 
   // hooks  ******************************************************************************************
 
   // check if there is an account already granted and set a listener to MetaMask change account event
   useEffect(() => {
-
     const handleAccountChange = () => {
-      router.push({pathname:'/'})
-      window.location.reload()
-    }
+      router.push({ pathname: "/" });
+      window.location.reload();
+    };
 
-    let cleanupEthereumEvents
-    let cleanupMouseDown
+    let cleanupEthereumEvents;
+    let cleanupMouseDown;
 
     // For the mousedown event
     if (typeof window !== "undefined") {
-      document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener("mousedown", handleClickOutside);
       cleanupMouseDown = () => {
-        document.removeEventListener("mousedown", handleClickOutside)
-      }
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
     }
 
     // For the Ethereum events
     if (window.ethereum) {
-      setnoWallet(false) // there is Metamask or provider installed at browser
-      checkMMAccounts(setAddress)
-      window.ethereum.on("accountsChanged", handleAccountChange)
+      setnoWallet(false); // there is Metamask or provider installed at browser
+      checkMMAccounts(setAddress);
+      window.ethereum.on("accountsChanged", handleAccountChange);
 
       cleanupEthereumEvents = () => {
         if (window.ethereum.off) {
-          window.ethereum.off("accountsChanged", handleAccountChange)
+          window.ethereum.off("accountsChanged", handleAccountChange);
         }
-      }
+      };
     }
 
     // Cleanup functions
     return () => {
       if (cleanupEthereumEvents) {
-        cleanupEthereumEvents()
+        cleanupEthereumEvents();
       }
       if (cleanupMouseDown) {
-        cleanupMouseDown()
+        cleanupMouseDown();
       }
-    }
-  }, [])
+    };
+  }, []);
 
   useEffect(() => {
     async function getDatafromContract() {
       //first check if network is rigth
-      const noWorkingRightNetwork = 
+      const noWorkingRightNetwork =
         (window?.ethereum?.networkVersion ?? "unknown") !==
-        process.env.NEXT_PUBLIC_NETWORK_VERSION
-      setNoRightNetwork(noWorkingRightNetwork)
+        process.env.NEXT_PUBLIC_NETWORK_VERSION;
+      setNoRightNetwork(noWorkingRightNetwork);
       // if no noRightNetwork don't try to get company data
-      if (noWorkingRightNetwork) return
+      if (noWorkingRightNetwork) return;
       // We are in the right network, now check if there is an address get current signed Company data
       if (address) {
-        setShowSpinner(true)
+        setShowSpinner(true);
         // get essential company data from Contract
         // Remember that in smart contract some prop ids are different than in DB
         // id changes to companyId, name changes to companyName
-        const result = await getContractCompanyData(address)
+        const result = await getContractCompanyData(address);
         if (!result.status) {
-          setShowSpinner(false)
-          let msg = result.message
+          setShowSpinner(false);
+          let msg = result.message;
           if (msg !== null && msg.includes("could not detect network"))
-            msg = t("could_not_detect_network", { ns: "common" })
-          errToasterBox(msg)
-          return
+            msg = t("could_not_detect_network", { ns: "common" });
+          errToasterBox(msg);
+          return;
         }
-        if (result.data.id) await getCompany(result.data)
-        setShowSpinner(false)
+        if (result.data.id) await getCompany(result.data);
+        setShowSpinner(false);
       }
     }
-    getDatafromContract()
-  }, [address, getCompany, setShowSpinner, setNoRightNetwork])
+    getDatafromContract();
+  }, [address, getCompany, setShowSpinner, setNoRightNetwork]);
 
-  const menusRef = useRef(null)
-  const accountRef = useRef(null)
-  const languageRef = useRef(null)
+  const menusRef = useRef(null);
+  const accountRef = useRef(null);
+  const languageRef = useRef(null);
 
   // Utility functions  ****************************************************************************************
   const changeNetworks = async () => {
-    const result = await switchNetwork()
-    if (result.status) setNoRightNetwork(false)
+    const result = await switchNetwork();
+    if (result.status) setNoRightNetwork(false);
     else if (result.error.code === 4902) {
       // This error code means that the chain we want has not been added to MetaMask
       // In this case we ask the user to add it to their MetaMask
-      setAddingNetwork(true)
+      setAddingNetwork(true);
       const network =
-        "0x" + parseInt(process.env.NEXT_PUBLIC_NETWORK_VERSION).toString(16)
+        "0x" + parseInt(process.env.NEXT_PUBLIC_NETWORK_VERSION).toString(16);
       try {
         await ethereum.request({
           method: "wallet_addEthereumChain",
@@ -240,67 +239,67 @@ const HeadBar = () => {
               blockExplorerUrls: [process.env.NEXT_PUBLIC_LINK_EXPLORER],
             },
           ],
-        })
-        setNoRightNetwork(false)
+        });
+        setNoRightNetwork(false);
       } catch (error) {
-        errToasterBox(error)
+        errToasterBox(error);
       } finally {
-        setAddingNetwork(false)
+        setAddingNetwork(false);
       }
     }
-  }
+  };
 
   // handlers functions  ****************************************************************************************
   // connect to metamask
   const handleConnect = async () => {
-    const result = await connectMetamask()
+    const result = await connectMetamask();
     if (!result.status) {
-      const processed_error = result.message
-      errToasterBox(t(result.message, { ns: "gralerrors" }))
+      const processed_error = result.message;
+      errToasterBox(t(result.message, { ns: "gralerrors" }));
     } else {
-      setAddress(result.address) // now address in in the context
+      setAddress(result.address); // now address in in the context
     }
-  }
+  };
 
   // Reset application context vars
   const handleDisconnect = async () => {
-    setAddress("")
-    setCompanyData({})
-    sethideMenuAccount(false)
-  }
+    setAddress("");
+    setCompanyData({});
+    sethideMenuAccount(false);
+  };
 
   const handleProfile = () => {
-    router.push("/companyprofile")
-    sethideMenuAccount(false)
-  }
+    router.push("/companyprofile");
+    sethideMenuAccount(false);
+  };
 
   const handleDropDownAccount = () => {
-    sethideMenuAccount(!hideMenuAccount)
-  }
+    sethideMenuAccount(!hideMenuAccount);
+  };
 
   const handleClickOutside = (event) => {
     if (menusRef.current && menusRef.current.contains(event.target)) {
-      setdroppletVisible(droppableItemEnum.menu)
+      setdroppletVisible(droppableItemEnum.menu);
     } else if (
       accountRef.current &&
       accountRef.current.contains(event.target)
     ) {
-      setdroppletVisible(droppableItemEnum.account)
-      if (event.target.id === "connect-button") handleConnect()
+      setdroppletVisible(droppableItemEnum.account);
+      if (event.target.id === "connect-button") handleConnect();
     } else if (
       languageRef.current &&
       languageRef.current.contains(event.target)
     ) {
-      setdroppletVisible(droppableItemEnum.language)
+      setdroppletVisible(droppableItemEnum.language);
     } else {
-      setdroppletVisible(droppableItemEnum.elsewhere)
+      setdroppletVisible(droppableItemEnum.elsewhere);
     }
-  }
+  };
 
   // Inner Components  ******************************************************************************************
   const ShowAccount = forwardRef(({ isVisible }, ref) => {
     if (noWallet) {
-      return null
+      return null;
     }
     if (!address) {
       return (
@@ -308,7 +307,7 @@ const HeadBar = () => {
         <div ref={ref} id="showAccount">
           <button
             id="connect-button"
-            className="mt-4 p-2 mr-4 font-khula font-semibold lg:text-sm xl:text-base uppercase 
+            className="text-components mt-4 p-2 mr-4 font-khula font-semibold   
                 text-white bg-orange-600 rounded-xl  drop-shadow-lg  
                 bg-gradient-to-r from-orange-500  to-red-500 
                 hover:outline hover:outline-2 hover:outline-orange-300
@@ -318,14 +317,14 @@ const HeadBar = () => {
             {t("connect_wallet", { ns: "common" })}
           </button>
         </div>
-      )
+      );
     }
     // there is Address, return account menu functionality
     return (
       <div ref={ref} id="show-account" className="flex  mr-8 mb-2  h-[4rem]">
         <button
           disabled
-          className="relative text-orange-600 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-sm"
+          className="relative text-orange-600 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-components"
           title={`${
             Boolean(address) &&
             Boolean(companyData.companyname) &&
@@ -364,33 +363,33 @@ const HeadBar = () => {
             id="menuAccount"
             className="absolute mt-16 ml-8  
                             flex flex-col bg-blue-300  rounded-2xl text-stone-600
-                            justify-start py-2 px-2 hover:cursor-pointer"
+                            justify-start pt-4  space-y-2 py-2 px-2 hover:cursor-pointer"
           >
             <div
               id="show-account-profile-button"
-              className="flex justify-start pb-1 hover:bg-stone-100 hover:rounded-lg"
+              className="flex justify-start   hover:bg-stone-100 hover:rounded-lg"
             >
-              <BadgeCheckIcon className=" h-5 w-5 text-orange-600 mt-2 mr-1 " />
-              <p className="pt-1 " onClick={handleProfile}>
+              <BadgeCheckIcon className=" h-5 w-5 text-orange-600  mr-1 " />
+              <p className="text-menus" onClick={handleProfile}>
                 {t("profilemenu")}
               </p>
             </div>
             <div
               id="show-account-disconnect-button"
-              className="flex justify-start pb-1 hover:bg-stone-100 hover:rounded-lg"
+              className="flex justify-start  hover:bg-stone-100 hover:rounded-lg"
             >
-              <StatusOfflineIcon className=" h-5 w-5 text-orange-600  mr-1 mt-2 " />
-              <p className="pr-2" onClick={handleDisconnect}>
+              <StatusOfflineIcon className=" h-5 w-5 text-orange-600  mr-1 " />
+              <p className="pr-2 text-menus" onClick={handleDisconnect}>
                 {t("disconnectmenu")}
               </p>
             </div>
           </div>
         )}
       </div>
-    )
-  })
+    );
+  });
 
-  ShowAccount.displayName = "ShowAccount"
+  ShowAccount.displayName = "ShowAccount";
 
   const AccountSpaceTitle = () => {
     if (noWallet)
@@ -404,11 +403,11 @@ const HeadBar = () => {
             buttontitle={t("getmetamask", { ns: "common" })}
           />
         </div>
-      )
+      );
     else
       return (
         <div>
-          <label className="lg:text-xs xl:text-sm font-semibold font-nunito text-white">
+          <label className="text-menus font-semibold font-nunito text-white">
             {companyData.companyname
               ? `${companyData.companyname}`
               : address
@@ -416,8 +415,8 @@ const HeadBar = () => {
               : `${t("noaccount", { ns: "common" })}`}
           </label>
         </div>
-      )
-  }
+      );
+  };
 
   // ******************************** Main JSX  ****************************************************************
 
@@ -473,7 +472,7 @@ const HeadBar = () => {
         <NoRightNetworkWarning t={t} changeNetworks={changeNetworks} />
       )}
     </nav>
-  )
-}
+  );
+};
 
-export default HeadBar
+export default HeadBar;

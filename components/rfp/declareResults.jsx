@@ -279,10 +279,10 @@ const DeclareResults = ({
         className="text-orange-400 mt-1 ml-2"
         alt="Proposal"
         src="/winnersIcon.svg"
-        height={20}
-        width={20}
+        height={17}
+        width={17}
       />
-      <p className="font-khula ml-4 mt-2 lg:text-xs xl:text-base text-stone-900">
+      <p className="font-khula ml-4 mt-2 text-components text-stone-900">
         {t("declare_winners")}
       </p>
     </div>
@@ -297,7 +297,7 @@ const DeclareResults = ({
       <div id="declarecanceled-section" className="m-8 mx-auto w-[40%]">
         <div className="border border-orange-300  rounded-md shadow p-4">
           <div className="flex justify-between items-center">
-            <p className="font-khula text-red-500 text-xl font-bold mb-4 lg:text-xs xl:text-base">
+            <p className="font-khula text-red-500 font-bold mb-4 text-components">
               {t("cancel_rfp_title")}
             </p>
             <div
@@ -317,7 +317,7 @@ const DeclareResults = ({
                 title={t("caution_cancel_rfp")}
                 onClick={handleDeclareRFPCanceled}
                 disabled={actionButtonClicked || isCancelled} // once clicked no need to click again
-                className="main-btn py-2 px-4 mb-2 lg:text-xs xl:text-sm"
+                className="main-btn py-2 px-4 mb-2 text-components"
               >
                 {t("cancelbutton")}
               </button>
@@ -345,7 +345,7 @@ const DeclareResults = ({
             </th>
             <th className="w-2/5 px-4 py-2 border border-orange-300">
               {t("winner")}
-            </th>
+            </th> 
           </tr>
         </thead>
         <tbody className="">
@@ -391,7 +391,7 @@ const DeclareResults = ({
   );
 
   const WarnNotEmail = () => (
-    <div className="p-4 font-khula text-base text-stone-800">
+    <div className="p-4 font-khula text-components text-stone-800">
       <div className="flex items-center">
         <Image
           alt="Info"
@@ -400,7 +400,7 @@ const DeclareResults = ({
           height={22}
           width={22}
         />
-        <p className="ml-2 mt-1  text-gray-600 text-extrabold text-base ">
+        <p className="ml-2 mt-1  text-gray-600 text-extrabold text-components ">
           <strong>{t("companies_without_email", { ns: "common" })} </strong>
         </p>
       </div>

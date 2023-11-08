@@ -66,17 +66,17 @@ const PickFilesForm = ({
 
   const DroppingFilesArea = () => (
     <div
-      className={`${
-        droppingFiles ? "outline outline-4" : "outline-2"
-      } h-[12em] w-3/4 my-4   items-center 
-                                  outline-dashed  outline-orange-300 text-sm  text-orange-500 rounded-sm  flex flex-col justify-evenly`}
+      className={`${droppingFiles ? "outline outline-4" : "outline-2"} 
+                  h-[12em] w-3/4 my-4   items-center  outline-dashed outline-orange-300 text-sm  text-orange-500 rounded-sm  
+                  flex flex-col justify-evenly`
+                }
       onDrop={(e) => handleDrop(e)}
       onDragOver={(e) => handleDragOver(e)}
       onDragLeave={(e) => handleDragLeave(e)}
     >
       <div>
         <UploadIcon
-          className={`h-8 w-8 ${
+          className={`h-6 w-6 ${
             droppingFiles ? dropfilesFormat.active : dropfilesFormat.inactive
           }`}
         />
@@ -235,7 +235,7 @@ const PickFilesForm = ({
         <div className="">
           <p className="mx-8 py-1"> {t("uploadrequestdocuments")} </p>
           <div className="flex justify-center">
-            <p className="my-8 py-2 px-4 mx-auto  text-khula text-stone-700 font-bold text-lg ">
+            <p className="my-8 py-2 px-4 mx-auto  text-khula text-stone-700 font-bold announces-text">
               🚫 &nbsp;{t("loading_out_of_period")}
             </p>
           </div>

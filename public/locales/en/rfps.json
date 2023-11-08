@@ -40,7 +40,7 @@
         "filesuploadm":"Save document metadata"
     },
     "savingtoblockchainmsg":"The transaction was sent, it may take time according to the conditions of use of the network",
-    "rfpessentialdataposted":"The transaction has been received in the Blockhain, waiting for confirmation of inclusion in a block",
+    "rfpessentialdataposted":"The transaction has been received in the Blockchain, waiting for confirmation of inclusion in a block",
     "uploadrequestsigning":"You will be asked to sign with your wallet account a message with file names, do not worry as this operation will not cost you any crypto currency, it is only a way to make sure you have the right to request this operation. Please sign the message",
     "chekhash":"You can consult transaction status here:",
     "block":"Transaction mined! was included in block: ",

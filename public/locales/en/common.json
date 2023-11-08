@@ -118,6 +118,19 @@
   "issuer_notified": "The issuer of the RFP has been notified",
   "companies_without_email": "These companies have not registered an Admin email yet. Send them an email as New Companies to notify them",
   "beta_testing":"This Application is in Beta testing on the Mumbai testnet, you can create and publish RFPs, contact us at propon@mail.com",
-  "selectall":"Select all"
-
+  "selectall":"Select all",
+  "header_1":"Welcome to our Web3 RFP Platform",
+  "subHeader1":"Our platform leverages the power of blockchain technology to bring transparency and fairness to your Request for Proposals (RFPs). Post your RFPs and associated documents directly on the Blockchain",
+  "problems":"Common Problems",
+  "solutions":"When conducting RFP business there are problems to be addressed, specially if your industry regulations requiere transparency",
+  "bul_sol1":"Document Security",
+  "bul_sol2":"Bias and Unfair Advantage",
+  "bul_sol3":"Communicating RFP activities transparently",
+  "bul_sol4":"Unwanted disclosure of documents before time",
+  "secure_subtitle":"Designates a single administrator to steer the platform, ensuring integrity and streamlined management",
+  "sol_bul1":"A single Administrator will seamlessly upload documents, announce RFPs, and handle all essential communications",
+  "sol_bul2":"Propon is not just another RFP manager; it is a Web3 distributed application that creates a bridge between RFP Issuers and Bidders, utilizing Blockchain to coordinate activities related to RFPs",
+  "sol_bul3":"Ensure immutability and transparency for every blockchain transaction and interaction, eliminating concerns of bias, unfair advantages, and premature document disclosure",
+  "secure":"Secure and Fair RFP Coordination with Propon",
+  "subtitle":"Centralized Control, Decentralized Trust"
 }

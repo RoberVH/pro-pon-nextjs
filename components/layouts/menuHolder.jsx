@@ -15,9 +15,9 @@ function MenuHolder({options, t, setMenuFlag}) {
             {   
               options.map(menu => 
                 <p key={menu.tag} 
-                className="pt-2 lg:text-xs xl:text-base hover:cursor-pointer hover:bg-stone-100 hover:rounded-lg" 
+                className="pt-2 text-menus hover:cursor-pointer hover:bg-stone-100 hover:rounded-lg" 
                 onClick={handleMenuClick} id={menu.link}>
-                    {t(menu.tag)} 
+                    {t(menu.tag)}  
                 </p>
                 )
             }

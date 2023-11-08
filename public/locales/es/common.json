@@ -117,5 +117,16 @@
     "issuer_notified":"El emisor del RFP ha sido notificado",
     "companies_without_email": "Estas compañías aún no han registrado un correo electrónico de administrador. Envíales un correo como Nuevas Compañías para notificarles",
     "beta_testing":"Esta Aplicación está en pruebas Beta en la red de pruebas Mumbai, puedes crear y publicar RFPs, contáctanos en propon@mail.com",
-    "selectall":"Selecciona todo"
+    "selectall":"Selecciona todo",
+    "header_1": "Bienvenido a nuestra Plataforma Web3 de RFPs",
+    "subHeader1": "Nuestra plataforma aprovecha el poder de la tecnología Blockchain para brindar transparencia y equidad a tus Solicitudes de Propuestas (RFP). Publica tus RFP y documentos asociados directamente en la Cadena de Bloques",
+    "solutions": "Cuando se publican RFPs, algunos problemas deben abordarse, especialmente si las regulaciones de la industria requieren transparencia",
+    "problems":"Problemas Comumes",
+    "bul_sol1": "Seguridad de Documentos",
+    "bul_sol2": "Prejuicio y Ventaja Desleal",
+    "bul_sol3": "Comunicación transparente de actividades RFP",
+    "bul_sol4": "Divulgación no deseada de documentos antes de tiempo",
+    "secure": "Coordinación segura y justa de RFPs con Propon",
+    "subtitle": "Control Centralizado, Confianza Descentralizada"
+
 }

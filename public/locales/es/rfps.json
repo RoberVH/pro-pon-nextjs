@@ -40,7 +40,7 @@
         "filesuploadm":"Guardar metadatos de Documentos"
     },
     "savingtoblockchainmsg":"La transacción fue enviada, puede tomar tiempo de acuerdo a las condiciones de uso de la red",
-    "rfpessentialdataposted":"La transacción ha sido recibida en la Blockhain, esperando confirmación de inclusión en un bloque",
+    "rfpessentialdataposted":"La transacción ha sido recibida en la Blockchain, esperando confirmación de inclusión en un bloque",
     "uploadrequestsigning":"Se le pedirá que firme con su cuenta de billetera un mensaje con los datos de los archivos, no se preocupe ya que esta operación no le costará ninguna criptomoneda, es solo una forma de asegurarse de que tiene derecho a solicitar esta operación. Por favor firme el mensaje",
     "chekhash":"Puede consultar el estado de la transacción aqui: ",
     "block":"¡Transacción minada! fue incluida en el bloque: ",

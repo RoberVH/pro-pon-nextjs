@@ -60,7 +60,7 @@ const PendingTxs = ({ pendingTxs, handleClearAllTxs, handleClearTx, handleRetry,
   return (
       <div >
         <div className=" flex justify-center items-center  mb-4">
-          <h2 className="font-medium text-stone-500 mt-8 mx-auto">{t('mypending_transactions')}</h2>
+          <h2 className="text-titles text-stone-500 mt-8 mx-auto">{t('mypending_transactions')}</h2>
           <button
             disabled={actionButtonClicked}
             className="buttons-titles mt-24 mr-4 rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500  disabled:bg-red-600
