@@ -117,11 +117,11 @@ function LandingPage() {
       </a>
     </div>
   )
-//5c5c63
+//553014 
   const CTA_Card = () => (
     <div
       id="butttons-actions-component"
-      className="mx-auto xl: mb-16  py-8 bg-[#553014]"
+      className="mx-auto xl: mb-16  py-8 bg-gradient-to-b from-[#5c5c63] to-black via-orange-700"
     >
       <p
         className=" sm:mt-2 lg:mt-4 font-inter text-center lg:text-lg xl:text-xl 2xl:text-2xl font-semibold text-white italic p-4"
