@@ -58,7 +58,7 @@ function LandingPage() {
   }
 
   const handleGoToLearnMore = () => {
-    resourceSectionRef.current.scrollIntoView({ behavior: "smooth" })
+   // resourceSectionRef.current.scrollIntoView({ behavior: "smooth" })
   }
 
   //************************************************** Inner components  *************************/
