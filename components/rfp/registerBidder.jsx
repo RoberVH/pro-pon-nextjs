@@ -70,25 +70,29 @@ const RegisterBidder = ({
   const [processingTxBlockchain, setProTxBlockchain] = useState(false);
   const [actionButtonClicked, setButtonClicked] = useState(false);
 
-
-  const availableFields=[
-    { id:1,
-       fieldName:'companyId',
-       searchable: true,
-       width: '[30%]',
-       date: false },
-    { id:2,
-       fieldName:'companyname',
-       searchable: true,
-       width: '[30%]',
-       date: false },
-    { id:3,
-      fieldName:'country',
+  const availableFields = [
+    {
+      id: 1,
+      fieldName: "companyId",
+      searchable: true,
+      width: "[30%]",
+      date: false,
+    },
+    {
+      id: 2,
+      fieldName: "companyname",
+      searchable: true,
+      width: "[30%]",
+      date: false,
+    },
+    {
+      id: 3,
+      fieldName: "country",
       searchable: true,
       date: false,
-      width: '[20%]' }            
-    ] 
-  
+      width: "[20%]",
+    },
+  ];
 
   const companyActions = [
     {
@@ -100,34 +104,35 @@ const RegisterBidder = ({
     },
   ];
 
-
   const updateBreakpoint = () => {
-    if (window.matchMedia('(min-width: 1024px)').matches && window.matchMedia('(max-width: 1399px)').matches) {
+    if (
+      window.matchMedia("(min-width: 1024px)").matches &&
+      window.matchMedia("(max-width: 1399px)").matches
+    ) {
       //setCompanyFields([availableFields[0]])
-      return [availableFields[0]]
-    } else if (window.matchMedia('(min-width: 1400px)').matches && window.matchMedia('(max-width: 1799px)').matches) {
+      return [availableFields[0]];
+    } else if (
+      window.matchMedia("(min-width: 1400px)").matches &&
+      window.matchMedia("(max-width: 1799px)").matches
+    ) {
       //setCompanyFields([availableFields[0], availableFields[1]])
-      return [availableFields[0], availableFields[1]]
-    } else if (window.matchMedia('(min-width: 1800px)').matches) {
+      return [availableFields[0], availableFields[1]];
+    } else if (window.matchMedia("(min-width: 1800px)").matches) {
       //setCompanyFields(availableFields)
-      return availableFields
+      return availableFields;
     }
-  }
-  
-  const companyFields =  updateBreakpoint()
-  
+  };
+
+  const companyFields = updateBreakpoint();
 
   // Hooks   ******************************************************************************** */
   const { write, postedHash, block, link, blockchainsuccess } =
     useRegisterBidders(onError, onSuccess, isCancelled, setProTxBlockchain);
-    
 
   // fetch  Bidders of the RFP
   useEffect(() => {
     getBidders(rfpRecord.rfpIndex);
   }, []);
-
-
 
   useEffect(() => {
     if (bidders)
@@ -150,27 +155,27 @@ const RegisterBidder = ({
   };
 
   async function onSuccess(registerType) {
-    setButtonClicked(false)
+    setButtonClicked(false);
     // sent notification emails to invited companies about this invitation RFP registration
     if (registerType === typeOfRegistrationtoRFP.inviteguests)
-      automaticEmailNotification(notifTypes.notif_InvitedCompanyRFP)
+      automaticEmailNotification(notifTypes.notif_InvitedCompanyRFP);
     else {
       // sent notification to an Issuer of an Open RFP that a company has registered to it
-      await automaticEmailIssuerNotification(notifTypes.notif_ToIssuerOpenRFP)
-      getBidders(rfpRecord.rfpIndex)
+      await automaticEmailIssuerNotification(notifTypes.notif_ToIssuerOpenRFP);
+      getBidders(rfpRecord.rfpIndex);
     }
   }
 
   // Handle Error method passed unto useWriteFileMetada hook
   function onError(error) {
-    setButtonClicked(false)
-    setProTxBlockchain(false)
-    const customError = parseWeb3Error(t, error)
-    errToasterBox(customError)
+    setButtonClicked(false);
+    setProTxBlockchain(false);
+    const customError = parseWeb3Error(t, error);
+    errToasterBox(customError);
   }
 
   const checkIncluded = (id) =>
-    Boolean(guestCompanies.filter((cia) => cia.companyId === id).length)
+    Boolean(guestCompanies.filter((cia) => cia.companyId === id).length);
 
   /**
    * automaticEmailNotification
@@ -185,12 +190,12 @@ const RegisterBidder = ({
     const CompWithoutEmail = [];
     for (const company of guestCompanies) {
       if (company.email || (company.email && company.email.trim() !== "")) {
-        recipientList.push(company.email)
+        recipientList.push(company.email);
       } else {
-        CompWithoutEmail.push(company.name)
+        CompWithoutEmail.push(company.name);
       }
     }
-    setNotifying(true)
+    setNotifying(true);
     const params = {
       recipients: recipientList,
       rfpname: rfpRecord.description,
@@ -202,10 +207,10 @@ const RegisterBidder = ({
       notiftype: typeOfNotification,
     };
     if (CompWithoutEmail.length) {
-      setCompWithoutEmail(CompWithoutEmail)
+      setCompWithoutEmail(CompWithoutEmail);
       setShowWarningNotEmail(true);
     }
-    const result = await sendToServerEmail(params)
+    const result = await sendToServerEmail(params);
     setNotifying(false);
     if (result.status)
       toast.success(
@@ -215,13 +220,13 @@ const RegisterBidder = ({
           toastStyleSuccess
         )}`
       );
-    else errToasterBox(t("emailerror", { ns: "gralerrors" }))
+    else errToasterBox(t("emailerror", { ns: "gralerrors" }));
   };
 
-  
   const automaticEmailIssuerNotification = async (typeOfNotification) => {
     const result = await getCompanydataDB(rfpRecord.companyId); // this trip to DB is needed 'cos the issuer email is requirerd and is not available
-    if (result?.status && result?.data?.email) { // if we get the email, and it 
+    if (result?.status && result?.data?.email) {
+      // if we get the email, and it
       const issuerCompany = result.data;
       const params = {
         recipient: issuerCompany.email,
@@ -294,17 +299,17 @@ const RegisterBidder = ({
   };
 
   const handleClosePanel = () => {
-    setProTxBlockchain(false)
+    setProTxBlockchain(false);
     const c = [
       [1],
       { a: 2323, b: "3434" },
       () => {
-        handleRemoveCompany(resetparams())
+        handleRemoveCompany(resetparams());
       },
     ];
     // setShowPanel(false);
     setGuestCompanies([]);
-    if (cleanSearchParams.current) cleanSearchParams.current.resetparams()
+    if (cleanSearchParams.current) cleanSearchParams.current.resetparams();
   };
 
   //  handleCancelTx -  TX is taking long, user has click cancel to abort waiting
@@ -323,14 +328,14 @@ const RegisterBidder = ({
   const handleRegisterItself = () => {
     setButtonClicked(true);
     setIsCancelled(false); // in case user is retrying
-    const today = todayUnixEpoch(new Date())
+    const today = todayUnixEpoch(new Date());
     const Tx = {
       type: typeOfRegistrationtoRFP.registeropen, //"registeropen",
       date: today,
       params: [rfpRecord.rfpIndex, companyId],
     };
     setDroppedTx(Tx);
-    write(typeOfRegistrationtoRFP.registeropen, rfpRecord.rfpIndex, companyId)
+    write(typeOfRegistrationtoRFP.registeropen, rfpRecord.rfpIndex, companyId);
   };
 
   // records on blockchain contract the invited companies to this Invitation RFP
@@ -341,7 +346,7 @@ const RegisterBidder = ({
       .filter((obj) => obj.status !== "fulfilled")
       .map((obj) => obj.address);
     if (addresses.length) {
-      const today = todayUnixEpoch(new Date())
+      const today = todayUnixEpoch(new Date());
       const Tx = {
         type: typeOfRegistrationtoRFP.inviteguests, //"inviteguests"
         date: today,
@@ -376,10 +381,10 @@ const RegisterBidder = ({
   const InvitedCompanies = () => {
     return (
       <div className="h-[25em] overflow-y-auto p-2">
-        <div className="pb-2 text-components flex justify-center font-khula text-stone-500">
+        <div className="pb-2 text-components flex justify-center font-work-sans text-stone-500">
           <p>{t("inviting_companies_title")}</p>
         </div>
-        <table className="text-components p-2 w-full h-[5em]  table-fixed border-2 border-orange-300  font-khula">
+        <table className="text-components p-2 w-full h-[5em]  table-fixed border-2 border-orange-300  font-work-sans">
           <thead>
             <tr className=" border-2 border-orange-500  text-stone-500 ">
               <th className="pt-1 w-1/6 border-r-2 border-orange-500  break-words">
@@ -464,20 +469,13 @@ const RegisterBidder = ({
 
   // check type of contest and if company is signed or not to display intructions of operations available in the main panel
   const MainInstructions = () => {
-    // if is an invitation contest but current logged company it's not owner (rfpOwner is false)  it doesn't matter as it wont get up here 
+    // if is an invitation contest but current logged company it's not owner (rfpOwner is false)  it doesn't matter as it wont get up here
     // as it's dispatched on parent component (homerfp.jsx)
-    if (inviteContest && rfpOwner) return (
-        <div className="text-components">
-          {t("register_guest")}
-        </div>
-        ); 
+    if (inviteContest && rfpOwner)
+      return <div className="text-components">{t("register_guest")}</div>;
     if (!inviteContest && rfpOwner)
       // if is and Open RFP and its the RFP owner
-      return (
-        <div className="text-components">
-          {t("notify_open_non_reg")}
-        </div>
-        );
+      return <div className="text-components">{t("notify_open_non_reg")}</div>;
     // Display Notice to select companies for notifying component
     else if (!alreadyRegistered) return t("register_open");
     // Display Notice to registered compamy for self-registering to open RFP
@@ -485,7 +483,7 @@ const RegisterBidder = ({
   };
 
   const WarnNotEmail = () => (
-    <div className="p-4 font-khula text-base text-stone-800">
+    <div className="p-4 font-work-sans text-base text-stone-800">
       <div className="flex items-center">
         <Image
           alt="Info"
@@ -510,7 +508,6 @@ const RegisterBidder = ({
   /************************* MAIN JSX ******************************************************** */
   return (
     <div className="p-1">
-
       {showModalNotifications && (
         <ModalWindow
           setFlag={setShowModalNotifications}
@@ -545,7 +542,6 @@ const RegisterBidder = ({
                     id="owner-rfp-invitation"
                     className="shadow lg:w-3/5 xl:w-3/5 3xl:w-3/5 h-[25em] outline-1 border border-orange-500 rounded-lg overflow-x-auto"
                   >
-
                     <SearchDB
                       i18n={i18n}
                       fields={companyFields}
@@ -556,7 +552,7 @@ const RegisterBidder = ({
                       t={t_companies}
                       ref={cleanSearchParams}
                     />
-                    
+
                     {IsWaiting ? (
                       <div className="mt-12 mb-4 scale-75">
                         <Spinner />
@@ -579,7 +575,10 @@ const RegisterBidder = ({
                       </div>
                     )}
                   </div>
-                  <div id="companiestoinvite" className="ml-2 lg:w-2/5 xl:w-2/5 3xl:w-2/5  ">
+                  <div
+                    id="companiestoinvite"
+                    className="ml-2 lg:w-2/5 xl:w-2/5 3xl:w-2/5  "
+                  >
                     <div className="shadow outline-1 border border-orange-500 rounded-lg">
                       <InvitedCompanies />
                     </div>

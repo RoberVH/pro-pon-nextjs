@@ -282,7 +282,7 @@ const DeclareResults = ({
         height={17}
         width={17}
       />
-      <p className="font-khula ml-4 mt-2 text-components text-stone-900">
+      <p className="font-work-sans ml-4 mt-2 text-components text-stone-900">
         {t("declare_winners")}
       </p>
     </div>
@@ -297,7 +297,7 @@ const DeclareResults = ({
       <div id="declarecanceled-section" className="m-8 mx-auto w-[40%]">
         <div className="border border-orange-300  rounded-md shadow p-4">
           <div className="flex justify-between items-center">
-            <p className="font-khula text-red-500 font-bold mb-4 text-components">
+            <p className="font-work-sans text-red-500 font-bold mb-4 text-components">
               {t("cancel_rfp_title")}
             </p>
             <div
@@ -337,7 +337,7 @@ const DeclareResults = ({
       setWinners(newWinners);
     };
     return (
-      <table className="mb-4 table-fixed font-khula mx-auto ">
+      <table className="mb-4 table-fixed font-work-sans mx-auto ">
         <thead>
           <tr className="lg:text-xs xl:text-base">
             <th className="w-3/5 px-2 py-2 border border-orange-300 ">
@@ -345,7 +345,7 @@ const DeclareResults = ({
             </th>
             <th className="w-2/5 px-4 py-2 border border-orange-300">
               {t("winner")}
-            </th> 
+            </th>
           </tr>
         </thead>
         <tbody className="">
@@ -391,7 +391,7 @@ const DeclareResults = ({
   );
 
   const WarnNotEmail = () => (
-    <div className="p-4 font-khula text-components text-stone-800">
+    <div className="p-4 font-work-sans text-components text-stone-800">
       <div className="flex items-center">
         <Image
           alt="Info"
@@ -439,7 +439,7 @@ const DeclareResults = ({
     );
 
   if (rfpRecord.winners.length > 0 || rfpRecord.canceled)
-    return  <GralMsg title={t("already_declared")} />
+    return <GralMsg title={t("already_declared")} />;
 
   if (!inTime)
     return (

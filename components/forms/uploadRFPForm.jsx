@@ -46,7 +46,7 @@ function UploadRFPForm({
   const [uploadingSet, setuploadingSet] = useState([]);
   const [totalSize, setTotalSize] = useState(0);
   const [successFiles, setSuccessFiles] = useState([]);
-      const [showSummaryUploads, setShowSummaryUploads] = useState(true);
+  const [showSummaryUploads, setShowSummaryUploads] = useState(true);
   const [filesWithErrors, setfilesWithErrors] = useState(false);
   const [sendingBlockchain, setsendingBlockchain] = useState(false);
   const [droppedTx, setDroppedTx] = useState();
@@ -98,7 +98,7 @@ function UploadRFPForm({
 
   // Inner components   *********************************************************************************************
   const ShowSummaryUploads = () => (
-    <div className="p-4 text-warnings font-khula">
+    <div className="p-4 text-warnings font-work-sans">
       <div className="flex text-warnings">
         <p className="pr-1">
           <strong>{`${successFiles.length}`} </strong>
@@ -372,7 +372,7 @@ function UploadRFPForm({
     return (
       <div
         id="pickupcomponentholder"
-        className="my-8 mx-auto w-5/6 font-khula bg-white leading-8 border-2 border-orange-200 shadow-md"
+        className="my-8 mx-auto w-5/6 font-work-sans bg-white leading-8 border-2 border-orange-200 shadow-md"
       >
         <PickupComponent />
       </div>
@@ -381,7 +381,7 @@ function UploadRFPForm({
     /*termina debug 
    if (true)*/
     return (
-      <div className="my-8 mx-4 font-khula bg-white leading-8 ">
+      <div className="my-8 mx-4 font-work-sans bg-white leading-8 ">
         <DisplayProgressUpload
           t={t}
           files={pickedFiles}

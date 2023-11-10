@@ -19,7 +19,7 @@ const TxInfoPanel = ({
 }) => (
   <div
     className="mx-auto mt-4 mb-8 p-4 border rounded-md border-orange-300 border-solid shadow-xl bg-white bg-opacity-100
-                  font-khula py-4 pl-2 "
+                  font-work-sans py-4 pl-2 "
   >
     <div className="py-4 pl-2">
       <div className="flex mb-2">

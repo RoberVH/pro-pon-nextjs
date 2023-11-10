@@ -232,7 +232,7 @@ function LandingPage() {
           className={`${styles.header_bg_color} h-48 flex items-center justify-center rounded-xl px-6`}
         >
           <button
-            className="ml-8 p-2 font-khula font-black text-sm uppercase  text-white bg-orange-600 rounded-xl  drop-shadow-lg
+            className="ml-8 p-2 font-work-sans font-black text-sm uppercase  text-white bg-orange-600 rounded-xl  drop-shadow-lg
                bg-gradient-to-r from-orange-500  to-red-500 hover:outline hover:outline-2 hover:outline-orange-300
                hover:outline-offset-2 pointer-events-none"
           >

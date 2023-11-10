@@ -1,7 +1,7 @@
 /**rfpWon
  * CompanyDataForm - Edit Profile Form
- *    When user clicks on Profile Menu at Account display, is presented with this  form to register rest of company data 
- *    to DB form (adminname, email and website). 
+ *    When user clicks on Profile Menu at Account display, is presented with this  form to register rest of company data
+ *    to DB form (adminname, email and website).
  *    This form can only acept data if and only if the context has already the company ID &
  *    company name. This value could have been set in the immidiate step 2 prior to this or if
  *    Tx took too much time, later, when user navigate to this screen and have read the data
@@ -10,41 +10,41 @@
  *            in the form, there is not need to pass them onto update (PATCH call to server) DB
  *            method at handleSave, so we  filter those out before updating, namely rfpWon,
  *            rfpSent and companyRFPs array NOTE SEPT 2023: these fields changed in contract and this app to:
-*            arrays RFPsWins, RFPParticipations, company_RFPs,
-*
-*/
-import { useState, useEffect } from "react"
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
-import { GlobeIcon } from "@heroicons/react/outline"
-import Image from 'next/image'
-import countries from "i18n-iso-countries"
-import english from "i18n-iso-countries/langs/en.json"
-import spanish from "i18n-iso-countries/langs/es.json"
-import french from "i18n-iso-countries/langs/fr.json"
-import { SignMsgAlert } from "./../layouts/SignMsgAlert"
-import { errorSmartContract } from "../../utils/constants"
-import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle"
-import { verifyData_Save } from "../../database/dbOperations"
+ *            arrays RFPsWins, RFPParticipations, company_RFPs,
+ *
+ */
+import { useState, useEffect } from "react";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { GlobeIcon } from "@heroicons/react/outline";
+import Image from "next/image";
+import countries from "i18n-iso-countries";
+import english from "i18n-iso-countries/langs/en.json";
+import spanish from "i18n-iso-countries/langs/es.json";
+import french from "i18n-iso-countries/langs/fr.json";
+import { SignMsgAlert } from "./../layouts/SignMsgAlert";
+import { errorSmartContract } from "../../utils/constants";
+import { toastStyle, toastStyleSuccess } from "../../styles/toastStyle";
+import { verifyData_Save } from "../../database/dbOperations";
 
-import { toast } from "react-toastify"
-import useInputForm from "../../hooks/useInputForm"
-import "react-toastify/dist/ReactToastify.css"
+import { toast } from "react-toastify";
+import useInputForm from "../../hooks/useInputForm";
+import "react-toastify/dist/ReactToastify.css";
 
-import { InputWebsite } from "../input-controls/InputWebsite"
-import { InputCompanyId } from "../input-controls/InputCompanyId"
-import { InputCompanyName } from "../input-controls/InputCompanyName"
-import { InputEmail } from "../input-controls/InputEmail"
-import { InputAdminName } from "../input-controls/InputAdminName"
+import { InputWebsite } from "../input-controls/InputWebsite";
+import { InputCompanyId } from "../input-controls/InputCompanyId";
+import { InputCompanyName } from "../input-controls/InputCompanyName";
+import { InputEmail } from "../input-controls/InputEmail";
+import { InputAdminName } from "../input-controls/InputAdminName";
 
-import { useSignMessage } from "../../hooks/useSignMessage"
+import { useSignMessage } from "../../hooks/useSignMessage";
 
-countries.registerLocale(english)
-countries.registerLocale(spanish)
-countries.registerLocale(french)
+countries.registerLocale(english);
+countries.registerLocale(spanish);
+countries.registerLocale(french);
 
 const CompanyDataForm = ({ companyData, setCompanyData }) => {
-  const { t, i18n } = useTranslation(["signup", "common","gralerrors"]);
+  const { t, i18n } = useTranslation(["signup", "common", "gralerrors"]);
   const [saving, setSaving] = useState(false);
   const [showSignMsg, setShowSignMsg] = useState(false);
   const [countryList, setCountryList] = useState([]);
@@ -57,10 +57,10 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
 
   const router = useRouter();
   const [profileCompleted, setProfileCompleted] = useState(
-      companyData && typeof companyData.profileCompleted !== "undefined"
-        ? companyData.profileCompleted
-        : false
-    );
+    companyData && typeof companyData.profileCompleted !== "undefined"
+      ? companyData.profileCompleted
+      : false
+  );
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle);
   };
@@ -72,11 +72,15 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
       toast.success(t("companydataadded", toastStyleSuccess));
       // Update Context with all data of updated company:
       // everything ok, we need to refresh companyData and from DataBase set it again, but we need to recover values of contract :
-      const newCompanyProps=JSON.parse(message)
-      const updatedCompanyData = { ...companyData, ...newCompanyProps, profileCompleted:true };
+      const newCompanyProps = JSON.parse(message);
+      const updatedCompanyData = {
+        ...companyData,
+        ...newCompanyProps,
+        profileCompleted: true,
+      };
       setCompanyData(updatedCompanyData);
     } else {
-      errToasterBox((t(result.msg,{ns:"gralerrors"})))
+      errToasterBox(t(result.msg, { ns: "gralerrors" }));
     }
     setSaving(false);
   };
@@ -140,24 +144,36 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
 
   // Validate and Update data to DB
   const handleSave = async () => {
-    const trimmedValues = {}
+    const trimmedValues = {};
     for (let [key, value] of Object.entries(values)) {
       // strips these keys as we don't want to overwrite their values, only editable fields allowable
-      if (!["RFPsWins", "RFPParticipations", "company_RFPs", "profileCompleted"].includes(key)) {
+      if (
+        ![
+          "RFPsWins",
+          "RFPParticipations",
+          "company_RFPs",
+          "profileCompleted",
+        ].includes(key)
+      ) {
         trimmedValues[key] = typeof value !== "undefined" ? value.trim() : "";
       }
     }
 
-    if (!validate(
+    if (
+      !validate(
         patronobligatorio,
         trimmedValues.adminname,
         t("companyform.nameerror")
-      ))
-      return;
-    if (!validate(patronemail, trimmedValues.email, t("companyform.emailerror"))
+      )
     )
       return;
-    if (trimmedValues.website && !validate (
+    if (
+      !validate(patronemail, trimmedValues.email, t("companyform.emailerror"))
+    )
+      return;
+    if (
+      trimmedValues.website &&
+      !validate(
         patronwebsite,
         trimmedValues.website,
         t("companyform.websiteerror")
@@ -172,10 +188,9 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
     setShowSignMsg(true);
   };
 
-  const inputclasses =`
+  const inputclasses = `
     require leading-normal flex-1 border-0  border-grey-light rounded rounded-l-none outline-none pl-10 
-     bg-stone-100 focus:bg-blue-100 font-roboto pl-10 w-full bg-stone-100 py-1 text-components `
-
+     bg-stone-100 focus:bg-blue-100 font-roboto pl-10 w-full bg-stone-100 py-1 text-components `;
 
   const patronemail = new RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -208,11 +223,16 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
         id="dataentrypanel"
         className="mt-2  p-4 bg-white  border-orange-200 rounded-md container  my-8 mx-4 border-2 border-solid"
       >
-        <div className="flex items-center mt-2 mb-4" >
-          <Image alt="DataEntry" src={'/dataentry.svg'} width={22} height={22}></Image>
-            <p className="text-components text-stone-500 text-bold  mt-2 ml-2 font-khula">
+        <div className="flex items-center mt-2 mb-4">
+          <Image
+            alt="DataEntry"
+            src={"/dataentry.svg"}
+            width={22}
+            height={22}
+          ></Image>
+          <p className="text-components text-stone-500 text-bold  mt-2 ml-2 font-work-sans">
             {t("companyform.recordcompanytitle")}
-            </p>
+          </p>
         </div>
         <form
           action=""
@@ -220,10 +240,9 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
         >
           <div className=" w-[80%] relative mb-4 flex bg-stone-100 ">
             <GlobeIcon className="absolute lg:h-4 lg:w-4 2xl:h-5  text-orange-400 mt-2 ml-2" />
-            <p 
-              className=" lg:text-xs xl:text-sm 2xl:text-base w-full my-2 text-stone-500 font-roboto pl-10">
-              {getCountryName(companyData.country) }
-              </p>
+            <p className=" lg:text-xs xl:text-sm 2xl:text-base w-full my-2 text-stone-500 font-roboto pl-10">
+              {getCountryName(companyData.country)}
+            </p>
           </div>
           <div className="w-[80%] relative flex mb-4">
             <InputCompanyId
@@ -269,32 +288,34 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
               values={values}
               placeholder={`${t("companyform.website")}`}
             />
-        </div>
+          </div>
         </form>
         <div id="footersubpanel3 ">
           <div className="py-4 flex flex-row justify-end border-t border-gray-300 rounded-b-md">
-              <button
-                type="button"
-                onClick={handleSave}
-                disabled={saving}
-                className={`main-btn ${saving ? "cursor-not-allowed" : ""}`}
-              >
-                {!saving ? `${t("savebutton")}` : ""}
-                {saving && (
-                  <div className=" flex justify-evenly items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900"></div>
-                    <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
-                  </div>
-                )}
-              </button>
-              <button
-                type="button"
-                disabled={saving}
-                onClick={() => router.push({ pathname: "/" })}
-                className={`ml-4 secondary-btn ${saving && "cursor-not-allowed bg-stone-400"}`}
-                >
-                {t("closebutton")}
-              </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={saving}
+              className={`main-btn ${saving ? "cursor-not-allowed" : ""}`}
+            >
+              {!saving ? `${t("savebutton")}` : ""}
+              {saving && (
+                <div className=" flex justify-evenly items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-white-900"></div>
+                  <p className="pl-4"> ...&nbsp;{t("savingstate")}</p>
+                </div>
+              )}
+            </button>
+            <button
+              type="button"
+              disabled={saving}
+              onClick={() => router.push({ pathname: "/" })}
+              className={`ml-4 secondary-btn ${
+                saving && "cursor-not-allowed bg-stone-400"
+              }`}
+            >
+              {t("closebutton")}
+            </button>
           </div>
         </div>
       </div>

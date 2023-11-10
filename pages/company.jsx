@@ -132,7 +132,7 @@ function Company() {
           const value = selectedCompanyData[key]
           if (value !== undefined && key !== "_id") {
             return (
-              <tr key={key} className="border-b-[1px] border-slate-200">
+              <tr key={key} className="font-work-sans border-b-[1px] border-slate-200">
                 <td className="text-components w-64 pl-4 text-stone-500 text-bold border-r-[1px] border-blue-500">
                   {t(key)}
                 </td>
@@ -168,7 +168,7 @@ function Company() {
           <tr className="bg-slate-500">
             <th className="w-1/5 text-center p-4 border-b-[1px]   text-white rounded-tl-xl "></th>
             <th className="w-4/5 text-left p-4 border-b-[1px]   text-white rounded-tr-xl">
-             <h2> {selectedCompanyData.companyname}</h2>
+             <h2 className="font-work-sans"> {selectedCompanyData.companyname}</h2>
             </th>
           </tr>
         </thead>

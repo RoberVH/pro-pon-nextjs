@@ -49,7 +49,6 @@ function HomeRFP() {
     "rfp_results", // if contest closed, only this is valid showing results
   ]
 
-  
   const [rfpRecord, setRfpRecord] = useState(undefined)
   const [selectedPanel, setSelectedPanel] = useState()
   const [loading, setloading] = useState(true)
@@ -76,15 +75,12 @@ function HomeRFP() {
 
   //  Hooks ******************************************************************
 
-  
   const reReadUrlParams = () => {
-      const urlParams = new URLSearchParams(window.location.search)
-      companyId = urlParams.get("companyId")
-      companyname = decodeURIComponent(urlParams.get("companyname") || "")
-      rfpidx = urlParams.get("rfpidx")
-    }
-  
-  
+    const urlParams = new URLSearchParams(window.location.search)
+    companyId = urlParams.get("companyId")
+    companyname = decodeURIComponent(urlParams.get("companyname") || "")
+    rfpidx = urlParams.get("rfpidx")
+  }
 
   //save to DB pending Transactions
   useEffect(() => {
@@ -103,7 +99,7 @@ function HomeRFP() {
         }
       }
     }
-    
+
     saveDBPendingTx()
   }, [noticeOff.fired])
 
@@ -162,9 +158,8 @@ function HomeRFP() {
     reReadUrlParams()
     getRFP()
     setloading(false)
-  }, [ i18n.language])
+  }, [i18n.language])
 
-  
   //  Inner Components ******************************************************************
 
   const RFPTabDisplayer = () => {
@@ -281,13 +276,13 @@ function HomeRFP() {
         <div className="outline outline-1 outline-orange-200 bg-white border-b-8 border-orange-200 border-double">
           <RFPIdentificator t={t} rfpRecord={rfpRecord} />
         </div>
-        <div id="homerfp-subpanel" className="grid grid-cols-[25%_74%] gap-1 ">
+        <div id="homerfp-subpanel" className="grid lg:grid-cols-[25%_75%] grid-cols-1 gap-1">
           <div
             id="homeref-lateral-panel"
             className=" border-r-8 border-double border-orange-200 "
           >
-            <div id="left-subpanel" className="mt-2">
-              <div className="shadow-md ">
+            <div id="left-subpanel" className="hidden lg:block mt-2">
+              <div className="shadow-md">
                 <RFPessentialData t={t} rfpRecord={rfpRecord} />
               </div>
               {rfpRecord?.items && Boolean(rfpRecord.items.length) && (
@@ -300,7 +295,7 @@ function HomeRFP() {
           <div id="right-subpanel" className="mt-2 ml-1 ">
             <div
               id="homeref-buttons-panels"
-              className="font-khula text-center "
+              className="font-work-sans text-center "
             >
               <HomeButtons
                 t={t}
@@ -338,7 +333,7 @@ function HomeRFP() {
 }
 
 export async function getStaticProps({ locale }) {
-//export async function getServerSideProps({ locale }) {
+  //export async function getServerSideProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, [

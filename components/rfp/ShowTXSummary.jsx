@@ -22,7 +22,7 @@ const ShowTXSummary = ({
 }) => (
   <div
     className="mx-auto mt-4 mb-8 p-4 border rounded-md border-orange-300 border-solid shadow-xl bg-white big-opacity-100
-            font-khula py-4 pl-2 text-warnings lg:overflow-y-auto"
+            font-work-sans py-4 pl-2 text-warnings lg:overflow-y-auto"
   >
     <div className="flex mb-4">
       <Image alt="Info" src="/information.svg" height={20} width={20} />
@@ -45,7 +45,6 @@ const ShowTXSummary = ({
                 rel="noreferrer"
               >
                 <strong>
-
                   {` ${postedHash.slice(0, 10)}...${postedHash.slice(-11)}`}
                 </strong>
               </a>

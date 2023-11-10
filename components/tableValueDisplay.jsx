@@ -92,7 +92,7 @@ const TableValueDisplay = ({ value, handleShowRFP, t, RFP_INTERVAL }) => {
   // Main JSX 
   return (
     <div
-      className="whitespace-nowrap relative"
+      className="whitespace-nowrap relative font-work-sans"
       onBlur={closePopover}
       tabIndex="0"
     >

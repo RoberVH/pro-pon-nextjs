@@ -58,14 +58,14 @@ function LandingPage() {
   }
 
   const handleGoToLearnMore = () => {
-   // resourceSectionRef.current.scrollIntoView({ behavior: "smooth" })
+    // resourceSectionRef.current.scrollIntoView({ behavior: "smooth" })
   }
 
   //************************************************** Inner components  *************************/
   const InfoCard = ({ title, image, info, styleObject }) => (
     <li>
       <div
-        className="space-y-4 p-4 h-full  rounded-lg bg-white"
+        className="font-work-sans space-y-4 p-4 h-full  rounded-lg bg-white"
         //style={{boxShadow: '0px 0px 15px 0 rgb(0, 68, 102, 0.9)'}}
         style={styleObject}
       >
@@ -117,15 +117,13 @@ function LandingPage() {
       </a>
     </div>
   )
-//553014 
+  //553014
   const CTA_Card = () => (
     <div
       id="butttons-actions-component"
-      className="mx-auto xl: mb-16  py-8 bg-gradient-to-b from-[#5c5c63] to-black via-orange-700"
+      className=" mx-auto xl: mb-16  py-8 bg-gradient-to-b from-[#5c5c63] to-black via-orange-700"
     >
-      <p
-        className=" sm:mt-2 lg:mt-4 font-inter text-center lg:text-lg xl:text-xl 2xl:text-2xl font-semibold text-white italic p-4"
-      >
+      <p className=" sm:mt-2 lg:mt-4 font-inter text-center lg:text-lg xl:text-xl 2xl:text-2xl font-semibold text-white italic p-4">
         {t("title_instructions")}
       </p>
       <div id="instructions" className="py-16 flex justify-center ">
@@ -204,7 +202,9 @@ function LandingPage() {
           <p className="text-stone-900 text-center mb-2 font-bold ">
             {t("no_metamask_wallet")}
           </p>
-          <p className="text-stone-900 ">{t("consult_rfps")}</p>
+          <p className="text-stone-900 ">
+            {t("consult_rfps")}
+          </p>
           <ul className="pt-4 list-inside text-stone-800">
             <li className="flex items-start space-x-1">
               <span>•</span>
@@ -231,7 +231,7 @@ function LandingPage() {
           className={`${styles.header_bg_color} h-48 flex items-center justify-center rounded-xl px-6`}
         >
           <button
-            className="ml-8 p-2 font-khula font-black text-sm uppercase  text-white bg-orange-600 rounded-xl  drop-shadow-lg
+            className="ml-8 p-2 font-work-sans font-black text-sm uppercase  text-white bg-orange-600 rounded-xl  drop-shadow-lg
                bg-gradient-to-r from-orange-500  to-red-500 hover:outline hover:outline-2 hover:outline-orange-300
                hover:outline-offset-2 pointer-events-none"
           >
@@ -295,7 +295,7 @@ function LandingPage() {
       className="bg-gradient-to-br from-orange-100 via-slate-200 to-blue-100 "
       // className="bg-[#1f1929] from-orange-100 via-slate-200 to-blue-100 "
     >
-            {/* Temporal Marquee for Beta Testing */}
+      {/* Temporal Marquee for Beta Testing */}
       {/* <div className="overflow-hidden w-full h-12  flex items-center justify-center  bg-stone-300">
         <div className="relative w-full">
           <div className="absolute animate-marquee">
@@ -309,15 +309,14 @@ function LandingPage() {
       <section className="flex-1 mt-2 bg-orange-400 min-h-[55vh] ">
         <div className="w-full flex flex-col justify-center items-center ">
           <h1 className="mt-32 text-stone-600 lg:text-2xl xl:text-4xl 2xl:text-5xl  font-roboto font-semibold tracking-tighter ">
-            {t("header_1", {ns:"common"})}
+            {t("header_1", { ns: "common" })}
           </h1>
-          <h2 className="text-white landing-page-bullets italic mt-12 mb-4 p-3 font-semibold bg-gradient-to-r from-blue-500 to-orange-600"> 
-           {t("subtitle",{ns:"common"})}
+          <h2 className="text-white font-roboto landing-page-bullets italic mt-12 mb-4 p-3 font-semibold bg-gradient-to-r from-blue-500 to-orange-600">
+            {t("subtitle", { ns: "common" })}
           </h2>
-          <p className="max-w-[900px] text-stone-100 text-center lg:my-8 2xl:my-8 text-base lg:text-base xl:text-xl ">
-           {t("subHeader1",{ns:"common"})}
+          <p className="max-w-[900px] font-work-sans text-stone-100 text-center lg:my-8 2xl:my-8 text-base lg:text-base xl:text-xl ">
+            {t("subHeader1", { ns: "common" })}
           </p>
-          
         </div>
       </section>
 
@@ -338,144 +337,153 @@ function LandingPage() {
         </ModalWindow>
       )}
 
-      <section id="explaining-problem" className="h-[94]  bg-white p-24 flex items-center gap-x-16">
-            <div className="w-[50%] lg:w-[70%]  m-8 mx-auto   text-stone-500 ">
-              <p className="auto-mx font-bold pl-4 lg:text-lg xl:text-2xl 3xl:text-3xl">
-                {t("problems",{ns:"common"})}
-                </p>
-              <p className="pl-4 pt-4 auto-mx  font-semibold lg:text-base xl:text-xl">
-                {t("solutions",{ns:"common"})}
-              </p>
-              <ul className="ml-12  list-disc text-components mt-6 mb-4 space-y-2 landing-page-bullets">
-                <li> {t("bul_sol1",{ns:"common"})} </li>
-                <li> {t("bul_sol2",{ns:"common"})} </li>
-                <li> {t("bul_sol3",{ns:"common"})} </li>
-                <li> {t("bul_sol4",{ns:"common"})} </li>
-              </ul>
-            </div>
-            <Image src={"/problems2.png"}
-              className="object-cover rounded-2xl opacity-90"
-              height={500}
-              width={600}
-              alt="problemsimage"
-            />
+      <section
+        id="explaining-problem"
+        className="h-[94]  bg-white p-24 flex items-center gap-x-16"
+      >
+        <div className="w-[50%] lg:w-[70%]  m-8 mx-auto font-work-sans  text-stone-500 ">
+          <p className="auto-mx font-bold pl-4 lg:text-lg xl:text-2xl 3xl:text-3xl">
+            {t("problems", { ns: "common" })}
+          </p>
+          <p className="pl-4 pt-4 auto-mx  font-semibold lg:text-base xl:text-xl">
+            {t("solutions", { ns: "common" })}
+          </p>
+          <ul className="ml-12  list-disc text-components mt-6 mb-4 space-y-2 landing-page-bullets">
+            <li> {t("bul_sol1", { ns: "common" })} </li>
+            <li> {t("bul_sol2", { ns: "common" })} </li>
+            <li> {t("bul_sol3", { ns: "common" })} </li>
+            <li> {t("bul_sol4", { ns: "common" })} </li>
+          </ul>
+        </div>
+        <Image
+          src={"/problems2.png"}
+          className="object-cover rounded-2xl opacity-90"
+          height={400}
+          width={500}
+          alt="problemsimage"
+          priority
+        />
       </section>
 
-    <section id="propon-solution-introduce" className="  xl:my-12 flex items-center justify-center py-16 "
-     >
-      <div className="bg-white p-8 rounded-lg py-24">
-      <p className="text-stone-600 font-roboto mb-2 font-bold pl-4 lg:text-lg xl:text-2xl 3xl:text-3xl ">
-        {t("secure",{ns:"common"})}
-      </p>
-      <p className="text-orange-400 font-roboto mb-6 font-semibold pl-4 lg:text-base xl:text-lg 2xl:text-xl lg:w-[45em] xl:w-[49em] 2xl:w-[50em] 3xl-[54em]">
-        {t("secure_subtitle",{ns:"common"})}
-      </p>
-      <p >
-        <ul className="text-stone-500 pl-8 font-roboto list-disc space-y-4 landing-page-bullets">
-          <li> <p className="lg:w-[44em] w-[60em] wrap"> {t("sol_bul2",{ns:"common"})}</p></li>
-          <li> <p className="lg:w-[44em] w-[60em] wrap"> {t("sol_bul3",{ns:"common"})}</p></li>
-        </ul>
-      </p>
-      </div>
-    </section>
+      <section
+        id="propon-solution-introduce"
+        className="  xl:my-12 flex items-center justify-center py-16 "
+      >
+        <div className="bg-white p-8 rounded-lg py-24">
+          <p className="text-stone-600 font-roboto mb-2 font-bold pl-4 lg:text-lg xl:text-2xl 3xl:text-3xl ">
+            {t("secure", { ns: "common" })}
+          </p>
+          <p className="text-orange-400 font-roboto mb-6 font-semibold pl-4 lg:text-base xl:text-lg 2xl:text-xl lg:w-[45em] xl:w-[49em] 2xl:w-[50em] 3xl-[54em]">
+            {t("secure_subtitle", { ns: "common" })}
+          </p>
+            <ul className="text-stone-500 pl-8 font-roboto list-disc space-y-4 landing-page-bullets">
+              <li>
+                {" "}
+                <p className="lg:w-[44em] w-[60em] wrap">
+                  {" "}
+                  {t("sol_bul2", { ns: "common" })}
+                </p>
+              </li>
+              <li>
+                {" "}
+                <p className="lg:w-[44em] w-[60em] wrap">
+                  {" "}
+                  {t("sol_bul3", { ns: "common" })}
+                </p>
+              </li>
+            </ul>
+        </div>
+      </section>
 
-    <section className="  h-8 ">
+      <section className="  h-8 "></section>
 
-    </section>
+      {address && !companyData?.companyname && (
+        <div className="  w-[40%] mx-auto flex justify-center  ">
+          <button className="flashy-main-btn m-8" onClick={handlesignIn}>
+            {t("signup")}
+          </button>
+        </div>
+      )}
 
-
-        {address && !companyData?.companyname && (
-          <div
-            className="  w-[40%] mx-auto flex justify-center  "
-            
+      <div
+        id="informative-intro-cards"
+        className="sm:my-16 md:my-18 lg:my-24 xl:my-24  py-8 bg-orange-300"
+      >
+        <div className="w-3/4 mx-auto divide-y-2 divide-gray-200">
+          <ul
+            className="mt-4 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-16 
+                grid-auto-rows p-4"
           >
-            <button className="flashy-main-btn m-8" onClick={handlesignIn}>
-              {t("signup")}
+            <InfoCard
+              title={t("transp_proc")}
+              image={"/magnifier-lined.svg"}
+              info={t("enter_new_era_of_fairness")}
+              styleObject={{
+                boxShadow: "5px 0px 15px 0 rgb(0, 41, 102, 0.9)",
+              }}
+            />
+            <InfoCard
+              title={t("pub_rfp_bc")}
+              image={"/blockchain.png"}
+              info={t("data_documents_fortified")}
+              styleObject={{
+                boxShadow: "5px 0px 15px 0 rgb(89, 0, 179, 0.9)",
+              }}
+            />
+            <InfoCard
+              title={t("unvel_post_rfp")}
+              image={"/personsearch.svg"}
+              info={t("upon_completion_of_rfp")}
+              styleObject={{ boxShadow: "5px 0px 15px 0 rgb(0, 0, 0, 0.9)" }}
+            />
+            <InfoCard
+              title={t("build_bc_rep")}
+              image={"/education-64.png"}
+              info={t("create_immutable_trail")}
+              styleObject={{
+                boxShadow: "5px 0px 15px 0 rgb(153, 38, 0, 0.9)",
+              }}
+            />
+          </ul>
+        </div>
+      </div>
+
+      <div
+        id="CTA-subsection"
+        className="lg:mb-24 xl:mb-48"
+        style={{
+          boxShadow:
+            "0px 5px 15px 0 rgba(0, 0, 0, 0.9), 0px -5px 25px 0 rgba(0, 0, 0, 0.9)",
+        }}
+      >
+        <CTA_Card />
+      </div>
+
+      <div className=" mx-auto">
+        <div
+          id="no-signup-notice"
+          className="font-work-sans text-center p-4 my-32"
+          //style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 1.5)'}}
+        >
+          <p className="font-semmibold text-stone-600 lg:text-lg xl:text-xl 2xl:text-2xl">
+            {t("no_signup")}
+          </p>
+          <p className="font-inter text-stone-500 lg:text-lg xl:text-xl 2xl:text-2xl mt-2 tracking-wide">
+            {t("browse_rfp")}
+          </p>
+          <div className="pt-8 pb-2 text-center">
+            <button
+              className="mx-4 blueblack-btn"
+              onClick={handleSearchCompanies}
+            >
+              {t("search_companies")}
+            </button>
+            <button className="mx-4 blueblack-btn" onClick={handleSearchRFP}>
+              {t("search_rfps")}
             </button>
           </div>
-        )}
-
-        <div
-          id="informative-intro-cards"
-          className="sm:my-16 md:my-18 lg:my-24 xl:my-24  py-8 bg-orange-300"
-        >
-          <div className="w-3/4 mx-auto divide-y-2 divide-gray-200">
-            <ul
-              className="mt-4 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-16 
-                grid-auto-rows p-4"
-            >
-              <InfoCard
-                title={t("transp_proc")}
-                image={"/magnifier-lined.svg"}
-                info={t("enter_new_era_of_fairness")}
-                styleObject={{
-                  boxShadow: "5px 0px 15px 0 rgb(0, 41, 102, 0.9)",
-                }}
-              />
-              <InfoCard
-                title={t("pub_rfp_bc")}
-                image={"/blockchain.png"}
-                info={t("data_documents_fortified")}
-                styleObject={{
-                  boxShadow: "5px 0px 15px 0 rgb(89, 0, 179, 0.9)",
-                }}
-              />
-              <InfoCard
-                title={t("unvel_post_rfp")}
-                image={"/personsearch.svg"}
-                info={t("upon_completion_of_rfp")}
-                styleObject={{ boxShadow: "5px 0px 15px 0 rgb(0, 0, 0, 0.9)" }}
-              />
-              <InfoCard
-                title={t("build_bc_rep")}
-                image={"/education-64.png"}
-                info={t("create_immutable_trail")}
-                styleObject={{
-                  boxShadow: "5px 0px 15px 0 rgb(153, 38, 0, 0.9)",
-                }}
-              />
-            </ul>
-          </div>
         </div>
-
-
-        <div
-          id="CTA-subsection"
-          className="lg:mb-24 xl:mb-48"
-          style={{
-            boxShadow:
-              "0px 5px 15px 0 rgba(0, 0, 0, 0.9), 0px -5px 25px 0 rgba(0, 0, 0, 0.9)",
-          }}
-        >
-          <CTA_Card />
-        </div>
-
-        <div className=" mx-auto">
-          <div
-            id="no-signup-notice"
-            className=" text-center p-4 my-32"
-            //style={{boxShadow: '0px 5px 15px 0 rgba(255, 165, 0, 0.6), 0px -5px 25px 0 rgba(255, 165, 0, 1.5)'}}
-          >
-            <p className="font-semmibold text-stone-600 lg:text-lg xl:text-xl 2xl:text-2xl">
-              {t("no_signup")}
-            </p>
-            <p className="font-inter text-stone-500 lg:text-lg xl:text-xl 2xl:text-2xl mt-2 tracking-wide">
-              {t("browse_rfp")}
-            </p>
-            <div className="pt-8 pb-2 text-center">
-              <button
-                className="mx-4 blueblack-btn"
-                onClick={handleSearchCompanies}
-              >
-                {t("search_companies")}
-              </button>
-              <button className="mx-4 blueblack-btn" onClick={handleSearchRFP}>
-                {t("search_rfps")}
-              </button>
-            </div>
-          </div>
-        </div>
-   
+      </div>
 
       <div
         id="second-section"
@@ -490,7 +498,7 @@ function LandingPage() {
               className="text-center  mb-8 lg:text-lg xl:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-blue-800"
               style={{ textShadow: "0 2px 5px rgba(0, 0, 0, 0.5)" }}
             >
-              {t("features_label")} 
+              {t("features_label")}
             </p>
             <ul className=" ml-8  lg:text-base xl:text-lg 2xl:text-xl text-stone-700 pl-4 list-none leading-[1.2rem] mb-8">
               <li className="relative landing-page-bullets">
@@ -505,14 +513,14 @@ function LandingPage() {
                   ‣
                 </span>
                 <strong>{t("digital_signing_label")}</strong>{" "}
-                {t("digital_signing_description")} 
+                {t("digital_signing_description")}
               </li>
               <li className="relative mt-8">
                 <span className="absolute left-[-1.5em] text-blue-800  font-extrabold">
                   ‣
                 </span>
                 <strong>{t("confidentiality_label")}</strong>{" "}
-                {t("confidentiality_description")} 
+                {t("confidentiality_description")}
               </li>
               <li className="relative mt-8">
                 <span className="absolute left-[-1.5em] text-blue-800  font-extrabold">
@@ -534,8 +542,6 @@ function LandingPage() {
           </div>
         </div>
       </div>
-
-    
 
       <footer
         id="foot-section"

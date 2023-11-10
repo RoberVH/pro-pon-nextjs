@@ -50,7 +50,7 @@ function CtlPagination({
      <div className="p-2 flex bg-stone-300 rounded-lg items-center">
         {navArrow(handleFirstPag, '/first_page_black_24dp.svg','first_page')}
         {navArrow(handleDownPag, '/keyboard_double_arrow_left_black_24dp.svg','down_one_page')}
-        <p className="text-components mx-16">{`${currentPage} / ${numberPages} `} </p>
+        <p className="font-roboto text-components mx-16">{`${currentPage} / ${numberPages} `} </p>
         {navArrow(handleUpPag, '/keyboard_double_arrow_right_black_24dp.svg','up_one_page')}
         {navArrow(handleLastPag, '/last_page_black_24dp.svg','last_page')}
      </div>

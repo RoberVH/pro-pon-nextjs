@@ -6,12 +6,12 @@ import { openContest, inviteContest } from "../../utils/constants";
 function RFPessentialData({ t, rfpRecord }) {
   const TableEntryBadge = ({ contestType, title, value }) => (
     <tr className="">
-      <td className="w-[9em] mb-2 text-components ">
-        <strong>{title}: </strong>
+      <td className="lg:w-[9em]  mb-2 text-components  font-roboto">
+        {title}:
       </td>
       <td className="w-[22em] text-orange-500 flex flex-wrap overflow-hidden">
         <p
-          className={`w-[90px]  mb-2 pt-1 text-components text-white text-center rounded-lg ${
+          className={`font-roboto w-[90px]  mb-2 pt-1 text-components text-white text-center rounded-lg ${
             contestType === openContest ? " bg-green-400" : " bg-red-400"
           }`}
         >
@@ -23,18 +23,18 @@ function RFPessentialData({ t, rfpRecord }) {
 
   const TableEntry = ({ title, value, link }) => (
     <tr className="text-components">
-      <td className="w-[9em]">
-        <strong>{title}: </strong>
+      <td className="lg:w-[9em]  font-roboto text-components">
+        {title}:
       </td>
       {!Boolean(link) ? (
         <td
-          className="text-components 3xl:w-[20em] 2xl:w-[16em] xl:w-[14em] lg:w-[12em] text-orange-500 flex flex-wrap overflow-hidden"
+          className="text-components lg:w-[12em] xl:w-[14em]  2xl:w-[16em]  3xl:w-[20em]  text-orange-500 flex flex-wrap overflow-hidden  font-roboto"
           title={value}
         >
-          <strong>{value}</strong>
+          {value}
         </td>
       ) : (
-        <td className="text-components 3xl:w-[20em] 2xl:w-[16em] xl:w-[14em] lg:w-[12em] text-orange-500 flex flex-wrap overflow-hidden underline cursor-pointer">
+        <td className="text-components 3xl:w-[20em] 2xl:w-[16em] xl:w-[14em] lg:w-[12em] text-orange-500 flex flex-wrap overflow-hidden underline cursor-pointer font-roboto">
           <a className="" href={value} target="_blank" rel="noreferrer">
             {value}
           </a>
@@ -44,12 +44,10 @@ function RFPessentialData({ t, rfpRecord }) {
   );
 
   return (
-    <div className="flex flex-col font-khula bg-white leading-8 mb-2">
+    <div className="flex flex-col font-work-sans bg-white leading-8 mb-2">
       <div className="flex">
-        <TableIcon className=" lg:h-4 lg:w-4 xl:h-6  xl:w-6  text-orange-300 mt-1 ml-2" />
-        <p className="ml-4 my-2 text-components text-stone-900">
-          {t("rfp")}
-        </p>
+        <TableIcon className="md:h-0 md:w-0 lg:h-4 lg:w-4 xl:h-6  xl:w-6  text-orange-300 mt-1 ml-2" />
+        <p className="ml-4 my-2 text-components text-stone-900 ">{t("rfp")}</p>
       </div>
       <table className="table-fixed ml-2 pr-4 ">
         <tbody className="">

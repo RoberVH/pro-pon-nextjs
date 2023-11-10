@@ -13,7 +13,7 @@ import {
   docTypes,
   IdxDocTypes,
   privateFileTypes,
-  traslatedRFPErrors
+  traslatedRFPErrors,
 } from "../.././utils/constants";
 import { useSignMessage } from "../../hooks/useSignMessage";
 import { getFileSecrets } from "../../database/dbOperations";
@@ -34,7 +34,7 @@ const DownloadFileForm = ({
   allowedDocTypes,
   owner,
   doneLookingFiles,
-  rfpIndex
+  rfpIndex,
 }) => {
   const [downloadableFiles, setDownloadableFiles] = useState([]);
   const [timerWarning, setTimerWarning] = useState(false);
@@ -95,16 +95,19 @@ const DownloadFileForm = ({
 
     const hash = await sha512(result.content);
     const check = hash === originalHash;
-    if (check) toast.success(`<${result.filename}> ${t('match')}`);
+    if (check) toast.success(`<${result.filename}> ${t("match")}`);
     else {
       navigator.clipboard.writeText(hash);
-      errToasterBox(`<${result.filename}> ${t('nomatch')}.  HASH ${t('Copied_clipboard')}`);}
+      errToasterBox(
+        `<${result.filename}> ${t("nomatch")}.  HASH ${t("Copied_clipboard")}`
+      );
+    }
   };
 
   const errToasterBox = (msj) => {
     toast.error(msj, {
       //toastId: id,
-      ...toastStyle
+      ...toastStyle,
     });
   };
 
@@ -253,7 +256,7 @@ const DownloadFileForm = ({
       globalIndex,
       arweaveFileIdx,
       message = undefined,
-      signature = undefined
+      signature = undefined,
     } = params.current;
     let msg = message;
     if (typeof msg !== "undefined") msg = JSON.parse(message); // destringify message
@@ -276,7 +279,7 @@ const DownloadFileForm = ({
         IVuint8Array
       );
       const blob = new Blob([decryptedFile], {
-        type: "application/octet-stream"
+        type: "application/octet-stream",
       });
       // Let's call function in charge to download the blob, and manage the resolve if all ok
       saveBlobAsFile("blob", null, blob, params.current.filename);
@@ -320,7 +323,7 @@ const DownloadFileForm = ({
             docType: file.docType.toString(),
             globalIndex: rfpIndex,
             arweaveFileIdx: file.idx,
-            filename: file.name
+            filename: file.name,
           };
           // check if document is confidential (proposal type presently; only available if end of receiving date reached
           // AND is requested by RFP issuer)
@@ -458,7 +461,7 @@ const DownloadFileForm = ({
     if (!doneLookingFiles)
       return (
         <div
-          className="border border-orange-400  font-khula font-bold text-stone-700 h-full
+          className="border border-orange-400  font-work-sans font-bold text-stone-700 h-full
             w-full mb-8  shadow-lg"
         >
           <div className="scale-50 ">
@@ -480,13 +483,16 @@ const DownloadFileForm = ({
           )}
 
           <table
-            className="table-fixed border-collapse border border-orange-400  font-khula font-bold text-stone-700 h-full
+            className="table-fixed border-collapse border border-orange-400  font-work-sans  text-stone-700 h-full
              w-full mb-8  shadow-lg"
           >
             <thead className="">
-              <tr className="font-khula text-md text-left text-stone-600 border border-orange-400">
+              <tr className="font-work-sans text-md text-left text-stone-500 border border-orange-400">
                 <th className="w-1/4 lg:px-1 py-2 ">
-                  <div className="cursor-pointer text-components" onClick={toggleAllEntries}>
+                  <div
+                    className="cursor-pointer text-components"
+                    onClick={toggleAllEntries}
+                  >
                     <input
                       title={t("selectall", { ns: "common" })}
                       type="checkbox"
@@ -494,17 +500,17 @@ const DownloadFileForm = ({
                       checked={selectAll}
                       onChange={toggleAllEntries}
                     />
-                    <strong>{t("document_name")}</strong>
+                    {t("document_name")}
                   </div>
                 </th>
-                <th className="w-5/12 px-4 py-2 text-components">
-                  <strong>{t("document_hash")}</strong>
+                <th className="w-5/12 px-4 py-2 text-components ">
+                  {t("document_hash")}
                 </th>
                 <th className="w-2/12 px-4 py-2 text-components  ">
-                  <strong>{t("doc_type")}</strong>
+                  {t("doc_type")}
                 </th>
                 <th className="w-2/12 px-4 py-2 text-components  ">
-                  <strong>{t("test")}</strong>
+                  {t("test")}
                 </th>
               </tr>
             </thead>
@@ -539,9 +545,7 @@ const DownloadFileForm = ({
                   >
                     {t(docTypes[file.docType.toNumber()].desc)}
                   </td>
-                  <td
-                    className=" truncate p-2  cursor-pointer"
-                    >
+                  <td className=" truncate p-2  cursor-pointer">
                     <div className="flex items-center">
                       <Image
                         onClick={() => handleTestFile(file.documentHash)}
@@ -578,21 +582,25 @@ const DownloadFileForm = ({
 
   return (
     <div className="m-auto py-2 max-w-[90%]  border-[1px] border-orange-200 shadow-md p-4">
-      <SignMsgAlert
-        showSignMsg={showSignMsg}
-        msgWarning={t("show_rfp_filerequest")}
-        signMsg={t("signmessage", { ns: "common" })}
-        handleSigning={handleSigning}
-      />
+     {showSignMsg &&
+        <SignMsgAlert
+          showSignMsg={showSignMsg}
+          msgWarning={t("show_rfp_filerequest")}
+          signMsg={t("signmessage", { ns: "common" })}
+          handleSigning={handleSigning}
+        />
+     }
       <div id="downloadIcon" className="flex">
         <DownloadIcon className="mt-1 h-8 w-8 text-orange-300 mb-2" />
-        <p className="lg:text-xs xl:text-sm  mt-2 pl-2 font-khula">{t("dowloadrequestfiles")}</p>
+        <p className="lg:text-xs xl:text-sm  mt-2 pl-2 font-work-sans">
+          {t("dowloadrequestfiles")}
+        </p>
       </div>
       <ComponentLauncher />
       <div className="flex justify-center mt-8">
         <button
           id="downloadAllSelectedFiles"
-          className="lg:text-xs xl:text-sm  bg-orange-500 text-white font-bold py-2 px-4 rounded mt-4 "
+          className="lg:text-xs xl:text-sm  bg-orange-500 text-white font-semibold py-2 px-4 rounded mt-4 "
           onClick={handleDownloadAllSelectedFiles}
         >
           {t("download_button")}

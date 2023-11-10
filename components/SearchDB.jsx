@@ -5,15 +5,15 @@ import {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import useInputForm from "../hooks/useInputForm"
-import InputCountrySel from "./InputCountrySel"
-import { SearchIcon } from "@heroicons/react/outline"
-import processBDerror from "../database/processBDerror"
-import { LIMIT_RESULTS } from "../utils/constants"
-import { toastStyleWarning } from "../styles/toastStyle"
-import { toast } from "react-toastify"
+import useInputForm from "../hooks/useInputForm";
+import InputCountrySel from "./InputCountrySel";
+import { SearchIcon } from "@heroicons/react/outline";
+import processBDerror from "../database/processBDerror";
+import { LIMIT_RESULTS } from "../utils/constants";
+import { toastStyleWarning } from "../styles/toastStyle";
+import { toast } from "react-toastify";
 
-const DEBOUNCING_TIME = 750
+const DEBOUNCING_TIME = 750;
 
 const errorColor = {
   true: "border-red-600 border-9",
@@ -30,15 +30,14 @@ const debounce = (fn, delay) => {
   };
 };
 
-
 // Function to display warning msg
 const warningToast = (msgWarning) => {
   toast.warning(msgWarning, toastStyleWarning);
 };
 const SearchDB = forwardRef(
   ({ fields, path, setResults, setWait, setError, t, i18n }, ref) => {
-    const { values, handleChange, handleReinitialize } = useInputForm()
-    const [currInput, setCurrInput] = useState()
+    const { values, handleChange, handleReinitialize } = useInputForm();
+    const [currInput, setCurrInput] = useState();
     const inputRefs = useRef([]);
     const uSEReference = useRef; // to avoid calling a hook inside a callback when setting inputRefs next line
     inputRefs.current = fields.map(() => uSEReference(null));
@@ -52,7 +51,6 @@ const SearchDB = forwardRef(
     const SearchBox = ({ field, index }) => {
       const [faultyDates, setFaultyDates] = useState(false);
 
-
       useEffect(() => {
         setFaultyDates(
           values[`${field.fieldName}_end`] <= values[`${field.fieldName}_ini`]
@@ -62,7 +60,7 @@ const SearchDB = forwardRef(
       const InputSearchTerm = () => {
         return (
           <input
-            className="font-khula border-b-2 border-orange-200 text-stone-900 outline-none 
+            className="font-work-sans border-b-2 border-orange-200 text-stone-900 outline-none 
                   p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8"
             ref={inputRefs.current[index]}
             type="text"
@@ -98,7 +96,7 @@ const SearchDB = forwardRef(
               </div>
               <div className={`text-components flex flex-col  rounded-md w-42`}>
                 <input
-                  className={`font-khula  text-stone-900 outline-none border
+                  className={`font-work-sans  text-stone-900 outline-none border
                 py-1 pl-2  rounded-md focus:bg-stone-100 focus:rounded-md ${errorColor[faultyDates]} `}
                   type="text"
                   id={`${field.fieldName}_ini`}
@@ -113,7 +111,7 @@ const SearchDB = forwardRef(
                 />
 
                 <input
-                  className={`font-khula  text-stone-900 outline-none  border
+                  className={`font-work-sans  text-stone-900 outline-none  border
                       py-1 pl-2  rounded-md focus:bg-stone-100 focus:rounded-md ${errorColor[faultyDates]} `}
                   type="text"
                   id={`${field.fieldName}_end`}
@@ -132,9 +130,6 @@ const SearchDB = forwardRef(
         </div>
       );
     };
-
-  
-
 
     const getResults = async (values) => {
       for (const key in values) {
@@ -173,7 +168,6 @@ const SearchDB = forwardRef(
       debouncedGetResults(values);
 
       if (currInput) currInput.current.focus();
-
     }, [values]);
 
     useImperativeHandle(ref, () => ({
@@ -191,7 +185,7 @@ const SearchDB = forwardRef(
     // Main JSX return ************************************************************************************
 
     return (
-      <div id="searchBD-component-main" className="py-2 flex  items-center"> 
+      <div id="searchBD-component-main" className="py-2 flex  items-center">
         <div
           id="search-icon"
           onClick={handleCleanFields}

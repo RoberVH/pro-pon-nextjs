@@ -1,11 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Khula:wght@300&family=Nunito:wght@300&family=Inter:wght@400;500;600;700&display=swap');
-html {
-    background-color: #f2f2f2
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+.font-work-sans {
+  font-family: 'Work Sans', sans-serif;
 }
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 @layer components {
   
@@ -19,26 +28,26 @@ html {
     }
 
     .flashy-main-btn {
-      @apply ml-16 p-4 font-khula font-black lg:text-xs xl:text-sm 2xl:text-base uppercase text-white bg-orange-600 rounded-xl  drop-shadow-lg bg-gradient-to-r 
+      @apply ml-16 p-4 font-work-sans font-black lg:text-xs xl:text-sm 2xl:text-base uppercase text-white bg-orange-600 rounded-xl  drop-shadow-lg bg-gradient-to-r 
       from-orange-500  to-blue-500  hover:outline hover:outline-4 hover:outline-blue-300 min-w-[12rem] text-center
       hover:outline-offset-2
     }
 
     .flashy-secondary-btn {
-      @apply ml-16 p-4 font-khula font-black lg:text-xs xl:text-sm 2xl:text-base uppercase text-white bg-blue-600 rounded-xl  drop-shadow-lg 
+      @apply ml-16 p-4 font-work-sans font-black lg:text-xs xl:text-sm 2xl:text-base uppercase text-white bg-blue-600 rounded-xl  drop-shadow-lg 
       hover:outline hover:outline-4 hover:outline-orange-300 min-w-[12rem] text-center
       hover:outline-offset-2
     }
 
     .main-btn {
-      @apply bg-orange-400 lg:text-xs xl:text-sm 2xl:text-sm font-bold font-khula  px-2 py-1 
+      @apply bg-orange-400 lg:text-xs xl:text-sm 2xl:text-sm font-bold font-work-sans  px-2 py-1 
       text-white leading-tight uppercase rounded-md shadow-md hover:bg-orange-700 
       active:hover:shadow-lg active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none
       active:focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 
       ease-in-out disabled:bg-orange-200 focus:outline-none disabled:shadow-none
     }
     .secondary-btn {
-      @apply bg-blue-500 lg:text-xs xl:text-sm 2xl:text-sm font-bold font-khula text-white leading-tight uppercase      
+      @apply bg-blue-500 lg:text-xs xl:text-sm 2xl:text-sm font-bold font-work-sans text-white leading-tight uppercase      
       px-2 py-1 rounded-md shadow-md hover:bg-blue-700 active:hover:shadow-lg 
       active:focus:bg-blue-800 focus:shadow-lg focus:outline-none focus:ring-2 
       active:bg-blue-800 active:focus:shadow-lg transition duration-150 
@@ -46,7 +55,7 @@ html {
   } 
 
     .action-btn {
-      @apply border-[1px]  xl:text-sm lg:text-xs font-bold font-khula  leading-tight uppercase bg-blue-600 text-white
+      @apply border-[1px]  xl:text-sm lg:text-xs font-bold font-work-sans  leading-tight uppercase bg-blue-600 text-white
       px-4 py-1 rounded-md shadow-sm active:hover:shadow-lg 
       active:focus:bg-blue-900 focus:shadow-lg focus:outline-none focus:ring-2   
       hover:bg-blue-900 hover:text-white active:focus:shadow-lg transition duration-150
@@ -55,7 +64,7 @@ html {
 
 
     .txCancel-btn {
-    @apply bg-red-500 lg:text-xs xl:text-sm font-bold font-khula text-white leading-tight uppercase 
+    @apply bg-red-500 lg:text-xs xl:text-sm font-bold font-work-sans text-white leading-tight uppercase 
     px-4 py-2.5 rounded shadow-md hover:bg-red-700 active:hover:shadow-lg 
     active:focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 
     active:bg-red-800 active:focus:shadow-lg transition duration-150 
@@ -126,6 +135,10 @@ html {
 
     .text-components, .text-components div {
       @apply lg:text-xs xl:text-sm 2xl:text-base;
+    }
+
+    .text-single-warnings {
+      @apply lg:text-lg xl:text-xl 2xl:text-2xl;
     }
 
     .text-titles {

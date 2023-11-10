@@ -181,9 +181,22 @@ const HeadBar = () => {
   useEffect(() => {
     async function getDatafromContract() {
       //first check if network is rigth
-      const noWorkingRightNetwork =
-        (window?.ethereum?.networkVersion ?? "unknown") !==
-        process.env.NEXT_PUBLIC_NETWORK_VERSION;
+    let noWorkingRightNetwork=false;
+    window?.ethereum?.request({ method: 'eth_chainId' })
+    .then(chainId => {
+        noWorkingRightNetwork=(process.env.NEXT_PUBLIC_NETWORK_VERSION!==parseInt(chainId, 16).toString())
+        setNoRightNetwork(noWorkingRightNetwork);
+
+    })
+    .catch(error => {
+        setNoRightNetwork(noWorkingRightNetwork)
+    });
+      
+      // const noWorkingRightNetwork =
+      //   (window?.ethereum?.networkVersion ?? "unknown") !==
+      //   process.env.NEXT_PUBLIC_NETWORK_VERSION;
+
+
       setNoRightNetwork(noWorkingRightNetwork);
       // if no noRightNetwork don't try to get company data
       if (noWorkingRightNetwork) return;
@@ -307,7 +320,7 @@ const HeadBar = () => {
         <div ref={ref} id="showAccount">
           <button
             id="connect-button"
-            className="text-components mt-4 p-2 mr-4 font-khula font-semibold   
+            className="text-components mt-4 p-2 mr-4 font-work-sans font-semibold   
                 text-white bg-orange-600 rounded-xl  drop-shadow-lg  
                 bg-gradient-to-r from-orange-500  to-red-500 
                 hover:outline hover:outline-2 hover:outline-orange-300
@@ -367,7 +380,7 @@ const HeadBar = () => {
           >
             <div
               id="show-account-profile-button"
-              className="flex justify-start   hover:bg-stone-100 hover:rounded-lg"
+              className="flex justify-start font-normal font-roboto  hover:bg-stone-100 hover:rounded-lg"
             >
               <BadgeCheckIcon className=" h-5 w-5 text-orange-600  mr-1 " />
               <p className="text-menus" onClick={handleProfile}>
@@ -376,7 +389,7 @@ const HeadBar = () => {
             </div>
             <div
               id="show-account-disconnect-button"
-              className="flex justify-start  hover:bg-stone-100 hover:rounded-lg"
+              className="flex justify-start font-normal font-roboto  hover:bg-stone-100 hover:rounded-lg"
             >
               <StatusOfflineIcon className=" h-5 w-5 text-orange-600  mr-1 " />
               <p className="pr-2 text-menus" onClick={handleDisconnect}>
@@ -407,7 +420,7 @@ const HeadBar = () => {
     else
       return (
         <div>
-          <label className="text-menus font-semibold font-nunito text-white">
+          <label className="text-menus font-normal font-roboto  text-white">
             {companyData.companyname
               ? `${companyData.companyname}`
               : address
@@ -436,12 +449,12 @@ const HeadBar = () => {
           <Link href="/" passHref className="">
             <div className="flex h-[3em] mt-4 cursor-pointer">
               <p
-                className={`text-3xl pr-1 font-khula font-semibold bg-orange-400 text-blue-900 rounded-tl-xl py-2 pl-4`}
+                className={`text-3xl pr-1 font-work-sans font-semibold bg-orange-400 text-blue-900 rounded-tl-xl py-2 pl-4`}
               >
                 Propon
               </p>
               <p
-                className={`text-3xl pl-1 font-khula font-semibold  pr-4 py-2  rounded-br-xl  ${styles.log_me_bg_color} `}
+                className={`text-3xl pl-1 font-work-sans font-semibold  pr-4 py-2  rounded-br-xl  ${styles.log_me_bg_color} `}
               >
                 .me
               </p>

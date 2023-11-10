@@ -52,7 +52,7 @@ const PickFilesForm = ({
 
   const SelectDocTypes = ({ fileName }) => (
     <select
-      className=" block w-full px-3 py-1.5 text-sm font-khula  bg-white bg-clip-padding 
+      className=" block w-full px-3 py-1.5 text-sm font-work-sans  bg-white bg-clip-padding 
                     bg-no-repeat border border-solid border-gray-300 outline-none rounded transition ease-in-out
                       border-grey-light hover:cursor-pointer  "
       onChange={(e) => handleChangeDocType(e, fileName)}
@@ -68,8 +68,7 @@ const PickFilesForm = ({
     <div
       className={`${droppingFiles ? "outline outline-4" : "outline-2"} 
                   h-[12em] w-3/4 my-4   items-center  outline-dashed outline-orange-300 text-sm  text-orange-500 rounded-sm  
-                  flex flex-col justify-evenly`
-                }
+                  flex flex-col justify-evenly`}
       onDrop={(e) => handleDrop(e)}
       onDragOver={(e) => handleDragOver(e)}
       onDragLeave={(e) => handleDragLeave(e)}
@@ -98,7 +97,7 @@ const PickFilesForm = ({
       <input
         id="selectrfprequestdocs"
         ref={inputRef}
-        className="font-khula mx-auto  text-sm  text-orange-500 file:mr-4 
+        className="font-work-sans mx-auto  text-sm  text-orange-500 file:mr-4 
                 file:py-2 file:px-4file:rounded-full file:border-0 file:text-sm file:font-semibold w-0 
                 file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
         onChange={(e) => handleFileChange(e)}
@@ -252,7 +251,9 @@ const PickFilesForm = ({
         </div>
       ) : (
         <>
-          <p className="text-components ml-8 font-khula">{t("select_doctype")}</p>
+          <p className="text-components ml-8 font-work-sans">
+            {t("select_doctype")}
+          </p>
           <div
             id="displayTableDocTypes"
             className="border-0 border-gray-200 mb-2 flex justify-center"
@@ -260,8 +261,8 @@ const PickFilesForm = ({
             <table className="m-4  table-fixed   w-[80%]">
               <tbody className="p-2">
                 {candidateFiles.map((file, idx) => (
-                  <tr key={file.name} className="font-khula">
-                    <td className="w-[65%] text-left pl-2 border-2 border-gray-200 font-khula text-components truncate group ">
+                  <tr key={file.name} className="font-work-sans">
+                    <td className="w-[65%] text-left pl-2 border-2 border-gray-200 font-work-sans text-components truncate group ">
                       {file.name}
                       <span
                         className="absolute invisible group-hover:visible  px-4 py-2 rounded-md bg-gray-100 shadow-md font-xs font-semibold opacity-0 
@@ -281,7 +282,7 @@ const PickFilesForm = ({
           <div className="m-6 flex justify-center">
             <button
               onClick={handleAcceptUploadFiles}
-              className="bg-orange-400 font-xl font-bold font-khula  mr-10 px-4 py-2.5  
+              className="bg-orange-400 font-xl font-bold font-work-sans  mr-10 px-4 py-2.5  
                       text-white leading-tight uppercase rounded shadow-md hover:bg-orange-700 active:hover:shadow-lg 
                       active:focus:bg-orange-700 focus:shadow-lg active:focus:outline-none active:focus:ring-0 active:bg-orange-800 
                       active:shadow-lg transition duration-150 ease-in-out disabled:bg-orange-400 text-sm"

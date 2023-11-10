@@ -97,7 +97,7 @@ const ShowResults = ({ t, rfpIndex }) => {
         height={18}
         width={18}
       />
-      <p className="text-components font-khula ml-4 mt-2 text-md  text-stone-900">
+      <p className="text-components font-work-sans ml-4 mt-2 text-components  text-stone-900">
         {t("companies_awarded")}
       </p>
     </div>
@@ -107,14 +107,14 @@ const ShowResults = ({ t, rfpIndex }) => {
     <div className="m-4">
       <Title />
       <div className="mx-auto w-[95%] mt-8  p-4  border-2 border-stone-300 shadow-lg">
-        <div className="pl-2 py-1 px-4 mb-8 font-khula text-stone-500">
+        <div className="pl-2 py-1 px-4 mb-8 ">
           <div className="pl-12 mt-8">
             <p
-              className={`text-components font-khula ml-4 mt-2  ${
-                redflag ? "text-red-600" : "text-stone-900"
+              className={`text-single-warnings font-work-sans ml-4 mt-2  ${
+                redflag ? "text-red-600" : "text-stone-500"
               }`}
             >
-              <strong>{msg}</strong>
+              {msg}
             </p>
           </div>
         </div>
@@ -182,7 +182,7 @@ const ShowResults = ({ t, rfpIndex }) => {
         <div className="mx-auto w-[95%] mt-8  p-4  border-2 border-stone-300 shadow-lg">
           <div className="my-4">
             <div className="py-8">
-              <table className="mb-4 table-fixed font-khula mx-auto ">
+              <table className="mb-4 table-fixed font-work-sans mx-auto ">
                 <thead>
                   <tr className="">
                     <th className="w-3/5 px-2 py-2 border border-orange-300 text-components">

@@ -22,7 +22,7 @@ import { nanoid } from "nanoid";
 import { toastStyle } from "../../styles/toastStyle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { parseWeb3Error } from '../../utils/parseWeb3Error'
+import { parseWeb3Error } from "../../utils/parseWeb3Error";
 
 const allowedDocTypes = [
   docTypes[IdxDocTypes["documentProposalType"]],
@@ -31,19 +31,19 @@ const allowedDocTypes = [
   docTypes[IdxDocTypes["documentFinancialType"]],
   docTypes[IdxDocTypes["documentAdministrativeType"]],
 ];
-const ShowBidders = ({ 
-    address, 
-    owner, 
-    rfpIndex, 
-    t, 
-    rfpDates,
-    setNoticeOff
-  }) => {
+const ShowBidders = ({
+  address,
+  owner,
+  rfpIndex,
+  t,
+  rfpDates,
+  setNoticeOff,
+}) => {
   const [idxShowFilesComp, setidxShowFilesComp] = useState(null); // index of open Files Compo
   //const [dateAllowed, setDateAllowed] = useState(false); // flag to indicate the period is valid to upload documents according to RFP dates
   const { bidders, getBidders, companies, doneLookingBidders } = useBidders();
-  const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } =    useFilesRFP(rfpIndex);
-  
+  const { setNewFiles, rfpfiles, updateRFPFilesArray, doneLookingFiles } =
+    useFilesRFP(rfpIndex);
 
   /** UTILITY FUNCTIONS ********************************************************************** */
   const errToasterBox = (msj) => {
@@ -67,35 +67,38 @@ const ShowBidders = ({
       // obtain companies information from DataBase
       const result = await getBidders(rfpIndex);
       if (!result.status) {
-        const msgError= parseWeb3Error(t,result)
+        const msgError = parseWeb3Error(t, result);
         errToasterBox(msgError);
       } // trigger document metadata search on useFilesRFP
     }
     getBiddersInfo();
   }, []);
 
-/** Hooks ********************************************************************** */
-useEffect(()=>{
-  async function getFilesData() {
-    if (bidders) {
-    const result = await updateRFPFilesArray()
-    if (!result.status) {
-      // Error!, but result.message could be a string message or an object error to be parsed
-      let msgError;
-      if (typeof result.message!=='string'){
-           msgError = parseWeb3Error(t,result.message)
-          } else  msgError=t(result.message, {ns:"gralerrors"})
-      errToasterBox(msgError)
+  /** Hooks ********************************************************************** */
+  useEffect(() => {
+    async function getFilesData() {
+      if (bidders) {
+        const result = await updateRFPFilesArray();
+        if (!result.status) {
+          // Error!, but result.message could be a string message or an object error to be parsed
+          let msgError;
+          if (typeof result.message !== "string") {
+            msgError = parseWeb3Error(t, result.message);
+          } else msgError = t(result.message, { ns: "gralerrors" });
+          errToasterBox(msgError);
+        }
+      }
     }
-    
-    }
-  }
-  getFilesData()
-},[bidders, updateRFPFilesArray])
+    getFilesData();
+  }, [bidders, updateRFPFilesArray]);
 
   const CellTable = ({ field, highhLigth, w }) => (
-    <td className={`${w} lg:text-xs xl:text-sm p-2 font-khula ${highhLigth ? 'text-orange-700 font-bold':'text-stone-800'}`}>
-            {field}
+    <td
+      className={`${w} lg:text-xs xl:text-sm p-2 font-work-sans ${
+        highhLigth ? "text-orange-600 " : "text-stone-600"
+      }`}
+    >
+      {field}
     </td>
   );
 
@@ -116,21 +119,21 @@ useEffect(()=>{
   const UploadComponent = ({ company }) => {
     if (address.toLowerCase() === company?.address.toLowerCase())
       // if (isDateAllowed())
-        return (
-          <tr id={`uploadfiles`} key={`uploadfiles`}>
-            <td colSpan={4}>
-              <UploadRFPForm
-                t={t}
-                setNewFiles={setNewFiles}
-                rfpIndex={rfpIndex}
-                allowedDocTypes={allowedDocTypes}
-                owner={owner}
-                isInTime={isDateAllowed()}
-                setNoticeOff={setNoticeOff}
-              />
-            </td>
-          </tr>
-        );
+      return (
+        <tr id={`uploadfiles`} key={`uploadfiles`}>
+          <td colSpan={4}>
+            <UploadRFPForm
+              t={t}
+              setNewFiles={setNewFiles}
+              rfpIndex={rfpIndex}
+              allowedDocTypes={allowedDocTypes}
+              owner={owner}
+              isInTime={isDateAllowed()}
+              setNoticeOff={setNoticeOff}
+            />
+          </td>
+        </tr>
+      );
   };
 
   const ShowBidersComponent = () => (
@@ -146,11 +149,30 @@ useEffect(()=>{
                     company.companyId !== idxShowFilesComp
                       ? "border-b-2 border-orange-400"
                       : "text-lg font-bold"
-                  }`}>
-                  <CellTable w={'w-1/6'} field={company.companyId} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
-                  <CellTable w={'w-3/6'} field={company.companyname} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
-                  <CellTable w={'w-1/6'} field={company.country} highhLigth={address.toLowerCase() === company?.address.toLowerCase()}/>
-                  <td className="w-1/6 p-2 text-lg font-khula text-gray-700 text-right pr-4 ">
+                  }`}
+                >
+                  <CellTable
+                    w={"w-1/6"}
+                    field={company.companyId}
+                    highhLigth={
+                      address.toLowerCase() === company?.address.toLowerCase()
+                    }
+                  />
+                  <CellTable
+                    w={"w-3/6"}
+                    field={company.companyname}
+                    highhLigth={
+                      address.toLowerCase() === company?.address.toLowerCase()
+                    }
+                  />
+                  <CellTable
+                    w={"w-1/6"}
+                    field={company.country}
+                    highhLigth={
+                      address.toLowerCase() === company?.address.toLowerCase()
+                    }
+                  />
+                  <td className="w-1/6 p-2 text-lg font-work-sans text-gray-700 text-right pr-4 ">
                     {idxShowFilesComp === company.companyId ? (
                       <Image
                         className="cursor-pointer "
@@ -158,24 +180,24 @@ useEffect(()=>{
                         alt="-"
                         src={"/dash.svg"}
                         width={22}
-                        height={22}>
-                        </Image>
-                     ) : (
-                        <Image
-                          className="cursor-pointer"
-                          onClick={() => toggleUploadComponent(company.companyId)}
-                          alt="V"
-                          src={"/chevrondown2.svg"}
-                          width={22}
-                          height={22}
-                        >
-                        </Image>
+                        height={22}
+                      ></Image>
+                    ) : (
+                      <Image
+                        className="cursor-pointer"
+                        onClick={() => toggleUploadComponent(company.companyId)}
+                        alt="V"
+                        src={"/chevrondown2.svg"}
+                        width={22}
+                        height={22}
+                      ></Image>
                     )}
                   </td>
                 </tr>
                 {idxShowFilesComp === company.companyId && (
                   <>
-                    {address.toLowerCase() === company?.address.toLowerCase() && (
+                    {address.toLowerCase() ===
+                      company?.address.toLowerCase() && (
                       <UploadComponent company={company} />
                     )}
                     <tr id={`downloadfiles`} key={`downloadfiles`} className="">
@@ -199,10 +221,14 @@ useEffect(()=>{
           ) : (
             <tr id={`nobidders`} key="nobidders">
               <td className="text-center ">
-                <div className="mt-4 w-2/3 min-w-full h-[9rem] min-h-full border-2 border-coal-500 
-            flex shadow-lg p-4 justify-center items-center tracking-wide text-stone-500 uppercase"> 
-                <p className="mt-8 font-khula text-xl">{t("no_bidders")}</p>
-            </div>
+                <div
+                  className="mt-4 w-2/3 min-w-full h-[9rem] min-h-full border-2 border-coal-500 
+                  flex shadow-lg p-4 justify-center items-center tracking-wide text-stone-500 "
+                >
+                  <p className="mt-8 font-work-sans text-single-warnings">
+                    {t("no_bidders")}
+                  </p>
+                </div>
               </td>
             </tr>
           )}
