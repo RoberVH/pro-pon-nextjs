@@ -47,7 +47,7 @@
     "rfpessentialdatasaved":"Les données d'identification de l'entreprise ont été publiées sur la Blockchain",
     "rfpdatasaved":"Les données RFP ont été enregistrées",
     "titlescreen": "Demande de propositions (RFP)",
-    "name": "Id RFP",
+    "name": "ID RFP",
     "description":"Nom",
     "companyId": "Identifiant de l'entreprise",
     "companyname": "Nom de l'entreprise",

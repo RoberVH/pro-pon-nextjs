@@ -23,7 +23,7 @@
     "execution reverted: invalid_winner":"Invalid winner, not a participant",
     "execution reverted: rfp_already_awarded":"RFP already awarded",
     "execution reverted: id_already_exists":"Id already exists",
-    "execution reverted: rfpid_already_taken":"RFP Id already used for this company",
+    "execution reverted: rfpid_already_taken":"RFP ID already used for this company",
     "execution reverted: not_matching_winners":"Not Matching winners to items",
     "execution reverted: address_already_admin_of_company": "This account is already an admin of another company",
     "execution reverted: only_owner_allowed": "Only the contract owner is allowed to perform this operation",

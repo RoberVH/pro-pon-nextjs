@@ -23,7 +23,7 @@
     "execution reverted: invalid_winner":"Ganador inválido, no es participante",
     "ejecución revertida: rfp_already_awarded":"RFP ya fue adjudicado",
     "execution reverted: id_already_exists":"Este Id de Empresa ya existe",
-    "execution reverted: rfpid_already_taken":"Id de RFP utilizado previamente para esta compañía",
+    "execution reverted: rfpid_already_taken":"ID de RFP utilizado previamente para esta compañía",
     "execution reverted: not_matching_winners":"No coinciden los ganadores con las partidas",
     "execution reverted: address_already_admin_of_company": "Esta cuenta ya es administradora de otra empresa",
     "execution reverted: only_owner_allowed": "Solo el propietario del contrato tiene permitido realizar esta operación",

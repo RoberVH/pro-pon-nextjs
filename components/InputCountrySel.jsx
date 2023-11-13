@@ -45,7 +45,7 @@ export const InputCountrySel = ({ t, handleChange, values, i18n }) => {
 
   return (
     <select
-      className="font-work-sans border-b-2 border-orange-200 text-stone-900 outline-none w-2/3
+      className="font-work-sans border-b-2 border-orange-200 text-stone-500 outline-none w-2/3 lg:text-xs
                        p-2  rounded-md focus:bg-stone-100 focus:rounded-md mr-8 bg-white"
       onChange={handleChange}
       id={"country"}

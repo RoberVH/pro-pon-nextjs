@@ -11,6 +11,9 @@ export const notifTypes = {
     notif_RFPDeclared: "notifRFPDeclared"
   };
   
+// limit of subjet Line char length imposed by Server Email service (Mailjet as of release)
+export const SubjectCharsLimit = 255
+
   export const SubjetNotifRFP = {
     es: {
       notifInvitedCompanyToRFP: "Invitación Exclusiva: presenta tu propuesta para la Licitación ",

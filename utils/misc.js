@@ -104,12 +104,3 @@ export const sendToIssuerEmail = async (params) => {
     return { status: false, message: error.message };
   }
 };
-/*
-       recipient: issuerCompany.email,
-        rfpname: rfpRecord.description,
-        rfpid: rfpRecord.rfpIndex.toString(),
-        companyname: companyname,
-        rfpDescriptor: rfpRecord.name,
-        lang: lang,
-        notiftype: typeOfNotification,
-*/

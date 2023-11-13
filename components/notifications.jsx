@@ -101,7 +101,6 @@ function Notifications({ t, rfpRecord, notiftype, lang }) {
       return;
     }
     const baseUrl = `${process.env.NEXT_PUBLIC_PROPON_URL}/${lang}/`;
-    //const baseUrl=`${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
     const rfplink = `${baseUrl}homerfp?companyId=${encodeURIComponent(
       rfpRecord.companyId
     )}&companyname=${encodeURIComponent(rfpRecord.companyname)}&rfpidx=${

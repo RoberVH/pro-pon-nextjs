@@ -337,7 +337,7 @@ const HeadBar = () => {
       <div ref={ref} id="show-account" className="flex  mr-8 mb-2  h-[4rem]">
         <button
           disabled
-          className="relative text-orange-600 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 text-components"
+          className="relative text-orange-600 rounded-xl px-2 my-4 bg-white border-solid border-2 border-orange-200 lg:text-xs xl:text-sm  "
           title={`${
             Boolean(address) &&
             Boolean(companyData.companyname) &&
@@ -420,7 +420,7 @@ const HeadBar = () => {
     else
       return (
         <div>
-          <label className="text-menus font-normal font-roboto  text-white">
+          <label className="text-menus font-roboto  text-white ">
             {companyData.companyname
               ? `${companyData.companyname}`
               : address

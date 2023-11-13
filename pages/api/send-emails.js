@@ -4,6 +4,9 @@
  *    Send notifications email to all emails sent in the recipients param
  */
 
+import { SubjectCharsLimit } from "../../utils/emailText"
+
+
 const mailjet = require("node-mailjet").apiConnect(
   process.env.MAILJET_API_KEY,
   process.env.MAILJET_API_SECRET
@@ -32,9 +35,7 @@ export default async function handler(req, res) {
     res.status(403).json({ status: false, message: "invalid_email_format" })
     return
   }
-
-  //const baseUrl = `${process.env.NEXT_PUBLIC_PROPON_URL}/`
-  const baseUrl = `${process.env.NEXT_PUBLIC_VERCEL_URL}/${lang}/`
+  const baseUrl = `${process.env.NEXT_PUBLIC_PROPON_URL}/`
   const rfplink = `${baseUrl}homerfp?companyId=${encodeURIComponent(
     companyid
   )}&companyname=${encodeURIComponent(hostcompany)}&rfpidx=${rfpid}`
@@ -64,8 +65,15 @@ export default async function handler(req, res) {
       break
   }
 
-  const subjectLine = `${SubjetNotifRFP[lang][notiftype]} ${rfpDescriptor} - ${rfpname}`
+  // short Subject line if too long
+  let subjectLine = `${SubjetNotifRFP[lang][notiftype]} ${rfpDescriptor} - ${rfpname}`
+  if (subjectLine.length > SubjectCharsLimit) {
+    subjectLine= `${subjectLine.slice(0, 252)}...`
+  }
 
+  console.log('subjectLine', subjectLine)
+  console.log('-'.repeat(50))
+  console.log('textHTML',textHTML)
   const emailObj = {
     Messages: [
       {
@@ -104,6 +112,7 @@ export default async function handler(req, res) {
 
     res.status(201).json({ status: true, message: "ok" })
   } catch (err) {
+    console.log('Error! -> ', err.message)
     res.status(501).json({ status: false, message: err.message })
   }
 }
