@@ -20,6 +20,7 @@ import Spinner from "../components/layouts/Spinner"
 import TableValueDisplay from "../components/tableValueDisplay"
 import { getRFPCompanyIssuer } from "../web3/getRFPCompanyIssuer"
 import { parseWeb3Error } from "../utils/parseWeb3Error"
+import { connectMetamask } from "../web3/connectMetamask"
 
 
 function Company() {
@@ -57,32 +58,37 @@ function Company() {
         if (!result.status) {
           throw new Error(t(result.msg,{ns:"gralerrors"}))
         }
-        if (window.ethereum && !window.ethereum.selectedAddress) {
-          // MetaMask is not connected, request access
-          await window.ethereum.enable()
-        } else {
-          // if there is wallet and not connected to right network raise error
-          if (noRightNetwork && !noWallet) {
-            throw new Error("no_right_network")
+        
+        if (window.ethereum) {
+        // Make sure we have Connection to Metamask, if  is not connected, request access, it won't pass until user connects
+          const result = await connectMetamask()
+          if (!result.status) {
+            errToasterBox(t(result.message, { ns: "gralerrors" }));
+            return
           } 
-          // all ok, go ahead 
-          const resp = await getCompanyDatafromContract(result.data.address, t)
-          if (!resp.status) {
-            throw new Error(resp.msg)
-          }
-          // This destructuring is because we are using a legacy function depending if it is using local provider or server alchemy prov
-          let sourceData = resp.data.company ? resp.data.company : resp.data  
-          let { company_RFPs, RFPsWins, RFPParticipations } = sourceData
-          let RFPsWinings =   RFPsWins.map((rfp) => parseInt(rfp))
-          company_RFPs =      company_RFPs.map((rfp) => parseInt(rfp))
-          RFPParticipations = RFPParticipations.map((rfp) => parseInt(rfp))
-          setSelCompanyData({
-            RFPsWinings,
-            RFPParticipations,
-            company_RFPs,
-            ...result.data
-          })
         }
+        // after passing above we should be ok  
+        // if there is wallet and not connected to right network raise error
+        if (noRightNetwork && !noWallet) {
+          throw new Error("no_right_network")
+        } 
+        // all ok, go ahead 
+        const resp = await getCompanyDatafromContract(result.data.address, t)
+        if (!resp.status) {
+          throw new Error(resp.msg)
+        }
+        // This destructuring is because we are using a legacy function depending if it is using local provider or server alchemy prov
+        let sourceData = resp.data.company ? resp.data.company : resp.data  
+        let { company_RFPs, RFPsWins, RFPParticipations } = sourceData
+        let RFPsWinings =   RFPsWins.map((rfp) => parseInt(rfp))
+        company_RFPs =      company_RFPs.map((rfp) => parseInt(rfp))
+        RFPParticipations = RFPParticipations.map((rfp) => parseInt(rfp))
+        setSelCompanyData({
+          RFPsWinings,
+          RFPParticipations,
+          company_RFPs,
+          ...result.data
+        })
     } catch (error) {
         const customError = parseWeb3Error(t, error)
         errToasterBox(customError)

@@ -38,7 +38,8 @@ export default async function handler(req, res) {
   const baseUrl = `${process.env.NEXT_PUBLIC_PROPON_URL}/`
   const rfplink = `${baseUrl}homerfp?companyId=${encodeURIComponent(
     companyid
-  )}&companyname=${encodeURIComponent(hostcompany)}&rfpidx=${rfpid}`
+    )}&companyname=${encodeURIComponent(hostcompany)}&rfpidx=${rfpid}`
+    
 
   let textHTML
   switch (notiftype) {
@@ -71,9 +72,6 @@ export default async function handler(req, res) {
     subjectLine= `${subjectLine.slice(0, 252)}...`
   }
 
-  console.log('subjectLine', subjectLine)
-  console.log('-'.repeat(50))
-  console.log('textHTML',textHTML)
   const emailObj = {
     Messages: [
       {
@@ -112,7 +110,6 @@ export default async function handler(req, res) {
 
     res.status(201).json({ status: true, message: "ok" })
   } catch (err) {
-    console.log('Error! -> ', err.message)
     res.status(501).json({ status: false, message: err.message })
   }
 }

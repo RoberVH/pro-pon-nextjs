@@ -181,21 +181,19 @@ const HeadBar = () => {
   useEffect(() => {
     async function getDatafromContract() {
       //first check if network is rigth
-    let noWorkingRightNetwork=false;
-    window?.ethereum?.request({ method: 'eth_chainId' })
-    .then(chainId => {
-        noWorkingRightNetwork=(process.env.NEXT_PUBLIC_NETWORK_VERSION!==parseInt(chainId, 16).toString())
-        setNoRightNetwork(noWorkingRightNetwork);
-
-    })
-    .catch(error => {
-        setNoRightNetwork(noWorkingRightNetwork)
-    });
-      
-      // const noWorkingRightNetwork =
-      //   (window?.ethereum?.networkVersion ?? "unknown") !==
-      //   process.env.NEXT_PUBLIC_NETWORK_VERSION;
-
+      let noWorkingRightNetwork = false;
+      // changed this from deprecated window.ethereum.networkVersion check https://github.com/MetaMask/metamask-improvement-proposals/discussions/23
+      window?.ethereum
+        ?.request({ method: "eth_chainId" })
+        .then((chainId) => {
+          noWorkingRightNetwork =
+            process.env.NEXT_PUBLIC_NETWORK_VERSION !==
+            parseInt(chainId, 16).toString();
+          setNoRightNetwork(noWorkingRightNetwork);
+        })
+        .catch((error) => {
+          setNoRightNetwork(noWorkingRightNetwork);
+        });
 
       setNoRightNetwork(noWorkingRightNetwork);
       // if no noRightNetwork don't try to get company data
@@ -267,7 +265,7 @@ const HeadBar = () => {
   const handleConnect = async () => {
     const result = await connectMetamask();
     if (!result.status) {
-      const processed_error = result.message;
+      //const processed_error = result.message;
       errToasterBox(t(result.message, { ns: "gralerrors" }));
     } else {
       setAddress(result.address); // now address in in the context

@@ -39,6 +39,7 @@ import { toastStyle, toastStyleSuccess } from "../styles/toastStyle"
 import { toast } from "react-toastify"
 
 import { docTypes, openContest, inviteContest } from "../utils/constants"
+import { connectMetamask } from "../web3/connectMetamask"
 
 function HomeRFP() {
   const displayedPanels = [
@@ -108,26 +109,33 @@ function HomeRFP() {
     const getRFP = async () => {
       if (!rfpidx) return
       let result
+      //check we have conditions: if there is wallet verify there is addres & right network
       if (window.ethereum) {
-        if (window.ethereum.selectedAddress === null) {
-          try {
-            // MetaMask is not connected, request access
-            await window.ethereum.enable()
-            result = await getContractRFP(rfpidx)
-          } catch (error) {
-            const customError = parseWeb3Error(t, error)
-            errToasterBox(customError)
-            setNotConWallet(true)
-            setloading(false)
+        // Make sure we have Connection to Metamask, 
+        if (!address) {
+          // wallet exists and is no connected, request access, it won't pass until user connects
+          const result = await connectMetamask()
+          if (!result.status) {
+            errToasterBox(t(result.message, { ns: "gralerrors" }))
+            return
           }
-        } else {
-          // if there is wallet and not connected to right network raise error
-          if (noRightNetwork && !noWallet)
-            result = { status: false, message: "no_right_network" }
-          // all ok, go ahead and get RFP from contract
-          else result = await getContractRFP(rfpidx)
         }
-      } else {
+        // check is the right network, this is set when HeabBar ran and is gotten from context lines above
+        if (noRightNetwork) {
+          errToasterBox(t("no_right_network", { ns: "gralerrors" }))
+          return
+        }
+        // all ok get RFP from contract
+        try {
+          result = await getContractRFP(rfpidx)
+        } catch (error) {
+          const customError = parseWeb3Error(t, error)
+          errToasterBox(customError)
+          setNotConWallet(true)
+          setloading(false)
+          return
+        }
+      } else { // There is no wallet installed get data from server
         result = await getContractRFPFromServer(rfpidx)
       }
       if (!result) {
@@ -276,7 +284,10 @@ function HomeRFP() {
         <div className="outline outline-1 outline-orange-200 bg-white border-b-8 border-orange-200 border-double">
           <RFPIdentificator t={t} rfpRecord={rfpRecord} />
         </div>
-        <div id="homerfp-subpanel" className="grid lg:grid-cols-[25%_75%] grid-cols-1 gap-1">
+        <div
+          id="homerfp-subpanel"
+          className="grid lg:grid-cols-[25%_75%] grid-cols-1 gap-1"
+        >
           <div
             id="homeref-lateral-panel"
             className=" border-r-8 border-double border-orange-200 "

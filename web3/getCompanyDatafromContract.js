@@ -1,10 +1,7 @@
 // getCompanyDatafromContract
 
-import processBDerror from "../database/processBDerror"
 import { parseWeb3Error } from "../utils/parseWeb3Error"
-import { connectMetamask } from "./connectMetamask"
 import { getContractCompanyData } from "./getContractCompanyData"
-
 
 
 
