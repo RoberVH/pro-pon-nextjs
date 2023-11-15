@@ -356,10 +356,10 @@ function LandingPage() {
           </ul>
         </div>
         <Image
-          src={"/problems2.png"}
-          className="object-cover rounded-2xl opacity-90"
+          src={"/propon-hero-1.png"}
+          className="object-fit rounded-2xl opacity-90"
           height={400}
-          width={500}
+          width={400}
           alt="problemsimage"
           priority
         />
