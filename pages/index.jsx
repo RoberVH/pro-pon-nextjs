@@ -16,8 +16,8 @@ import { App_Name } from "../utils/constants"
 
 function LandingPage() {
   const [warningFlag, setWarningFlag] = useState(false)
-  const { companyData, address, showSpinner, noWallet } =
-    useContext(proponContext)
+  const { companyData, address, showSpinner, noWallet } = useContext(proponContext)
+  const [hideWarning, setHideWarning]= useState(false)
 
   const backdropStyles = {
     width: "100%",
@@ -296,7 +296,8 @@ function LandingPage() {
       // className="bg-[#1f1929] from-orange-100 via-slate-200 to-blue-100 "
     >
       {/* Temporal Marquee for Beta Testing */}
-      {/* <div className="overflow-hidden w-full h-12  flex items-center justify-center  bg-stone-300">
+      { !hideWarning &&
+      <div className="overflow-hidden w-full h-12  flex items-center justify-center  bg-stone-300">
         <div className="relative w-full">
           <div className="absolute animate-marquee">
             <p className="whitespace-nowrap text-lg font-base text-orange-700 leading-none">
@@ -304,7 +305,14 @@ function LandingPage() {
             </p>
           </div>
         </div>
-      </div> */}
+      </div>}
+      {  !hideWarning &&
+        <div className="my-4 flex justify-center ">
+          <button className="main-btn" onClick={()=>{setHideWarning(true)}}>
+            {t('warninghide',{ns:"common"})} 
+          </button>
+        </div>
+      }
 
       <section className="flex-1 mt-2 bg-orange-400 min-h-[55vh] ">
         <div className="w-full flex flex-col justify-center items-center ">
