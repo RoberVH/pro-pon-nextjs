@@ -131,15 +131,21 @@ function LandingPage() {
           className="leading-8 font-inter sm:text-md md:text-md lg:text-lg xl:text-lg text-stone-200 px-8 py-20"
           style={{ boxShadow: "10px 10px 25px 0 rgba(255, 255, 255, 0.7)" }}
         >
-          <li className="mb-4">
+<li className="mb-4">
             <label className="font-bold px-2  text-stone-700 bg-blue-500 rounded-full">
               1
+            </label>
+            <label className="ml-8">{t("install_wallet_title")}</label>
+          </li>          
+          <li className="mb-4">
+            <label className="font-bold px-2  text-stone-700 bg-blue-500 rounded-full">
+              2
             </label>
             <label className="ml-8">{t("click_on_connect_wallet")}</label>
           </li>
           <li className="mb-4">
             <label className="font-bold px-2 text-stone-700 bg-blue-500 rounded-full">
-              2
+              3
             </label>
             <label className="ml-8">
               {t("create_an_account_with_pro_pon")}
@@ -147,13 +153,13 @@ function LandingPage() {
           </li>
           <li className="mb-4">
             <label className="font-bold px-2 text-stone-700 bg-blue-500 rounded-full">
-              3
+              4
             </label>
             <label className="ml-8">{t("complete_your_company_profile")}</label>
           </li>
           <li>
             <label className="font-bold px-2 text-stone-700 bg-blue-500 rounded-full">
-              4
+              5
             </label>
             <label className="ml-8">
               {t("start_creating_or_bidding_on_rfps")}

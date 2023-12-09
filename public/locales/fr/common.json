@@ -133,6 +133,7 @@
   "sol_bul2": "Propon n'est pas juste un autre gestionnaire de RFP; c'est une application distribuée Web3 qui crée un pont entre les Émetteurs de RFP et les Soumissionnaires, en utilisant la Blockchain pour coordonner les activités liées aux RFPs",
   "sol_bul3": "Assure l'immuabilité et la transparence de chaque transaction et interaction sur la blockchain, éliminant les préoccupations de biais, d'avantages déloyaux et de divulgation prématurée des documents",
   "secure": "Coordination sécurisée et équitable des RFP avec Propon",
-  "subtitle": "Contrôle Centralisé, Confiance Décentralisée"
+  "subtitle": "Contrôle Centralisé, Confiance Décentralisée",
+  "install_wallet_title":"Installer le portefeuille Metamask"
 
 }
