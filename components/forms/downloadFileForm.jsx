@@ -529,7 +529,7 @@ const DownloadFileForm = ({
                     onClick={() => toggleSelectedFile(file)}
                   >
                     <div className="text-components">
-                      <p className="whitespace-pre  "> {file.name}</p>
+                      <p title={file.name}  className="whitespace-pre  "> {file.name}</p>
                     </div>
                   </td>
                   <td
