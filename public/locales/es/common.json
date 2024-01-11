@@ -62,7 +62,7 @@
     "Crea un concurso de ofertas y agregar documentos del RFP",
     "Invita a tus proveedores a enviar sus propuestas vía Propon.me"
   ],
-  "addingnetwork": "Su billetera no tiene la red de trabajo configurada, agregándola ahora, por favor autorize",
+  "addingnetwork": "Tu billetera no tiene la red de trabajo configurada, agregándola ahora, por favor autoriza",
   "could_not_detect_network": "No pude detectar red de Blockchain",
   "notsupportedbrowser": "Este navgador no soporta esta operación, use última versión de  Google Chrome o Winodws Edge",
   "mypending_transactions": "Mis Transacciones Pendientes",
