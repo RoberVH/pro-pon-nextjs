@@ -88,24 +88,25 @@ const RFPDataForm = ({ setNoticeOff }) => {
     const resp = await saveRFP2DB(params);
     if (resp.status) {
       // we retrieve the address of the rfp owner from OnEvent event as we need it but it's not in this form component.
-      // then we set the whole RFP params to be include on the URL that RFP button edit will trigger
+      // then we set the whole RFP params to be include on the URL that edit RFP button will trigger
       setRFPParams((rfpparams) => ({ ...rfpparams, rfpidx: params.rfpidx }));
       toast.success(t("rfpdatasaved", toastStyleSuccess));
       setrfpCreated(true);
     }
     // if there was an error saving to DB the RFP record. Consequence will be that it won't appear on
-    // RFP searches, but this won't hinder the RFP process as that rocess won't rely on DB but contract
+    // RFP searches, but this won't hinder the RFP process as that process won't rely on DB but on contract data
     // there shall be a function when reading RFP from contract to check if exist in DB and updated the RFP there if needed
-    // so we don't show error here and let it pass silently, tht's why there is not else branch here showing an
+    // so we don't show error here and let it pass silently, thta's why there is not else branch here showing
   };
 
   // Handle Error method passed unto useWriteRFP hook
   const onError = (error) => {
     setButtonClicked(false);
     setProTxBlockchain(false);
+    errToasterBox(customError);
     const customError = parseWeb3Error(t, error);
     errToasterBox(customError);
-    // setWaiting(false)
+    // setWaiting(false)web
   };
 
   // onEvent Handle method passed unto useWriteRFP hook  to save RFP data to DB record when event is received from contrat

@@ -14,7 +14,6 @@ import { ethers } from "ethers"
 import { useRouter } from "next/router"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
-const { BigNumber } = require("ethers")
 const RFPDocuments = lazy(() => import("../components/rfp/rfpDocuments"))
 const RegisterBidder = lazy(() => import("../components/rfp/registerBidder"))
 const ShowBidders = lazy(() => import("../components/rfp/showBidders"))
@@ -40,6 +39,8 @@ import { toast } from "react-toastify"
 
 import { docTypes, openContest, inviteContest } from "../utils/constants"
 import { connectMetamask } from "../web3/connectMetamask"
+import { saveRFP2DB } from "../database/dbOperations";
+
 
 function HomeRFP() {
   const displayedPanels = [
@@ -73,6 +74,77 @@ function HomeRFP() {
   const errToasterBox = (msj) => {
     toast.error(msj, toastStyle)
   }
+
+
+  // Uitlities ********************************************************
+
+  // assertRecord
+  // Check if this RFP that comes from contract exists at database and create it if not, this is because some incongruency when creating RFP happened
+  //i.e the smart contract was updated but the MongoDb did not
+
+ const getRFPOwnerCompany= async (address)   => {
+  const params=new URLSearchParams({address})
+    const url=`/api/getcontractcompanyfromserver?${params}`
+    try {
+          const response = await fetch(url);
+          const resp = await response.json();
+          if (!response.ok || !resp.status) {
+              return({status:false})
+          }        
+          return {status:true, data:  resp.company}
+    } catch (error) {
+      return ({status:false})
+    }
+}
+
+ const assertDBrecord = async (RFP) => {
+ if (!RFP.rfpIndex) return
+ const rfpIndexSearch={rfpidx: parseInt(RFP.rfpIndex,10)}
+  const rfpIdx = new URLSearchParams(rfpIndexSearch);
+  const path=`/api/rfpbyindex?`
+  const url = path + rfpIdx;
+  try {
+    const response = await fetch(url);  // bring from DB the RFP record
+    const resp = await response.json();
+
+    // if no error on communicating to Backend nor in response abd if the rfp exists doesn't exist in DB let's update it
+    if (response.ok && resp.status && resp.result.length === 0) {
+      // there was no RFP record in the DB, so let's update DB with the contract RFP params passed in through
+       // before updating we get the Issuer  company ID and COmpany name from the contract using the issuer read from the contract RFP just to make sure
+       // Previously we read the data from contract as we are using contract data is the ultimate source of true. 
+       // Exists the likelihood that we are on parameters from URL that could be wrong, so
+       // because we are updating DB again try to read that data so as not to corrupt the DB with incorrect information
+       const res= await getRFPOwnerCompany(RFP.issuer) 
+       if (!res.status) return  // can't read at this moment, don't update DB
+       const companyRFPOwnerName = res.data.name;
+       const companyRFPOwnerId = res.data.id;
+       const params = {
+          rfpidx:parseInt(RFP.rfpIndex,10),
+          companyId: companyRFPOwnerId,
+          companyname: companyRFPOwnerName,
+          name: RFP.name,
+          description: (RFP.description ?? "") + "",  
+          rfpwebsite: (RFP.rfpwebsite ?? "") + "",
+          openDate: RFP.openDate.toString(),
+          endReceivingDate: RFP.endReceivingDate.toString(),
+          endDate: RFP.endDate.toString(),
+          contestType: RFP.contestType,
+          items: RFP.items,
+          issuer: RFP.issuer
+        }
+        const result= await saveRFP2DB(params)
+        return
+    }
+  } catch (error) {
+    console.log('error', error)
+    // do nothing, this time we don't have access to DB so we can't update it but the flow can continue
+    return
+  }
+
+
+
+}
+
 
   //  Hooks ******************************************************************
 
@@ -148,7 +220,17 @@ function HomeRFP() {
         setNoRFP(true)
         return
       }
-      const RFP = { companyId: companyId, companyname: companyname }
+      const RFP={}
+      const res= await getRFPOwnerCompany(result.RFP.issuer) 
+      if (res.status) {
+        //  got the company name and Id from the contract, let's use them
+        RFP.companyname= res.data.name;
+        RFP.companyId = res.data.id;
+      } else  {  
+        // use URL params as last resource, not ideally but the case a URL having an RFP and a not owning company is remote
+        RFP.companyId= companyId
+        RFP.companyname =  companyname 
+      }
       //  remove redundant numeric properties ([0]: ... [N]) from contract response & convert from Big number to
       //  number at the same time
       // Remeber that converting to flat object in the server could have made it lost BigNumber type so to be safe
@@ -162,6 +244,7 @@ function HomeRFP() {
         }
       }
       setRfpRecord(RFP)
+      assertDBrecord(RFP)
     }
     reReadUrlParams()
     getRFP()

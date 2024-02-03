@@ -64,7 +64,7 @@ export const verifyData_Save = async (message, signature) => {
     } 
   }
 
-    // Create company RFP at  database
+    // Create company RFP record at  database
     export const saveRFP2DB = async (rfpParams) => {
       let method = "POST";
       try {

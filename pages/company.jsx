@@ -172,7 +172,9 @@ function Company() {
       <table className="table-fixed w-[80%] min-w-[60%] max-w-[80%] bg-white mx-auto mt-8 shadow-lg rounded-xl">
         <thead>
           <tr className="bg-slate-500">
-            <th className="w-1/5 text-center p-4 border-b-[1px]   text-white rounded-tl-xl "></th>
+            <th className="w-1/5 text-center p-4 border-b-[1px]   text-white rounded-tl-xl ">
+             <h2 className="font-work-sans"> {t("companydata")}</h2>
+            </th>
             <th className="w-4/5 text-left p-4 border-b-[1px]   text-white rounded-tr-xl">
              <h2 className="font-work-sans"> {selectedCompanyData.companyname}</h2>
             </th>

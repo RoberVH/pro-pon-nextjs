@@ -17,5 +17,6 @@
     "total":"Total",
     "showrfps":"Show RFPs",
     "gotorfp":"Go to RFP",
-    "not_available":"Information no available, click to go to RFP"
+    "not_available":"Information no available, click to go to RFP",
+    "companydata": "Company Data"
     }

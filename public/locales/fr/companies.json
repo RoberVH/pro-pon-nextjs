@@ -17,5 +17,6 @@
     "total":"Total",
     "showrfps":"Afficher les RFPs",
     "gotorfp":"cliquez pour Aller au RFP",
-    "not_available": "Information non disponible, cliquez pour accéder à la demande de propositions"
+    "not_available": "Information non disponible, cliquez pour accéder à la demande de propositions",
+    "companydata": "Données de l'Entreprise"
 }

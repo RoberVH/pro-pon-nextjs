@@ -179,7 +179,7 @@
     "not_all_companies_retrieved":"Could not retrieve all participants information, check network",
     "compare_hash_file":"Click to compare the hash of a file",
     "test":"Check",
-    "nomatch":"Match",
-    "match":"No match",
+    "nomatch":"No match",
+    "match":"Match",
     "no_rfp_on_wrong_netwrok":"Information cannot be retrieved from the wrong network. Please switch to the correct network and reload the page (F5 key)"
  }
