@@ -109,11 +109,12 @@ function HomeRFP() {
 
     // if no error on communicating to Backend nor in response abd if the rfp exists doesn't exist in DB let's update it
     if (response.ok && resp.status && resp.result.length === 0) {
-      // there was no RFP record in the DB, so let's update DB with the contract RFP params passed in through
-       // before updating we get the Issuer  company ID and COmpany name from the contract using the issuer read from the contract RFP just to make sure
-       // Previously we read the data from contract as we are using contract data is the ultimate source of true. 
-       // Exists the likelihood that we are on parameters from URL that could be wrong, so
-       // because we are updating DB again try to read that data so as not to corrupt the DB with incorrect information
+      /* there was no RFP record in the DB, so let's update DB with the contract RFP params passed in through
+         before updating we get the Issuer  company ID and COmpany name from the contract using the issuer read from the contract RFP just to make sure
+         Previously we read the data from contract as we are using contract data is the ultimate source of true. 
+         Exists the likelihood that we are on parameters from URL that could be wrong, so
+        because we are updating DB again try to read that data so as not to corrupt the DB with incorrect information
+       */
        const res= await getRFPOwnerCompany(RFP.issuer) 
        if (!res.status) return  // can't read at this moment, don't update DB
        const companyRFPOwnerName = res.data.name;

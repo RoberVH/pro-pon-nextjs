@@ -74,6 +74,7 @@ const RFPDocuments = ({
       if (!result.status) {
         // Error!, but result.message could be a string message or an object error to be parsed
         let msgError;
+        // updateRFPFilesArray returns a meesage error string or a error object on message property
         if (typeof result.message !== "string") {
           msgError = parseWeb3Error(t, result.message);
         } else msgError = t(result.message, { ns: "gralerrors" });

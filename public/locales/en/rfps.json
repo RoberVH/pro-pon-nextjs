@@ -74,7 +74,7 @@
     "uploadrequestdocuments":"Upload your Request documents",
     "dowloadrequestfiles":"Download RFP/Bid Documents. Select by clicking on the name, use the checkbox to select all. Click on Hash to copy it",
     "additemstitle":"Add Items to RFP/Tender",
-    "addintemsinstructions":"Click green icon to add Item to list. Clic on added Item to edit it",
+    "addintemsinstructions":"Click plus icon to add Item to list. Clic on added Item to edit it",
     "contestType": "Type",
     "status":"Status",
     "open": "Open",
@@ -181,5 +181,9 @@
     "test":"Check",
     "nomatch":"No match",
     "match":"Match",
-    "no_rfp_on_wrong_netwrok":"Information cannot be retrieved from the wrong network. Please switch to the correct network and reload the page (F5 key)"
+    "no_rfp_on_wrong_netwrok":"Information cannot be retrieved from the wrong network. Please switch to the correct network and reload the page (F5 key)",
+    "open_type_contest":"Everyone can watch and register to RFP (except reading documents scored as private)",
+    "invitation_type_contest":"RFP's Owner decides wich companies to invite to Bid, everyone can watch RFP (except reading documents scored as private)"
  }
+
+ 

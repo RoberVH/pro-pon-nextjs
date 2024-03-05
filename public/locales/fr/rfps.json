@@ -74,7 +74,7 @@
     "uploadrequestdocuments":"Téléchargez vos documents de demande",
     "dowloadrequestfiles":"Télécharger les documents d'appel d'offres/d'appel d'offres. Sélectionnez en cliquant sur le nom, utilisez la case à cocher pour tout sélectionner. Cliquez sur le hachage pour le copier",
     "additemstitle":"Ajouter des articles à la demande de propositions/appel d'offres",
-    "addintemsinstructions":"Cliquez sur l'icône verte pour ajouter un jeu à la liste. Cliquez sur un jeu dans la liste pour le modifier",
+    "addintemsinstructions":"Cliquez sur l'icône ajouter pour ajouter un jeu à la liste. Cliquez sur un jeu dans la liste pour le modifier",
     "contestType": "Type",
     "status":"Situation",
     "open": "Ouvert",
@@ -180,7 +180,8 @@
     "compare_hash_file": "Cliquez pour comparer le hachage d'un fichier",
     "test": "Vérifier",
     "nomatch": "Pas de coïncidence",
-     "match": "Coïncider",
-     "no_rfp_on_wrong_netwrok":"Impossible de récupérer des informations à partir du mauvais réseau. Veuillez passer au bon réseau et recharger la page (touche F5)"
-    
+    "match": "Coïncider",
+    "no_rfp_on_wrong_netwrok":"Impossible de récupérer des informations à partir du mauvais réseau. Veuillez passer au bon réseau et recharger la page (touche F5)",
+    "open_type_contest": "Tout le monde peut consulter et s'inscrire à cet appel d'offres (sauf la lecture des documents marqués comme privés)",
+    "invitation_type_contest": "Le propriétaire de l'appel d'offres décide quelles entreprises inviter, tout le monde peut consulter (sauf lire les documents marqués comme privés)"
 }

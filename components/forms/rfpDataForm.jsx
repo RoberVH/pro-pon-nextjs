@@ -5,6 +5,10 @@
  *    Save data to DB collections RFPs when is confirmed to the blockchain (?)
  */
 
+// TEMPO cambiar despliegue de fecha para evitar esa T o al menos separarla:
+//USAR:
+//    const date = new Date().toISOString().replace('T', ' ').split('.')[0];
+
 import { useState, useContext, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -25,6 +29,7 @@ import { buildRFPURL } from "../../utils/buildRFPURL";
 import { todayUnixEpoch } from "../../utils/misc";
 
 import "react-toastify/dist/ReactToastify.css";
+
 
 import { InputDate } from "../input-controls/InputDate";
 import RFPItemAdder from "../rfp/RFPItemAdder";
@@ -398,6 +403,7 @@ const RFPDataForm = ({ setNoticeOff }) => {
                 <div className="ml-12 flex justify-start lg:text-xs xl:text-sm">
                   <label
                     id="open"
+                    title={t('open_type_contest')}
                     className={`mr-4 mt-1 cursor-pointer text-components
                         ${
                           contestType === openContest
@@ -415,6 +421,7 @@ const RFPDataForm = ({ setNoticeOff }) => {
                   </label>
                   <label
                     id="invitation"
+                    title={t('invitation_type_contest')}
                     className={`mx-4 mt-1 cursor-pointer text-components
                         ${
                           contestType === invitationContest

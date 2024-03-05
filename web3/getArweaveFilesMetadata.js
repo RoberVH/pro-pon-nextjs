@@ -33,7 +33,7 @@ export const getArweaveFilesMetadata = async (rfpIdx) => {
     }
     return { status: true, docs: Documents }
   } catch (error) {
-    return({ status: false, message: error });
+    return({ status: false, msg: error });
   }
 };
 
