@@ -16,6 +16,7 @@ export default async function handler(req, res) {
     switch (method) {
         case 'GET':
             try {
+            console.log('process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL',process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL)
             // get the bundler instance from the key we use at the server
             const result= await getProponContractServer()
             if (!result.status) {
