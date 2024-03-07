@@ -51,9 +51,8 @@ const droppableItemEnum = {
   language: 3,
   elsewhere: 4,
 };
-console.log('process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL',process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL)
-const demoUrlEnvironment = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
-  ? process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL.includes("demo")
+const demoUrlEnvironment = process.env.NEXT_PUBLIC_VERCEL_ENV
+  ? process.env.NEXT_PUBLIC_VERCEL_ENV==="preview"
   : false;
 
 const HeadBar = () => {
@@ -209,7 +208,6 @@ const HeadBar = () => {
         // Remember that in smart contract some prop ids are different than in DB
         // id changes to companyId, name changes to companyName
         const result = await getContractCompanyData(address);
-        console.log("result", result);
         if (!result.status) {
           setShowSpinner(false);
           let msg = result.message;
@@ -490,7 +488,7 @@ const HeadBar = () => {
       )}
       {demoUrlEnvironment && (
         <div className="flex justify-center space-x-4">
-          <label className="px-8 bg-yellow-400 p-1 font-Roboto">
+          <label className="px-8 bg-yellow-400 p-1 font-roboto">
             {t("demo_site")}
           </label>
           <Link href="https://www.propon.me" passHref>
