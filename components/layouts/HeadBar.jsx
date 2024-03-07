@@ -147,6 +147,9 @@ const HeadBar = () => {
       window.location.reload();
     };
 
+    // in demo version hide the Vercel preview feedback toolbar, nasty but needed for non developers users if the preview environ is to be used for demo purposes
+    document.getElementById('feedback-toolbar').style.display = 'none';
+    
     let cleanupEthereumEvents;
     let cleanupMouseDown;
 
