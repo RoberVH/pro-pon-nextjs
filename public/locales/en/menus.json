@@ -8,6 +8,8 @@
     "profilemenu":"Profile",
     "rfpcreate": "Create",
     "rfpsearch": "Search",
-    "p_not_completed":"Profile not completed"
+    "p_not_completed":"Profile not completed",
+    "demo_site":"You are on the demo site",
+    "go_production":"Go to Live Site"
     }
   

@@ -1,6 +1,6 @@
   /*************************************************************
      * switchNetwork -
-     *     Prompt  Metamask to change network to Mumbai Testnet
+     *     Prompt  Metamask to change network to NEXT_PUBLIC_NETWORK_VERSION Testnet
      *
      **********************************************************/
    export const switchNetwork = async () => {

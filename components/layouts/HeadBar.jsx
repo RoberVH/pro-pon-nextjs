@@ -51,6 +51,10 @@ const droppableItemEnum = {
   language: 3,
   elsewhere: 4,
 };
+console.log('process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL',process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL)
+const demoUrlEnvironment = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+  ? process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL.includes("demo")
+  : false;
 
 const HeadBar = () => {
   const [hideMenuAccount, sethideMenuAccount] = useState(false);
@@ -205,6 +209,7 @@ const HeadBar = () => {
         // Remember that in smart contract some prop ids are different than in DB
         // id changes to companyId, name changes to companyName
         const result = await getContractCompanyData(address);
+        console.log("result", result);
         if (!result.status) {
           setShowSpinner(false);
           let msg = result.message;
@@ -464,6 +469,7 @@ const HeadBar = () => {
             isVisible={droppletVisible === droppableItemEnum.menu}
           />
         </div>
+
         <div className="mt-4 rounded-lg">
           <AccountSpaceTitle />
         </div>
@@ -481,6 +487,16 @@ const HeadBar = () => {
       </div>
       {address && noRightNetwork && (
         <NoRightNetworkWarning t={t} changeNetworks={changeNetworks} />
+      )}
+      {demoUrlEnvironment && (
+        <div className="flex justify-center space-x-4">
+          <label className="px-8 bg-yellow-400 p-1 font-Roboto">
+            {t("demo_site")}
+          </label>
+          <Link href="https://www.propon.me" passHref>
+            <button className="main-btn">{t("go_production")}</button>
+          </Link>
+        </div>
       )}
     </nav>
   );

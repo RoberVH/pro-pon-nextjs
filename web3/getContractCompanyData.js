@@ -1,4 +1,4 @@
-import { getProponContract } from "./contractsettings";
+import { getProponContract } from "./contractsettings"
 
 /**
  * Retrieve the company record registered from the Propon smart contract, given a passed address
@@ -12,9 +12,8 @@ export const getContractCompanyData = async (address) => {
   try {
     const proponContract = await getProponContract()
     const companyData = await proponContract.getCompany(address)
-        return { status: true, data: companyData }
+    return { status: true, data: companyData }
   } catch (error) {
-    return({ status: false, message: error.reason });
+    return { status: false, message: error.reason }
   }
-};
-
+}

@@ -8,6 +8,8 @@
     "profilemenu":"Perfil",
     "rfpcreate": "Crear",
     "rfpsearch": "Buscar",
-    "p_not_completed":"El perfil no ha sido completado"
+    "p_not_completed":"El perfil no ha sido completado",
+    "demo_site":"Estás en el sitio de demostración",
+    "go_production":"Ir al Sitio en Vivo"
     }
   
