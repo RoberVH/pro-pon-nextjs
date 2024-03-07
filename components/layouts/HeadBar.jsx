@@ -51,9 +51,7 @@ const droppableItemEnum = {
   language: 3,
   elsewhere: 4,
 };
-const demoUrlEnvironment = process.env.NEXT_PUBLIC_VERCEL_ENV
-  ? process.env.NEXT_PUBLIC_VERCEL_ENV==="preview"
-  : false;
+const demoUrlEnvironment = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
 const HeadBar = () => {
   const [hideMenuAccount, sethideMenuAccount] = useState(false);
