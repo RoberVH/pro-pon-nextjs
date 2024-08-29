@@ -1,15 +1,14 @@
 {
-    "companies": "entreprises",
-    "companiessearch":"Chercher",
-    "myrfps":"Mes RFPs",
-    "mypendingtxs":"Mes Tx en attente",
-    "rfps":"rfps",
-    "disconnectmenu":"Déconnecter",
-    "profilemenu":"Profil",
-    "rfpcreate": "Créer",
-    "rfpsearch": "Chercher",
-    "p_not_completed":"Le profil n'est pas complété",
-    "demo_site":"Vous êtes sur le site de démonstration",
-    "go_production":"Aller au Site en Direct"
-    }
-  
+  "companies": "entreprises",
+  "companiessearch": "Chercher",
+  "myrfps": "Mes RFPs",
+  "mypendingtxs": "Mes Tx en attente",
+  "rfps": "rfps",
+  "disconnectmenu": "Déconnecter",
+  "profilemenu": "Profil",
+  "rfpcreate": "Créer",
+  "rfpsearch": "Chercher",
+  "p_not_completed": "Le profil n'est pas complété",
+  "preview_site": "Vous êtes sur le site de démonstration - les données sont sujettes à être supprimées",
+  "go_production": "Aller au Site en Direct"
+}

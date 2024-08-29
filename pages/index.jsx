@@ -302,7 +302,7 @@ function LandingPage() {
       // className="bg-[#1f1929] from-orange-100 via-slate-200 to-blue-100 "
     >
       {/* Temporal Marquee for Beta Testing */}
-      { !hideWarning &&
+      {/* !hideWarning &&
       <div className="overflow-hidden w-full h-12  flex items-center justify-center  bg-stone-300">
         <div className="relative w-full">
           <div className="absolute animate-marquee">
@@ -311,16 +311,16 @@ function LandingPage() {
             </p>
           </div>
         </div>
-      </div>}
-      {  !hideWarning &&
+      </div> */}
+      { /* !hideWarning &&
         <div className="my-4 flex justify-center ">
           <button className="main-btn" onClick={()=>{setHideWarning(true)}}>
             {t('warninghide',{ns:"common"})} 
           </button>
         </div>
-      }
+      */}
 
-      <section className="flex-1 mt-2 bg-orange-400 min-h-[55vh] ">
+      <section className="flex-1 mt-1 bg-orange-400 min-h-[55vh] ">
         <div className="w-full flex flex-col justify-center items-center ">
           <h1 className="mt-32 text-stone-600 lg:text-2xl xl:text-4xl 2xl:text-5xl  font-roboto font-semibold tracking-tighter ">
             {t("header_1", { ns: "common" })}
