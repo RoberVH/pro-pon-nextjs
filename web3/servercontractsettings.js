@@ -8,7 +8,6 @@ import { sortWeb3Error } from "../utils/sortWeb3Error";
 
 export const getProponContractServer = async () => {
   try {
-    
     const alchemyProvider = new ethers.providers.JsonRpcProvider(
       process.env.ALCHEMY_SERVER_LINK
     );
