@@ -487,7 +487,7 @@ const HeadBar = () => {
       {demoUrlEnvironment && (
         <div className="flex justify-center space-x-4">
           <label className="px-8 bg-yellow-400 p-1 font-roboto">
-            {t("demo_site")}
+            {t("preview_site")}
           </label>
           <Link href="https://www.propon.me" passHref>
             <button className="main-btn">{t("go_production")}</button>
