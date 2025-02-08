@@ -2,8 +2,8 @@
  *  useWriteRFP
  *          Hook to write essential RFP data to pro-pon contract
  *          Essential data meaning minimun Id data on blockchain, there is a correspondant DB MongoDB record to
- *          hold other much longer data needed to the dApp
- *          Have WAGMI to ethereum provider on browser and Ethers as
+ *          hold additional data needed to the dApp
+ *          Had WAGMI as ethereum provider on browser and Ethers as
  *          Bundlr still doesn't support WAGMI, so I modified the Wagmi Hooks to acommodate as much as 
  *          possible dependent old code
  */
@@ -40,6 +40,8 @@ export const useWriteRFP =  (
                // next prevently remove any ppossible listener left behind if user reject in wallet and tries again
               //  const newRFPEventHandler = (address, rfpIdx, rfpName) => {
               //    onEvent(address, rfpIdx, rfpName, params)}
+               // Remueve posibles listeners previos
+              proponContract.removeAllListeners("NewRFPCreated")
                 proponContract.once("NewRFPCreated", (address, rfpIdx, rfpName) => {
                           onEvent(address, rfpIdx, rfpName, params)
                   })

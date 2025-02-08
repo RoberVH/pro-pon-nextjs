@@ -444,9 +444,9 @@ const HeadBar = () => {
         </div>
       )}
       <div className="flex justify-between ">
-        <div className="flex ml-4 -mb-2">
+        <div className="flex ml-4 -mb-2 ">
           <Link href="/" passHref className="">
-            <div className="flex h-[3em] mt-4 cursor-pointer">
+            <div className="flex h-[3em] mt-4 cursor-pointer ">
               <p
                 className={`text-3xl pr-1 font-work-sans font-semibold bg-orange-400 text-blue-900 rounded-tl-xl py-2 pl-4`}
               >
@@ -485,12 +485,12 @@ const HeadBar = () => {
         <NoRightNetworkWarning t={t} changeNetworks={changeNetworks} />
       )}
       {demoUrlEnvironment && (
-        <div className="flex justify-center space-x-4">
-          <label className="px-8 bg-yellow-400 p-1 font-roboto">
+        <div className="flex justify-center space-x-4 ">
+          <label className="my-2 px-4 bg-yellow-400 py-1 font-roboto text-xs rounded-lg">
             {t("preview_site")}
           </label>
           <Link href="https://www.propon.me" passHref>
-            <button className="main-btn">{t("go_production")}</button>
+            <button className="main-btn text-xs">{t("go_production")}</button>
           </Link>
         </div>
       )}

@@ -322,7 +322,7 @@ function LandingPage() {
 
       <section className="flex-1 mt-1 bg-orange-400 min-h-[55vh] ">
         <div className="w-full flex flex-col justify-center items-center ">
-          <h1 className="mt-32 text-stone-600 lg:text-2xl xl:text-4xl 2xl:text-5xl  font-roboto font-semibold tracking-tighter ">
+          <h1 className="mt-32 text-stone-600 sm:text-2xl xl:text-4xl 2xl:text-4xl  font-roboto font-semibold tracking-tighter ">
             {t("header_1", { ns: "common" })}
           </h1>
           <h2 className="text-white font-roboto landing-page-bullets italic mt-12 mb-4 p-3 font-semibold bg-gradient-to-r from-blue-500 to-orange-600">
