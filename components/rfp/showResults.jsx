@@ -9,14 +9,14 @@ import { getDBCompaniesbyAddress } from "../../database/dbOperations";
 import { parseWeb3Error } from "../../utils/parseWeb3Error";
 const { BigNumber } = require("ethers");
 import { getContractRFPFromServer } from "../../web3/getContractRFPFromServer";
-import { ethers } from "ethers";
+import { AddressZero } from "ethers";
 
 // toastify related imports
 import { toastStyle } from "../../styles/toastStyle";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const NullAddress = ethers.constants.AddressZero;
+const NullAddress = AddressZero;
 
 const ShowResults = ({ t, rfpIndex }) => {
   const [rfpRecord, setRFPRecord] = useState({});

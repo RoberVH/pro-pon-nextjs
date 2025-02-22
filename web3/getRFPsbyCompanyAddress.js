@@ -1,5 +1,5 @@
 import { getProponContract } from "./contractsettings";
-const { utils } = require('ethers');
+const { isAddress } = require('ethers');
 
 /**
  * 
@@ -12,7 +12,7 @@ const { utils } = require('ethers');
 
 
 export const getRFPsbyCompanyAddress = async (companyAddress) => {
-  if (companyAddress==='' || !utils.isAddress(companyAddress))  return { status: false, msg:'no valid address' }
+  if (companyAddress==='' || !isAddress(companyAddress))  return { status: false, msg:'no valid address' }
   try {
     const proponContract = await getProponContract()
     const RFPs = await proponContract.getCompanyRFPs(companyAddress)

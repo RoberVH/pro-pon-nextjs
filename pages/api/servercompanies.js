@@ -1,6 +1,6 @@
 import { connectToDatabase } from "../../database/mongodb";
 import  { ObjectId } from 'mongodb'
-import { verifyMessage } from 'ethers/lib/utils'
+import { verifyMessage } from 'ethers'
 import { accountHasRigths } from '../../web3/serveraccessweb3'
 import processBDerror from '../../database/processBDerror'
 import { LIMIT_RESULTS } from "../../utils/constants";
@@ -46,7 +46,7 @@ export default async function handler (req, res) {
           const cursor = await db.collection("companies").find({companyId:req.body.companyId})
           const results = await cursor.toArray()
           if (results.length >= 0)  {
-              // there is a company record for this company at DB, strip it off the essential data already there
+              // there is a company record for this company at DB, strip off the essential data already there
               // as we won't allow updating this values in this PATCH method
                 const uniqueIdRecord = req.body._id
                 delete msg._id

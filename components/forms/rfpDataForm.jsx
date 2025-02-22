@@ -101,7 +101,7 @@ const RFPDataForm = ({ setNoticeOff }) => {
     // if there was an error saving to DB the RFP record. Consequence will be that it won't appear on
     // RFP searches, but this won't hinder the RFP process as that process won't rely on DB but on contract data
     // there shall be a function when reading RFP from contract to check if exist in DB and updated the RFP there if needed
-    // so we don't show error here and let it pass silently, thta's why there is not else branch here showing
+    // so we don't show error here and let it pass silently, that's why there is not else branch here showing
   };
 
   // Handle Error method passed unto useWriteRFP hook
@@ -116,6 +116,7 @@ const RFPDataForm = ({ setNoticeOff }) => {
 
   // onEvent Handle method passed unto useWriteRFP hook  to save RFP data to DB record when event is received from contrat
   const onEvent = async (address, rfpIdx, rfpName, params) => {
+    console.log('rfp event called')
     if (isCancelled) {
       // if user cancelled but Tx still pass through, don't save to DB as it could try to display msg on no UI
       setIsCancelled(false); // reset state
@@ -130,6 +131,7 @@ const RFPDataForm = ({ setNoticeOff }) => {
   };
 
   const onSuccess = (data) => {
+    console.log('succes called!')
     setButtonClicked(false);
   };
 
@@ -275,7 +277,8 @@ const RFPDataForm = ({ setNoticeOff }) => {
     if (params.rfpwebsite === "undefined") params.rfpwebsite = "";
 
     setRFPParams(params);
-    const { openPriceRPF, invitationRFPPrice } = await getCurrentRFPPrices();
+    const { openPriceRPF, invitationRFPPrice } = await getCurrentRFPPrices()
+
     // Different prices for RFP Type. If Open, Issuer will be paying for document uploads
     // so that price will be expensier. If Open, each bidder will paid for that. So, it should cost less
     const value =
@@ -289,7 +292,12 @@ const RFPDataForm = ({ setNoticeOff }) => {
   };
 
   // Some objects to style UX
-  const itemStyleContainer = { true: "w-[85%]", false: "w-[55%] xl:w-[45%]" }; // adjust size if not showing item (partidas) edit frame
+  //const itemStyleContainer = { true: "w-[85%]", false: "w-[55%] xl:w-[45%]" }; // adjust size if not showing item (partidas) edit frame
+  const itemStyleContainer = {
+    true: "w-full md:w-[85%]",
+    false: "w-full md:w-[55%] xl:w-[45%]",
+  }
+  
   const itemStyleInputName = { true: "w-[85%]", false: "w-[130%]" };
   const itemStyleDate = { true: "w-[75%]", false: "lg:w-[120%] xl:w-[120%]" };
   const itemStyleCheckboxText = {
@@ -316,14 +324,14 @@ const RFPDataForm = ({ setNoticeOff }) => {
             {t("recresrfpdata")}
           </p>
         </div>
-        <div className="grid grid-cols-2 grid-gap-1">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div
             id="essentialdatacontainer"
             className="flex flex-col items-left justify-between leading-8 mt-8  pl-8 "
           >
             <form
               action=""
-              className="mb-8"
+              className="mb-8 text-xs"
               disabled={rfpCreated || actionButtonClicked}
             >
               <div
@@ -396,15 +404,15 @@ const RFPDataForm = ({ setNoticeOff }) => {
                 />
               </div>
               <div
-                className={`text-components bg-stone-100 p-2 flex ${itemStyleDate[showItemsField]}`}
+                className={` bg-stone-100 p-2 flex ${itemStyleDate[showItemsField]}`}
               >
-                <label className="text-stone-500">{t("contestType")}</label>
+                <label className="text-stone-500 text-xs  ">{t("contestType")}</label>
                 <br></br>
-                <div className="ml-12 flex justify-start lg:text-xs xl:text-sm">
+                <div className="ml-12 flex justify-start">
                   <label
                     id="open"
                     title={t('open_type_contest')}
-                    className={`mr-4 mt-1 cursor-pointer text-components
+                    className={`mr-4 mt-1 cursor-pointer text-xs 
                         ${
                           contestType === openContest
                             ? "bg-blue-200 px-2 py-1  rounded-3xl"
@@ -422,7 +430,7 @@ const RFPDataForm = ({ setNoticeOff }) => {
                   <label
                     id="invitation"
                     title={t('invitation_type_contest')}
-                    className={`mx-4 mt-1 cursor-pointer text-components
+                    className={`mx-4 mt-1 cursor-pointer  text-xs 
                         ${
                           contestType === invitationContest
                             ? "bg-blue-200 px-2 py-1  rounded-3xl"
@@ -439,7 +447,7 @@ const RFPDataForm = ({ setNoticeOff }) => {
                   </label>
                 </div>
               </div>
-              <div id="optionalCheckmark" className="flex mt-8">
+              <div id="optionalCheckmark" className="flex mt-8 ">
                 <input
                   onClick={handleCheckItemsAdder}
                   disabled={rfpCreated || actionButtonClicked}

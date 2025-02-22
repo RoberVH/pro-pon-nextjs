@@ -2,9 +2,9 @@
  * Given a RfpIndex get its indetifyng RFP  data {id, name and issuer} through local ethereum provider
   */
 import { getProponContract } from "./contractsettings"
-import { ethers } from 'ethers'
+import {  AddressZero  } from 'ethers'
 
-const NullAddress=ethers.constants.AddressZero
+const NullAddress= AddressZero
 
 export const getRFPIdentityDataProvider = async (RfpIndex) => {
     const proponContract = await getProponContract()

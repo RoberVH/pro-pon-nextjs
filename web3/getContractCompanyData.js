@@ -1,4 +1,5 @@
 import { getProponContract } from "./contractsettings"
+import {ethers} from 'ethers'
 
 /**
  * Retrieve the company record registered from the Propon smart contract, given a passed address
@@ -10,8 +11,9 @@ import { getProponContract } from "./contractsettings"
  */
 export const getContractCompanyData = async (address) => {
   try {
+    const checksummedAddress = ethers.getAddress(address)
     const proponContract = await getProponContract()
-    const companyData = await proponContract.getCompany(address)
+    const companyData = await proponContract.getCompany(checksummedAddress)
     return { status: true, data: companyData }
   } catch (error) {
     return { status: false, message: error.reason }

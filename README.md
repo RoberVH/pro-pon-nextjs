@@ -28,3 +28,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 rovicher
 July 2022
+
+-------
+## Log feb 2025 
+* using node v 20 yarn 1.22.22
+* Migration to ethers 6.13.4 to deploy to Base Sepolia for testing

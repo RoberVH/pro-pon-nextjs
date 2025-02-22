@@ -184,18 +184,15 @@ const HeadBar = () => {
       //first check if network is rigth
       let noWorkingRightNetwork = false;
       // changed this from deprecated window.ethereum.networkVersion check https://github.com/MetaMask/metamask-improvement-proposals/discussions/23
-      window?.ethereum
+      await window?.ethereum
         ?.request({ method: "eth_chainId" })
         .then((chainId) => {
-          noWorkingRightNetwork =
-            process.env.NEXT_PUBLIC_NETWORK_VERSION !==
-            parseInt(chainId, 16).toString();
+          noWorkingRightNetwork = process.env.NEXT_PUBLIC_NETWORK_VERSION !== parseInt(chainId, 16).toString();
           setNoRightNetwork(noWorkingRightNetwork);
         })
         .catch((error) => {
           setNoRightNetwork(noWorkingRightNetwork);
         });
-
       setNoRightNetwork(noWorkingRightNetwork);
       // if no noRightNetwork don't try to get company data
       if (noWorkingRightNetwork) return;
@@ -214,6 +211,7 @@ const HeadBar = () => {
           errToasterBox(msg);
           return;
         }
+        const [id, name, country, RFPParticipations, RFPsWins, company_RFPs] = result.data
         if (result.data.id) await getCompany(result.data);
         setShowSpinner(false);
       }
@@ -244,8 +242,8 @@ const HeadBar = () => {
               chainName: process.env.NEXT_PUBLIC_NETWORK_WALLET_NAME,
               rpcUrls: [process.env.NEXT_PUBLIC_NETWORK_WALLET_RPC],
               nativeCurrency: {
-                name: "Matic",
-                symbol: "MATIC",
+                name: process.env.NEXT_PUBLIC_COIN_NAME,
+                symbol: process.env.NEXT_PUBLIC_COIN_SYMBOL,
                 decimals: 18,
               },
               blockExplorerUrls: [process.env.NEXT_PUBLIC_LINK_EXPLORER],
@@ -490,7 +488,7 @@ const HeadBar = () => {
             {t("preview_site")}
           </label>
           <Link href="https://www.propon.me" passHref>
-            <button className="main-btn text-xs">{t("go_production")}</button>
+            <button className="reduced-flashy-main-btn ">{t("go_production")}</button>
           </Link>
         </div>
       )}

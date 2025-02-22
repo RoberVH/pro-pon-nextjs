@@ -51,9 +51,6 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
   const { values, handleChange } = useInputForm(companyData);
   const [message, setMsgtoSign] = useState();
   const [lang, setLang] = useState("");
-  // const [downloadFolderOption, setsDownloadFolderOption] = useState(
-  //   companyData && typeof companyData.downloadFolderOption !== "undefined"
-  //   ? companyData.downloadFolderOption : '');
 
   const router = useRouter();
   const [profileCompleted, setProfileCompleted] = useState(
@@ -239,7 +236,7 @@ const CompanyDataForm = ({ companyData, setCompanyData }) => {
           className="flex flex-col items-center justify-between leading-8 mb-8"
         >
           <div className=" w-[80%] relative mb-4 flex bg-stone-100 ">
-            <GlobeIcon className="absolute lg:h-4 lg:w-4 2xl:h-5  text-orange-400 mt-2 ml-2" />
+            <GlobeIcon className="absolute h-4 w-4 lg:h-5 lg:w-5 text-orange-400 mt-2 ml-2" />
             <p className=" lg:text-xs xl:text-sm 2xl:text-base w-full my-2 text-stone-500 font-roboto pl-10">
               {getCountryName(companyData.country)}
             </p>

@@ -1,5 +1,5 @@
 import { getProponContract } from "./contractsettings"
-const { ethers } = require('ethers');
+const { AddressZero } = require('ethers');
 
 
 
@@ -12,7 +12,7 @@ const { ethers } = require('ethers');
  *    if still doesn't exist, returns the record with empty values
 */
 
-const NullAddress = ethers.constants.AddressZero
+const NullAddress = AddressZero
 
 export const getContractRFPFromServer = async (RFPIndex) => {
   // call a route

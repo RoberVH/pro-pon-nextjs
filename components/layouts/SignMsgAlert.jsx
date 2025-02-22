@@ -21,11 +21,11 @@ export function SignMsgAlert({
                         } ease-in-out duration-1000`}
       >
         <div className="pt-2 pl-4 text-left">
-          <p className="xl:py-4 lg:py-2 px-10 font-work-sans text-components text-black font-bold">
+          <p className="xl:py-4 lg:py-2 px-10 font-work-sans md:text-sm  text-black ">
             {msgWarning}
           </p>
-          <div className="flex justify-center lg:mt-4 3xl:mt-6">
-            <button onClick={handleSigning} className="flex main-btn">
+          <div className="flex justify-center lg:mt-2 3xl:mt-6">
+            <button onClick={handleSigning} className="flex main-btn md:text-xs">
               {" "}
               {signMsg}
             </button>

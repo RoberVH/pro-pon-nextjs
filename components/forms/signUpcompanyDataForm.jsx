@@ -308,11 +308,11 @@ const SignUpCompanyDataForm = ({ setCompanyData, companyData }) => {
           action=""
           className="flex flex-col items-center justify-between leading-8 my-6"
         >
-          <div className="lg:w-[80%] xl:w-[70%] 3xl:w-[65%]  relative mb-2 text-components">
+          <div className="lg:w-[80%] xl:w-[70%] 3xl:w-[65%]  relative mb-2 text-xs lg:text-md ">
             {typeof companyData.profileCompleted === "undefined" ? (
               // Company not yet registered to blockchain contract
               <React.Fragment>
-                <p className="text-components text-stone-500 mb-2">
+                <p className=" text-stone-500 mb-2">
                   {t("companyform.essentialfilldata")}
                 </p>
                 <InputCountrySel
@@ -369,7 +369,7 @@ const SignUpCompanyDataForm = ({ setCompanyData, companyData }) => {
                   {t("companyform.dataofaccount")}
                 </p>
                 <div className="flex bg-stone-100 ">
-                  <GlobeIcon className="lg:h-4 lg:w-4 2xl:h-5  2xl:w-5  text-orange-400 mt-2  ml-2 " />
+                  <GlobeIcon className="h-4 w-4 sm:h-5 sm:w-5   2xl:w-5  text-orange-400 mt-2  ml-2 " />
                   <p className="pl-4 my-2">
                     {getCountryName(companyData.country)}
                   </p>

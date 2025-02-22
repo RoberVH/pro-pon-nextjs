@@ -16,8 +16,9 @@ import { App_Name } from "../utils/constants"
 
 function LandingPage() {
   const [warningFlag, setWarningFlag] = useState(false)
-  const { companyData, address, showSpinner, noWallet } = useContext(proponContext)
-  const [hideWarning, setHideWarning]= useState(false)
+  const { companyData, address, showSpinner, noWallet, noRightNetwork } =
+    useContext(proponContext)
+  const [hideWarning, setHideWarning] = useState(false)
 
   const backdropStyles = {
     width: "100%",
@@ -131,12 +132,12 @@ function LandingPage() {
           className="leading-8 font-inter sm:text-md md:text-md lg:text-lg xl:text-lg text-stone-200 px-8 py-20"
           style={{ boxShadow: "10px 10px 25px 0 rgba(255, 255, 255, 0.7)" }}
         >
-<li className="mb-4">
+          <li className="mb-4">
             <label className="font-bold px-2  text-stone-700 bg-blue-500 rounded-full">
               1
             </label>
             <label className="ml-8">{t("install_wallet_title")}</label>
-          </li>          
+          </li>
           <li className="mb-4">
             <label className="font-bold px-2  text-stone-700 bg-blue-500 rounded-full">
               2
@@ -208,9 +209,7 @@ function LandingPage() {
           <p className="text-stone-900 text-center mb-2 font-bold ">
             {t("no_metamask_wallet")}
           </p>
-          <p className="text-stone-900 ">
-            {t("consult_rfps")}
-          </p>
+          <p className="text-stone-900 ">{t("consult_rfps")}</p>
           <ul className="pt-4 list-inside text-stone-800">
             <li className="flex items-start space-x-1">
               <span>•</span>
@@ -312,7 +311,7 @@ function LandingPage() {
           </div>
         </div>
       </div> */}
-      { /* !hideWarning &&
+      {/* !hideWarning &&
         <div className="my-4 flex justify-center ">
           <button className="main-btn" onClick={()=>{setHideWarning(true)}}>
             {t('warninghide',{ns:"common"})} 
@@ -320,7 +319,7 @@ function LandingPage() {
         </div>
       */}
 
-      <section className="flex-1 mt-1 bg-orange-400 min-h-[55vh] ">
+      <section className="flex-1 mt-1 bg-orange-400 min-h-[55vh] pb-4">
         <div className="w-full flex flex-col justify-center items-center ">
           <h1 className="mt-32 text-stone-600 sm:text-2xl xl:text-4xl 2xl:text-4xl  font-roboto font-semibold tracking-tighter ">
             {t("header_1", { ns: "common" })}
@@ -332,6 +331,15 @@ function LandingPage() {
             {t("subHeader1", { ns: "common" })}
           </p>
         </div>
+        { address && !companyData?.companyname && !noRightNetwork && ( <div className="mx-8 flex justify-center">
+          <button
+            className="flashy-main-btn sm:text-xs md:text-sm text-center"
+            onClick={handlesignIn}
+          >
+            {t("signup")}
+          </button>
+        </div> )
+        }
       </section>
 
       {showSpinner && (
@@ -390,28 +398,28 @@ function LandingPage() {
           <p className="text-orange-400 font-roboto mb-6 font-semibold pl-4 lg:text-base xl:text-lg 2xl:text-xl lg:w-[45em] xl:w-[49em] 2xl:w-[50em] 3xl-[54em]">
             {t("secure_subtitle", { ns: "common" })}
           </p>
-            <ul className="text-stone-500 pl-8 font-roboto list-disc space-y-4 landing-page-bullets">
-              <li>
+          <ul className="text-stone-500 pl-8 font-roboto list-disc space-y-4 landing-page-bullets">
+            <li>
+              {" "}
+              <p className="lg:w-[44em] w-[60em] wrap">
                 {" "}
-                <p className="lg:w-[44em] w-[60em] wrap">
-                  {" "}
-                  {t("sol_bul2", { ns: "common" })}
-                </p>
-              </li>
-              <li>
+                {t("sol_bul2", { ns: "common" })}
+              </p>
+            </li>
+            <li>
+              {" "}
+              <p className="lg:w-[44em] w-[60em] wrap">
                 {" "}
-                <p className="lg:w-[44em] w-[60em] wrap">
-                  {" "}
-                  {t("sol_bul3", { ns: "common" })}
-                </p>
-              </li>
-            </ul>
+                {t("sol_bul3", { ns: "common" })}
+              </p>
+            </li>
+          </ul>
         </div>
       </section>
 
       <section className="  h-8 "></section>
 
-      {address && !companyData?.companyname && (
+      {address && !companyData?.companyname && !noRightNetwork && (
         <div className="  w-[40%] mx-auto flex justify-center  ">
           <button className="flashy-main-btn m-8" onClick={handlesignIn}>
             {t("signup")}

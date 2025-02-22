@@ -2,7 +2,15 @@ const NoRightNetworkWarning = ({ t, changeNetworks }) => (
   <div className="m-1 rounded-md mx-auto  w-[40%]  pb-2">
     <div className="flex justify-center items-center">
       <h1 className="text-sm  font-roboto bg-yellow-200 p-2 text-red-600 rounded-md">
-        {process.env.NEXT_PUBLIC_VERCEL_ENV==='production' ?  t("changenetwork", { ns: "common" }) : t("changenetworktest", { ns: "common" })}
+        {process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+          ? t("changenetwork", {
+              PROD_NETWORK_TITLE: process.env.NEXT_PUBLIC_PROD_NETWORK_TITLE,
+              ns: "common",
+            })
+          : t("changenetworktest", {
+              TEST_NETWORK_TITLE: process.env.NEXT_PUBLIC_TEST_NETWORK_TITLE,
+              ns: "common",
+            })}
       </h1>
       <button
         onClick={changeNetworks}
@@ -14,8 +22,15 @@ const NoRightNetworkWarning = ({ t, changeNetworks }) => (
         target="_blank"
         rel="noreferrer"
       >
-        {process.env.NEXT_PUBLIC_VERCEL_ENV==='production' ? t("changenetworkbutton", { ns: "common" }) : t("changenetworkbuttontest", { ns: "common" })}
-        {console.log('process.env.NEXT_PUBLIC_VERCEL_ENV',process.env.NEXT_PUBLIC_VERCEL_ENV)}
+        {process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+          ? t("changenetworkbutton", {
+              PROD_NETWORK_TITLE: process.env.NEXT_PUBLIC_PROD_NETWORK_TITLE,
+              ns: "common",
+            })
+          : t("changenetworkbuttontest", {
+              TEST_NETWORK_TITLE: process.env.NEXT_PUBLIC_TEST_NETWORK_TITLE,
+              ns: "common",
+            })}
       </button>
     </div>
   </div>

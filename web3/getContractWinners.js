@@ -1,5 +1,5 @@
 import { getProponContract } from "./contractsettings"
-import { ethers } from 'ethers'
+import { AddressZero } from 'ethers'
 
 /**
  * 
@@ -10,7 +10,7 @@ import { ethers } from 'ethers'
  *    if empty, returns the record with empty values
  */
 
-const NullAddress=ethers.constants.AddressZero
+const NullAddress=AddressZero
 
 export const getContractWinners = async (RFPIndex) => {
   const proponContract = await getProponContract()

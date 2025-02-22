@@ -36,7 +36,7 @@ export const useWriteCompanyData =  (
                 companyId,
                 companyname, 
                 country, 
-                {value: ethers.utils.parseEther(value)}
+                {value: ethers.parseEther(value)}
                 )
           setProTxBlockchain(true)
           setPostedHash(Tx.hash)

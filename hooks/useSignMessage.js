@@ -8,8 +8,8 @@ import { ethers } from 'ethers'
 export const useSignMessage = ({onSuccess,onError}) => {
   const signMessage = async (message) => {
     try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
         const signature = await signer.signMessage(message)
         onSuccess(message, signature)
     } catch (error) {

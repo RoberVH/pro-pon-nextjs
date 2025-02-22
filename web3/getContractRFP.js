@@ -1,5 +1,5 @@
 import { getProponContract } from "./contractsettings";
-import { ethers } from 'ethers'
+import { AddressZero } from 'ethers'
 
 /**
  * 
@@ -11,7 +11,7 @@ import { ethers } from 'ethers'
  */
 
 
-const NullAddress = ethers.constants.AddressZero
+const NullAddress = AddressZero
 
 
 export const getContractRFP = async (RFPIndex) => {

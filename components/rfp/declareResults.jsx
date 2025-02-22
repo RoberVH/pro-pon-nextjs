@@ -7,7 +7,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
+import { AddressZero } from "ethers";
 import Image from "next/image";
 import { useBidders } from "../../hooks/useBidders";
 import { useDeclareResults } from "../../hooks/useDeclareResults";
@@ -28,7 +28,7 @@ import { notifTypes } from "../../utils/emailText";
 import { sendToServerEmail, sendToIssuerEmail } from "../../utils/misc";
 import ModalWindow from "../layouts/modalWIndow";
 
-const NullAddress = ethers.constants.AddressZero;
+const NullAddress = AddressZero;
 
 const DeclareResults = ({
   t,

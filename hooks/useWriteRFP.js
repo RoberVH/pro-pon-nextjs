@@ -41,11 +41,15 @@ export const useWriteRFP =  (
               //  const newRFPEventHandler = (address, rfpIdx, rfpName) => {
               //    onEvent(address, rfpIdx, rfpName, params)}
                // Remueve posibles listeners previos
-              proponContract.removeAllListeners("NewRFPCreated")
-                proponContract.once("NewRFPCreated", (address, rfpIdx, rfpName) => {
-                          onEvent(address, rfpIdx, rfpName, params)
-                  })
+              // ethers 5.x proponContract.removeAllListeners("NewRFPCreated")
+              // eethers 6.x
+              proponContract.removeAllListeners("")
+              // ethers 5.x
+                // proponContract.once("NewRFPCreated", (address, rfpIdx, rfpName) => {
+                //           onEvent(address, rfpIdx, rfpName, params)
+                //   })
                 //proponContract.once("NewRFPCreated", newRFPEventHandler)
+                // ethers 6.x
         try {
             const Tx = await proponContract.createRFP(
                     params.name,
@@ -56,12 +60,27 @@ export const useWriteRFP =  (
                     params.endDate,
                     params.contestType,
                     params.items,    
-                    {value: ethers.utils.parseEther(value)})
+                    {value: ethers.parseEther(value)})
             //setPosted(true)
             setProTxBlockchain(true)
             setPostedHash(Tx.hash)
             //setLink(`${process.env.NEXT_PUBLIC_LINK_EXPLORER}tx/${Tx.hash}`)
             const data=await Tx.wait()
+            // set event NewRFPCreated on ethers 6.x
+            const event = data.logs.map((log) => {
+              try {
+                return proponContract.interface.parseLog(log);
+              } catch (e) {
+                console.log('error definiendo evento', e)
+              }
+            })
+            .find((parsedLog) => parsedLog && parsedLog.name === "NewRFPCreated");
+        
+          if (event) {
+            const [address, rfpIdx, rfpName] = event.args;
+            onEvent(address, rfpIdx, rfpName, params);
+          }
+
             if (isMounted.current) {
                     setBlock(data.blockNumber)
                     setBlockchainsuccess(true)
@@ -70,7 +89,8 @@ export const useWriteRFP =  (
         } catch (error) {
                 if (isMounted.current) {
                   if (proponContract) {
-                    proponContract.removeAllListeners()}
+                    proponContract.removeAllListeners()
+                  }
                   onError(error)
                 }
         }       

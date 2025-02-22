@@ -137,7 +137,6 @@ function HomeRFP() {
         return
     }
   } catch (error) {
-    console.log('error', error)
     // do nothing, this time we don't have access to DB so we can't update it but the flow can continue
     return
   }

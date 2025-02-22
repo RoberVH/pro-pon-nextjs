@@ -1,6 +1,6 @@
 import { connectToDatabase } from "../../database/mongodb";
 import  { ObjectId } from 'mongodb'
-import { verifyMessage } from 'ethers/lib/utils'
+import { verifyMessage } from 'ethers'
 import { accountHasRigths } from '../../web3/serveraccessweb3'
 import { buildQuery } from '../../database/serverDBUtils'
 import { isEmpty } from "../../utils/misc"

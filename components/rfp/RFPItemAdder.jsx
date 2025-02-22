@@ -73,7 +73,7 @@ const handleKeyPress= (e) => {
               </button>
               <button 
                   disabled={(!Object.keys(items).length || disable)}
-                  className="btn-removeall-circular disabled:cursor-not-allowed pb-1 ml-2 scale-[120%] group relative"
+                  className="btn-removeall-circular disabled:cursor-not-allowed  pb-1 ml-2 scale-[120%] group relative"
                   onClick={handleRemoveAllItems}> 
                         x
                       <span className="tooltip-span-rigth mt-2">

@@ -31,7 +31,7 @@ export const errorSmartContract = [
   "execution reverted: invalid_winner",
   "execution reverted: rfp_already_awarded",
   "execution reverted: id_already_exists",
-  "execution reverted: rfpid_already_taken",
+  "rfpid_already_taken",
   "execution reverted: already_canceled",
   "missing revert data in call exception; Transaction reverted without a reason string",
   "unknown account #0",
