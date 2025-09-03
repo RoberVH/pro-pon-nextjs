@@ -1,7 +1,8 @@
 # Pro-pon
-A DApp for issuing & reciving RFPs documents on the Blockchain
-## Publish RFPs to Blockchain
+A DApp to Manage RFPS & Tenders - allows issuing and encripted storing of RFPs documents on the Blockchain
 
+## Publish RFPs to Blockchain
+Enables the creation of contests ensuring that economic proposals are not revealed until the closing date, preventing collusion and ensuring a fair and transparent process.
 
 ## Splitted contract version
 This new deployment comunicate with proponData Contract to read data and proponLogic Contract to make changes to data
