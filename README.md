@@ -24,7 +24,7 @@ Pro-pon was designed to ensure **fair, transparent, and tamper-proof procurement
   Built with **Next.js**, deployed on **Vercel**, connected to Polygon testnets (Mumbai → Amoy) and Polygon mainnet.
 
 - **eMail services**  
-q  ** Built with Mailjet API
+  Built with Mailjet API
 
 - **Contracts**  
   [Solidity contracts Repo](https://github.com/RoberVH/pro-pon-splited-contracts)  
